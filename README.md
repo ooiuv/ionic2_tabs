@@ -1,6 +1,6 @@
 Ionic 2 App 
 =====================
-这是一个不断完善的ionic2项目,详情可关注我的博客:http://www.jianshu.com/users/1a84979872f1/
+一个不断完善的ionic2项目,详情可关注我的博客:http://www.jianshu.com/users/1a84979872f1/
 
 ## Using this project
 
