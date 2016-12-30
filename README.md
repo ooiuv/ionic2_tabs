@@ -1,7 +1,6 @@
 Ionic 2 App 
 =====================
 
-
 ## Using this project
 
 You'll need the Ionic CLI with support for v2 apps:
