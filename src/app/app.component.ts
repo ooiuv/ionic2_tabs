@@ -3,7 +3,6 @@ import {Platform, ToastController, Nav, IonicApp} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {TabsPage} from '../pages/tabs/tabs';
 
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -22,7 +21,9 @@ export class MyApp {
 
   registerBackButtonAction() {
     this.platform.registerBackButtonAction((): any => {
-      let activePortal = this.ionicApp._loadingPortal.getActive() || this.ionicApp._modalPortal.getActive() || this.ionicApp._overlayPortal.getActive();
+      //如果想点击返回按钮隐藏toast或loading就把这两句加上
+      // this.ionicApp._toastPortal.getActive() ||this.ionicApp._loadingPortal.getActive()
+      let activePortal = this.ionicApp._modalPortal.getActive() || this.ionicApp._overlayPortal.getActive();
       if (activePortal) {
         activePortal.dismiss();
         activePortal.onDidDismiss(() => {
@@ -69,3 +70,9 @@ export class MyApp {
     }
   }
 }
+
+
+
+
+
+
