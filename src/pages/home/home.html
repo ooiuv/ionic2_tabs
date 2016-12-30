@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Welcome to Ionic!</h2>
+  <p>ionic2-完美处理安卓硬件返回按钮</p>
+  <p>http://www.jianshu.com/p/6aa5a8318092</p>
+  <p></p>
+  <p></p>
+   点击这个按钮跳转到通过NavController.push(page)创建的页面
+  <button ion-button block (click)="nextPage()">open normal page</button>
+  <p></p>
+  <p></p>
+  点击这个按钮跳转到通过ModalController.create(page)创建的页面
+  <button ion-button block (click)="modalPage()">open modal page</button>
+</ion-content>
