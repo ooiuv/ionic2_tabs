@@ -7,7 +7,7 @@ Ionic 2 App
 You'll need the Ionic CLI with support for v2 apps:
 
 ```bash
-$ cnpm install -g ionic
+$ cnpm install
 ```
 
 Then run:
