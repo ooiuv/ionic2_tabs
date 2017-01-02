@@ -22,6 +22,7 @@ node_modules/
 tmp/
 temp/
 platforms/
+www/
 plugins/android.json
 plugins/ios.json
 $RECYCLE.BIN/
