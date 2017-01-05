@@ -11,15 +11,16 @@ import {HomeService} from "./HomeService";
 })
 export class HomePage {
   userInfo;
+
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public homeService: HomeService) {
 
   }
 
-  getUser(){
-    this.homeService.getUser().then(res=>{
-      this.userInfo=res.data;
+  getUser() {
+    this.homeService.getUser().then(res => {
+      this.userInfo = res.data;
     })
   }
 
@@ -30,6 +31,14 @@ export class HomePage {
   modalPage() {
     let profileModal = this.modalCtrl.create(Page2Page);
     profileModal.present();
+  }
+
+  getPicture() {
+    let modal = this.modalCtrl.create(Page2Page);
+    modal.present();
+    modal.onDidDismiss(data => {
+      console.log(data);
+    });
   }
 
 
