@@ -20,40 +20,22 @@ export class MyApp {
   }
 
   registerBackButtonAction() {
-    this.platform.registerBackButtonAction((): any => {
-      //如果想点击返回按钮隐藏toast或loading就把这两句加上
-      // this.ionicApp._toastPortal.getActive() ||this.ionicApp._loadingPortal.getActive()
-      let activePortal = this.ionicApp._modalPortal.getActive() || this.ionicApp._overlayPortal.getActive();
+    this.platform.registerBackButtonAction(() => {
+      //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
+      // this.ionicApp._toastPortal.getActive() ||this.ionicApp._loadingPortal.getActive()|| this.ionicApp._overlayPortal.getActive()
+      let activePortal = this.ionicApp._modalPortal.getActive();
       if (activePortal) {
         activePortal.dismiss();
-        activePortal.onDidDismiss(() => {
-        });
         return;
       }
-
       let activeVC = this.nav.getActive();
-      let page = activeVC.instance;
-      if (!(page instanceof TabsPage)) {
-        if (!this.nav.canGoBack()) {
-          //当前页面为tabs，退出APP
-          return this.showExit();
-        }
-        //当前页面为tabs的子页面，正常返回
-        return this.nav.pop();
-      }
-
-      let tabs = page.tabs;
+      let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
-      if (!activeNav.canGoBack()) {
-        //当前页面为tab栏，退出APP
-        return this.showExit();
-      }
-      //当前页面为tab栏的子页面，正常返回
-      return activeNav.pop();
+      return activeNav.canGoBack() ? activeNav.pop() : this.showExit()
     }, 1);
   }
 
-  //双击退出提示框，这里使用Ionic2的ToastController
+  //双击退出提示框
   showExit() {
     if (this.backButtonPressed) { //当触发标志为true时，即2秒内双击返回按键则退出APP
       this.platform.exitApp();
@@ -64,9 +46,7 @@ export class MyApp {
         position: 'top'
       }).present();
       this.backButtonPressed = true;
-      setTimeout(() => { //2秒内没有再次点击返回则将触发标志标记为false
-        this.backButtonPressed = false;
-      }, 2000)
+      setTimeout(() => this.backButtonPressed = false, 2000);//2秒内没有再次点击返回则将触发标志标记为false
     }
   }
 }
