@@ -39,14 +39,6 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-camera": {
-        "source": {
-            "type": "local",
-            "path": "E:\\download\\cordova-plugin-camera-master"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-splashscreen": {
         "source": {
             "type": "registry",
@@ -63,34 +55,19 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.kit.cordova.amaplocation": {
+    "com.synconset.imagepicker": {
         "source": {
-            "type": "local",
-            "path": "E:\\ideaworkspace\\app\\EGuardian\\plugins\\com.kit.cordova.amaplocation"
+            "type": "git",
+            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}
     },
-    "com.kit.cordova.amapnavigation": {
-        "source": {
-            "type": "local",
-            "path": "E:\\ideaworkspace\\app\\EGuardian\\plugins\\com.kit.cordova.amapnavigation"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-app-version": {
+    "cordova-plugin-camera": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-app-version"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-network-information": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-network-information"
+            "id": "cordova-plugin-camera"
         },
         "is_top_level": true,
         "variables": {}
@@ -103,11 +80,34 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
+    "cordova-plugin-network-information": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
-            "subdir": "."
+            "type": "registry",
+            "id": "cordova-plugin-network-information"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-app-version": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-app-version"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.kit.cordova.amaplocation": {
+        "source": {
+            "type": "local",
+            "path": "E:\\com.kit.cordova.amaplocation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.kit.cordova.amapnavigation": {
+        "source": {
+            "type": "local",
+            "path": "E:\\com.kit.cordova.amapnavigation"
         },
         "is_top_level": true,
         "variables": {}

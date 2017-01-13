@@ -51,16 +51,16 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <!--依据Android的包名和SHA1在高德官网申请（debug key）-->
-            <meta-data android:name="com.amap.api.v2.apikey" android:value="a59a602a519803362cc20ec5a7ade92b" />
+            <meta-data android:name="com.amap.api.v2.apikey" android:value="22d38e420fad841a1d53cded483a5a28" />
              <!--依据Android的包名和SHA1在高德官网申请（release key）-->
             <!--<meta-data android:name="com.amap.api.v2.apikey" android:value="4ea445343be601e762c97f3f1b16469b" />-->
         </config-file>
-
+		
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
 		    <!-- 定位需要的服务 -->
             <service android:name="com.amap.api.location.APSService" ></service>
         </config-file>
-
+		
 		<source-file src="src/android/AMap_Location_V2.6.0_20160628.jar" target-dir="libs"/>
         <source-file src="src/android/LocationPlugin.java" target-dir="src/com/kit/cordova/AMapLocation" />
     </platform>

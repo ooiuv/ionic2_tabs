@@ -2,7 +2,7 @@
 <plugin id="com.kit.cordova.amapnavigation" version="2.0.0"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>AMapNavigation</name>
+    <name>AMapNavigationPlugin</name>
     <description>Cordova Navigation Plugin Powerd by KIT</description>
     <author email="gis_ymgao@qq.com" href="https://gzkit.com.cn">
         ymgao
@@ -11,7 +11,7 @@
     <keywords>cordova,Navigation</keywords>
 
     <js-module name="AMapNavigation" src="www/AMapNavigation.js">
-        <clobbers target="AMapNavigation"/>
+        <clobbers target="cordova.plugins.AMapNavigation"/>
     </js-module>
 
     <platform name="ios">
@@ -23,7 +23,7 @@
             <preference name="iflytekappid" value="5804981b" /><!--564a8797-->
         </config-file>
         <source-file src="src/ios/AMapNavigation.m"/>
-
+        
         <resource-file src="src/ios/AMap.bundle"/>
         <resource-file src="src/ios/AMapNavi.bundle"/>
 

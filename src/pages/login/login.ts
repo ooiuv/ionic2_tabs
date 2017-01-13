@@ -66,8 +66,8 @@ export class LoginPage {
     this.loginService.login(user)
       .then(result => {
         this.submitted = false;
-        if (result.success) {
-          let data = result.data;
+        if (result['success']) {
+          let data = result['data'];
           let userInfo = <UserInfo>data;
           this.userInfo = userInfo;
           this.storage.set('UserInfo', userInfo);
