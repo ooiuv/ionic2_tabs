@@ -1,11 +1,16 @@
+/**
+ * Created by yanxiaojun617@163.com on 12-27.
+ */
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
+import {NativeService} from './NativeService';
+
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private nativeService: NativeService) {
   }
 
   public get(url: string, paramObj: any) {
@@ -16,6 +21,7 @@ export class HttpService {
   }
 
   public post(url: string, paramObj: any) {
+    this.nativeService.showLoading();
     let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
     return this.http.post(url, this.toBodyString(paramObj), new RequestOptions({headers: headers}))
       .toPromise()
@@ -31,34 +37,49 @@ export class HttpService {
       .catch(error => this.handleError(error));
   }
 
-
+  /**
+   * 请求失败处理函数
+   * @param result
+   * @return {any}
+   */
   private handleSuccess(result) {
-    if (result && !result.success) {//由于和后台约定好,所有请求均返回一个包含success,msg,data三个属性的对象,所以这里可以这样处理
-      alert(result.msg);//这里使用ToastController
+    this.nativeService.hideLoading();
+    if (result && !result.success) {
+      this.nativeService.showToast(result.msg);
     }
     return result;
   }
 
-private handleError(error: Response | any) {
+  /**
+   * 请求失败处理函数
+   * @param error
+   * @return {{success: boolean, msg: string}}
+   */
+  private handleError(error: Response | any) {
+    this.nativeService.hideLoading();
     let msg = '请求失败';
-    if (error.status == 0) {
-      msg = '请求地址错误';
-    }
     if (error.status == 400) {
       msg = '请求无效';
       console.log('请检查参数类型是否匹配');
+    } else if (error.status == 404) {
+      msg = '请求链接不存在，请联系管理员';
+      console.error(msg + '，请检查路径是否正确');
+    } else if (error.status == 500) {
+      msg = '服务器出错，请稍后再试';
+    } else if (error.status == 0) {
+      msg = '请求地址错误或后台服务未启动';
     }
-    if (error.status == 404) {
-      msg = '请求资源不存在';
-      console.error(msg+'，请检查路径是否正确');
+    if (!this.nativeService.isConnecting()) {
+      msg = '没有网络,请求发送失败';
     }
     console.log(error);
-    alert(msg);//这里使用ToastController
+    this.nativeService.showToast(msg);
     return {success: false, msg: msg};
   }
 
 
   /**
+   * 把请求参数转化为参数字符串
    * @param obj　参数对象
    * @return {string}　参数字符串
    * @example
@@ -86,7 +107,7 @@ private handleError(error: Response | any) {
   }
 
   /**
-   *
+   *把请求参数转化为参数字符串
    * @param obj
    * @return {string}
    *  声明: var obj= {'name':'小军',age:23};

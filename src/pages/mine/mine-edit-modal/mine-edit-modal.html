@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      编辑个人信息
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span showWhen="ios">关闭</span>
+        <ion-icon name="md-close" showWhen="android,windows,landscape"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+    <ion-list>
+      <ion-item>
+        <ion-label floating>姓名 <span *ngIf="!editForm.controls.name.valid" color="danger">请输入姓名</span></ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>手机号码 <span *ngIf="!editForm.controls.phone.valid" color="danger">请输入正确的手机号码</span></ion-label>
+        <ion-input type="tel" formControlName="phone"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>电子邮箱 <span *ngIf="!editForm.controls.email.valid" color="danger">请输入正确的电子邮箱</span></ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button type="submit" ion-button block [disabled]="!editForm.valid">保 存</button>
+    </div>
+  </form>
+</ion-content>

@@ -43,9 +43,11 @@ $colors: (
 // --------------------------------------------------
 // Material Design only Sass variables can go here
 
-
-
-
+$toolbar-background:                    color($colors, primary);
+$tabs-ios-background:                   #f8f8f8;
+$tabs-md-background:                    #f8f8f8;
+$searchbar-ios-input-height:            33px;
+$searchbar-ios-background-color:        color($colors, primary);
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
