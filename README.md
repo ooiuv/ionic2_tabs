@@ -18,5 +18,6 @@ $ ionic serve
 ##使用高德导航
 * 要使用高德导航,需要申请android key,然后填写在plugins/com.kit.cordova.amaplocation/plugin.xml文件中
 * 申请ios key,填写在plugins/com.kit.cordova.amapnavigation/plugin.xml文件中
+* 如果不需要高德导航就把插件`com.kit.cordova.amaplocation`和`com.kit.cordova.amapnavigation`删除掉,因为导航添加了android sdk,会使app增加4M
 * 注意高德导航android平台的key分debug和release版本,先申请个debug版测试先
 
