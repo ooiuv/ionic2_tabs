@@ -19,11 +19,11 @@
             <feature name="AMapNavigation">
                 <param name="ios-package" value="AMapNavigation"/>
             </feature>
-            <preference name="amapapikey" value="3737702108bd4a9388f33f1eb67a869c" /><!--366ff70a1eda60bad2270848bbabe8f3-->
-            <preference name="iflytekappid" value="5804981b" /><!--564a8797-->
+            <preference name="amapapikey" value="" />
+            <preference name="iflytekappid" value="564a8797" />
         </config-file>
         <source-file src="src/ios/AMapNavigation.m"/>
-        
+
         <resource-file src="src/ios/AMap.bundle"/>
         <resource-file src="src/ios/AMapNavi.bundle"/>
 

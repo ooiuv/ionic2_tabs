@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>V2 Test</name>
+  <name>ionic2_tabs</name>
   <description>An awesome Ionic/Cordova app.</description>
   <author email="yanxiaojun617@163.com" href="http://www.gzkit.com.cn/">广州科腾信息集成部技术分部</author>
   <content src="index.html"/>
