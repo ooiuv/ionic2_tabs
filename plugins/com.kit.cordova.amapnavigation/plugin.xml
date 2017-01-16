@@ -19,8 +19,8 @@
             <feature name="AMapNavigation">
                 <param name="ios-package" value="AMapNavigation"/>
             </feature>
-            <preference name="amapapikey" value="" />
-            <preference name="iflytekappid" value="564a8797" />
+            <preference name="amapapikey" value="" /><!--ios高德key-->
+            <preference name="iflytekappid" value="" /><!--http://www.xfyun.cn/index.php/mycloud/app-->
         </config-file>
         <source-file src="src/ios/AMapNavigation.m"/>
 
