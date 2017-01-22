@@ -35,7 +35,8 @@ export class MyApp {
       let activeVC = this.nav.getActive();
       let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
-      return activeNav.canGoBack() ? activeNav.pop() : this.showExit()
+      return activeNav.canGoBack() ? activeNav.pop() : window['AppMinimize'].minimize();//this.showExit()
+
     }, 1);
   }
 
