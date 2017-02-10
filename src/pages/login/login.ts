@@ -18,6 +18,7 @@ import {UserInfo} from "../../model/UserInfo";
 export class LoginPage {
   userInfo: UserInfo;
   submitted: boolean = false;
+  canLeave: boolean = false;
   loginForm: any;
 
   constructor(private viewCtrl: ViewController,
@@ -39,10 +40,9 @@ export class LoginPage {
     });
   }
 
-
   ionViewCanLeave(): boolean {
     let bool = !!this.userInfo;
-    if (bool) {
+    if (this.canLeave || bool) {
       return true;
     } else {
       this.alertCtrl.create({
@@ -58,7 +58,6 @@ export class LoginPage {
       }).present();
       return false;
     }
-
   }
 
   login(user) {
@@ -78,13 +77,17 @@ export class LoginPage {
 
 
   toRegister() {
+    this.canLeave = true;
     let modal = this.modalCtrl.create(RegisterPage);
     modal.present();
+    this.canLeave = false;
   }
 
   findPassword() {
+    this.canLeave = true;
     let modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
+    this.canLeave = false
   }
 
 }

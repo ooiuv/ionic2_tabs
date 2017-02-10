@@ -52,9 +52,8 @@ export class NativeService {
       this.toastCtrl.create({
         message: message,
         duration: duration,
-        position: 'top',
-        showCloseButton: true,
-        closeButtonText: '关闭'
+        position: 'middle',
+        showCloseButton: false
       }).present();
     }
   };
@@ -77,9 +76,7 @@ export class NativeService {
   /**
    * 关闭loading
    */
-  hideLoading = () => {
-    this.loading.dismissAll()
-  };
+  hideLoading = () => this.loading.dismiss();
 
   /**
    * 使用cordova-plugin-camera获取照片的base64
@@ -98,53 +95,11 @@ export class NativeService {
         targetHeight: 800,//缩放图像的高度（像素）
         saveToPhotoAlbum: false,//是否保存到相册
         correctOrientation: true//设置摄像机拍摄的图像是否为正确的方向
-      }, options)).then((imageData) => {
-        resolve(imageData);
+      }, options)).then((imgData) => {
+        resolve(imgData);
       }, (err) => {
         console.log(err);
         err == 20 ? this.showToast('没有权限,请在设置中开启权限') : reject(err);
-      });
-    });
-  };
-
-  /**
-   * 通过图库获取照片
-   * @param options
-   * @return {Promise<T>}
-   */
-  getPictureByPhotoLibrary = (options = {}) => {
-    return new Promise((resolve) => {
-      this.getPicture(Object.assign({
-        sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-      }, options)).then(imageBase64 => {
-        resolve(imageBase64);
-      }).catch(err => {
-        String(err).indexOf('cancel') != -1 ? this.showToast('取消选择图片', 1500) : this.showToast('获取照片失败');
-      });
-    });
-  };
-
-
-  /**
-   * 通过图库多选图片
-   * @param options
-   * @return {Promise<T>}
-   */
-  getMultiplePicture = (options = {}) => {
-    return new Promise((resolve) => {
-      ImagePicker.getPictures(Object.assign({
-        maximumImagesCount:4,
-        width:800,//缩放图像的宽度（像素）
-        height:800,//缩放图像的高度（像素）
-        quality:90,//图像质量，范围为0 - 100
-        outputType:1,//返回base64
-        title:'选择图片',
-        message:'message'
-      }, options)).then(result => {
-        resolve(result);//result:base64字符串数组
-      }).catch(err => {
-        console.error(err);
-        this.showToast('获取照片失败');
       });
     });
   };
@@ -158,8 +113,8 @@ export class NativeService {
     return new Promise((resolve) => {
       this.getPicture(Object.assign({
         sourceType: Camera.PictureSourceType.CAMERA
-      }, options)).then(imageBase64 => {
-        resolve(imageBase64);
+      }, options)).then(imgData => {
+        resolve(imgData);
       }).catch(err => {
         String(err).indexOf('cancel') != -1 ? this.showToast('取消拍照', 1500) : this.showToast('获取照片失败');
       });
@@ -168,21 +123,91 @@ export class NativeService {
 
 
   /**
+   * 通过图库获取照片
+   * @param options
+   * @return {Promise<T>}
+   */
+  getPictureByPhotoLibrary = (options = {}) => {
+    return new Promise((resolve) => {
+      this.getPicture(Object.assign({
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY
+      }, options)).then(imgData => {
+        resolve(imgData);
+      }).catch(err => {
+        String(err).indexOf('cancel') != -1 ? this.showToast('取消选择图片', 1500) : this.showToast('获取照片失败');
+      });
+    });
+  };
+
+
+  /**
+   * 通过图库多选图片
+   * @param options
+   * @return {Promise<T>}
+   */
+  getMultiplePicture = (options = {}) => {
+    let that = this;
+    let destinationType = options['destinationType'] || 0;//0:base64字符串,1:图片url
+    return new Promise((resolve) => {
+      ImagePicker.getPictures(Object.assign({
+        maximumImagesCount: 6,
+        width: 800,//缩放图像的宽度（像素）
+        height: 800,//缩放图像的高度（像素）
+        quality: 90//图像质量，范围为0 - 100
+      }, options)).then(files => {
+        if (destinationType === 1) {
+          resolve(files);
+        } else {
+          let imgBase64s = [];//base64字符串数组
+          for (let fileUrl of files) {
+            that.convertImgToBase64(fileUrl, base64 => {
+              imgBase64s.push(base64);
+              if (imgBase64s.length === files.length) {
+                resolve(imgBase64s);
+              }
+            }, null);
+          }
+        }
+      }).catch(err => {
+        console.error(err);
+        this.showToast('获取照片失败');
+      });
+    });
+  };
+
+  // 根据图片绝对路径转化为base64字符串
+  convertImgToBase64(url, callback, outputFormat) {
+    let canvas = <HTMLCanvasElement>document.createElement('CANVAS'), ctx = canvas.getContext('2d'), img = new Image;
+    img.crossOrigin = 'Anonymous';
+    img.onload = function () {
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 0, 0);
+      let imgBase64 = canvas.toDataURL(outputFormat || 'image/png');//返回如'data:image/jpeg;base64,abcdsddsdfsdfasdsdfsdf'
+      let base64 = imgBase64.substring(imgBase64.indexOf(';base64,') + 8);//返回如'abcdsddsdfsdfasdsdfsdf'
+      callback.call(this, base64);
+      canvas = null;
+    };
+    img.src = url;
+  }
+
+  /**
    * 获得用户当前坐标
    * @return {Promise<T>}
    */
   getUserLocation() {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this.isMobile()) {
         LocationPlugin.getLocation(data => {
-          resolve({'longitude': data.longitude, 'latitude': data.latitude});
+          resolve({'lng': data.longitude, 'lat': data.latitude});
         }, msg => {
           console.error('定位错误消息' + msg);
           alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
+          reject('定位失败');
         });
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
-        resolve({'longitude': 113.35069, 'latitude': 23.119326});
+        resolve({'lng': 113.350912, 'lat': 23.119495});
       }
     });
   }
@@ -195,18 +220,19 @@ export class NativeService {
    * @return {Promise<T>}
    */
   navigation(startPoint, endPoint, type = 1) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (this.platform.is('mobile') && !this.platform.is('mobileweb')) {
         AMapNavigation.navigation({
-          lng: startPoint.longitude,
-          lat: startPoint.latitude
+          lng: startPoint.lng,
+          lat: startPoint.lat
         }, {
-          lng: endPoint.longitude,
-          lat: endPoint.latitude
+          lng: endPoint.lng,
+          lat: endPoint.lat
         }, type, function (message) {
           resolve(message);//非手机环境,即测试环境返回固定坐标
         }, function (message) {
           alert('导航失败:' + message);
+          reject('导航失败');
         });
       } else {
         this.showToast('非手机环境不能导航');
@@ -236,7 +262,7 @@ export class NativeService {
    * @name 获取网络类型
    */
   getNetworkType() {
-    if(!this.isMobile()){
+    if (!this.isMobile()) {
       return true;
     }
     return navigator['connection']['type'];// "none","wifi","4g","3g","2g"...

@@ -11,10 +11,11 @@
       <button ion-fab color="secondary" (click)="mapNavigation(3)">步行</button>
     </ion-fab-list>
   </ion-fab>
-
-  <ion-searchbar class="searchBar" mode="ios" (ionFocus)="ionFocus()" placeholder="搜索"></ion-searchbar>
-  <!--<span>
-      <ion-icon name="radio-button-on" class="position-btn" color="primary"></ion-icon>
-  </span>-->
-  <div #map_container id="map_container" class="map_container"></div>
+  <div *ngIf="mapIsComplete">
+    <ion-searchbar class="searchBar" mode="ios" (ionFocus)="ionFocus()" placeholder="搜索"></ion-searchbar>
+  </div>
+  <div *ngIf="mapIsComplete&&!isPositioning">
+    <ion-icon name="radio-button-on" class="position-btn" (click)="mapLocation()"></ion-icon>
+  </div>
+  <div #map_container class="map_container"></div>
 </ion-content>

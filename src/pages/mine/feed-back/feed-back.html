@@ -21,12 +21,12 @@
         </ion-textarea>
       </ion-item>
       <div *ngFor="let imagePath of imagePaths" class="pictures ">
-        <img src="data:image/jpeg;base64,{{imagePath}}"></div>
-          <div (click)="addPicture()" class="pictures add">
+        <img src="{{imagePath}}" (click)="showPictures()"></div>
+          <div *ngIf="imagePaths.length<4"(click)="addPicture()" class="pictures add">
             <ion-icon name="ios-add"></ion-icon>
           </div>
     </ion-list>
-    <button ion-button type="submit" block>保存</button>
+    <button ion-button type="submit" block (click)="showPictures()">保存</button>
   </form>
 </ion-content>
 

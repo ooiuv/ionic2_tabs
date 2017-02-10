@@ -7,7 +7,6 @@ import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar
 import {UserInfo} from "../../model/UserInfo";
 import {Helper} from "../../providers/Helper";
 import {DEFAULT_AVATAR} from "../../providers/Constants";
-import {FeedBackPage} from "./feed-back/feed-back";
 import {AboutPage} from "./about/about";
 
 
@@ -18,7 +17,6 @@ import {AboutPage} from "./about/about";
 export class MinePage {
   userInfo: UserInfo;
   avatarPath: string = DEFAULT_AVATAR;
-  backPressed: boolean = false;
 
   constructor(private navCtrl: NavController,
               private platform: Platform,
@@ -27,10 +25,6 @@ export class MinePage {
               private alertCtrl: AlertController,
               private helper: Helper) {
 
-  }
-
-  feedBack() {
-    this.navCtrl.push(FeedBackPage);
   }
 
   ionViewWillEnter() {

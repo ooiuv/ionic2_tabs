@@ -8,13 +8,15 @@ import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar
 import {FeedBackPage} from "./feed-back/feed-back";
 import {AboutPage} from "./about/about";
 import {UpdateLogPage} from "./update-log/update-log";
+import {ShowPicturesPage} from "./show-pictures/show-pictures";
+
 
 @NgModule({
   imports: [
     IonicModule.forRoot(MyApp),
   ],
-  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage],
-  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage],
+  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage,ShowPicturesPage],
+  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage,ShowPicturesPage],
   providers: [],
   exports: [IonicModule]
 })

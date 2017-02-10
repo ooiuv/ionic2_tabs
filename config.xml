@@ -40,6 +40,8 @@
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
   <preference name="android-minSdkVersion" value="16"/>
+  <preference name="android-maxSdkVersion" value="22"/>
+  <preference name="android-targetSdkVersion" value="22"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="ShowSplashScreen" value="true"/>
   <preference name="ShowSplashScreenSpinner" value="false"/>
@@ -60,6 +62,8 @@
   <plugin name="cordova-plugin-statusbar" spec="2.2.1"/>
   <plugin name="cordova-plugin-device" spec="1.1.4"/>
   <plugin name="cordova-plugin-splashscreen" spec="~4.0.1"/>
-  <allow-navigation href="http://192.168.31.149:8100"/>
+  <allow-navigation href="http://88.128.18.144:8000"/>
+  <allow-navigation href="*"/>
+  <allow-navigation href="http://88.128.18.144:7777"/>
   <icon src="resources\android\icon\drawable-xhdpi-icon.png"/>
 </widget>

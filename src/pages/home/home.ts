@@ -13,9 +13,10 @@ declare var AMap;
 })
 export class HomePage {
   @ViewChild('map_container') map_container: ElementRef;
-  mapIsComplete: boolean = false;
-  showIonFab: boolean = false;
-  map: any;
+  mapIsComplete: boolean = false;//地图是否加载完成
+  showIonFab: boolean = false;//是否显示路线按钮
+  isPositioning: boolean = false;//是否正在定位
+  map: any;//地图对象
   marker: any;//地图坐标点信息
 
   constructor(private modalCtrl: ModalController,
@@ -52,22 +53,6 @@ export class HomePage {
           that.map.addControl(new AMap.ToolBar());
           that.map.addControl(new AMap.Scale());
         });
-
-        that.map.plugin('AMap.Geolocation', function () {//添加javascript定位插件
-          let geolocation = new AMap.Geolocation({  //更多api详情:http://lbs.amap.com/api/javascript-api/reference/location/
-            timeout: 20000,                          //超过10秒后停止定位，默认：无穷大
-            buttonOffset: new AMap.Pixel(3, 45),    //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-            zoomToAccuracy: true,                   //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-            useNative: true                         //是否使用安卓定位sdk用来进行定位，默认：false
-          });
-          that.map.addControl(geolocation);
-          AMap.event.addListener(geolocation, 'complete', result => {
-            console.log('定位来源:' + result.location_type + ', 坐标:' + result.position.lng + ',' + result.position.lat);
-          });
-          AMap.event.addListener(geolocation, 'error', error => {
-            alert('定位失败');
-          });
-        });
       });
       window['HomeAMap'] = this.map;
     } catch (err) {
@@ -78,39 +63,46 @@ export class HomePage {
   }
 
   ionFocus() {
-    if (this.mapIsComplete) {
-      let that = this;
-      let modal = this.modalCtrl.create(LocationSearchModalPage);
-      modal.present();
-      modal.onDidDismiss(marker => {
-        if (marker) {
-          that.marker = marker;
-          that.showIonFab = true;
-          that.map.clearMap();
-          new AMap.Marker({
-            map: that.map,
-            id: marker.id,
-            position: new AMap.LngLat(marker.location.lng, marker.location.lat),
-            extData: marker,
-            title: marker.name
-          });
-          that.map.setFitView();
-          that.map.setZoom(16);
-        }
-      });
-    } else {
-      this.loadMap();
-    }
+    let that = this;
+    let modal = this.modalCtrl.create(LocationSearchModalPage);
+    modal.present();
+    modal.onDidDismiss(marker => {
+      if (marker) {
+        that.showIonFab = true;
+        that.map.clearMap();
+        that.marker = new AMap.Marker({
+          map: that.map,
+          id: marker.id,
+          position: new AMap.LngLat(marker.location.lng, marker.location.lat),
+          extData: marker,
+          title: marker.name
+        });
+        that.map.setFitView();
+        that.map.setZoom(16);
+      }
+    });
   }
 
-  getLocation() {
-    this.nativeService.getUserLocation().then(position => {
-      debugger;
+  mapLocation() {
+    let that = this;
+    that.isPositioning = true;
+    that.nativeService.getUserLocation().then(position => {
+      that.map.clearMap();
+      that.marker = new AMap.Marker({
+        map: that.map,
+        position: new AMap.LngLat(position['lng'], position['lat']),
+      });
+      that.map.setFitView();
+      that.map.setZoom(16);
+      that.isPositioning = false;
+    }, () => {
+      that.isPositioning = false;
     });
   }
 
   mapNavigation(navigationType) {//1驾车,2公交,3步行
-    let modal = this.modalCtrl.create(NavigationModalPage, {'navigationType': navigationType, 'marker': this.marker});
+    let markerData = this.marker.getExtData();
+    let modal = this.modalCtrl.create(NavigationModalPage, {'navigationType': navigationType, 'markerLocation': {'lng': markerData.location.lng, 'lat': markerData.location.lat}});
     modal.present();
     modal.onDidDismiss(marker => {
       if (marker) {

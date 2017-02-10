@@ -14,7 +14,6 @@ export class NavigationModalPage {
   navigationType;
   navigationIsReady: boolean = false;
   map;
-  marker;
   startPoint;
   endPoint;
 
@@ -22,7 +21,7 @@ export class NavigationModalPage {
               private nativeService: NativeService,
               private navParams: NavParams) {
     this.navigationType = navParams.get("navigationType");
-    this.marker = navParams.get("marker");
+    this.endPoint = navParams.get("markerLocation");
     this.map = window['HomeAMap'];
   }
 
@@ -47,8 +46,7 @@ export class NavigationModalPage {
     this.nativeService.getUserLocation().then(location => {
       this.map.clearMap();
       this.startPoint = location;
-      this.endPoint = {'longitude': this.marker.location.lng, 'latitude': this.marker.location.lat};
-      navigationService.search([location['longitude'], location['latitude']], [this.endPoint.longitude, this.endPoint.latitude], (status, result) => {
+      navigationService.search([this.startPoint.lng, this.startPoint.lat], [this.endPoint.lng, this.endPoint.lat], (status, result) => {
         if (navigationType === 1) {
           this.navigationIsReady = true;
         }

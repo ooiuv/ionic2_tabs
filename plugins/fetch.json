@@ -55,23 +55,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "cordova-plugin-camera": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-camera"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-x-toast": {
         "source": {
             "type": "registry",
@@ -108,6 +91,30 @@
         "source": {
             "type": "local",
             "path": "E:\\com.kit.cordova.amapnavigation"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-appminimize": {
+        "source": {
+            "type": "local",
+            "path": "D:\\cordova-plugin-appminimize"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-camera": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-camera"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.synconset.imagepicker": {
+        "source": {
+            "type": "local",
+            "path": "E:\\ideaworkspace\\app\\ionic2_tabs\\plugins\\com.synconset.imagepicker"
         },
         "is_top_level": true,
         "variables": {}

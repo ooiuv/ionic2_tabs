@@ -55,8 +55,9 @@ export class MineEditAvatarModalPage {
       this.fileService.uploadPicture(fileObj).then(result => {
         if (result.success) {
           this.userInfo.avatarId = result.data[0].id;
+          let avatarKey = this.userInfo.id+ 'avatar';
           this.storage.set('UserInfo', this.userInfo);
-          this.storage.set(this.userInfo.id + 'avatar', this.avatarPath);
+          this.storage.set(avatarKey , this.avatarPath);
         }
       });
       this.viewCtrl.dismiss({avatarPath: this.avatarPath});

@@ -16,7 +16,9 @@ import {FileService} from "./FileService";
 @Injectable()
 export class Helper {
 
-  constructor(private modalCtrl: ModalController, private storage: Storage, private fileService: FileService) {
+  constructor(private modalCtrl: ModalController,
+              private storage: Storage,
+              private fileService: FileService) {
   }
 
 

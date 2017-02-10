@@ -3,6 +3,7 @@ import {NavController, NavParams, ModalController} from 'ionic-angular';
 import {AppVersion} from "ionic-native";
 import {NativeService} from "../../../providers/NativeService";
 import {UpdateLogPage} from "../update-log/update-log";
+import {FeedBackPage} from "../feed-back/feed-back";
 
 @Component({
   selector: 'page-about',
@@ -32,6 +33,10 @@ export class AboutPage {
 
   features() {
     this.nativeService.showToast('正在完善...');
+  }
+
+  feedBack() {
+    this.navCtrl.push(FeedBackPage);
   }
 
 }

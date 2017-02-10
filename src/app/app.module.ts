@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 import {MyApp} from './app.component';
 import {LoginModule} from '../pages/login/login.module';
 import {TabsPage} from '../pages/tabs/tabs';
@@ -16,14 +16,11 @@ import {Utils} from "../providers/Utils";
 
 
 @NgModule({
-  declarations: [MyApp, TabsPage],
-  imports: [IonicModule.forRoot(MyApp), LoginModule, HomeModule, ContactModule, MineModule],
+  declarations: [MyApp,TabsPage],
+  imports: [IonicModule.forRoot(MyApp), LoginModule,HomeModule, ContactModule, MineModule],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, TabsPage],
-  providers: [{
-    provide: ErrorHandler,
-    useClass: IonicErrorHandler
-  }, Storage, NativeService, HttpService, FileService, Helper, Utils]
+  entryComponents: [MyApp,TabsPage],
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, Storage,NativeService, HttpService,FileService,Helper,Utils]
 })
 export class AppModule {
 }

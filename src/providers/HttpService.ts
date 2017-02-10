@@ -30,6 +30,7 @@ export class HttpService {
   }
 
   public postBody(url: string, paramObj: any) {
+    this.nativeService.showLoading();
     let headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post(url, paramObj, new RequestOptions({headers: headers}))
       .toPromise()
