@@ -1,6 +1,15 @@
 Ionic 2 App 
 =====================
 一个不断完善的ionic2项目,详情可查看:http://www.jianshu.com/c/be0bf998dcb5
+####实现了如下功能点
+* 注册android硬件返回按钮事件
+* 最小化app
+* 拍照,相册多图选择
+* 使用chart.js
+* 高德地图,定位,导航
+* 代码按功能划分多module
+* 封装http
+* 其他cordova插件封装和常用工具方法
 
 ##如何运行此app
 1.  先保证app开发环境配置好,可以参考[这里](http://www.jianshu.com/p/1f1205602ce0)
