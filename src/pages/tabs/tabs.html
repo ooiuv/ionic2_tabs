@@ -1,5 +1,6 @@
-<ion-tabs #mainTabs>
+<ion-tabs #mainTabs mode="ios">
+  <ion-tab [root]="testRoot" tabTitle="test" tabIcon="add" tabsHideOnSubPages></ion-tab>
   <ion-tab [root]="homeRoot" tabTitle="Home" tabIcon="home" tabsHideOnSubPages></ion-tab>
-  <ion-tab [root]="mineRoot" tabTitle="我的" tabIcon="md-person" tabsHideOnSubPages></ion-tab>
+  <ion-tab [root]="mineRoot" tabTitle="我的" tabIcon="person" tabsHideOnSubPages></ion-tab>
   <ion-tab [root]="contactRoot" tabTitle="Contact" tabIcon="contacts" tabsHideOnSubPages></ion-tab>
 </ion-tabs>

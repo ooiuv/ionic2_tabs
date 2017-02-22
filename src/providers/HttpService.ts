@@ -13,14 +13,15 @@ export class HttpService {
   constructor(private http: Http, private nativeService: NativeService) {
   }
 
-  public get(url: string, paramObj: any) {
+  public get(url: string, paramObj?: any) {
+    this.nativeService.showLoading();
     return this.http.get(url + this.toQueryString(paramObj))
       .toPromise()
       .then(res => this.handleSuccess(res.json()))
       .catch(error => this.handleError(error));
   }
 
-  public post(url: string, paramObj: any) {
+  public post(url: string, paramObj?: any) {
     this.nativeService.showLoading();
     let headers = new Headers({'Content-Type': 'application/x-www-form-urlencoded'});
     return this.http.post(url, this.toBodyString(paramObj), new RequestOptions({headers: headers}))
@@ -29,7 +30,7 @@ export class HttpService {
       .catch(error => this.handleError(error));
   }
 
-  public postBody(url: string, paramObj: any) {
+  public postBody(url: string, paramObj?: any) {
     this.nativeService.showLoading();
     let headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post(url, paramObj, new RequestOptions({headers: headers}))
