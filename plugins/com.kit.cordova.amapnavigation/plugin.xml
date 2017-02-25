@@ -2,16 +2,16 @@
 <plugin id="com.kit.cordova.amapnavigation" version="2.0.0"
         xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android">
-    <name>AMapNavigationPlugin</name>
+    <name>AMapNavigation</name>
     <description>Cordova Navigation Plugin Powerd by KIT</description>
-    <author email="gis_ymgao@qq.com" href="https://gzkit.com.cn">
-        ymgao
+    <author email="yanxiaojun617@163.com" href="https://gzkit.com.cn">
+        yanxiaojun
     </author>
     <license>Apache 2.0</license>
     <keywords>cordova,Navigation</keywords>
 
     <js-module name="AMapNavigation" src="www/AMapNavigation.js">
-        <clobbers target="cordova.plugins.AMapNavigation"/>
+        <clobbers target="AMapNavigation"/>
     </js-module>
 
     <platform name="ios">
@@ -19,8 +19,7 @@
             <feature name="AMapNavigation">
                 <param name="ios-package" value="AMapNavigation"/>
             </feature>
-            <preference name="amapapikey" value="" /><!--ios高德key-->
-            <preference name="iflytekappid" value="" /><!--http://www.xfyun.cn/index.php/mycloud/app-->
+            <preference name="amapapikey" value="您申请的高德" />
         </config-file>
         <source-file src="src/ios/AMapNavigation.m"/>
 
@@ -55,6 +54,8 @@
             <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
             <uses-permission android:name="android.permission.WAKE_LOCK" />
             <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+            <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+            <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
         </config-file>
 <!--  该处使用的key配置和定位的重复了，所以仅保留一处
       <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -62,10 +63,6 @@
             android:name="com.amap.api.v2.apikey"
             android:value="018577734cd1a4af952cf434b03d320e" />
         </config-file>-->
-
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <preference name="iflytekappid" value="5804981b" /><!--564a8797-->
-        </config-file>
 
         <config-file parent="/manifest/application" target="AndroidManifest.xml">
             <activity android:name="com.kit.cordova.navigationService.NavigationActivity" />
