@@ -2,14 +2,15 @@
  * Created by yanxiaojun617@163.com on 12-27.
  */
 import {Injectable} from '@angular/core';
-import {ToastController, LoadingController, Platform} from 'ionic-angular';
+import {ToastController, LoadingController, Platform, Loading} from 'ionic-angular';
 import {Camera, AppVersion, Toast, ImagePicker} from 'ionic-native';
 declare var LocationPlugin;
 declare var AMapNavigation;
 
 @Injectable()
 export class NativeService {
-  private loading;
+  private loading: Loading;
+  private loadRunning: boolean = false;
 
   constructor(private platform: Platform,
               private toastCtrl: ToastController,
@@ -64,19 +65,28 @@ export class NativeService {
    * @param content 显示的内容
    */
   showLoading = (content: string = '') => {
-    this.loading = this.loadingCtrl.create({
-      content: content
-    });
-    this.loading.present();
-    setTimeout(() => {//最长显示20秒
-      this.loading.dismiss();
-    }, 20000);
+    if (!this.loadRunning) {
+      this.loadRunning = true;
+      this.loading = this.loadingCtrl.create({
+        content: content
+      });
+      this.loading.present();
+      setTimeout(() => {//最长显示10秒
+        this.loading.dismiss();
+        this.loadRunning = false;
+      }, 10000);
+    }
   };
 
   /**
    * 关闭loading
    */
-  hideLoading = () => this.loading.dismiss();
+  hideLoading = () => {
+    if (this.loadRunning) {
+      this.loading.dismiss();
+      this.loadRunning = false;
+    }
+  };
 
   /**
    * 使用cordova-plugin-camera获取照片的base64

@@ -9,13 +9,14 @@ import {HomeModule} from '../pages/home/home.module';
 import {MineModule} from '../pages/mine/mine.module';
 
 import {NativeService} from "../providers/NativeService";
-import {CustomHttp} from "../providers/CustomHttp";
+import {HttpIntercept} from "../providers/HttpIntercept";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
 import {Helper} from "../providers/Helper";
 import {Utils} from "../providers/Utils";
 import {TestModule} from "../pages/test/test.module";
 import {Http, XHRBackend, RequestOptions} from "@angular/http";
+import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
 
 
 @NgModule({
@@ -29,11 +30,13 @@ import {Http, XHRBackend, RequestOptions} from "@angular/http";
   }), LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp, TabsPage],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler},
+  providers: [HttpInterceptHandle, {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: Http,
-      useFactory: (backend: XHRBackend, defaultOptions: RequestOptions) => new CustomHttp(backend, defaultOptions),
-      deps: [XHRBackend, RequestOptions]
+      useFactory: (backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) => {
+        return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
+      },
+      deps: [XHRBackend, RequestOptions, HttpInterceptHandle]
     },
     Storage, NativeService, HttpService, FileService, Helper, Utils]
 })
