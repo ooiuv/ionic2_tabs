@@ -50,7 +50,7 @@ export class Helper {
             if (avatarPath) {
               resolve(avatarPath);
             } else {
-              this.fileService.getFileInfoById(avatarId).then(result => {
+              this.fileService.getFileInfoById(avatarId).subscribe(result => {
                 if (result.success) {
                   this.storage.set(avatarKey, FILE_SERVE_URL + result.data.origPath);
                   resolve(FILE_SERVE_URL + result.data.origPath);

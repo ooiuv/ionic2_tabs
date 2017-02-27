@@ -5,6 +5,7 @@ import {Injectable} from '@angular/core';
 import {HttpService} from "./HttpService";
 import {FILE_SERVE_URL} from './Constants';
 import {FileObj} from "../model/FileObj";
+import {Response} from "@angular/http";
 
 @Injectable()
 export class FileService {
@@ -17,7 +18,7 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   getFileInfoById(id: string) {
-    return this.httpService.get(FILE_SERVE_URL + '/getById', {id: id});
+    return this.httpService.get(FILE_SERVE_URL + '/getById', {id: id}).map((res: Response) => res.json());
   }
 
   /**
@@ -26,7 +27,7 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   uploadPictures(fileList: FileObj[]) {
-    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', fileList);
+    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', fileList).map((res: Response) => res.json());
   }
 
   /**
@@ -35,7 +36,7 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   uploadPicture(FileObj: FileObj) {
-    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', [FileObj]);
+    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', [FileObj]).map((res: Response) => res.json());
   }
 
 }

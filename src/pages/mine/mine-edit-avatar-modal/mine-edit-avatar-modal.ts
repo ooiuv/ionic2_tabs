@@ -52,7 +52,7 @@ export class MineEditAvatarModalPage {
   saveAvatar() {
     if (this.isChange) {
       let fileObj = <FileObj>{'base64': this.imageBase64};
-      this.fileService.uploadPicture(fileObj).then(result => {
+      this.fileService.uploadPicture(fileObj).subscribe(result => {
         if (result.success) {
           this.userInfo.avatarId = result.data[0].id;
           let avatarKey = this.userInfo.id+ 'avatar';
