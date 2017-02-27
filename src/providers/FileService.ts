@@ -27,7 +27,7 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   uploadPictures(fileList: FileObj[]) {
-    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', fileList).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload', fileList).map((res: Response) => res.json());
   }
 
   /**
@@ -36,7 +36,7 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   uploadPicture(FileObj: FileObj) {
-    return this.httpService.postBody(FILE_SERVE_URL + '/appUpload', [FileObj]).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload', [FileObj]).map((res: Response) => res.json());
   }
 
 }

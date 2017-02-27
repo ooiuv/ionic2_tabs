@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
 import {MyApp} from '../../app/app.component';
 import {TestPage} from "./test";
+import {TestService} from "./TestService";
 
 
 @NgModule({
@@ -10,7 +11,7 @@ import {TestPage} from "./test";
   ],
   declarations: [TestPage],
   entryComponents: [TestPage],
-  providers: [],
+  providers: [TestService],
   exports: [IonicModule]
 })
 export class TestModule {
