@@ -7,7 +7,7 @@ import {HttpService} from "../../providers/HttpService";
 
 @Injectable()
 export class TestService {
-  constructor(private httpService: HttpService) {
+  constructor(public httpService: HttpService) {
   }
 
   getJson() {
