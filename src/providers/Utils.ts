@@ -16,6 +16,85 @@ export class Utils {
   constructor() {
   }
 
+
+  /**
+   * 格式“是”or“否”
+   * @param value
+   * @returns {string|string}
+   */
+  static formatYesOrNo(value: number|string) {
+    return value == 1 ? '是' : (value == '0' ? '否' : null);
+  }
+
+
+  /**
+   * 格式化日期
+   * sFormat：日期格式:默认为yyyy-MM-dd     年：y，月：M，日：d，时：h，分：m，秒：s
+   * @example  dateFormat(new Date(),'yyyy-MM-dd')   "2017-02-28"
+   * @example  dateFormat(new Date(),'yyyy-MM-dd hh:mm:ss')   "2017-02-28 09:24:00"
+   * @example  dateFormat(new Date(),'hh:mm')   "09:24"
+   * @param date 日期
+   * @param sFormat 格式化后的日期字符串
+   * @returns {String}
+   */
+  static dateFormat(date: Date, sFormat: String='yyyy-MM-dd') {
+    let time = {
+      Year: 0,
+      TYear: 0,
+      Month: 0,
+      TMonth: 0,
+      Day: 0,
+      TDay: 0,
+      Hour: 0,
+      THour: 0,
+      hour: 0,
+      Thour: 0,
+      Minute: 0,
+      TMinute: 0,
+      Second: 0,
+      TSecond: 0,
+      Millisecond: 0
+    };
+    time.Year = date.getFullYear();
+    time.TYear = Number(String(time.Year).substr(2));
+    time.Month = date.getMonth() + 1;
+    time.TMonth = Number(time.Month < 10 ? "0" + time.Month : time.Month);
+    time.Day = date.getDate();
+    time.TDay = Number(time.Day < 10 ? "0" + time.Day : time.Day);
+    time.Hour = date.getHours();
+    time.THour = Number(time.Hour < 10 ? "0" + time.Hour : time.Hour);
+    time.hour = time.Hour < 13 ? time.Hour : time.Hour - 12;
+    time.Thour = Number(time.hour < 10 ? "0" + time.hour : time.hour);
+    time.Minute = date.getMinutes();
+    time.TMinute = Number(time.Minute < 10 ? "0" + time.Minute : time.Minute);
+    time.Second = date.getSeconds();
+    time.TSecond = Number(time.Second < 10 ? "0" + time.Second : time.Second);
+    time.Millisecond = date.getMilliseconds();
+
+    if (sFormat != undefined && sFormat.replace(/\s/g, "").length > 0) {
+      sFormat = sFormat.replace(/yyyy/ig, String(time.Year))
+        .replace(/yyy/ig, String(time.Year))
+        .replace(/yy/ig, String(time.TYear))
+        .replace(/y/ig, String(time.TYear))
+        .replace(/MM/g, String(time.TMonth))
+        .replace(/M/g, String(time.Month))
+        .replace(/dd/ig, String(time.TDay))
+        .replace(/d/ig, String(time.Day))
+        .replace(/HH/g, String(time.THour))
+        .replace(/H/g, String(time.Hour))
+        .replace(/hh/g, String(time.Thour))
+        .replace(/h/g, String(time.hour))
+        .replace(/mm/g, String(time.TMinute))
+        .replace(/m/g, String(time.Minute))
+        .replace(/ss/ig, String(time.TSecond))
+        .replace(/s/ig, String(time.Second))
+        .replace(/fff/ig, String(time.Millisecond))
+    } else {
+      sFormat = time.Year + "-" + time.Month + "-" + time.Day + " " + time.Thour + ":" + time.TMinute + ":" + time.TSecond;
+    }
+    return sFormat;
+  }
+
   /**
    * 每次调用sequence加1
    * @type {()=>number}
@@ -26,46 +105,4 @@ export class Utils {
       return ++sequence;
     };
   })();
-
-  /**
-   *  格式化日期 2017-02-27
-   * @param date 日期参数
-   * @returns {any} 日期字符串
-   */
-  static formatDate(date: Date) {
-    if (!date) return null;
-    let year = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate();
-    let month = m < 10 ? '0' + m : m;
-    let day = d < 10 ? '0' + d : d;
-    return [year, month, day].join('-');
-  }
-
-  /**
-   *  格式化时间 09:09
-   * @param date 日期参数
-   * @returns {any} 日期字符串
-   */
-  static formatTime(date: Date) {
-    let h = date.getHours(), mm = date.getMinutes();
-    let hours = h < 10 ? '0' + h : h, minutes = mm < 10 ? '0' + mm : mm;
-    return [hours, minutes].join(':');
-  }
-
-  /**
-   * 格式化日期 2017-02-27 10:48:09
-   * @param date 日期参数
-   * @returns {any} 日期字符串
-   */
-  static formatDateTime(date: Date) {
-    if (!date) return null;
-    let year = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate(),
-      h = date.getHours(), mm = date.getMinutes(), s = date.getSeconds();
-    let month = m < 10 ? '0' + m : m,
-      day = d < 10 ? '0' + d : d,
-      hours = h < 10 ? '0' + h : h,
-      minutes = mm < 10 ? '0' + mm : mm,
-      seconds = s < 10 ? '0' + s : s;
-    return [year, month, day].join('-') + ' ' + [hours, minutes, seconds].join(':');
-  }
-
 }

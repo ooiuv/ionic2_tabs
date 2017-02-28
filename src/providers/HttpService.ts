@@ -14,16 +14,16 @@ export class HttpService {
   constructor(public http: Http) {
   }
 
-  public postFormData(url: string, paramObj?: any): Observable<Response> {
+  public postFormData(url: string, paramMap?: any): Observable<Response> {
     let headers = new Headers({
       'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
       'Accept': 'application/json;charset=utf-8'
     });
-    return this.http.post(url, HttpService.buildURLSearchParams(paramObj).toString(), new RequestOptions({headers: headers}))
+    return this.http.post(url, HttpService.buildURLSearchParams(paramMap).toString(), new RequestOptions({headers: headers}))
   }
 
-  public get(url: string, paramObj?: any): Observable<Response> {
-    return this.http.get(url, {search: HttpService.buildURLSearchParams(paramObj)});
+  public get(url: string, paramMap?: any): Observable<Response> {
+    return this.http.get(url, {search: HttpService.buildURLSearchParams(paramMap)});
   }
 
   // 默认Content-Type为application/json;
@@ -35,28 +35,28 @@ export class HttpService {
     return this.http.put(url, body, options);
   }
 
-  public delete(url: string, paramObj?: any): Observable<Response> {
-    return this.http.delete(url, {search: HttpService.buildURLSearchParams(paramObj)});
+  public delete(url: string, paramMap?: any): Observable<Response> {
+    return this.http.delete(url, {search: HttpService.buildURLSearchParams(paramMap)});
   }
 
   public patch(url: string, body: any = null, options?: RequestOptionsArgs): Observable<Response> {
     return this.http.patch(url, body, options);
   }
 
-  public head(url: string, paramObj?: any): Observable<Response> {
-    return this.http.head(url, {search: HttpService.buildURLSearchParams(paramObj)});
+  public head(url: string, paramMap?: any): Observable<Response> {
+    return this.http.head(url, {search: HttpService.buildURLSearchParams(paramMap)});
   }
 
-  public options(url: string, paramObj?: any): Observable<Response> {
-    return this.http.options(url, {search: HttpService.buildURLSearchParams(paramObj)});
+  public options(url: string, paramMap?: any): Observable<Response> {
+    return this.http.options(url, {search: HttpService.buildURLSearchParams(paramMap)});
   }
 
-  public static buildURLSearchParams(obj): URLSearchParams {
+  public static buildURLSearchParams(paramMap): URLSearchParams {
     let params = new URLSearchParams();
-    for (let key in obj) {
-      let val = obj[key];
+    for (let key in paramMap) {
+      let val = paramMap[key];
       if (val instanceof Date) {
-        val = Utils.formatDateTime(val)
+        val = Utils.dateFormat(val,'yyyy-MM-dd hh:mm:ss')
       }
       params.set(key, val);
     }
