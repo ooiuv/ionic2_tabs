@@ -19,19 +19,23 @@
   </ion-list>
   <ion-list>
     <ion-item>
+      <ion-icon name="settings" item-left color="primary"></ion-icon>
       设置
     </ion-item>
   </ion-list>
   <ion-list>
     <ion-item (click)="exitSoftware()">
+	  <ion-icon name="log-out" item-left color="danger"></ion-icon>
       退出软件
     </ion-item>
     <ion-item (click)="loginOut()">
+      <ion-icon name="log-in" item-left color="danger"></ion-icon>
       重新登录
     </ion-item>
   </ion-list>
   <ion-list>
     <ion-item (click)="about()">
+      <ion-icon name="information-circle" item-left  color="secondary"></ion-icon>
       关于
       <ion-icon name='ios-arrow-forward' item-right></ion-icon>
     </ion-item>
