@@ -2,8 +2,8 @@ import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import {MyApp} from './app.component';
+import {TabModule} from "../pages/tabs/tab.module";
 import {LoginModule} from '../pages/login/login.module';
-import {TabsPage} from '../pages/tabs/tabs';
 import {ContactModule} from '../pages/contact/contact.module';
 import {HomeModule} from '../pages/home/home.module';
 import {MineModule} from '../pages/mine/mine.module';
@@ -20,16 +20,16 @@ import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
 
 
 @NgModule({
-  declarations: [MyApp, TabsPage],
+  declarations: [MyApp],
   imports: [IonicModule.forRoot(MyApp, {
     backButtonText: '',
     iconMode: 'ios',
     modalEnter: 'modal-slide-in',
     modalLeave: 'modal-slide-out',
     pageTransition: 'ios'
-  }), LoginModule, HomeModule, ContactModule, MineModule, TestModule],
+  }), TabModule,LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
-  entryComponents: [MyApp, TabsPage],
+  entryComponents: [MyApp],
   providers: [HttpInterceptHandle, {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: Http,
