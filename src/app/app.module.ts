@@ -18,6 +18,9 @@ import {TestModule} from "../pages/test/test.module";
 import {Http, XHRBackend, RequestOptions} from "@angular/http";
 import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
 
+export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) {
+  return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
+}
 
 @NgModule({
   declarations: [MyApp],
@@ -27,15 +30,13 @@ import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
     modalEnter: 'modal-slide-in',
     modalLeave: 'modal-slide-out',
     pageTransition: 'ios'
-  }), TabModule,LoginModule, HomeModule, ContactModule, MineModule, TestModule],
+  }), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [HttpInterceptHandle, {provide: ErrorHandler, useClass: IonicErrorHandler},
     {
       provide: Http,
-      useFactory: (backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) => {
-        return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
-      },
+      useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, HttpInterceptHandle]
     },
     Storage, NativeService, HttpService, FileService, Helper, Utils]

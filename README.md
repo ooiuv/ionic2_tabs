@@ -1,6 +1,8 @@
 Ionic 2 App 
 =====================
 一个不断完善的ionic2项目,详情可查看:http://www.jianshu.com/c/be0bf998dcb5
+*[Apk下载](http://pan.baidu.com/s/1misfGa0)
+
 ####实现了如下功能点
 * 注册android硬件返回按钮事件
 * 最小化app
