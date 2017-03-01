@@ -25,6 +25,9 @@ export class TestPage {
     // this.testService.getObj().subscribe(res => {
     // });
   }
+  doSearch(pageNum) {
+    console.log(pageNum);
+  }
 
 
 }
