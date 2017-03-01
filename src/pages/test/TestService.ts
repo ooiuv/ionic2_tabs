@@ -11,15 +11,15 @@ export class TestService {
   }
 
   getJson() {
-    return this.httpService.get('../../assets/data/test.json').map((res: Response) => res.json());
+    return this.httpService.get('./assets/data/test.json').map((res: Response) => res.json());
   }
 
-  getObj():Observable<any> {
-    return this.httpService.postFormData('http://localhost:8080/ywtgweb/app/bugRepair/test1',{name:'小军',age:22}).map((res: Response) => res.json());
+  getObj():Observable<TestObj> {
+    return this.httpService.get('./assets/data/test.json').map((res: Response) => res.json());
   }
 
   getList():Observable<TestObj[]> {
-    return this.httpService.get('../../assets/data/testList.json').map((res: Response) => res.json());
+    return this.httpService.get('./assets/data/testList.json').map((res: Response) => res.json());
   }
 
 }

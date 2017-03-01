@@ -22,8 +22,9 @@ export class TestPage {
   }
 
   click() {
-    // this.testService.getObj().subscribe(res => {
-    // });
+    this.testService.getObj().subscribe(res => {
+      console.log(res);
+    });
   }
   doSearch(pageNum) {
     console.log(pageNum);
