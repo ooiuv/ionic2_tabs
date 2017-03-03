@@ -2,10 +2,12 @@
  * Created by yanxiaojun617@163.com on 12-27.
  */
 import {Injectable} from '@angular/core';
-import {ToastController, LoadingController, Platform, Loading} from 'ionic-angular';
-import {Camera, AppVersion, Toast, ImagePicker} from 'ionic-native';
+import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
+import {Camera, AppVersion, Toast, ImagePicker, Transfer, FileOpener, File} from 'ionic-native';
+import {ADNROID_APK} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
+declare var cordova: any;
 
 @Injectable()
 export class NativeService {
@@ -14,7 +16,50 @@ export class NativeService {
 
   constructor(private platform: Platform,
               private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
               private loadingCtrl: LoadingController) {
+  }
+
+  downloadApk() {
+    let alert = this.alertCtrl.create({
+      title: '下载进度：0%',
+      enableBackdropDismiss: false,
+      buttons: ['后台下载']
+    });
+    alert.present();
+
+    const directory = cordova.file.externalRootDirectory;//保存的目录
+    const apkName = 'android.apk';//保存的apk名称
+    const fileTransfer = new Transfer();
+
+    fileTransfer.download(ADNROID_APK, directory + apkName).then(() => {
+      FileOpener.open(directory + apkName, 'application/vnd.android.package-archive').then(res => {
+        console.log('apk打开成功准备安装 ' + res);
+      }, () => {
+        this.alertCtrl.create({
+          title: '失败!',
+          subTitle: '安装包下载完成,打开失败!',
+          buttons: ['确定']
+        }).present();
+      });
+    }, () => {
+      this.alertCtrl.create({
+        title: '失败!',
+        subTitle: '下载安装包失败,请稍后再试!',
+        buttons: ['确定']
+      }).present();
+    });
+
+    fileTransfer.onProgress((event: ProgressEvent) => {
+      let num = Math.floor(event.loaded / event.total * 100);
+      if (num === 100) {
+        alert.dismiss();
+      } else {
+        let title = document.getElementsByClassName('alert-title')[0];
+        title && (title.innerHTML = '下载进度：' + num + '%');
+      }
+    });
+
   }
 
   /**
