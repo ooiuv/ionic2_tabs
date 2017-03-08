@@ -2,7 +2,8 @@ import {Component} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {TestService} from "./TestService";
 import {Observable} from "rxjs";
-import {NavController} from "ionic-angular";
+import {AlertController} from "ionic-angular";
+import {NativeService} from "../../providers/NativeService";
 
 @Component({
   selector: 'page-test',
@@ -10,7 +11,9 @@ import {NavController} from "ionic-angular";
 })
 export class TestPage {
 
-  constructor(private navCtrl: NavController,public testService: TestService) {
+  constructor(private nativeService: NativeService,
+              private alertCtrl: AlertController,
+              public testService: TestService) {
 
   }
 
@@ -22,9 +25,10 @@ export class TestPage {
   }
 
   click() {
-    this.testService.getObj().subscribe(res => {
+    this.nativeService.downloadApkInBrowser();
+   /* this.testService.getObj().subscribe(res => {
       console.log(res);
-    });
+    });*/
   }
   doSearch(pageNum) {
     console.log(pageNum);
