@@ -3,8 +3,8 @@
  */
 import {Injectable} from '@angular/core';
 import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
-import {Camera, AppVersion, Toast, ImagePicker, Transfer, FileOpener, File} from 'ionic-native';
-import {ADNROID_APK} from "./Constants";
+import {Camera, AppVersion, Toast, ImagePicker, Transfer, FileOpener, File, InAppBrowser} from 'ionic-native';
+import {ANDROID_APK} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
@@ -20,6 +20,11 @@ export class NativeService {
               private loadingCtrl: LoadingController) {
   }
 
+  downloadApkInBrowser() {
+    // let browser = new InAppBrowser(ANDROID_APK, '_system');
+    new InAppBrowser('http://88.128.18.144:7777/', '_system');
+  }
+
   downloadApk() {
     let alert = this.alertCtrl.create({
       title: '下载进度：0%',
@@ -28,12 +33,11 @@ export class NativeService {
     });
     alert.present();
 
-    const directory = cordova.file.externalRootDirectory;//保存的目录
-    const apkName = 'android.apk';//保存的apk名称
+    const apk = cordova.file.externalRootDirectory + 'android.apk';//保存的目录
     const fileTransfer = new Transfer();
 
-    fileTransfer.download(ADNROID_APK, directory + apkName).then(() => {
-      FileOpener.open(directory + apkName, 'application/vnd.android.package-archive').then(res => {
+    fileTransfer.download(ANDROID_APK, apk).then(entry => {
+      FileOpener.open(apk, 'application/vnd.android.package-archive').then(res => {
         console.log('apk打开成功准备安装 ' + res);
       }, () => {
         this.alertCtrl.create({

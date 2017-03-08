@@ -35,9 +35,6 @@ export class FeedBackPage {
                 that.getPictureSuccess(imgBase64);
               }
             });
-          /*  that.nativeService.getPictureByPhotoLibrary().then(imgBase64 => {//从相册单选
-              that.getPictureSuccess(imgBase64);
-            });*/
           }
         },
         {
