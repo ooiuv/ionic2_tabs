@@ -16,13 +16,20 @@ export class Utils {
   constructor() {
   }
 
+  static isEmpty(value): boolean {
+    return value == null || typeof value === 'string' && value.length === 0;
+  }
+
+  static isNotEmpty(value): boolean {
+    return !Utils.isEmpty(value);
+  }
 
   /**
    * 格式“是”or“否”
    * @param value
    * @returns {string|string}
    */
-  static formatYesOrNo(value: number|string) {
+  static formatYesOrNo(value: number|string): string {
     return value == 1 ? '是' : (value == '0' ? '否' : null);
   }
 
@@ -37,7 +44,7 @@ export class Utils {
    * @param sFormat 格式化后的日期字符串
    * @returns {String}
    */
-  static dateFormat(date: Date, sFormat: String='yyyy-MM-dd') {
+  static dateFormat(date: Date, sFormat: String = 'yyyy-MM-dd'): string {
     let time = {
       Year: 0,
       TYear: '0',
@@ -71,28 +78,23 @@ export class Utils {
     time.TSecond = time.Second < 10 ? "0" + time.Second : String(time.Second);
     time.Millisecond = date.getMilliseconds();
 
-    if (sFormat != undefined && sFormat.replace(/\s/g, "").length > 0) {
-      sFormat = sFormat.replace(/yyyy/ig, String(time.Year))
-        .replace(/yyy/ig, String(time.Year))
-        .replace(/yy/ig, time.TYear)
-        .replace(/y/ig, time.TYear)
-        .replace(/MM/g, time.TMonth)
-        .replace(/M/g, String(time.Month))
-        .replace(/dd/ig, time.TDay)
-        .replace(/d/ig, String(time.Day))
-        .replace(/HH/g, time.THour)
-        .replace(/H/g, String(time.Hour))
-        .replace(/hh/g, time.Thour)
-        .replace(/h/g, String(time.hour))
-        .replace(/mm/g, time.TMinute)
-        .replace(/m/g, String(time.Minute))
-        .replace(/ss/ig, time.TSecond)
-        .replace(/s/ig, String(time.Second))
-        .replace(/fff/ig, String(time.Millisecond))
-    } else {
-      sFormat = time.Year + "-" + time.Month + "-" + time.Day + " " + time.Thour + ":" + time.TMinute + ":" + time.TSecond;
-    }
-    return sFormat;
+    return sFormat.replace(/yyyy/ig, String(time.Year))
+      .replace(/yyy/ig, String(time.Year))
+      .replace(/yy/ig, time.TYear)
+      .replace(/y/ig, time.TYear)
+      .replace(/MM/g, time.TMonth)
+      .replace(/M/g, String(time.Month))
+      .replace(/dd/ig, time.TDay)
+      .replace(/d/ig, String(time.Day))
+      .replace(/HH/g, time.THour)
+      .replace(/H/g, String(time.Hour))
+      .replace(/hh/g, time.Thour)
+      .replace(/h/g, String(time.hour))
+      .replace(/mm/g, time.TMinute)
+      .replace(/m/g, String(time.Minute))
+      .replace(/ss/ig, time.TSecond)
+      .replace(/s/ig, String(time.Second))
+      .replace(/fff/ig, String(time.Millisecond))
   }
 
   /**
