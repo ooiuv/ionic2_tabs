@@ -11,18 +11,20 @@
   <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
     <ion-list>
       <ion-item>
-        <ion-label floating>用户名
-          <span *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched" color="danger">
-          请输入正确用户名
-        </span>
-        </ion-label>
+        <ion-label>用户名</ion-label>
         <ion-input type="text" formControlName="username"></ion-input>
       </ion-item>
-
+      <ion-item *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched">
+        <span color="danger">
+          请输入正确用户名
+        </span>
+      </ion-item>
       <ion-item>
-        <ion-label floating>密码
-          <span *ngIf="!loginForm.controls.password.valid" color="danger">请输入密码</span></ion-label>
+        <ion-label>密码</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!loginForm.controls.password.valid">
+        <span color="danger">请输入密码</span>
       </ion-item>
     </ion-list>
     <button ion-button block type="submit" [disabled]="!loginForm.valid||submitted">登 录</button>
