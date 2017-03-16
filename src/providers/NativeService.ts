@@ -3,8 +3,8 @@
  */
 import {Injectable} from '@angular/core';
 import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
-import {Camera, AppVersion, Toast, ImagePicker, Transfer, FileOpener, File, InAppBrowser} from 'ionic-native';
-import {ANDROID_APK} from "./Constants";
+import {Camera, AppVersion, Toast, ImagePicker, Transfer, FileOpener, InAppBrowser} from 'ionic-native';
+import {APP_DOWNLOAD} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
@@ -20,9 +20,11 @@ export class NativeService {
               private loadingCtrl: LoadingController) {
   }
 
-  downloadApkInBrowser() {
-    // let browser = new InAppBrowser(ANDROID_APK, '_system');
-    new InAppBrowser('http://88.128.18.144:7777/', '_system');
+  /**
+   * 通过浏览器下载app
+   */
+  appDownloadByBrowser() {
+    new InAppBrowser(APP_DOWNLOAD, '_system');
   }
 
   downloadApk() {
@@ -36,7 +38,9 @@ export class NativeService {
     const apk = cordova.file.externalRootDirectory + 'android.apk';//保存的目录
     const fileTransfer = new Transfer();
 
-    fileTransfer.download(ANDROID_APK, apk).then(entry => {
+    fileTransfer.download('app下载地址', apk).then(entry => {
+      //.apk MIME类型：application/vnd.android.package-archive
+      //.ipa MIME类型：application/octet-stream.ipa
       FileOpener.open(apk, 'application/vnd.android.package-archive').then(res => {
         console.log('apk打开成功准备安装 ' + res);
       }, () => {
@@ -322,7 +326,7 @@ export class NativeService {
    */
   getNetworkType() {
     if (!this.isMobile()) {
-      return true;
+      return 'wifi';
     }
     return navigator['connection']['type'];// "none","wifi","4g","3g","2g"...
   }
