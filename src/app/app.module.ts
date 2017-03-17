@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
+import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from './app.component';
 import {TabModule} from "../pages/tabs/tab.module";
 import {LoginModule} from '../pages/login/login.module';
@@ -30,7 +30,7 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     modalEnter: 'modal-slide-in',
     modalLeave: 'modal-slide-out',
     pageTransition: 'ios'
-  }), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
+  }, IonicStorageModule.forRoot()), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [HttpInterceptHandle, {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -39,7 +39,7 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
       useFactory: httpFactory,
       deps: [XHRBackend, RequestOptions, HttpInterceptHandle]
     },
-    Storage, NativeService, HttpService, FileService, Helper, Utils]
+    NativeService, HttpService, FileService, Helper, Utils]
 })
 export class AppModule {
 }

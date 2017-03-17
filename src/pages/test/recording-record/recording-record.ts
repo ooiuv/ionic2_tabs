@@ -25,9 +25,9 @@ export class RecordingRecordPage {
     const dirName = 'recording_' + username;
     File.listDir(directory, dirName).then(fileList => {
       this.fileList = fileList;
-      for (let fleEntry of fileList) {
-        let src = fleEntry.nativeURL;
-      }
+      // for (let fleEntry of fileList) {
+      //   let src = fleEntry.nativeURL;
+      // }
     })
   }
 
