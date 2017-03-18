@@ -2,7 +2,7 @@ Ionic 2 App
 =====================
 一个不断完善的ionic2项目,详情可查看:http://www.jianshu.com/c/be0bf998dcb5
 
-![下载预览app,android和ios](http://ommvqqqk1.bkt.clouddn.com/%E4%BA%8C%E7%BB%B4%E7%A0%81.png)
+![下载预览app,android和ios](http://omzo595hi.bkt.clouddn.com/download.png)
 
 ####实现了如下功能点
 * 注册android硬件返回按钮事件
