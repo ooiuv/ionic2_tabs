@@ -111,14 +111,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
-        "source": {
-            "type": "local",
-            "path": "E:\\ideaworkspace\\app\\ionic2_tabs\\plugins\\com.synconset.imagepicker"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-file-transfer": {
         "source": {
             "type": "registry",
@@ -139,6 +131,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-file"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.synconset.imagepicker": {
+        "source": {
+            "type": "local",
+            "path": "/Users/kit-mac/Desktop/app/EGuardian/plugins/com.synconset.imagepicker"
         },
         "is_top_level": true,
         "variables": {}
