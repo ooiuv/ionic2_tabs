@@ -25,11 +25,8 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
 @NgModule({
   declarations: [MyApp],
   imports: [IonicModule.forRoot(MyApp, {
-    backButtonText: '',
-    iconMode: 'ios',
-    modalEnter: 'modal-slide-in',
-    modalLeave: 'modal-slide-out',
-    pageTransition: 'ios'
+    mode: 'ios',//android是'md'
+    backButtonText: ''
   }, IonicStorageModule.forRoot()), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],

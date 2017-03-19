@@ -3,11 +3,8 @@
     <ion-title>
       编辑个人信息
     </ion-title>
-    <ion-buttons start>
-      <button ion-button (click)="dismiss()">
-        <span showWhen="ios">关闭</span>
-        <ion-icon name="md-close" hideWhen="ios"></ion-icon>
-      </button>
+    <ion-buttons>
+      <button ion-button (click)="dismiss()">关闭</button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -28,7 +25,7 @@
         <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
     </ion-list>
-    <div padding>
+    <div padding-horizontal>
       <button type="submit" ion-button block [disabled]="!userForm.valid">保 存</button>
     </div>
   </form>
