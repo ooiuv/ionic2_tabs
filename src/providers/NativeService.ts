@@ -74,7 +74,7 @@ export class NativeService {
    * 是否真机环境
    * @return {boolean}
    */
-  isMobile() {
+  isMobile(): boolean {
     return this.platform.is('mobile') && !this.platform.is('mobileweb');
   }
 
@@ -82,7 +82,7 @@ export class NativeService {
    * 是否android真机环境
    * @return {boolean}
    */
-  isAndroid() {
+  isAndroid(): boolean {
     return this.isMobile() && this.platform.is('android');
   }
 
@@ -90,7 +90,7 @@ export class NativeService {
    * 是否ios真机环境
    * @return {boolean}
    */
-  isIos() {
+  isIos(): boolean {
     return this.isMobile() && (this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone'));
   }
 

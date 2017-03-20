@@ -102,6 +102,10 @@ export class HomePage {
 
   mapNavigation(navigationType) {//1驾车,2公交,3步行
     let markerData = this.marker.getExtData();
+    if(!markerData||!markerData.location){
+      this.nativeService.showToast('请先搜索要去的地点');
+      return;
+    }
     let modal = this.modalCtrl.create(NavigationModalPage, {'navigationType': navigationType, 'markerLocation': {'lng': markerData.location.lng, 'lat': markerData.location.lat}});
     modal.present();
     modal.onDidDismiss(marker => {

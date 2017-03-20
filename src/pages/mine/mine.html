@@ -24,7 +24,7 @@
     </ion-item>
   </ion-list>
   <ion-list>
-    <ion-item (click)="exitSoftware()">
+    <ion-item (click)="exitSoftware()" *ngIf="!isIos">
 	  <ion-icon name="log-out" item-left color="danger"></ion-icon>
       退出软件
     </ion-item>
