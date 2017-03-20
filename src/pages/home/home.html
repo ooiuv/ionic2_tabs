@@ -12,7 +12,7 @@
     </ion-fab-list>
   </ion-fab>
   <div *ngIf="mapIsComplete">
-    <ion-searchbar class="searchBar" mode="ios" (ionFocus)="ionFocus()" placeholder="搜索"></ion-searchbar>
+    <ion-searchbar class="searchBar" (ionFocus)="ionFocus()" placeholder="搜索"></ion-searchbar>
   </div>
   <div *ngIf="mapIsComplete&&!isPositioning">
     <ion-icon name="radio-button-on" class="position-btn" (click)="mapLocation()"></ion-icon>
