@@ -13,6 +13,7 @@ declare var AMap;
 })
 export class HomePage {
   @ViewChild('map_container') map_container: ElementRef;
+  isIos: boolean;
   mapIsComplete: boolean = false;//地图是否加载完成
   showIonFab: boolean = false;//是否显示路线按钮
   isPositioning: boolean = false;//是否正在定位
@@ -21,6 +22,7 @@ export class HomePage {
 
   constructor(private modalCtrl: ModalController,
               private nativeService: NativeService) {
+    this.isIos = this.nativeService.isIos();
 
   }
 
