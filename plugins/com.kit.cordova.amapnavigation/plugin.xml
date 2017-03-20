@@ -19,7 +19,7 @@
             <feature name="AMapNavigation">
                 <param name="ios-package" value="AMapNavigation"/>
             </feature>
-            <preference name="amapapikey" value="您申请的高德" />
+            <preference name="amapapikey" value="您申请的高德地图ios key" />
         </config-file>
         <source-file src="src/ios/AMapNavigation.m"/>
 
