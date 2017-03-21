@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicApp, Platform, Nav} from 'ionic-angular';
+import {IonicApp, Platform, Nav, Keyboard} from 'ionic-angular';
 import {StatusBar, Splashscreen} from 'ionic-native';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
@@ -15,23 +15,21 @@ export class MyApp {
 
   constructor(private ionicApp: IonicApp,
               private platform: Platform,
+              private keyboard: Keyboard,
               private nativeService: NativeService) {
     platform.ready().then(() => {
       StatusBar.styleDefault();
       Splashscreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
-      this.assertNetwork();//检测网络
     });
-  }
-
-  assertNetwork() {
-    if (!this.nativeService.isConnecting()) {
-      this.nativeService.showToast('请连接网络');
-    }
   }
 
   registerBackButtonAction() {
     this.platform.registerBackButtonAction(() => {
+      if(this.keyboard.isOpen()){//如果键盘开启则隐藏键盘
+        this.keyboard.close();
+        return;
+      }
       //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
       // this.ionicApp._toastPortal.getActive() ||this.ionicApp._loadingPortal.getActive()|| this.ionicApp._overlayPortal.getActive()
       let activePortal = this.ionicApp._modalPortal.getActive();
