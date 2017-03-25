@@ -84,15 +84,3 @@ $searchbar-ios-background-color:        color($colors, primary);
 
 @import "roboto";
 @import "noto-sans";
-.ion-ios-my-test:before {
-  content: url("../assets/icon/test.png");
-}
-.ion-ios-my-test-outline:before {
-  content: url("../assets/icon/test-outline.png");
-}
-.tab-button[aria-selected=true] .ion-md-my-test:before {
-  content: url("../assets/icon/test.png");
-}
-.tab-button[aria-selected=false] .ion-md-my-test:before {
-  content: url("../assets/icon/test-outline.png");
-}
