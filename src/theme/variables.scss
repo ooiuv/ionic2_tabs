@@ -13,8 +13,6 @@ $font-path: "../assets/fonts";
 // http://ionicframework.com/docs/v2/theming/overriding-ionic-variables/
 
 
-
-
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -54,6 +52,9 @@ $tabs-md-background:                    #f8f8f8;
 $searchbar-ios-input-height:            33px;
 $searchbar-ios-background-color:        color($colors, primary);
 
+$hairlines-width:           1px;
+$list-border-color:         #e0dfe4;
+
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
@@ -67,6 +68,8 @@ $searchbar-ios-background-color:        color($colors, primary);
 // then be future customized. This import comes last
 // so that the above variables are used and Ionic's
 // default are overridden.
+
+
 
 @import "ionic.theme.default";
 
@@ -84,3 +87,5 @@ $searchbar-ios-background-color:        color($colors, primary);
 
 @import "roboto";
 @import "noto-sans";
+
+
