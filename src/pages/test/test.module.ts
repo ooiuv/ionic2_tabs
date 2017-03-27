@@ -6,14 +6,15 @@ import {TestService} from "./TestService";
 import {SharedModule} from "../../shared/shared.module";
 import {RecordingRecordPage} from "./recording-record/recording-record";
 import {RecordingPlayPage} from "./recording-play/recording-play";
+import {RecordingPage} from "./recording/recording";
 
 
 @NgModule({
   imports: [
     IonicModule.forRoot(MyApp), SharedModule
   ],
-  declarations: [TestPage, RecordingRecordPage, RecordingPlayPage],
-  entryComponents: [TestPage, RecordingRecordPage, RecordingPlayPage],
+  declarations: [TestPage, RecordingPage, RecordingRecordPage, RecordingPlayPage],
+  entryComponents: [TestPage, RecordingPage, RecordingRecordPage, RecordingPlayPage],
   providers: [TestService]
 })
 export class TestModule {

@@ -27,7 +27,7 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
   imports: [IonicModule.forRoot(MyApp, {
     mode: 'ios',//android是'md'
     backButtonText: ''
-  }, IonicStorageModule.forRoot()), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
+  }), IonicStorageModule.forRoot(), TabModule, LoginModule, HomeModule, ContactModule, MineModule, TestModule],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [HttpInterceptHandle, {provide: ErrorHandler, useClass: IonicErrorHandler},

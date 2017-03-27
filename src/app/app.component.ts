@@ -21,7 +21,14 @@ export class MyApp {
       StatusBar.styleDefault();
       Splashscreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
+      this.assertNetwork();//检测网络
     });
+  }
+
+  assertNetwork() {
+    if (!this.nativeService.isConnecting()) {
+      this.nativeService.showToast('请连接网络');
+    }
   }
 
   registerBackButtonAction() {
