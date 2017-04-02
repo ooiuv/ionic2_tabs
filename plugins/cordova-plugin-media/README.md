@@ -680,4 +680,3 @@ function when an error occurs.
 - `MediaError.MEDIA_ERR_NETWORK`        = 2
 - `MediaError.MEDIA_ERR_DECODE`         = 3
 - `MediaError.MEDIA_ERR_NONE_SUPPORTED` = 4
-cordova plugin add cordova-plugin-media@2.4.1 --variable MICROPHONE_USAGE_DESCRIPTION="need to record audio permissions"

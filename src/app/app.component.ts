@@ -1,6 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicApp, Platform, Nav, Keyboard} from 'ionic-angular';
-import {StatusBar, Splashscreen} from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 
@@ -16,10 +17,12 @@ export class MyApp {
   constructor(private ionicApp: IonicApp,
               private platform: Platform,
               private keyboard: Keyboard,
+              private statusBar: StatusBar,
+              private splashScreen: SplashScreen,
               private nativeService: NativeService) {
     platform.ready().then(() => {
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      statusBar.styleDefault();
+      splashScreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
     });

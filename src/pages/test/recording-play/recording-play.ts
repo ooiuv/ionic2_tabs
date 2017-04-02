@@ -1,33 +1,37 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {MediaPlugin} from "ionic-native";
+import {MediaPlugin, MediaObject} from '@ionic-native/media';
 
 @Component({
-  selector: 'page-recording-play',
-  templateUrl: 'recording-play.html'
+    selector: 'page-recording-play',
+    templateUrl: 'recording-play.html'
 })
 export class RecordingPlayPage {
 
-  fleEntry;
-  media;
+    fleEntry;
+    file: MediaObject;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.fleEntry = navParams.data;
-  }
+    constructor(private navCtrl: NavController, private navParams: NavParams, private media: MediaPlugin) {
+        this.fleEntry = navParams.data;
+    }
 
-  play() {//播放
-    this.media = new MediaPlugin(this.fleEntry.nativeURL, status => {
-      console.log(status);
-    });
-    this.media.play();
-  }
+    play() {//播放
+        this.media.create('path/to/file.mp3', (status) => console.log(status))
+            .then((file: MediaObject) => {
+                this.file = file;
+                file.play();
 
-  pause() {//暂停
-    this.media.pause();
-  }
+            })
+            .catch(e => console.log('Error opening media file', e));
 
-  stop() {//停止
-    this.media.stop();
-  }
+    }
+
+    pause() {//暂停
+        this.file.pause();
+    }
+
+    stop() {//停止
+        this.file.stop();
+    }
 
 }
