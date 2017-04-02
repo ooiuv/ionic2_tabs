@@ -11,7 +11,7 @@ declare var AMap;
 })
 export class NavigationModalPage {
   @ViewChild('panel') panel: ElementRef;
-  navigationType;
+  navigationType:number;
   navigationIsReady: boolean = false;
   map;
   startPoint;
@@ -25,10 +25,11 @@ export class NavigationModalPage {
     this.map = window['HomeAMap'];
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     let type = this.navigationType, options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
     if (type === 1) {
       AMap.service('AMap.Driving', () => {
+        this.navigationIsReady = true;
         this.doSearch(type, new AMap.Driving(options));
       });
     } else if (type === 2) {
@@ -47,9 +48,7 @@ export class NavigationModalPage {
       this.map.clearMap();
       this.startPoint = location;
       navigationService.search([this.startPoint.lng, this.startPoint.lat], [this.endPoint.lng, this.endPoint.lat], (status, result) => {
-        if (navigationType === 1) {
-          this.navigationIsReady = true;
-        }
+
       });
     });
   }
