@@ -164,7 +164,7 @@ export class NativeService {
    * @param options
    * @returns {Promise<string>}
    */
-  getPicture(options): Promise<string> {
+  getPicture(options = {}): Promise<string> {
     let ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.CAMERA,//图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
       destinationType: this.camera.DestinationType.DATA_URL,//默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径

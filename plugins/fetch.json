@@ -79,14 +79,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
-        "source": {
-            "type": "local",
-            "path": "/Users/kit-mac/Desktop/app/EGuardian/plugins/com.synconset.imagepicker"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-app-version": {
         "source": {
             "type": "registry",
@@ -155,6 +147,14 @@
         "source": {
             "type": "registry",
             "id": "cordova-plugin-network-information"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-image-picker": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-image-picker"
         },
         "is_top_level": true,
         "variables": {}

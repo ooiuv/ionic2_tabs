@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 
+declare var AppMinimize;
 
 @Component({
   templateUrl: 'app.html'
@@ -50,7 +51,7 @@ export class MyApp {
       let activeVC = this.nav.getActive();
       let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
-      return activeNav.canGoBack() ? activeNav.pop() : window['AppMinimize'].minimize();//this.showExit()
+      return activeNav.canGoBack() ? activeNav.pop() : AppMinimize.minimize();//this.showExit()
 
     }, 1);
   }
