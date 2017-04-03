@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicApp, Platform, Nav, Keyboard} from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 
@@ -36,7 +36,7 @@ export class MyApp {
 
   registerBackButtonAction() {
     this.platform.registerBackButtonAction(() => {
-      if(this.keyboard.isOpen()){//如果键盘开启则隐藏键盘
+      if (this.keyboard.isOpen()) {//如果键盘开启则隐藏键盘
         this.keyboard.close();
         return;
       }
