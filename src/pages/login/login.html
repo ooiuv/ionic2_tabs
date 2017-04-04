@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>login</ion-title>
+    <ion-title>登录</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -11,7 +11,7 @@
   <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
     <ion-list>
       <ion-item>
-        <ion-label>用户名</ion-label>
+        <ion-label color="primary">用户名</ion-label>
         <ion-input type="text" formControlName="username"></ion-input>
       </ion-item>
       <span padding-left *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched"
@@ -19,22 +19,22 @@
           请输入正确用户名
         </span>
       <ion-item>
-        <ion-label>密　码</ion-label>
+        <ion-label color="primary">密　码</ion-label>
         <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
       <span padding-left *ngIf="!loginForm.controls.password.valid" color="danger">请输入密码</span>
     </ion-list>
     <div padding-horizontal>
-      <button ion-button block type="submit" [disabled]="!loginForm.valid||submitted">登 录</button>
+      <button ion-button block type="submit" [disabled]="!loginForm.valid||submitted">登　录</button>
     </div>
   </form>
   <ion-grid>
     <ion-row>
-      <ion-col text-center>
-        <button ion-button small clear (click)="findPassword()">找回密码</button>
+      <ion-col text-center (click)="findPassword()">
+        <button ion-button small clear color="primary">找回密码</button>
       </ion-col>
-      <ion-col text-center>
-        <button ion-button small clear (click)="toRegister()">注　册</button>
+      <ion-col text-center (click)="toRegister()">
+        <button ion-button small clear color="primary">注　册</button>
       </ion-col>
     </ion-row>
   </ion-grid>
