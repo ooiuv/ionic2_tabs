@@ -21,6 +21,7 @@ export class TestPage {
   }
 
   click() {
+    alert('test');
     /* this.http.post('http://localhost:8081/api/demouser/page', {}).subscribe(res => {
      console.log(res.json());
      });
