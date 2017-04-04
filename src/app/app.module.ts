@@ -4,7 +4,6 @@ import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from './app.component';
 import {TabModule} from "../pages/tabs/tab.module";
 import {LoginModule} from '../pages/login/login.module';
-import {ContactModule} from '../pages/contact/contact.module';
 import {HomeModule} from '../pages/home/home.module';
 import {MineModule} from '../pages/mine/mine.module';
 
@@ -29,6 +28,8 @@ import {Utils} from "../providers/Utils";
 import {TestModule} from "../pages/test/test.module";
 import {Http, XHRBackend, RequestOptions} from "@angular/http";
 import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
+import {MediaPlugin} from "@ionic-native/media";
+import {DemoModule} from "../pages/demo/demo.module";
 
 export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) {
   return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
@@ -36,17 +37,19 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
 
 @NgModule({
   declarations: [MyApp],
-  imports: [IonicModule.forRoot(MyApp, {
-    mode: 'ios',//android是'md'
-    backButtonText: ''
-  }),
+  imports: [
+    IonicModule.forRoot(MyApp, {
+      mode: 'ios',//android是'md'
+      backButtonText: ''
+    }),
     IonicStorageModule.forRoot(),
     TabModule,
     LoginModule,
     HomeModule,
-    ContactModule,
+    DemoModule,
     MineModule,
-    TestModule],
+    TestModule
+  ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [
@@ -61,6 +64,7 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     InAppBrowser,
     ImagePicker,
     Network,
+    MediaPlugin,
     HttpInterceptHandle,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions, HttpInterceptHandle]},

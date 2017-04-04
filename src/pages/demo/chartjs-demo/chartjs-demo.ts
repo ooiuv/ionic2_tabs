@@ -1,20 +1,30 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import Chart from 'chart.js';
+import {NativeService} from "../../../providers/NativeService"; // 导入chart.js
 
-import {NavController} from 'ionic-angular';
-import Chart from 'chart.js'; // 导入chart.js
+/*
+  Generated class for the ChartjsDemo page.
 
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+*/
 @Component({
-  selector: 'page-contact',
-  templateUrl: 'contact.html'
+  selector: 'page-chartjs-demo',
+  templateUrl: 'chartjs-demo.html'
 })
-export class ContactPage {
+export class ChartjsDemoPage {
   @ViewChild('chartBar') chartBar: ElementRef;
   @ViewChild('chartLine') chartLine: ElementRef;
   @ViewChild('chartPie') chartPie: ElementRef;
 
-  constructor(private navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private nativeService: NativeService) {}
 
+
+  details(url){
+    this.nativeService.openUrlByBrowser(url);
   }
+
 
   ionViewDidEnter() {
     Chart.Bar(this.chartBar.nativeElement.getContext("2d"), {

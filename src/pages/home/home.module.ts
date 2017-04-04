@@ -7,7 +7,7 @@ import {LocationSearchModalPage} from "./location-search-modal/location-search-m
 
 @NgModule({
   imports: [
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp)
   ],
   declarations: [HomePage, LocationSearchModalPage, NavigationModalPage],
   entryComponents: [HomePage, LocationSearchModalPage, NavigationModalPage],

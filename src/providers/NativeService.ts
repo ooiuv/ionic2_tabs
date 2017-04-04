@@ -44,8 +44,8 @@ export class NativeService {
   /**
    * 通过浏览器下载app
    */
-  appDownloadByBrowser() {
-    this.inAppBrowser.create('APP_DOWNLOAD', '_system');
+  openUrlByBrowser(url:string):void {
+    this.inAppBrowser.create(url, '_system');
   }
 
   downloadApk() {

@@ -3,8 +3,8 @@ import {NavController} from 'ionic-angular';
 import {MediaPlugin, MediaObject} from '@ionic-native/media';
 import {File} from '@ionic-native/file';
 import {Utils} from "../../../providers/Utils";
-import {RecordingRecordPage} from "../recording-record/recording-record";
 import {NativeService} from "../../../providers/NativeService";
+import {RecordingRecordPage} from "./recording-record";
 declare var cordova: any;
 
 @Component({

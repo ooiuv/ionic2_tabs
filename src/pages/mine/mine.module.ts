@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
-import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from '../../app/app.component';
 import {MinePage} from './mine';
 import {MineEditPage} from './mine-edit/mine-edit';
@@ -14,8 +13,7 @@ import {ShowPicturesPage} from "./show-pictures/show-pictures";
 
 @NgModule({
   imports: [
-    IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicModule.forRoot(MyApp)
   ],
   declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],
   entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],

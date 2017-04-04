@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
 
 import {HomePage} from '../home/home';
-import {ContactPage} from '../contact/contact';
 import {MinePage} from '../mine/mine';
 import {Tabs} from "ionic-angular";
 import {TestPage} from "../test/test";
+import {DemoPage} from "../demo/demo";
 
 @Component({
   templateUrl: 'tabs.html'
@@ -12,8 +12,8 @@ import {TestPage} from "../test/test";
 export class TabsPage {
   @ViewChild('mainTabs') tabs: Tabs;
   testRoot: any = TestPage;
+  demoRoot: any = DemoPage;
   homeRoot: any = HomePage;
-  contactRoot: any = ContactPage;
   mineRoot: any = MinePage;
 
   constructor() {

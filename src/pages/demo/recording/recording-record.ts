@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {File} from '@ionic-native/file';
-import {RecordingPlayPage} from "../recording-play/recording-play";
+import {RecordingPlayPage} from "./recording-play";
 declare var cordova: any;
 
 @Component({
