@@ -25,16 +25,14 @@ export class HomePage {
 
   }
 
-  ngOnInit() {
-    setTimeout(() => this.loadMap(), 1000);//1秒后加载地图
-    let loadNum = 0;
-    let interval = setInterval(() => {//10秒后检测地图是否加载成功
-      if (!this.map && loadNum < 5) {
+
+  ngAfterContentInit(){
+    this.loadMap();
+    setTimeout(() => {
+      if (!this.map) {
         this.loadMap();
-      } else {
-        clearInterval(interval);
       }
-    }, 10000);
+    }, 5000);
   }
 
   loadMap() {

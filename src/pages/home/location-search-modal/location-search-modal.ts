@@ -3,6 +3,7 @@ import {Storage} from '@ionic/storage';
 
 import {ViewController, Searchbar} from 'ionic-angular';
 import {NativeService} from "../../../providers/NativeService";
+import {Subject} from "rxjs";
 declare var AMap;
 
 @Component({
@@ -14,6 +15,7 @@ export class LocationSearchModalPage {
   searchQuery: string = '';
   items: any[] = [];
   placeSearch;
+  searchTextStream: Subject<string> = new Subject<string>();
 
   constructor(private viewCtrl: ViewController,
               private storage: Storage,
@@ -32,26 +34,17 @@ export class LocationSearchModalPage {
 
   ionViewDidEnter() {
     this.searchBar.setFocus();
+    this.searchTextStream
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe(value => {
+        console.log(value);
+        this.getSearchData(value).then(list => this.items = <[any]>list);
+      });
   }
 
-  getSearchData(val) {
-    return new Promise((resolve) => {
-      if (val && val.trim() != '') {
-        this.placeSearch.search(val, (status, result) => {
-          if (status == 'complete') {
-            resolve(result.poiList.pois);
-          } else if (status == 'no_data') {
-            this.nativeService.showToast('没有找到匹配结果,请精确查询条件')
-          } else {
-            this.nativeService.showToast('地图查询失败,稍后再试.')
-          }
-        });
-      }
-    });
-  }
-
-  getItemss(ev) {
-    this.getSearchData(ev.target.value).then(list => this.items = <any[]>list);
+  getItems($event) {
+    this.searchTextStream.next($event.target.value);
   }
 
   selectItem(item) {
@@ -81,5 +74,22 @@ export class LocationSearchModalPage {
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+
+  private getSearchData(val) {
+    return new Promise((resolve) => {
+      if (val && val.trim() != '') {
+        this.placeSearch.search(val, (status, result) => {
+          if (status == 'complete') {
+            resolve(result.poiList.pois);
+          } else if (status == 'no_data') {
+            this.nativeService.showToast('没有找到匹配结果,请精确查询条件')
+          } else {
+            this.nativeService.showToast('地图查询失败,稍后再试.')
+          }
+        });
+      }
+    });
   }
 }
