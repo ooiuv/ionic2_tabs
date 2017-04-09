@@ -38,7 +38,6 @@ export class LocationSearchModalPage {
       .debounceTime(500)
       .distinctUntilChanged()
       .subscribe(value => {
-        console.log(value);
         this.getSearchData(value).then(list => this.items = <[any]>list);
       });
   }
