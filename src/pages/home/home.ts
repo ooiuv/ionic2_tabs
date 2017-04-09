@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component} from '@angular/core';
 
 import {ModalController} from 'ionic-angular';
 import {NativeService} from "../../providers/NativeService";
@@ -12,7 +12,6 @@ declare var AMap;
   templateUrl: 'home.html'
 })
 export class HomePage {
-  @ViewChild('map_container') map_container: ElementRef;
   isIos: boolean;
   mapIsComplete: boolean = false;//地图是否加载完成
   showIonFab: boolean = false;//是否显示路线按钮
@@ -41,7 +40,7 @@ export class HomePage {
   loadMap() {
     let that = this;
     try {
-      that.map = new AMap.Map(this.map_container.nativeElement, {
+      that.map = new AMap.Map('map_container', {
         view: new AMap.View2D({//创建地图二维视口
           zoom: 11, //设置地图缩放级别
           rotateEnable: true,
@@ -104,11 +103,14 @@ export class HomePage {
 
   mapNavigation(navigationType) {//1驾车,2公交,3步行
     let markerData = this.marker.getExtData();
-    if(!markerData||!markerData.location){
+    if (!markerData || !markerData.location) {
       this.nativeService.showToast('请先搜索要去的地点');
       return;
     }
-    let modal = this.modalCtrl.create(NavigationModalPage, {'navigationType': navigationType, 'markerLocation': {'lng': markerData.location.lng, 'lat': markerData.location.lat}});
+    let modal = this.modalCtrl.create(NavigationModalPage, {
+      'navigationType': navigationType,
+      'markerLocation': {'lng': markerData.location.lng, 'lat': markerData.location.lat}
+    });
     modal.present();
     modal.onDidDismiss(marker => {
       if (marker) {
