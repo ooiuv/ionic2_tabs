@@ -30,6 +30,7 @@ import {Http, XHRBackend, RequestOptions} from "@angular/http";
 import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
 import {MediaPlugin} from "@ionic-native/media";
 import {DemoModule} from "../pages/demo/demo.module";
+import {GlobalData} from "../providers/GlobalData";
 
 export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) {
   return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
@@ -72,7 +73,8 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     HttpService,
     FileService,
     Helper,
-    Utils
+    Utils,
+    GlobalData
   ]
 })
 export class AppModule {
