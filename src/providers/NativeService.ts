@@ -189,13 +189,18 @@ export class NativeService {
   /**
    * 通过拍照获取照片
    * @param options
+   * @param imgType   0 返回base64字符串，1 返回图片url
    * @return {Promise<string>}
    */
-  getPictureByCamera(options = {}): Promise<string> {
+  getPictureByCamera(options = {}, imgType = 0): Promise<string> {
+    let opt = {
+      sourceType: this.camera.PictureSourceType.CAMERA
+    };
+    if(imgType === 1) {
+      Object.assign(opt, {destinationType: this.camera.DestinationType.FILE_URI});
+    }
     return new Promise((resolve) => {
-      this.getPicture(Object.assign({
-        sourceType: this.camera.PictureSourceType.CAMERA
-      }, options)).then((imgData: string) => {
+      this.getPicture(Object.assign(opt, options)).then((imgData: string) => {
         resolve(imgData);
       }).catch(err => {
         String(err).indexOf('cancel') != -1 ? this.showToast('取消拍照', 1500) : this.showToast('获取照片失败');
