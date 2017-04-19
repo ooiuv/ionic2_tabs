@@ -150,5 +150,14 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "install": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/weelion/phonegap-plugin-install",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
