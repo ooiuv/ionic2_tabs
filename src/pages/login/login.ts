@@ -63,15 +63,11 @@ export class LoginPage {
   login(user) {
     this.submitted = true;
     this.loginService.login(user)
-      .then(result => {
+      .subscribe((userInfo: UserInfo) => {
         this.submitted = false;
-        if (result['success']) {
-          let data = result['data'];
-          let userInfo = <UserInfo>data;
-          this.userInfo = userInfo;
-          this.storage.set('UserInfo', userInfo);
-          this.viewCtrl.dismiss(userInfo);
-        }
+        this.userInfo = userInfo;
+        this.storage.set('UserInfo', userInfo);
+        this.viewCtrl.dismiss(userInfo);
       });
   }
 

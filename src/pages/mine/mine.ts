@@ -73,8 +73,10 @@ export class MinePage {
           text: '确定',
           handler: () => {
             this.helper.goLogin(userInfo => {
-              this.userInfo = userInfo;
-              this.initPage();
+              if (userInfo) {
+                this.userInfo = userInfo;
+                this.initPage();
+              }
             });
           }
         }

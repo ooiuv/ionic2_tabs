@@ -26,6 +26,7 @@ export class MyApp {
       splashScreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
+      // this.nativeService.detectionUpgrade();//检测app是否升级
     });
   }
 

@@ -7,12 +7,12 @@ import {AppVersion} from '@ionic-native/app-version';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {Toast} from '@ionic-native/toast';
 import {File} from '@ionic-native/file';
-import {FileOpener} from '@ionic-native/file-opener';
 import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
 import {Position} from "../../typings/index";
+import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
@@ -30,7 +30,6 @@ export class NativeService {
               private toast: Toast,
               private transfer: Transfer,
               private file: File,
-              private fileOpener: FileOpener,
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
               private network: Network,
@@ -42,52 +41,64 @@ export class NativeService {
   }
 
   /**
-   * 通过浏览器下载app
+   * 通过浏览器打开url
    */
   openUrlByBrowser(url:string):void {
     this.inAppBrowser.create(url, '_system');
   }
 
-  downloadApk() {
-    let alert = this.alertCtrl.create({
-      title: '下载进度：0%',
-      enableBackdropDismiss: false,
-      buttons: ['后台下载']
-    });
-    alert.present();
 
-    const fileTransfer: TransferObject = this.transfer.create();
-    const apk = this.file.externalRootDirectory + 'android.apk';//保存的目录
-    fileTransfer.download('app下载地址', apk).then(entry => {
-      //.apk MIME类型：application/vnd.android.package-archive
-      //.ipa MIME类型：application/octet-stream.ipa
-      this.fileOpener.open(apk, 'application/vnd.android.package-archive').then(res => {
-        console.log('apk打开成功准备安装 ' + res);
-      }, () => {
-        this.alertCtrl.create({
-          title: '失败!',
-          subTitle: '安装包下载完成,打开失败!',
-          buttons: ['确定']
-        }).present();
+  /**
+   * 检查app是否需要升级
+   */
+  detectionUpgrade() {
+    //这里判断是否需要升级
+    this.alertCtrl.create({
+      title: '升级',
+      subTitle: '存在新版本,是否立即升级？',
+      buttons: [{text: '取消'},
+        {
+          text: '确定',
+          handler: () => {
+            this.downloadApp();
+          }
+        }
+      ]
+    }).present();
+  }
+
+  /**
+   * 下载安装app
+   */
+  downloadApp() {
+    if (this.isAndroid()) {
+      let alert = this.alertCtrl.create({
+        title: '下载进度：0%',
+        enableBackdropDismiss: false,
+        buttons: ['后台下载']
       });
-    }, () => {
-      this.alertCtrl.create({
-        title: '失败!',
-        subTitle: '下载安装包失败,请稍后再试!',
-        buttons: ['确定']
-      }).present();
-    });
+      alert.present();
 
-    fileTransfer.onProgress((event: ProgressEvent) => {
-      let num = Math.floor(event.loaded / event.total * 100);
-      if (num === 100) {
-        alert.dismiss();
-      } else {
-        let title = document.getElementsByClassName('alert-title')[0];
-        title && (title.innerHTML = '下载进度：' + num + '%');
-      }
-    });
+      const fileTransfer: TransferObject = this.transfer.create();
+      const apk = this.file.externalRootDirectory + 'android.apk'; //apk保存的目录
 
+      fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
+        window['install'].install(apk.replace('file://', ''));
+      });
+
+      fileTransfer.onProgress((event: ProgressEvent) => {
+        let num = Math.floor(event.loaded / event.total * 100);
+        if (num === 100) {
+          alert.dismiss();
+        } else {
+          let title = document.getElementsByClassName('alert-title')[0];
+          title && (title.innerHTML = '下载进度：' + num + '%');
+        }
+      });
+    }
+    if (this.isIos()) {
+      this.openUrlByBrowser(APP_DOWNLOAD);
+    }
   }
 
   /**

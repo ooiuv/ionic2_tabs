@@ -13,7 +13,6 @@ import {AppVersion} from '@ionic-native/app-version';
 import {Camera} from '@ionic-native/camera';
 import {Toast} from '@ionic-native/toast';
 import {File} from '@ionic-native/file';
-import {FileOpener} from '@ionic-native/file-opener';
 import {Transfer} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
@@ -60,7 +59,6 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     Camera,
     Toast,
     File,
-    FileOpener,
     Transfer,
     InAppBrowser,
     ImagePicker,
