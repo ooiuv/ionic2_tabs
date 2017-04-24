@@ -6,10 +6,12 @@ import {HttpService} from "./HttpService";
 import {FILE_SERVE_URL} from './Constants';
 import {FileObj} from "../model/FileObj";
 import {Response} from "@angular/http";
+import {Observable} from "rxjs";
+import {NativeService} from "./NativeService";
 
 @Injectable()
 export class FileService {
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private nativeService: NativeService) {
   }
 
   /**
@@ -22,21 +24,91 @@ export class FileService {
   }
 
   /**
-   * app上传图片,只支持上传base64字符串
-   * @param fileList,数组中的对象必须包含bse64属性
-   * @return {Promise<TResult|T>}
+   * 根据文件id数组获取文件信息
+   * @param ids id数组
+   * @returns {Observable<R>}
    */
-  uploadPictures(fileList: FileObj[]) {
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload', fileList).map((res: Response) => res.json());
+  getFileInfoByIds(ids: string[]) {
+    return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: ids}).map((res: Response) => res.json());
   }
 
   /**
-   * app上传图片,只支持上传base64字符串
-   * @param FileObj,必须包含bse64属性
+   * 批量上传图片,只支持上传base64字符串
+   * @param fileObjList,数组中的对象必须包含bse64属性
    * @return {Promise<TResult|T>}
    */
-  uploadPicture(FileObj: FileObj) {
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload', [FileObj]).map((res: Response) => res.json());
+  uploadMultiByBase64(fileObjList: FileObj[]) {
+    if (fileObjList.length == 0) {
+      return Observable.create((observer) => {
+        observer.next({'data': [], 'success': true});
+      })
+    }
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=businessExpandingMonitor', fileObjList).map((res: Response) => res.json());
+  }
+
+  /**
+   * 上传单张图片,只支持上传base64字符串
+   * @param FileObj,对象必须包含origPath属性
+   * @return {Promise<TResult|T>}
+   */
+  uploadByBase64(fileObj: FileObj) {
+    if (!fileObj.base64) {
+      return Observable.create((observer) => {
+        observer.next({'data': [], 'success': true});
+      })
+    }
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=businessExpandingMonitor', [fileObj]).map((res: Response) => res.json());
+  }
+
+  /**
+   * 批量上传图片
+   * @param fileObjList 数组中的对象必须包含origPath属性
+   * @returns {any}
+   */
+  uploadMultiByFilePath(fileObjList: FileObj[]) {
+    return Observable.create((observer) => {
+      if (fileObjList.length == 0) {
+        observer.next({'data': [], 'success': true});
+      }
+      this.nativeService.showLoading();
+      let fileObjs = [];
+      for (let fileObj of fileObjList) {
+        this.nativeService.convertImgToBase64(fileObj.origPath, base64 => {
+          fileObjs.push({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
+          if (fileObjs.length === fileObjList.length) {
+            this.uploadMultiByBase64(fileObjs).subscribe(res => {
+              observer.next(res);
+              this.nativeService.hideLoading();
+            })
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * app上传单张图片
+   * @param fileObj 对象必须包含origPath属性
+   * @returns {any}
+   */
+  uploadByFilePath(fileObj: FileObj) {
+    return Observable.create((observer) => {
+      if (!fileObj.origPath) {
+        observer.next({'data': [], 'success': true});
+      }
+      this.nativeService.showLoading();
+      this.nativeService.convertImgToBase64(fileObj.origPath, base64 => {
+        let file = <FileObj>({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
+        this.uploadByBase64(file).subscribe(res => {
+          observer.next(res);
+          this.nativeService.hideLoading();
+        })
+      });
+    });
+  }
+
+  private static getFileType(path: string) {
+    return path.substring(path.lastIndexOf('.') + 1);
   }
 
 }

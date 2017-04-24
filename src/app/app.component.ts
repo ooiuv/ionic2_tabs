@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicApp, Platform, Nav, Keyboard} from 'ionic-angular';
+import {IonicApp, Platform, Nav, Keyboard, ToastController} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
@@ -19,6 +19,7 @@ export class MyApp {
               private platform: Platform,
               private keyboard: Keyboard,
               private statusBar: StatusBar,
+              private toastCtrl: ToastController,
               private splashScreen: SplashScreen,
               private nativeService: NativeService) {
     platform.ready().then(() => {
@@ -26,13 +27,17 @@ export class MyApp {
       splashScreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      // this.nativeService.detectionUpgrade();//检测app是否升级
+      this.nativeService.detectionUpgrade();//检测app是否升级
     });
   }
 
   assertNetwork() {
     if (!this.nativeService.isConnecting()) {
-      this.nativeService.showToast('请连接网络');
+      this.toastCtrl.create({
+        message: '未检测到网络,请连接网络',
+        showCloseButton: true,
+        closeButtonText: '确定'
+      }).present();
     }
   }
 

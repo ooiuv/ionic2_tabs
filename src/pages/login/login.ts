@@ -8,6 +8,7 @@ import {LoginService} from './LoginService';
 import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
 import {UserInfo} from "../../model/UserInfo";
+import {GlobalData} from "../../providers/GlobalData";
 
 
 @Component({
@@ -27,6 +28,7 @@ export class LoginPage {
               private modalCtrl: ModalController,
               private platform: Platform,
               private alertCtrl: AlertController,
+              private globalData: GlobalData,
               private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
       username: ['yanxiaojun617', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
@@ -65,6 +67,10 @@ export class LoginPage {
     this.loginService.login(user)
       .subscribe((userInfo: UserInfo) => {
         this.submitted = false;
+        userInfo.token = 'xx122a9Wf';//从后台获取token,暂时写死
+        this.globalData.userId =userInfo.id;
+        this.globalData.username =userInfo.username;
+        this.globalData.token =userInfo.token;
         this.userInfo = userInfo;
         this.storage.set('UserInfo', userInfo);
         this.viewCtrl.dismiss(userInfo);

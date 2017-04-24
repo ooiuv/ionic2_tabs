@@ -8,8 +8,6 @@ import {UserInfo} from "../../model/UserInfo";
 import {Helper} from "../../providers/Helper";
 import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {AboutPage} from "./about/about";
-import {NativeService} from "../../providers/NativeService";
-
 
 @Component({
   selector: 'page-mine',
@@ -18,16 +16,13 @@ import {NativeService} from "../../providers/NativeService";
 export class MinePage {
   userInfo: UserInfo;
   avatarPath: string = DEFAULT_AVATAR;
-  isIos: boolean;
 
   constructor(private navCtrl: NavController,
               private platform: Platform,
-              private nativeService: NativeService,
               private storage: Storage,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private helper: Helper) {
-    this.isIos = this.nativeService.isIos();
   }
 
   ionViewWillEnter() {

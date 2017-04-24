@@ -36,7 +36,8 @@ export class SelectPicPage {
           text: '相册',
           handler: () => {
             that.nativeService.getMultiplePicture({//从相册多选
-              maximumImagesCount: ( that.max - that.imagePaths.length),destinationType: 1
+              maximumImagesCount: ( that.max - that.imagePaths.length),
+              destinationType: 1
             }).then(imgBase64s => {
               for (let imgBase64 of <string[]>imgBase64s) {
                 that.getPictureSuccess(imgBase64);
@@ -47,7 +48,9 @@ export class SelectPicPage {
         {
           text: '拍照',
           handler: () => {
-            that.nativeService.getPictureByCamera({}, 1).then(imgBase64 => {
+            that.nativeService.getPictureByCamera({
+              destinationType: 1
+            }).then(imgBase64 => {
               that.getPictureSuccess(imgBase64);
             });
           }

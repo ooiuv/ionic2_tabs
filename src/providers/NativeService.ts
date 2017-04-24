@@ -52,10 +52,10 @@ export class NativeService {
    * 检查app是否需要升级
    */
   detectionUpgrade() {
-    //这里判断是否需要升级
+    //这里连接后台判断是否需要升级,不需要升级就return
     this.alertCtrl.create({
       title: '升级',
-      subTitle: '存在新版本,是否立即升级？',
+      subTitle: '发现新版本,是否立即升级？',
       buttons: [{text: '取消'},
         {
           text: '确定',
@@ -182,8 +182,8 @@ export class NativeService {
       quality: 100,//图像质量，范围为0 - 100
       allowEdit: true,//选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 800,//缩放图像的宽度（像素）
-      targetHeight: 800,//缩放图像的高度（像素）
+      targetWidth: 1000,//缩放图像的宽度（像素）
+      targetHeight: 1000,//缩放图像的高度（像素）
       saveToPhotoAlbum: true,//是否保存到相册
       correctOrientation: true//设置摄像机拍摄的图像是否为正确的方向
     }, options);
@@ -203,22 +203,18 @@ export class NativeService {
    * @param imgType   0 返回base64字符串，1 返回图片url
    * @return {Promise<string>}
    */
-  getPictureByCamera(options = {}, imgType = 0): Promise<string> {
-    let opt = {
-      sourceType: this.camera.PictureSourceType.CAMERA
-    };
-    if(imgType === 1) {
-      Object.assign(opt, {destinationType: this.camera.DestinationType.FILE_URI});
-    }
+  getPictureByCamera(options = {}): Promise<string> {
     return new Promise((resolve) => {
-      this.getPicture(Object.assign(opt, options)).then((imgData: string) => {
+      this.getPicture(Object.assign({
+        sourceType: this.camera.PictureSourceType.CAMERA,
+        destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
+      }, options)).then((imgData: string) => {
         resolve(imgData);
       }).catch(err => {
         String(err).indexOf('cancel') != -1 ? this.showToast('取消拍照', 1500) : this.showToast('获取照片失败');
       });
     });
   };
-
 
   /**
    * 通过图库获取照片
@@ -249,8 +245,8 @@ export class NativeService {
     return new Promise((resolve) => {
       this.imagePicker.getPictures(Object.assign({
         maximumImagesCount: 6,
-        width: 800,//缩放图像的宽度（像素）
-        height: 800,//缩放图像的高度（像素）
+        width: 1000,//缩放图像的宽度（像素）
+        height: 1000,//缩放图像的高度（像素）
         quality: 100//图像质量，范围为0 - 100
       }, options)).then(files => {
         if (destinationType === 1) {
