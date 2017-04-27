@@ -34,17 +34,19 @@ export class Utils {
   }
 
 
+
   /**
-   * 格式化日期
-   * sFormat：日期格式:默认为yyyy-MM-dd     年：y，月：M，日：d，时：h，分：m，秒：s
-   * @example  dateFormat(new Date(),'yyyy-MM-dd')   "2017-02-28"
-   * @example  dateFormat(new Date(),'yyyy-MM-dd hh:mm:ss')   "2017-02-28 09:24:00"
-   * @example  dateFormat(new Date(),'hh:mm')   "09:24"
-   * @param date 日期
-   * @param sFormat 格式化后的日期字符串
-   * @returns {String}
+   * 日期对象转为日期字符串
+   * @param date 需要格式化的日期对象
+   * @param sFormat 输出格式,默认为yyyy-MM-dd                         年：y，月：M，日：d，时：h，分：m，秒：s
+   * @example  dateFormat(new Date())                                "2017-02-28"
+   * @example  dateFormat(new Date(),'yyyy-MM-dd')                   "2017-02-28"
+   * @example  dateFormat(new Date(),'yyyy-MM-dd hh:mm:ss')         "2017-02-28 09:24:00"
+   * @example  dateFormat(new Date(),'hh:mm')                       "09:24"
+   * @example  dateFormat(new Date(),'yyyy-MM-ddThh:mm:ss+08:00')   "2017-02-28T09:24:00+08:00"
+   * @returns {string}
    */
-  static dateFormat(date: Date, sFormat: String = 'yyyy-MM-dd'): string {
+ static dateFormat(date: Date, sFormat:string = 'yyyy-MM-dd'): string {
     let time = {
       Year: 0,
       TYear: '0',

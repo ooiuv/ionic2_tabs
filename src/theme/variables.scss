@@ -37,11 +37,22 @@ $colors: (
 // iOS only Sass variables can go here
 
 
-
-
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
+
+
+// App Windows Variables
+// --------------------------------------------------
+// Windows only Sass variables can go here
+
+
+// App Theme
+// --------------------------------------------------
+// Ionic apps can have different themes applied, which can
+// then be future customized. This import comes last
+// so that the above variables are used and Ionic's
+// default are overridden.
 
 $toolbar-background:                    color($colors, primary);
 $tabs-ios-background:                   #f8f8f8;
@@ -52,22 +63,15 @@ $searchbar-ios-background-color:        color($colors, primary);
 $hairlines-width:                       1px;
 $list-border-color:                     #e0dfe4;
 
-// App Windows Variables
-// --------------------------------------------------
-// Windows only Sass variables can go here
-
-
-
-
-// App Theme
-// --------------------------------------------------
-// Ionic apps can have different themes applied, which can
-// then be future customized. This import comes last
-// so that the above variables are used and Ionic's
-// default are overridden.
-
 @import "ionic.theme.default";
 
+.validation-failed{
+  float: right;
+  padding-right: 10px;
+  color: #ff0000;
+  font-size: 1.2rem;
+  letter-spacing: 1px;
+}
 
 // Ionicons
 // --------------------------------------------------

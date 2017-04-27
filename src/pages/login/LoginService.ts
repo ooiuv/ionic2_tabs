@@ -14,7 +14,7 @@ export class LoginService {
     let userInfo = {
       id: user.username,
       username: user.username,
-      name: user.username,
+      name: '小军',
       email: 'yanxiaojun617@163.com',
       phone: '18688498342',
       avatarId: '',

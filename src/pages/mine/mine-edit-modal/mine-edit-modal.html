@@ -13,17 +13,23 @@
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <ion-list>
       <ion-item>
-        <ion-label floating>姓名 <span padding-left *ngIf="verifyMessages.name.errorMsg" color="danger">{{verifyMessages.name.errorMsg}}</span></ion-label>
+        <ion-label floating>姓名</ion-label>
         <ion-input type="text" formControlName="name"></ion-input>
       </ion-item>
+      <div *ngIf="verifyMessages.name.errorMsg" class="validation-failed">{{verifyMessages.name.errorMsg}}</div>
+
       <ion-item>
-        <ion-label floating>手机号码 <span padding-left *ngIf="verifyMessages.phone.errorMsg" color="danger">{{verifyMessages.phone.errorMsg}}</span></ion-label>
+        <ion-label floating>手机号码</ion-label>
         <ion-input type="tel" formControlName="phone"></ion-input>
       </ion-item>
+      <div *ngIf="verifyMessages.phone.errorMsg" class="validation-failed">{{verifyMessages.phone.errorMsg}}</div>
+
       <ion-item>
-        <ion-label floating>电子邮箱 <span padding-left *ngIf="verifyMessages.email.errorMsg" color="danger">{{verifyMessages.email.errorMsg}}</span></ion-label>
+        <ion-label floating>电子邮箱</ion-label>
         <ion-input type="email" formControlName="email"></ion-input>
       </ion-item>
+      <div *ngIf="verifyMessages.email.errorMsg" class="validation-failed">{{verifyMessages.email.errorMsg}}</div>
+
     </ion-list>
     <div padding-horizontal>
       <button type="submit" ion-button block [disabled]="!userForm.valid">保 存</button>
