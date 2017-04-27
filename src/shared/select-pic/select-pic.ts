@@ -1,31 +1,33 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NavController, ActionSheetController} from 'ionic-angular';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {NativeService} from "../../providers/NativeService";
-import { PhotoViewer } from '@ionic-native/photo-viewer';
-/*
-  Generated class for the SelectPic page.
+import {FileObj} from "../../model/FileObj";
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-select-pic',
   templateUrl: 'select-pic.html',
   providers: [PhotoViewer]
 })
 export class SelectPicPage {
-  imagePaths: string[] = [];
+
   @Input()
-  max: number = 3;  //最多可选择多少张图片，默认为3张
+  max: number = 4;  //最多可选择多少张图片，默认为4张
+
+  @Input()
+  destinationType: number = 1;  //期望返回的图片格式,默认1图片路径,0为返回base64,图片太大base64预览会卡
+
+  @Input()
+  allowAdd: boolean = true;  //是否允许新增
+
+  @Input() fileObjList: FileObj[] = [];
+  @Output() fileObjListChange = new EventEmitter<any>();
 
   constructor(public navCtrl: NavController,
               private actionSheetCtrl: ActionSheetController,
               private nativeService: NativeService,
-              private photoViewer: PhotoViewer
-  ) {}
-
-  ionViewDidLoad() {
-    //console.log('ionViewDidLoad SelectPicPage');
+              private photoViewer: PhotoViewer) {
+    console.log(this.allowAdd)
   }
 
   addPicture() {
@@ -33,14 +35,14 @@ export class SelectPicPage {
     that.actionSheetCtrl.create({
       buttons: [
         {
-          text: '相册',
+          text: '从相册选择',
           handler: () => {
             that.nativeService.getMultiplePicture({//从相册多选
-              maximumImagesCount: ( that.max - that.imagePaths.length),
-              destinationType: 1
-            }).then(imgBase64s => {
-              for (let imgBase64 of <string[]>imgBase64s) {
-                that.getPictureSuccess(imgBase64);
+              maximumImagesCount: (that.max - that.fileObjList.length),
+              destinationType: this.destinationType
+            }).then(imgs => {
+              for (let img of <string[]>imgs) {
+                that.getPictureSuccess(img);
               }
             });
           }
@@ -49,9 +51,9 @@ export class SelectPicPage {
           text: '拍照',
           handler: () => {
             that.nativeService.getPictureByCamera({
-              destinationType: 1
-            }).then(imgBase64 => {
-              that.getPictureSuccess(imgBase64);
+              destinationType: this.destinationType
+            }).then(img => {
+              that.getPictureSuccess(img);
             });
           }
         },
@@ -63,12 +65,14 @@ export class SelectPicPage {
     }).present();
   }
 
-  private getPictureSuccess(imageBase64s) {
-    this.imagePaths.push(imageBase64s);
+  private getPictureSuccess(img) {
+    let fileObj = <FileObj>{'origPath': img, 'thumbPath': img};
+    this.fileObjList.push(fileObj);
+    this.fileObjListChange.emit(this.fileObjList);
   }
 
-  showPictures(imagePath) {
-    this.photoViewer.show(imagePath);
+  showPictures(img) {
+    this.photoViewer.show(img);
   }
 
   deletePic(i) {
@@ -77,8 +81,9 @@ export class SelectPicPage {
       buttons: [
         {
           text: '删除',
+          role: 'destructive',
           handler: () => {
-            that.imagePaths.splice(i, 1);
+            that.fileObjList.splice(i, 1);
           }
         },
         {

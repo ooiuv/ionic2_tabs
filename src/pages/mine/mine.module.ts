@@ -9,12 +9,11 @@ import {FeedBackPage} from "./feed-back/feed-back";
 import {AboutPage} from "./about/about";
 import {UpdateLogPage} from "./update-log/update-log";
 import {ShowPicturesPage} from "./show-pictures/show-pictures";
+import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
-  imports: [
-    IonicModule.forRoot(MyApp)
-  ],
+  imports: [IonicModule.forRoot(MyApp), SharedModule],
   declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],
   entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],
   providers: [],

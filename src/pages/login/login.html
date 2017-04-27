@@ -12,7 +12,7 @@
     <ion-list>
       <ion-item>
         <ion-label color="primary">用户名</ion-label>
-        <ion-input type="text" formControlName="username"></ion-input>
+        <ion-input type="text" formControlName="username" clearInput></ion-input>
       </ion-item>
       <span padding-left *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched"
             color="danger">
@@ -20,7 +20,7 @@
         </span>
       <ion-item>
         <ion-label color="primary">密　码</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
+        <ion-input type="password" formControlName="password" clearInput></ion-input>
       </ion-item>
       <span padding-left *ngIf="!loginForm.controls.password.valid" color="danger">请输入密码</span>
     </ion-list>

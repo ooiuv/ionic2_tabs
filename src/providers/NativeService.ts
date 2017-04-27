@@ -43,10 +43,9 @@ export class NativeService {
   /**
    * 通过浏览器打开url
    */
-  openUrlByBrowser(url:string):void {
+  openUrlByBrowser(url: string): void {
     this.inAppBrowser.create(url, '_system');
   }
-
 
   /**
    * 检查app是否需要升级
@@ -200,7 +199,6 @@ export class NativeService {
   /**
    * 通过拍照获取照片
    * @param options
-   * @param imgType   0 返回base64字符串，1 返回图片url
    * @return {Promise<string>}
    */
   getPictureByCamera(options = {}): Promise<string> {
@@ -216,6 +214,7 @@ export class NativeService {
     });
   };
 
+
   /**
    * 通过图库获取照片
    * @param options
@@ -224,7 +223,8 @@ export class NativeService {
   getPictureByPhotoLibrary(options = {}): Promise<string> {
     return new Promise((resolve) => {
       this.getPicture(Object.assign({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
       }, options)).then((imgData: string) => {
         resolve(imgData);
       }).catch(err => {
@@ -259,7 +259,7 @@ export class NativeService {
               if (imgBase64s.length === files.length) {
                 resolve(imgBase64s);
               }
-            }, null);
+            });
           }
         }
       }).catch(err => {
@@ -273,22 +273,96 @@ export class NativeService {
    * 根据图片绝对路径转化为base64字符串
    * @param url 绝对路径
    * @param callback 回调函数
-   * @param outputFormat 转换格式,默认为image/png
    */
-  convertImgToBase64(url, callback, outputFormat = 'image/png'): void {
-    let canvas = <HTMLCanvasElement>document.createElement('CANVAS'), ctx = canvas.getContext('2d'), img = new Image;
-    img.crossOrigin = 'Anonymous';
-    img.onload = function () {
-      canvas.height = img.height;
-      canvas.width = img.width;
-      ctx.drawImage(img, 0, 0);
-      let imgBase64 = canvas.toDataURL(outputFormat);//返回如'data:image/jpeg;base64,abcdsddsdfsdfasdsdfsdf'
-      let base64 = imgBase64.substring(imgBase64.indexOf(';base64,') + 8);//返回如'abcdsddsdfsdfasdsdfsdf'
-      callback.call(this, base64);
-      canvas = null;
-    };
-    img.src = url;
+  convertImgToBase64(url, callback) {
+    this.getFileContentAsBase64(url, function (base64Image) {
+      callback.call(this, base64Image.substring(base64Image.indexOf(';base64,') + 8));
+    })
   }
+
+  private getFileContentAsBase64(path, callback) {
+    function fail(err) {
+      console.log('Cannot found requested file' + err);
+    }
+
+    function gotFile(fileEntry) {
+      fileEntry.file(function (file) {
+        let reader = new FileReader();
+        reader.onloadend = function (e) {
+          let content = this.result;
+          callback(content);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    this.file.resolveLocalFilesystemUrl(path).then(fileEnter => gotFile(fileEnter)).catch(err => fail(err));
+    // window['resolveLocalFileSystemURL'](path, gotFile, fail);
+  }
+
+  /**
+   * 获取网络类型 如`unknown`, `ethernet`, `wifi`, `2g`, `3g`, `4g`, `cellular`, `none`
+   */
+  getNetworkType(): string {
+    if (!this.isMobile()) {
+      return 'wifi';
+    }
+    return this.network.type;
+  }
+
+  /**
+   * 判断是否有网络
+   * @returns {boolean}
+   */
+  isConnecting(): boolean {
+    return this.getNetworkType() != 'none';
+  }
+
+  /**
+   * 获得app版本号,如0.01
+   * @description  对应/config.xml中version的值
+   * @returns {Promise<string>}
+   */
+  getVersionNumber(): Promise<string> {
+    return new Promise((resolve) => {
+      this.appVersion.getVersionNumber().then((value: string) => {
+        resolve(value);
+      }).catch(err => {
+        this.warn('getVersionNumber:' + err);
+      });
+    });
+  }
+
+  /**
+   * 获得app name,如ionic2_tabs
+   * @description  对应/config.xml中name的值
+   * @returns {Promise<string>}
+   */
+  getAppName(): Promise<string> {
+    return new Promise((resolve) => {
+      this.appVersion.getAppName().then((value: string) => {
+        resolve(value);
+      }).catch(err => {
+        this.warn('getAppName:' + err);
+      });
+    });
+  }
+
+  /**
+   * 获得app包名/id,如com.kit.ionic2tabs
+   * @description  对应/config.xml中id的值
+   * @returns {Promise<string>}
+   */
+  getPackageName(): Promise<string> {
+    return new Promise((resolve) => {
+      this.appVersion.getPackageName().then((value: string) => {
+        resolve(value);
+      }).catch(err => {
+        this.warn('getPackageName:' + err);
+      });
+    });
+  }
+
 
   /**
    * 获得用户当前坐标
@@ -338,66 +412,4 @@ export class NativeService {
     });
   }
 
-  /**
-   * 获得app版本号,如0.01
-   * @description  对应/config.xml中version的值
-   * @returns {Promise<string>}
-   */
-  getVersionNumber(): Promise<string> {
-    return new Promise((resolve) => {
-      this.appVersion.getVersionNumber().then((value: string) => {
-        resolve(value);
-      }).catch(err => {
-        this.warn('getVersionNumber:' + err);
-      });
-    });
-  }
-
-  /**
-   * 获得app name,如ionic2_tabs
-   * @description  对应/config.xml中name的值
-   * @returns {Promise<string>}
-   */
-  getAppName(): Promise<string> {
-    return new Promise((resolve) => {
-      this.appVersion.getAppName().then((value: string) => {
-        resolve(value);
-      }).catch(err => {
-        this.warn('getAppName:' + err);
-      });
-    });
-  }
-
-  /**
-   * 获得app包名/id,如com.kit.ionic2tabs
-   * @description  对应/config.xml中id的值
-   * @returns {Promise<string>}
-   */
-  getPackageName(): Promise<string> {
-    return new Promise((resolve) => {
-      this.appVersion.getPackageName().then((value: string) => {
-        resolve(value);
-      }).catch(err => {
-        this.warn('getPackageName:' + err);
-      });
-    });
-  }
-
-  /**
-   * 获取网络类型 如`unknown`, `ethernet`, `wifi`, `2g`, `3g`, `4g`, `cellular`, `none`
-   */
-  getNetworkType(): string {
-    if (!this.isMobile()) {
-      return 'wifi';
-    }
-    return this.network.type;
-  }
-
-  /**
-   * 判断是否有网络
-   * @returns {boolean}
-   */
-  isConnecting(): boolean {
-    return this.getNetworkType() != 'none';
-  }
 }

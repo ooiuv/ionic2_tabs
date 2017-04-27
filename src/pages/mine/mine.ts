@@ -5,9 +5,9 @@ import {Platform, NavController, ModalController, AlertController} from 'ionic-a
 import {MineEditPage} from './mine-edit/mine-edit';
 import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar-modal';
 import {UserInfo} from "../../model/UserInfo";
-import {Helper} from "../../providers/Helper";
 import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {AboutPage} from "./about/about";
+import {LoginPage} from "../login/login";
 
 @Component({
   selector: 'page-mine',
@@ -21,38 +21,26 @@ export class MinePage {
               private platform: Platform,
               private storage: Storage,
               private modalCtrl: ModalController,
-              private alertCtrl: AlertController,
-              private helper: Helper) {
-  }
-
-  ionViewWillEnter() {
-    this.storage.get('UserInfo').then(userInfo => {
+              private alertCtrl: AlertController) {
+    this.storage.get('UserInfo').then((userInfo: UserInfo) => {
       if (userInfo) {
         this.userInfo = userInfo;
-        this.initPage();
-      } else {
-        this.helper.goLogin(userInfo => {
-          this.userInfo = userInfo;
-          this.initPage();
-        });
+        userInfo.avatar && (this.avatarPath = userInfo.avatar);
       }
     });
   }
 
-  private initPage() {
-    //加载用户头像
-    this.helper.getUserAvatar().then(avatarPath => {
-      this.avatarPath = <string>avatarPath;
-    });
-  }
 
   edit() {
-    this.navCtrl.push(MineEditPage, this.userInfo);
+    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo, 'avatarPath': this.avatarPath});
   }
 
   viewAvatar($event) {
     $event.stopPropagation();
-    let modal = this.modalCtrl.create(MineEditAvatarModalPage, {avatarPath: this.avatarPath});
+    let modal = this.modalCtrl.create(MineEditAvatarModalPage, {
+      'userInfo': this.userInfo,
+      'avatarPath': this.avatarPath
+    });
     modal.present();
     modal.onDidDismiss(data => {
       data && (this.avatarPath = data.avatarPath)
@@ -67,10 +55,12 @@ export class MinePage {
         {
           text: '确定',
           handler: () => {
-            this.helper.goLogin(userInfo => {
+            let modal = this.modalCtrl.create(LoginPage);
+            modal.present();
+            modal.onDidDismiss(userInfo => {
               if (userInfo) {
                 this.userInfo = userInfo;
-                this.initPage();
+                userInfo.avatar && (this.avatarPath = userInfo.avatar);
               }
             });
           }

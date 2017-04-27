@@ -1,9 +1,14 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicApp, Platform, Nav, Keyboard, ToastController} from 'ionic-angular';
+import {Storage} from '@ionic/storage';
+
+import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from 'ionic-angular';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
+import {GlobalData} from "../providers/GlobalData";
+import {UserInfo} from "../model/UserInfo";
+import {LoginPage} from "../pages/login/login";
 
 declare var AppMinimize;
 
@@ -15,21 +20,40 @@ export class MyApp {
   rootPage = TabsPage;
   backButtonPressed: boolean = false;
 
-  constructor(private ionicApp: IonicApp,
-              private platform: Platform,
-              private keyboard: Keyboard,
+  constructor(private platform: Platform,
               private statusBar: StatusBar,
-              private toastCtrl: ToastController,
               private splashScreen: SplashScreen,
+              private keyboard: Keyboard,
+              private ionicApp: IonicApp,
+              private storage: Storage,
+              private globalData: GlobalData,
+              private toastCtrl: ToastController,
+              private modalCtrl: ModalController,
+              private events: Events,
               private nativeService: NativeService) {
     platform.ready().then(() => {
+      this.storage.get('UserInfo').then((userInfo: UserInfo) => {
+        if (userInfo) {
+          this.events.publish('user:login', userInfo);
+          this.globalData.userId = userInfo.id;
+          this.globalData.username = userInfo.username;
+          this.globalData.token = userInfo.token;
+        } else {
+          let modal = this.modalCtrl.create(LoginPage);
+          modal.present();
+          modal.onDidDismiss(data => {
+            data && console.log(data);
+          });
+        }
+      });
       statusBar.styleDefault();
       splashScreen.hide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      this.nativeService.detectionUpgrade();//检测app是否升级
+      // this.nativeService.detectionUpgrade();//检测app是否升级
     });
   }
+
 
   assertNetwork() {
     if (!this.nativeService.isConnecting()) {
@@ -42,6 +66,9 @@ export class MyApp {
   }
 
   registerBackButtonAction() {
+    if (!this.nativeService.isAndroid()) {
+      return;
+    }
     this.platform.registerBackButtonAction(() => {
       if (this.keyboard.isOpen()) {//如果键盘开启则隐藏键盘
         this.keyboard.close();

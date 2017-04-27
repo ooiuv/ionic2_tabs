@@ -3,7 +3,6 @@ import {ModalController, NavParams} from 'ionic-angular';
 import {MineEditModalPage} from '../mine-edit-modal/mine-edit-modal';
 import {MineEditAvatarModalPage} from '../mine-edit-avatar-modal/mine-edit-avatar-modal';
 import {UserInfo} from "../../../model/UserInfo";
-import {DEFAULT_AVATAR} from "../../../providers/Constants";
 import {Helper} from "../../../providers/Helper";
 
 @Component({
@@ -12,16 +11,14 @@ import {Helper} from "../../../providers/Helper";
 })
 export class MineEditPage {
   userInfo: UserInfo;
-  avatarPath: string = DEFAULT_AVATAR;
+  avatarPath: string;
 
 
   constructor(private modalCtrl: ModalController,
               private params: NavParams,
               private helper: Helper) {
-    this.userInfo = params.data;
-    this.helper.getUserAvatar().then(avatarPath => {
-      this.avatarPath = <string>avatarPath;
-    });
+    this.avatarPath = params.get('avatarPath');
+    this.userInfo = params.get('userInfo');
   }
 
   viewAvatar($event) {

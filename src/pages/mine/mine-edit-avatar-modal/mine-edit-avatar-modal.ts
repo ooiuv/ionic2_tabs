@@ -5,6 +5,7 @@ import {NativeService} from '../../../providers/NativeService';
 import {UserInfo} from "../../../model/UserInfo";
 import {FileService} from "../../../providers/FileService";
 import {FileObj} from "../../../model/FileObj";
+import {FILE_SERVE_URL} from "../../../providers/Constants";
 
 @Component({
   selector: 'page-mine-edit-avatar-modal',
@@ -14,23 +15,19 @@ export class MineEditAvatarModalPage {
   isChange: boolean = false;//头像是否改变标识
   avatarPath: string;
   imageBase64: string;
-  userInfo: UserInfo;
 
   constructor(private params: NavParams,
               private viewCtrl: ViewController,
+              private fileService: FileService,
               private nativeService: NativeService,
-              private storage: Storage,
-              private fileService: FileService) {
-    this.avatarPath = params.data.avatarPath;
-    this.storage.get('UserInfo').then(userInfo => {
-      this.userInfo =userInfo;
-    });
+              private storage: Storage) {
+    this.avatarPath = params.get('avatarPath');
   }
 
   getPicture(type) {//1拍照,0从图库选择
     let options = {
-      targetWidth: 400,
-      targetHeight: 400
+      targetWidth: 256,
+      targetHeight: 256
     };
     if (type == 1) {
       this.nativeService.getPictureByCamera(options).then(imageBase64 => {
@@ -46,21 +43,23 @@ export class MineEditAvatarModalPage {
   private getPictureSuccess(imageBase64) {
     this.isChange = true;
     this.imageBase64 = <string>imageBase64;
-    this.avatarPath = 'data:image/jpeg;base64,' + imageBase64;
+    this.avatarPath = 'data:image/jpg;base64,' + imageBase64;
   }
 
   saveAvatar() {
     if (this.isChange) {
       let fileObj = <FileObj>{'base64': this.imageBase64};
-      this.fileService.uploadByBase64(fileObj).subscribe(result => {
+      this.fileService.uploadByBase64(fileObj).subscribe(result => {// 上传图片到文件服务器
         if (result.success) {
-          this.userInfo.avatarId = result.data[0].id;
-          let avatarKey = this.userInfo.id+ 'avatar';
-          this.storage.set('UserInfo', this.userInfo);
-          this.storage.set(avatarKey , this.avatarPath);
+          let origPath = FILE_SERVE_URL + result.data[0].origPath;
+          this.storage.get('UserInfo').then((userInfo: UserInfo) => {
+            userInfo.avatar = origPath;
+            this.storage.set('UserInfo', userInfo);
+          });
+          this.viewCtrl.dismiss({avatarPath: origPath});
+          //这里需要保存avatar字段到用户表
         }
       });
-      this.viewCtrl.dismiss({avatarPath: this.avatarPath});
     } else {
       this.dismiss();
     }

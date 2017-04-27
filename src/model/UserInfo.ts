@@ -4,9 +4,7 @@ export class UserInfo {
   name: string;
   email: string;
   phone: string;
-  avatarId: string;
+  avatar: string;
   description: string;
   token: string;
-
-
 }

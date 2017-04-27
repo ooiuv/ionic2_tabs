@@ -9,6 +9,9 @@ import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
 
+/**
+ * 上传图片到文件服务器
+ */
 @Injectable()
 export class FileService {
   constructor(private httpService: HttpService, private nativeService: NativeService) {
@@ -20,6 +23,11 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   getFileInfoById(id: string) {
+    if (!id) {
+      return Observable.create((observer) => {
+        observer.next({'data': [], 'success': true});
+      })
+    }
     return this.httpService.get(FILE_SERVE_URL + '/getById', {id: id}).map((res: Response) => res.json());
   }
 
@@ -29,6 +37,11 @@ export class FileService {
    * @returns {Observable<R>}
    */
   getFileInfoByIds(ids: string[]) {
+    if (!ids || ids.length == 0) {
+      return Observable.create((observer) => {
+        observer.next({'data': [], 'success': true});
+      })
+    }
     return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: ids}).map((res: Response) => res.json());
   }
 
@@ -38,12 +51,12 @@ export class FileService {
    * @return {Promise<TResult|T>}
    */
   uploadMultiByBase64(fileObjList: FileObj[]) {
-    if (fileObjList.length == 0) {
+    if (!fileObjList || fileObjList.length == 0) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
       })
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=businessExpandingMonitor', fileObjList).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList).map((res: Response) => res.json());
   }
 
   /**
@@ -57,7 +70,7 @@ export class FileService {
         observer.next({'data': [], 'success': true});
       })
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=businessExpandingMonitor', [fileObj]).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', [fileObj]).map((res: Response) => res.json());
   }
 
   /**
@@ -66,10 +79,12 @@ export class FileService {
    * @returns {any}
    */
   uploadMultiByFilePath(fileObjList: FileObj[]) {
-    return Observable.create((observer) => {
-      if (fileObjList.length == 0) {
+    if (fileObjList.length == 0) {
+      return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
-      }
+      })
+    }
+    return Observable.create((observer) => {
       this.nativeService.showLoading();
       let fileObjs = [];
       for (let fileObj of fileObjList) {
@@ -92,10 +107,12 @@ export class FileService {
    * @returns {any}
    */
   uploadByFilePath(fileObj: FileObj) {
-    return Observable.create((observer) => {
-      if (!fileObj.origPath) {
+    if (!fileObj.origPath) {
+      return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
-      }
+      })
+    }
+    return Observable.create((observer) => {
       this.nativeService.showLoading();
       this.nativeService.convertImgToBase64(fileObj.origPath, base64 => {
         let file = <FileObj>({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});

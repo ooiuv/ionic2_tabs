@@ -1,15 +1,10 @@
-<!--
-  Generated template for the SelectPic page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <div>
-  <div *ngFor="let imagePath of imagePaths, let i = index" class="pictures" (press)="deletePic(i)">
-    <img src="{{imagePath}}" (click)="showPictures(imagePath)">
+  <div *ngFor="let fileObj of fileObjList, let i = index" class="pictures" (press)="deletePic(i)">
+    <img src="{{destinationType==1?fileObj.thumbPath:'data:image/jpg;base64,'+fileObj.thumbPath}}"
+         (click)="showPictures(destinationType==1?fileObj.origPath:'data:image/jpg;base64,'+fileObj.origPath)">
   </div>
-  <div *ngIf="imagePaths.length<max" (click)="addPicture()" class="pictures add">
-    <ion-icon name="ios-add"></ion-icon>
+  <div *ngIf="fileObjList.length<max&&allowAdd" (click)="addPicture()" class="pictures add">
+    <ion-icon name="md-images"></ion-icon>
   </div>
 </div>
 
