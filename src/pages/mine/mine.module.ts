@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
-import {MyApp} from '../../app/app.component';
 import {MinePage} from './mine';
 import {MineEditPage} from './mine-edit/mine-edit';
 import {MineEditModalPage} from './mine-edit-modal/mine-edit-modal';
@@ -13,7 +12,7 @@ import {SharedModule} from "../../shared/shared.module";
 
 
 @NgModule({
-  imports: [IonicModule.forRoot(MyApp), SharedModule],
+  imports: [IonicModule, SharedModule],
   declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],
   entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage],
   providers: [],
