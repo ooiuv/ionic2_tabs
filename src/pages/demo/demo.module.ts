@@ -9,13 +9,14 @@ import {ChartjsDemoPage} from "./chartjs-demo/chartjs-demo";
 import {RecordingPage} from "./recording/recording";
 import {RecordingPlayPage} from "./recording/recording-play";
 import {RecordingRecordPage} from "./recording/recording-record";
+import {SelectPicDemoPage} from "./select-pic-demo/select-pic-demo";
 
 @NgModule({
   imports: [
     IonicModule.forRoot(MyApp), SharedModule
   ],
-  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, RecordingPage, RecordingPlayPage, RecordingRecordPage],
-  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, RecordingPage, RecordingPlayPage, RecordingRecordPage],
+  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, RecordingPage, RecordingPlayPage, RecordingRecordPage, SelectPicDemoPage],
+  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, RecordingPage, RecordingPlayPage, RecordingRecordPage, SelectPicDemoPage],
   providers: [],
   exports: [IonicModule]
 })

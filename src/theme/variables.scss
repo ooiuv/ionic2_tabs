@@ -65,6 +65,7 @@ $list-border-color:                     #e0dfe4;
 
 @import "ionic.theme.default";
 
+// start 自定义全局css,具体使用例子,请全局搜索class名
 .validation-failed{
   float: right;
   padding-right: 10px;
@@ -72,6 +73,16 @@ $list-border-color:                     #e0dfe4;
   font-size: 1.2rem;
   letter-spacing: 1px;
 }
+
+.clear-fix:before,
+.clear-fix:after {
+  display: table;
+  content: " ";
+}
+.clear-fix:after{
+  clear: both;
+}
+// end 自定义全局css
 
 // Ionicons
 // --------------------------------------------------

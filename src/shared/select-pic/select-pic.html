@@ -1,4 +1,4 @@
-<div>
+<div class="clear-fix">
   <div *ngFor="let fileObj of fileObjList, let i = index" class="pictures" (press)="deletePic(i)">
     <img src="{{destinationType==1?fileObj.thumbPath:'data:image/jpg;base64,'+fileObj.thumbPath}}"
          (click)="showPictures(destinationType==1?fileObj.origPath:'data:image/jpg;base64,'+fileObj.origPath)">
