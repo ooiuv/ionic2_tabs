@@ -66,6 +66,9 @@ export class SelectPicPage {
   }
 
   private getPictureSuccess(img) {
+    if (this.destinationType == 0) {
+      img = 'data:image/jpg;base64,' + img;
+    }
     let fileObj = <FileObj>{'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);
