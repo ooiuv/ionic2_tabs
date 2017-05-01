@@ -1,4 +1,5 @@
 import {NgModule, ErrorHandler} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from './app.component';
@@ -25,9 +26,8 @@ import {FileService} from "../providers/FileService";
 import {Helper} from "../providers/Helper";
 import {Utils} from "../providers/Utils";
 import {TestModule} from "../pages/test/test.module";
-import {Http, XHRBackend, RequestOptions} from "@angular/http";
+import {Http, XHRBackend, RequestOptions, HttpModule} from "@angular/http";
 import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
-import {MediaPlugin} from "@ionic-native/media";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
 
@@ -38,6 +38,8 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
 @NgModule({
   declarations: [MyApp],
   imports: [
+    BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp, {
       mode: 'ios',//android是'md'
       backButtonText: ''
@@ -63,7 +65,6 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     InAppBrowser,
     ImagePicker,
     Network,
-    MediaPlugin,
     HttpInterceptHandle,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     {provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions, HttpInterceptHandle]},
