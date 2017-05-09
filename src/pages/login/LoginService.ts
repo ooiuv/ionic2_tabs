@@ -12,7 +12,7 @@ export class LoginService {
   login(user): Observable<UserInfo> {
     // return this.httpService.post('/app/bugRepair/login', user).map((res: Response) =>  res.json());
     let userInfo = {
-      id: user.username,
+      id: 1,
       username: user.username,
       name: '小军',
       email: 'yanxiaojun617@163.com',

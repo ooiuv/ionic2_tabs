@@ -160,5 +160,23 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-jcore": {
+        "source": {
+            "type": "local",
+            "path": "D:\\cordova-plugin-jcore-master"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "jpush-phonegap-plugin": {
+        "source": {
+            "type": "local",
+            "path": "D:\\jpush-phonegap-plugin-master"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_KEY": "a0becaf86f63fcdc3bd071e5"
+        }
     }
 }
