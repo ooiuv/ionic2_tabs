@@ -13,6 +13,7 @@ Ionic 2 App
 * 代码按功能划分多module
 * 封装angular http,http拦截器
 * 自定义分页组件
+* 自定义图片上传及预览组件
 * 自定义图标
 * 图片上传demo
 * 其他cordova插件封装和常用工具方法
