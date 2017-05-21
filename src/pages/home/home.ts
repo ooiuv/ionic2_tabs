@@ -22,7 +22,6 @@ export class HomePage {
   constructor(private modalCtrl: ModalController,
               private nativeService: NativeService) {
     this.isIos = this.nativeService.isIos();
-
   }
 
 

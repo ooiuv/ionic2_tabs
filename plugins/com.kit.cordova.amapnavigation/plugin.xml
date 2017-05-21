@@ -21,6 +21,7 @@
       </feature>
       <!--您申请的高德地图ios key更多详情请看http://www.jianshu.com/p/85aceaee3b35-->
       <preference name="amapapikey" value="67e85e29dacc6c12ce60e4bb9de6e055"/>
+      <preference name="iflytekappid" value="5804981b" />
     </config-file>
     <source-file src="src/ios/AMapNavigation.m"/>
 

@@ -93,13 +93,12 @@ public class NavigationActivity extends Activity implements
                 mEndPoints, null, AMapNavi.DrivingDefault);
         Log.i("result","注册");
 
-        //SpeechUtility.createUtility(this, SpeechConstant.APPID + "=" + AMapNavigation.cordovaWebView.getPreferences().getString("iflytekappid", ""));
-        SpeechUtility.createUtility(this,"appid=55cbffe8");
+        SpeechUtility.createUtility(this,"appid=5804981b");
         mSpeechSynthesizer = SpeechSynthesizer.createSynthesizer(this,null);
-        // 设置发音人
+        // 设置发音人`
         mSpeechSynthesizer.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan");
         // 设置语速
-        mSpeechSynthesizer.setParameter(SpeechConstant.SPEED, "50");
+        mSpeechSynthesizer.setParameter(SpeechConstant.SPEED, "55");
         // 设置音量
         mSpeechSynthesizer.setParameter(SpeechConstant.VOLUME, "80");
 
