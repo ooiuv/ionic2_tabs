@@ -11,7 +11,7 @@ import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
-import {Position} from "../../typings/index";
+import {Position} from "../model/type";
 import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -50,7 +50,7 @@ export class NativeService {
   /**
    * 检查app是否需要升级
    */
-  detectionUpgrade() {
+  detectionUpgrade(): void {
     //这里连接后台判断是否需要升级,不需要升级就return
     this.alertCtrl.create({
       title: '升级',
@@ -69,7 +69,7 @@ export class NativeService {
   /**
    * 下载安装app
    */
-  downloadApp() {
+  downloadApp(): void {
     if (this.isAndroid()) {
       let alert = this.alertCtrl.create({
         title: '下载进度：0%',
@@ -174,7 +174,7 @@ export class NativeService {
    * @param options
    * @returns {Promise<string>}
    */
-  getPicture(options = {}): Promise<string> {
+  getPicture(options: CameraOptions = {}): Promise<string> {
     let ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.CAMERA,//图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
       destinationType: this.camera.DestinationType.DATA_URL,//默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
@@ -201,7 +201,7 @@ export class NativeService {
    * @param options
    * @return {Promise<string>}
    */
-  getPictureByCamera(options = {}): Promise<string> {
+  getPictureByCamera(options: CameraOptions = {}): Promise<string> {
     return new Promise((resolve) => {
       this.getPicture(Object.assign({
         sourceType: this.camera.PictureSourceType.CAMERA,
@@ -220,7 +220,7 @@ export class NativeService {
    * @param options
    * @return {Promise<string>}
    */
-  getPictureByPhotoLibrary(options = {}): Promise<string> {
+  getPictureByPhotoLibrary(options: CameraOptions = {}): Promise<string> {
     return new Promise((resolve) => {
       this.getPicture(Object.assign({
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
@@ -274,13 +274,13 @@ export class NativeService {
    * @param url 绝对路径
    * @param callback 回调函数
    */
-  convertImgToBase64(url, callback) {
+  convertImgToBase64(url: string, callback) {
     this.getFileContentAsBase64(url, function (base64Image) {
       callback.call(this, base64Image.substring(base64Image.indexOf(';base64,') + 8));
     })
   }
 
-  private getFileContentAsBase64(path, callback) {
+  private getFileContentAsBase64(path: string, callback) {
     function fail(err) {
       console.log('Cannot found requested file' + err);
     }
