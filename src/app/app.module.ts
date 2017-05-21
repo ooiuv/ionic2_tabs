@@ -20,20 +20,14 @@ import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
 
 import {NativeService} from "../providers/NativeService";
-import {HttpIntercept} from "../providers/HttpIntercept";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
 import {Helper} from "../providers/Helper";
 import {Utils} from "../providers/Utils";
 import {TestModule} from "../pages/test/test.module";
-import {Http, XHRBackend, RequestOptions, HttpModule} from "@angular/http";
-import {HttpInterceptHandle} from "../providers/HttpInterceptHandle";
+import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
-
-export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions, httpInterceptHandle: HttpInterceptHandle) {
-  return new HttpIntercept(backend, defaultOptions, httpInterceptHandle);
-}
 
 @NgModule({
   declarations: [MyApp],
@@ -65,9 +59,7 @@ export function httpFactory(backend: XHRBackend, defaultOptions: RequestOptions,
     InAppBrowser,
     ImagePicker,
     Network,
-    HttpInterceptHandle,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    {provide: Http, useFactory: httpFactory, deps: [XHRBackend, RequestOptions, HttpInterceptHandle]},
     NativeService,
     HttpService,
     FileService,

@@ -5,6 +5,7 @@ import {PaginationDemoPage} from "./pagination-demo/pagination-demo";
 import {CustomIconDemoPage} from "./custom-icon-demo/custom-icon-demo";
 import {ChartjsDemoPage} from "./chartjs-demo/chartjs-demo";
 import {SelectPicDemoPage} from "./select-pic-demo/select-pic-demo";
+import {CustomPipeDemo} from "./custom-pipe-demo/custom-pipe-demo";
 
 @Component({
   selector: 'page-contact',
@@ -22,6 +23,10 @@ export class DemoPage {
 
   customIcon() {
     this.navCtrl.push(CustomIconDemoPage);
+  }
+
+  pipes() {
+    this.navCtrl.push(CustomPipeDemo);
   }
 
   chartjs() {

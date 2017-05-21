@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
 import {TestPage} from "./test";
 import {TestService} from "./TestService";
-import {Conversion} from "../../pipes/conversion";
 import {SharedModule} from "../../shared/shared.module";
 
 
@@ -11,7 +10,7 @@ import {SharedModule} from "../../shared/shared.module";
     IonicModule,
     SharedModule
   ],
-  declarations: [TestPage, Conversion],
+  declarations: [TestPage],
   entryComponents: [TestPage],
   providers: [TestService]
 })
