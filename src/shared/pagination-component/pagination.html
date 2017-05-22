@@ -1,10 +1,15 @@
 <ion-grid text-center *ngIf="total>pageSize">
   <ion-row>
     <ion-col no-padding>
-      <button ion-button outline small [color]="color" [disabled]="pageNum==1" (click)="btnClick(1)">首页</button>
-      <button ion-button outline small [color]="color" [disabled]="pageNum==1" (click)="btnClick(pageNum-1)">上一页</button>
-      <button ion-button outline small [color]="color" [disabled]="pageNum==ceil(total/pageSize)" (click)="btnClick(pageNum+1)">下一页</button>
-      <button ion-button outline small [color]="color" [disabled]="pageNum==ceil(total/pageSize)" (click)="btnClick(ceil(total/pageSize))">尾页</button>
+      <button ion-button  small [color]="color" [disabled]="pageNum==1" (click)="btnClick(1)">首页</button>
+      <button ion-button  small [color]="color" [disabled]="pageNum==1" (click)="btnClick(pageNum-1)">上一页
+      </button>
+      <button ion-button  small [color]="color" [disabled]="pageNum==ceil(total/pageSize)"
+              (click)="btnClick(pageNum+1)">下一页
+      </button>
+      <button ion-button  small [color]="color" [disabled]="pageNum==ceil(total/pageSize)"
+              (click)="btnClick(ceil(total/pageSize))">尾页
+      </button>
     </ion-col>
   </ion-row>
   <ion-row>

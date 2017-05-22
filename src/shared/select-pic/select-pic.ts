@@ -38,7 +38,7 @@ export class SelectPicPage {
           text: '从相册选择',
           handler: () => {
             that.nativeService.getMultiplePicture({//从相册多选
-              maximumImagesCount: (that.max - that.fileObjList.length),
+              maximumImagesCount: (that.max - (that.fileObjList ? that.fileObjList.length : 0)),
               destinationType: this.destinationType
             }).then(imgs => {
               for (let img of <string[]>imgs) {
@@ -69,6 +69,7 @@ export class SelectPicPage {
     if (this.destinationType == 0) {
       img = 'data:image/jpg;base64,' + img;
     }
+    this.fileObjList = this.fileObjList || [];
     let fileObj = <FileObj>{'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);
