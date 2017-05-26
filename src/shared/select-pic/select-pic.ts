@@ -4,6 +4,12 @@ import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {NativeService} from "../../providers/NativeService";
 import {FileObj} from "../../model/FileObj";
 
+/**
+ * @name 自定义图片上传/预览组件
+ * @description
+ * @example <page-select-pic [(fileObjList)]="fileObjList"></page-select-pic>
+ * @example <page-select-pic [max]="6" [allowAdd]="true" [allowDelete]="true" [(fileObjList)]="fileObjList"></page-select-pic>
+ */
 @Component({
   selector: 'page-select-pic',
   templateUrl: 'select-pic.html',
@@ -19,6 +25,9 @@ export class SelectPicPage {
 
   @Input()
   allowAdd: boolean = true;  //是否允许新增
+
+  @Input()
+  allowDelete: boolean = true;  //是否允许删除
 
   @Input() fileObjList: FileObj[] = [];
   @Output() fileObjListChange = new EventEmitter<any>();
@@ -80,6 +89,9 @@ export class SelectPicPage {
   }
 
   deletePic(i) {
+    if(!this.allowDelete){
+      return;
+    }
     let that = this;
     that.actionSheetCtrl.create({
       buttons: [
