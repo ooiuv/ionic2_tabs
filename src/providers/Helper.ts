@@ -42,6 +42,7 @@ export class Helper {
 
     //点击通知进入应用程序时会触发的事件
     document.addEventListener("jpush.openNotification", event => {
+      //  window['plugins'].jPushPlugin.resetBadge();
       let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
       console.log("jpush.openNotification" + content);
     }, false);

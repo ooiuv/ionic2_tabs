@@ -1,17 +1,12 @@
 import {Component, ViewChild} from '@angular/core';
 import {Storage} from '@ionic/storage';
-
 import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 import {GlobalData} from "../providers/GlobalData";
 import {UserInfo} from "../model/UserInfo";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
-
-declare var AppMinimize;
 
 @Component({
   templateUrl: 'app.html'
@@ -22,8 +17,6 @@ export class MyApp {
   backButtonPressed: boolean = false;
 
   constructor(private platform: Platform,
-              private statusBar: StatusBar,
-              private splashScreen: SplashScreen,
               private keyboard: Keyboard,
               private ionicApp: IonicApp,
               private storage: Storage,
@@ -51,8 +44,8 @@ export class MyApp {
           });
         }
       });
-      statusBar.styleDefault();
-      splashScreen.hide();
+      this.nativeService.statusBarStyleDefault();
+      this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
       // this.nativeService.detectionUpgrade();//检测app是否升级
@@ -89,7 +82,7 @@ export class MyApp {
       let activeVC = this.nav.getActive();
       let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
-      return activeNav.canGoBack() ? activeNav.pop() : AppMinimize.minimize();//this.showExit()
+      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.appMinimize();//this.showExit()
 
     }, 1);
   }

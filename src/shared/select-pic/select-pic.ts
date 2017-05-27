@@ -1,6 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {NavController, ActionSheetController} from 'ionic-angular';
-import {PhotoViewer} from '@ionic-native/photo-viewer';
 import {NativeService} from "../../providers/NativeService";
 import {FileObj} from "../../model/FileObj";
 
@@ -12,8 +11,7 @@ import {FileObj} from "../../model/FileObj";
  */
 @Component({
   selector: 'page-select-pic',
-  templateUrl: 'select-pic.html',
-  providers: [PhotoViewer]
+  templateUrl: 'select-pic.html'
 })
 export class SelectPicPage {
 
@@ -34,8 +32,7 @@ export class SelectPicPage {
 
   constructor(public navCtrl: NavController,
               private actionSheetCtrl: ActionSheetController,
-              private nativeService: NativeService,
-              private photoViewer: PhotoViewer) {
+              private nativeService: NativeService) {
     console.log(this.allowAdd)
   }
 
@@ -85,7 +82,7 @@ export class SelectPicPage {
   }
 
   showPictures(img) {
-    this.photoViewer.show(img);
+    this.nativeService.photoView(img);
   }
 
   deletePic(i) {

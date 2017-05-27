@@ -3,6 +3,9 @@
  */
 import {Injectable} from '@angular/core';
 import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
+
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 import {AppVersion} from '@ionic-native/app-version';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {Toast} from '@ionic-native/toast';
@@ -11,11 +14,15 @@ import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
+
 import {Position} from "../model/type";
 import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
+declare var AppMinimize;
+
 
 @Injectable()
 export class NativeService {
@@ -25,6 +32,8 @@ export class NativeService {
   constructor(private platform: Platform,
               private toastCtrl: ToastController,
               private alertCtrl: AlertController,
+              private statusBar: StatusBar,
+              private splashScreen: SplashScreen,
               private appVersion: AppVersion,
               private camera: Camera,
               private toast: Toast,
@@ -33,12 +42,14 @@ export class NativeService {
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
               private network: Network,
+              private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController) {
   }
 
   warn(info): void {
     console.log('%cNativeService/' + info, 'color:#e8c406');
   }
+
 
   /**
    * 通过浏览器打开url
@@ -363,6 +374,34 @@ export class NativeService {
     });
   }
 
+  /**
+   * 使用默认状态栏
+   */
+  statusBarStyleDefault() {
+    this.statusBar.styleDefault();
+  }
+
+  /**
+   * 隐藏启动页面
+   */
+  splashScreenHide() {
+    this.splashScreen.hide();
+  }
+
+  /**
+   * 调用最小化app插件
+   */
+  appMinimize() {
+    AppMinimize.minimize();
+  }
+
+  /**
+   * 调用图片预览插件
+   * @param img 文件本地路径或base64字符串.base64字符串如果太大会很卡
+   */
+  photoView(img: string) {
+    this.photoViewer.show(img);
+  }
 
   /**
    * 获得用户当前坐标
