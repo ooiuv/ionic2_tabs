@@ -8,15 +8,14 @@
 
 
 <ion-content padding>
-  <div padding-vertical>预览功能需要在手机上进行</div>
   <br>
   <br>
   <div padding-vertical>
-    demo1:没有添加权限:allowAdd="false"
-    <page-select-pic [fileObjList]="fileObjList" [allowAdd]="false"></page-select-pic>
+    使用demo1:没有添加和删除权限:[allowAdd]="false" [allowDelete]="false"
+    <page-select-pic [fileObjList]="fileObjList" [allowAdd]="false" [allowDelete]="false"></page-select-pic>
   </div>
   <div padding-vertical>
-    demo2:限制最大照片数量为6张,默认4张
+    使用demo2:限制最大照片数量为6张,默认4张
     <page-select-pic [max]="6" [(fileObjList)]="fileObjList"></page-select-pic>
   </div>
 </ion-content>

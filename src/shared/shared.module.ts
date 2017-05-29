@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
 import {PaginationPage} from "./pagination-component/pagination";
-import {SelectPicPage} from "./select-pic/select-pic";
-
+import {SelectPic} from "./pic-viewer-component/select-pic";
+import {ViewerPicModule} from "./pic-viewer-component/viewer-pic.module";
 
 @NgModule({
-  imports: [IonicModule],
-  declarations: [PaginationPage, SelectPicPage],
-  exports: [PaginationPage, SelectPicPage],
+  imports: [IonicModule, ViewerPicModule],
+  declarations: [PaginationPage, SelectPic],
+  exports: [PaginationPage, SelectPic],
   providers: []
 })
 export class SharedModule {

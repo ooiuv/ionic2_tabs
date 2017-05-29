@@ -46,7 +46,7 @@ export class HttpService {
   public get(url: string, paramMap: any = null): Observable<Response> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Get,
-      search: HttpService.buildURLSearchParams(paramMap),
+      search: HttpService.buildURLSearchParams(paramMap)
     }));
   }
 

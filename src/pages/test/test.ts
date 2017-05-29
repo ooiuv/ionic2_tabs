@@ -18,10 +18,10 @@ export class TestPage {
               private httpService: HttpService,
               public testService: TestService) {
 
+
   }
 
   ionViewDidEnter() {
-
   }
 
   click() {
