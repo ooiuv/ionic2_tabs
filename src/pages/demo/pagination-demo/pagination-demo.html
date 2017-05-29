@@ -14,7 +14,9 @@
 
 
 <ion-content padding>
-  <page-pagination [total]="16" (search)="doSearch($event)"></page-pagination>
-  <page-pagination [total]="22" (search)="doSearch($event)" pageSize="10" color="dark"></page-pagination>
-  <button ion-button block round (click)="details('http://www.jianshu.com/p/8cf299555370')">查看详情</button>
+  <page-pagination [total]="16" (pageNumChange)="doSearch($event)"></page-pagination>
+  <page-pagination [total]="22" (pageNumChange)="doSearch($event)" pageSize="10" color="dark"></page-pagination>
+  <div padding>
+    <button ion-button block (click)="details('http://www.jianshu.com/p/8cf299555370')">查看详情</button>
+  </div>
 </ion-content>

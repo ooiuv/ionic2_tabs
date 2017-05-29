@@ -18,6 +18,8 @@ import {Transfer} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
+import {PhotoViewer} from '@ionic-native/photo-viewer';
+import {JPush} from "../../typings/modules/jpush/index";
 
 import {NativeService} from "../providers/NativeService";
 import {HttpService} from "../providers/HttpService";
@@ -59,6 +61,8 @@ import {GlobalData} from "../providers/GlobalData";
     InAppBrowser,
     ImagePicker,
     Network,
+    PhotoViewer,
+    JPush,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeService,
     HttpService,

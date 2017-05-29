@@ -9,6 +9,7 @@ import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
 import {UserInfo} from "../../model/UserInfo";
 import {GlobalData} from "../../providers/GlobalData";
+import {Helper} from "../../providers/Helper";
 
 
 @Component({
@@ -28,6 +29,7 @@ export class LoginPage {
               private modalCtrl: ModalController,
               private platform: Platform,
               private alertCtrl: AlertController,
+              private helper: Helper,
               private globalData: GlobalData,
               private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
@@ -73,6 +75,7 @@ export class LoginPage {
         this.globalData.token =userInfo.token;
         this.userInfo = userInfo;
         this.storage.set('UserInfo', userInfo);
+        this.helper.setAlias(userInfo.id);
         this.viewCtrl.dismiss(userInfo);
       });
   }
