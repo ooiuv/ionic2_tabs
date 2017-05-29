@@ -14,7 +14,6 @@ import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
-import {PhotoViewer} from '@ionic-native/photo-viewer';
 
 import {Position} from "../model/type";
 import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
@@ -22,7 +21,6 @@ declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
 declare var AppMinimize;
-
 
 @Injectable()
 export class NativeService {
@@ -42,7 +40,6 @@ export class NativeService {
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
               private network: Network,
-              private photoViewer: PhotoViewer,
               private loadingCtrl: LoadingController) {
   }
 
@@ -393,14 +390,6 @@ export class NativeService {
    */
   appMinimize() {
     AppMinimize.minimize();
-  }
-
-  /**
-   * 调用图片预览插件
-   * @param img 文件本地路径或base64字符串.base64字符串如果太大会很卡
-   */
-  photoView(img: string) {
-    this.photoViewer.show(img);
   }
 
   /**
