@@ -66,7 +66,6 @@ export class SelectPic {
     }).present();
   }
 
-
   deletePicture(i) {//删除照片
     if (!this.allowDelete) {
       return;
