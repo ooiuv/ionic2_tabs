@@ -4,6 +4,7 @@ import {FileObj} from "../../../model/FileObj";
 import {HttpService} from "../../../providers/HttpService";
 import {Response} from "@angular/http";
 import {FileService} from "../../../providers/FileService";
+import {NativeService} from "../../../providers/NativeService";
 
 @Component({
   selector: 'page-select-pic-demo',
@@ -13,20 +14,24 @@ export class SelectPicDemoPage {
   fileObjList: FileObj[] = [];
 
   constructor(public navCtrl: NavController,
-              private fileService : FileService,
-              private httpService: HttpService) {
+              private httpService: HttpService,
+              private nativeService: NativeService) {
     this.httpService.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
-      if(res.success){
-        for(let fileObj of res.data){
-         this.fileObjList.push(<FileObj>{'thumbPath':fileObj.base64,'origPath':fileObj.base64,'base64':fileObj.base64});
+      if (res.success) {
+        for (let fileObj of res.data) {
+          this.fileObjList.push(<FileObj>{
+            'thumbPath': fileObj.base64,
+            'origPath': fileObj.base64,
+            'base64': fileObj.base64
+          });
         }
       }
     });
   }
-  save(){
-    debugger;
-    this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(res=>{
-      debugger;
-    })
+
+
+  details(url){
+    this.nativeService.openUrlByBrowser(url);
   }
+
 }

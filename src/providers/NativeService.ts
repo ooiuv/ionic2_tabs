@@ -14,13 +14,13 @@ import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
 import {Network} from '@ionic-native/network';
+import {AppMinimize} from "@ionic-native/app-minimize";
 
 import {Position} from "../model/type";
 import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
-declare var AppMinimize;
 
 @Injectable()
 export class NativeService {
@@ -40,6 +40,7 @@ export class NativeService {
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
               private network: Network,
+              private appMinimize: AppMinimize,
               private loadingCtrl: LoadingController) {
   }
 
@@ -388,8 +389,8 @@ export class NativeService {
   /**
    * 调用最小化app插件
    */
-  appMinimize() {
-    AppMinimize.minimize();
+  minimize() {
+    this.appMinimize.minimize()
   }
 
   /**

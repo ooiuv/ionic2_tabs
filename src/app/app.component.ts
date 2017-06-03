@@ -82,7 +82,7 @@ export class MyApp {
       let activeVC = this.nav.getActive();
       let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
-      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.appMinimize();//this.showExit()
+      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize();//this.showExit()
 
     }, 1);
   }

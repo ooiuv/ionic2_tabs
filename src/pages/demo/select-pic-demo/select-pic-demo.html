@@ -18,5 +18,7 @@
     使用demo2:限制最大照片数量为6张,默认4张
     <page-select-pic [max]="6" [(fileObjList)]="fileObjList"></page-select-pic>
   </div>
-  <button ion-button (click)="save()">保存</button>
+  <div padding>
+    <button ion-button block (click)="details('http://www.jianshu.com/p/e935e62adec4')">查看详情</button>
+  </div>
 </ion-content>

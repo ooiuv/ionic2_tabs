@@ -7,13 +7,12 @@ Ionic 2 App
 ####实现了如下功能点
 * 注册android硬件返回按钮事件
 * 最小化app
-* 拍照,相册多图选择
-* 使用chart.js
+* 拍照,相册多图选择,多图预览(放大缩小)功能
+* 图标使用chart.js
 * 高德地图,定位,导航
 * 代码按功能划分多module
-* 封装angular http,http拦截器
+* 封装angular http
 * 自定义分页组件
-* 自定义图片上传及预览组件
 * 自定义图标
 * 图片上传demo
 * 其他cordova插件封装和常用工具方法
@@ -30,4 +29,3 @@ Ionic 2 App
 
 ##使用高德定位和导航
 * [更多详情](http://www.jianshu.com/p/85aceaee3b35)
-
