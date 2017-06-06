@@ -25,7 +25,7 @@ export class HttpService {
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
     url = HttpService.replaceUrl(url);
     if (options.headers) {
-      options.headers['token'] = this.globalData.token;
+      options.headers.append('token','Bearer ' +this.globalData.token);
     } else {
       options.headers = new Headers({
         'token': this.globalData.token
@@ -66,8 +66,7 @@ export class HttpService {
       search: HttpService.buildURLSearchParams(paramMap).toString(),
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Accept': 'application/json;charset=utf-8',
-        'token': this.globalData.token
+        'Accept': 'application/json;charset=utf-8'
       })
     }));
   }
