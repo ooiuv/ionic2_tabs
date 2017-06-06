@@ -11,6 +11,7 @@ import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
 import {NativeService} from "./NativeService";
 import {AlertController} from "ionic-angular";
+import {APP_SERVE_URL} from "./Constants";
 
 @Injectable()
 export class HttpService {
@@ -22,6 +23,7 @@ export class HttpService {
   }
 
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
+    url = HttpService.replaceUrl(url);
     if (options.headers) {
       options.headers['token'] = this.globalData.token;
     } else {
@@ -134,7 +136,7 @@ export class HttpService {
   private requestFailed(url: string, options: RequestOptionsArgs, err) {
     this.nativeService.hideLoading();
     console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
-    let msg = '请求发生异常',status = err.status;
+    let msg = '请求发生异常', status = err.status;
     if (!this.nativeService.isConnecting()) {
       msg = '请求失败，请连接网络';
     } else {
@@ -153,4 +155,16 @@ export class HttpService {
     }).present();
   }
 
+  /**
+   * url中如果有双斜杠替换为单斜杠
+   * 如:http://88.128.18.144:8080//api//demo.替换后http://88.128.18.144:8080/api/demo
+   * @param url
+   * @returns {string}
+   */
+  private static replaceUrl(url) {
+    if (url.indexOf('http://') == -1) {
+      url = APP_SERVE_URL + url;
+    }
+    return 'http://' + url.substring(7).replace(/\/\//g, '/');
+  }
 }
