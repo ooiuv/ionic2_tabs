@@ -25,7 +25,7 @@ export class HttpService {
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
     url = HttpService.replaceUrl(url);
     if (options.headers) {
-      options.headers.append('token','Bearer ' +this.globalData.token);
+      options.headers.append('token', this.globalData.token);
     } else {
       options.headers = new Headers({
         'token': this.globalData.token
@@ -52,11 +52,13 @@ export class HttpService {
     }));
   }
 
-  // 默认Content-Type为application/json;
   public post(url: string, body: any = null): Observable<Response> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Post,
-      body: body
+      body: body,
+      headers: new Headers({
+        'Content-Type': 'application/json; charset=UTF-8'
+      })
     }));
   }
 
@@ -65,8 +67,7 @@ export class HttpService {
       method: RequestMethod.Post,
       search: HttpService.buildURLSearchParams(paramMap).toString(),
       headers: new Headers({
-        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'Accept': 'application/json;charset=utf-8'
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
     }));
   }
