@@ -15,7 +15,7 @@ export class SelectPicDemoPage {
   constructor(public navCtrl: NavController,
               private httpService: HttpService,
               private nativeService: NativeService) {
-    this.httpService.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
+    this.httpService.get('/assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
         for (let fileObj of res.data) {
           this.fileObjList.push(<FileObj>{
