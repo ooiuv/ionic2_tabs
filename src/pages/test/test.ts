@@ -25,7 +25,7 @@ export class TestPage {
   }
 
   click() {
-    this.httpService.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
+    this.httpService.get('/assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if(res.success){
         for(let fileObj of res.data){
           this.fileObjList.push(<FileObj>{'thumbPath':fileObj.base64,'origPath':fileObj.base64});
