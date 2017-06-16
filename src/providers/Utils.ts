@@ -1,9 +1,6 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-/**
- * Created by yanxiaojun617@163.com on 12-27.
- */
 import {Injectable} from '@angular/core';
 
 /**
@@ -46,7 +43,7 @@ export class Utils {
    * @example  dateFormat(new Date(),'yyyy-MM-ddThh:mm:ss+08:00')   "2017-02-28T09:24:00+08:00"
    * @returns {string}
    */
- static dateFormat(date: Date, sFormat:string = 'yyyy-MM-dd'): string {
+  static dateFormat(date: Date, sFormat: String = 'yyyy-MM-dd'): string {
     let time = {
       Year: 0,
       TYear: '0',
