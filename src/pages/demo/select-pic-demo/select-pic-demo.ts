@@ -2,8 +2,9 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {FileObj} from "../../../model/FileObj";
 import {HttpService} from "../../../providers/HttpService";
-import {Response} from "@angular/http";
+import {Response, Http} from "@angular/http";
 import {NativeService} from "../../../providers/NativeService";
+import {FileService} from "../../../providers/FileService";
 
 @Component({
   selector: 'page-select-pic-demo',
@@ -11,11 +12,15 @@ import {NativeService} from "../../../providers/NativeService";
 })
 export class SelectPicDemoPage {
   fileObjList: FileObj[] = [];
+  filePaths: FileObj[] = [];
 
   constructor(public navCtrl: NavController,
+              private http: Http,
               private httpService: HttpService,
+              private fileService: FileService,
               private nativeService: NativeService) {
-    this.httpService.get('/assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
+    //使用Http加载本地json文件,因为HttpService给url默认加了http://ip,加载本地文件不需要http://ip
+    this.http.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
         for (let fileObj of res.data) {
           this.fileObjList.push(<FileObj>{
@@ -28,9 +33,26 @@ export class SelectPicDemoPage {
     });
   }
 
-
   details(url){
     this.nativeService.openUrlByBrowser(url);
+  }
+
+  uploadMultiByBase64(){
+    this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(res => {
+      console.log(res);
+      if (res && res.data) {
+        this.nativeService.showToast('成功上传' + res.data.length + '张图片');
+      }
+    });
+  }
+
+  uploadMultiByFilePath(){
+    this.fileService.uploadMultiByFilePath(this.filePaths).subscribe(res => {
+      console.log(res);
+      if (res && res.data) {
+        this.nativeService.showToast('成功上传' + res.data.length + '张图片');
+      }
+    });
   }
 
 }

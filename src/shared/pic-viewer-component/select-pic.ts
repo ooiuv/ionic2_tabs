@@ -17,7 +17,7 @@ import {ViewerPic} from "./viewer-pic";
 export class SelectPic {
   @Input() max: number = 4;  //最多可选择多少张图片，默认为4张
 
-  @Input() destinationType: number = 1;  //期望返回的图片格式,默认1图片路径,0为返回base64
+  @Input() destinationType: number = 1;  //期望返回的图片格式,默认1图片路径,0为返回图片base64
 
   @Input() allowAdd: boolean = true;  //是否允许新增
 
@@ -41,7 +41,7 @@ export class SelectPic {
             that.nativeService.getMultiplePicture({//从相册多选
               maximumImagesCount: (that.max - that.fileObjList.length),
               destinationType: this.destinationType
-            }).then(imgs => {
+            }).subscribe(imgs => {
               for (let img of <string[]>imgs) {
                 that.getPictureSuccess(img);
               }
@@ -53,7 +53,7 @@ export class SelectPic {
           handler: () => {
             that.nativeService.getPictureByCamera({
               destinationType: this.destinationType
-            }).then(img => {
+            }).subscribe(img => {
               that.getPictureSuccess(img);
             });
           }
@@ -97,9 +97,6 @@ export class SelectPic {
   }
 
   private getPictureSuccess(img) {
-    if (this.destinationType == 0) {
-      img = 'data:image/jpg;base64,' + img;
-    }
     let fileObj = <FileObj>{'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);

@@ -44,7 +44,7 @@ export class NavigationModalPage {
   }
 
   doSearch(navigationType, navigationService) {
-    this.nativeService.getUserLocation().then(location => {
+    this.nativeService.getUserLocation().subscribe(location => {
       this.map.clearMap();
       this.startPoint = location;
       navigationService.search([this.startPoint.lng, this.startPoint.lat], [this.endPoint.lng, this.endPoint.lat], (status, result) => {
@@ -54,7 +54,7 @@ export class NavigationModalPage {
   }
 
   doNavigation(type) {// 0实时导航,1模拟导航
-    this.nativeService.navigation(this.startPoint, this.endPoint, type).then(message => {
+    this.nativeService.navigation(this.startPoint, this.endPoint, type).subscribe(message => {
       debugger;
     });
   }

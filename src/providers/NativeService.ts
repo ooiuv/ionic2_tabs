@@ -9,7 +9,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {AppVersion} from '@ionic-native/app-version';
 import {Camera, CameraOptions} from '@ionic-native/camera';
 import {Toast} from '@ionic-native/toast';
-import {File} from '@ionic-native/file';
+import {File, FileEntry} from '@ionic-native/file';
 import {Transfer, TransferObject} from '@ionic-native/transfer';
 import {InAppBrowser} from '@ionic-native/in-app-browser';
 import {ImagePicker} from '@ionic-native/image-picker';
@@ -17,7 +17,9 @@ import {Network} from '@ionic-native/network';
 import {AppMinimize} from "@ionic-native/app-minimize";
 
 import {Position} from "../model/type";
-import {APP_DOWNLOAD, APK_DOWNLOAD} from "./Constants";
+import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE} from "./Constants";
+import {GlobalData} from "./GlobalData";
+import {Observable} from "rxjs";
 declare var LocationPlugin;
 declare var AMapNavigation;
 declare var cordova: any;
@@ -41,13 +43,51 @@ export class NativeService {
               private imagePicker: ImagePicker,
               private network: Network,
               private appMinimize: AppMinimize,
-              private loadingCtrl: LoadingController) {
+              private loadingCtrl: LoadingController,
+              private globalData: GlobalData,) {
   }
 
   warn(info): void {
-    console.log('%cNativeService/' + info, 'color:#e8c406');
+    console.log('%cNativeService/' + info, 'color:#C41A16');
   }
 
+  /**
+   * 使用默认状态栏
+   */
+  statusBarStyleDefault(): void {
+    this.statusBar.styleDefault();
+  }
+
+  /**
+   * 隐藏启动页面
+   */
+  splashScreenHide(): void {
+    this.splashScreen.hide();
+  }
+
+  /**
+   * 获取网络类型 如`unknown`, `ethernet`, `wifi`, `2g`, `3g`, `4g`, `cellular`, `none`
+   */
+  getNetworkType(): string {
+    if (!this.isMobile()) {
+      return 'wifi';
+    }
+    return this.network.type;
+  }
+
+  /**
+   * 判断是否有网络
+   */
+  isConnecting(): boolean {
+    return this.getNetworkType() != 'none';
+  }
+
+  /**
+   * 调用最小化app插件
+   */
+  minimize(): void {
+    this.appMinimize.minimize()
+  }
 
   /**
    * 通过浏览器打开url
@@ -111,7 +151,6 @@ export class NativeService {
 
   /**
    * 是否真机环境
-   * @return {boolean}
    */
   isMobile(): boolean {
     return this.platform.is('mobile') && !this.platform.is('mobileweb');
@@ -119,7 +158,6 @@ export class NativeService {
 
   /**
    * 是否android真机环境
-   * @return {boolean}
    */
   isAndroid(): boolean {
     return this.isMobile() && this.platform.is('android');
@@ -127,10 +165,16 @@ export class NativeService {
 
   /**
    * 是否ios真机环境
-   * @return {boolean}
    */
   isIos(): boolean {
     return this.isMobile() && (this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone'));
+  }
+
+  alert(title: string): void {
+    this.alertCtrl.create({
+      title: title,
+      buttons: [{text: '确定'}]
+    }).present();
   }
 
   /**
@@ -151,22 +195,24 @@ export class NativeService {
     }
   };
 
-
   /**
    * 统一调用此方法显示loading
    * @param content 显示的内容
    */
   showLoading(content: string = ''): void {
+    if (!this.globalData.showLoading) {
+      return;
+    }
     if (!this.loadingIsOpen) {
       this.loadingIsOpen = true;
       this.loading = this.loadingCtrl.create({
         content: content
       });
       this.loading.present();
-      setTimeout(() => {//最长显示10秒
+      setTimeout(() => {//最长显示15秒
         this.loadingIsOpen && this.loading.dismiss();
         this.loadingIsOpen = false;
-      }, 10000);
+      }, 15000);
     }
   };
 
@@ -174,6 +220,9 @@ export class NativeService {
    * 关闭loading
    */
   hideLoading(): void {
+    if (!this.globalData.showLoading) {
+      this.globalData.showLoading = true;
+    }
     this.loadingIsOpen && this.loading.dismiss();
     this.loadingIsOpen = false;
   };
@@ -181,26 +230,36 @@ export class NativeService {
   /**
    * 使用cordova-plugin-camera获取照片
    * @param options
-   * @returns {Promise<string>}
    */
-  getPicture(options: CameraOptions = {}): Promise<string> {
+  getPicture(options: CameraOptions = {}): Observable<string> {
     let ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.CAMERA,//图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
       destinationType: this.camera.DestinationType.DATA_URL,//默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
-      quality: 100,//图像质量，范围为0 - 100
+      quality: QUALITY_SIZE,//图像质量，范围为0 - 100
       allowEdit: true,//选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: 1000,//缩放图像的宽度（像素）
-      targetHeight: 1000,//缩放图像的高度（像素）
-      saveToPhotoAlbum: true,//是否保存到相册
+      targetWidth: IMAGE_SIZE,//缩放图像的宽度（像素）
+      targetHeight: IMAGE_SIZE,//缩放图像的高度（像素）
+      saveToPhotoAlbum: false,//是否保存到相册
       correctOrientation: true//设置摄像机拍摄的图像是否为正确的方向
     }, options);
-    return new Promise((resolve) => {
+    return Observable.create(observer => {
       this.camera.getPicture(ops).then((imgData: string) => {
-        resolve(imgData);
-      }, (err) => {
-        err == 20 && this.showToast('没有权限,请在设置中开启权限');
-        this.warn('getPicture:' + err)
+        if (ops.destinationType === this.camera.DestinationType.DATA_URL) {
+          observer.next('data:image/jpg;base64,' + imgData);
+        } else {
+          observer.next(imgData);
+        }
+      }).catch(err => {
+        if (err == 20) {
+          this.alert('没有权限,请在设置中开启权限');
+          return;
+        }
+        if (String(err).indexOf('cancel') != -1) {
+          return;
+        }
+        this.warn('getPicture:' + err);
+        observer.error('获取照片失败');
       });
     });
   };
@@ -208,136 +267,95 @@ export class NativeService {
   /**
    * 通过拍照获取照片
    * @param options
-   * @return {Promise<string>}
    */
-  getPictureByCamera(options: CameraOptions = {}): Promise<string> {
-    return new Promise((resolve) => {
-      this.getPicture(Object.assign({
-        sourceType: this.camera.PictureSourceType.CAMERA,
-        destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
-      }, options)).then((imgData: string) => {
-        resolve(imgData);
-      }).catch(err => {
-        String(err).indexOf('cancel') != -1 ? this.showToast('取消拍照', 1500) : this.showToast('获取照片失败');
-      });
-    });
+  getPictureByCamera(options: CameraOptions = {}): Observable<string> {
+    let ops: CameraOptions = Object.assign({
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
+    }, options);
+    return this.getPicture(ops);
   };
-
 
   /**
    * 通过图库获取照片
    * @param options
-   * @return {Promise<string>}
    */
-  getPictureByPhotoLibrary(options: CameraOptions = {}): Promise<string> {
-    return new Promise((resolve) => {
-      this.getPicture(Object.assign({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
-      }, options)).then((imgData: string) => {
-        resolve(imgData);
-      }).catch(err => {
-        String(err).indexOf('cancel') != -1 ? this.showToast('取消选择图片', 1500) : this.showToast('获取照片失败');
-      });
-    });
+  getPictureByPhotoLibrary(options: CameraOptions = {}): Observable<string> {
+    let ops: CameraOptions = Object.assign({
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
+    }, options);
+    return this.getPicture(ops);
   };
-
 
   /**
    * 通过图库选择多图
    * @param options
-   * @return {Promise<T>}
    */
-  getMultiplePicture(options = {}): Promise<any> {
+  getMultiplePicture(options = {}): Observable<any> {
     let that = this;
-    let destinationType = options['destinationType'] || 0;//0:base64字符串,1:图片url
-    return new Promise((resolve) => {
-      this.imagePicker.getPictures(Object.assign({
-        maximumImagesCount: 6,
-        width: 1000,//缩放图像的宽度（像素）
-        height: 1000,//缩放图像的高度（像素）
-        quality: 100//图像质量，范围为0 - 100
-      }, options)).then(files => {
+    let ops = Object.assign({
+      maximumImagesCount: 6,
+      width: IMAGE_SIZE,//缩放图像的宽度（像素）
+      height: IMAGE_SIZE,//缩放图像的高度（像素）
+      quality: QUALITY_SIZE//图像质量，范围为0 - 100
+    }, options);
+    return Observable.create(observer => {
+      this.imagePicker.getPictures(ops).then(files => {
+        let destinationType = options['destinationType'] || 0;//0:base64字符串,1:图片url
         if (destinationType === 1) {
-          resolve(files);
+          observer.next(files);
         } else {
           let imgBase64s = [];//base64字符串数组
           for (let fileUrl of files) {
-            that.convertImgToBase64(fileUrl, base64 => {
+            that.convertImgToBase64(fileUrl).subscribe(base64 => {
               imgBase64s.push(base64);
               if (imgBase64s.length === files.length) {
-                resolve(imgBase64s);
+                observer.next(imgBase64s);
               }
-            });
+            })
           }
         }
       }).catch(err => {
         this.warn('getMultiplePicture:' + err);
-        this.showToast('获取照片失败');
+        this.alert('获取照片失败');
+        observer.error(err);
       });
     });
   };
 
   /**
    * 根据图片绝对路径转化为base64字符串
-   * @param url 绝对路径
-   * @param callback 回调函数
+   * @param path 绝对路径
    */
-  convertImgToBase64(url: string, callback) {
-    this.getFileContentAsBase64(url, function (base64Image) {
-      callback.call(this, base64Image.substring(base64Image.indexOf(';base64,') + 8));
-    })
-  }
-
-  private getFileContentAsBase64(path: string, callback) {
-    function fail(err) {
-      console.log('Cannot found requested file' + err);
-    }
-
-    function gotFile(fileEntry) {
-      fileEntry.file(function (file) {
-        let reader = new FileReader();
-        reader.onloadend = function (e) {
-          let content = this.result;
-          callback(content);
-        };
-        reader.readAsDataURL(file);
+  convertImgToBase64(path: string): Observable<string> {
+    return Observable.create(observer => {
+      this.file.resolveLocalFilesystemUrl(path).then((fileEnter: FileEntry) => {
+        fileEnter.file(file => {
+          let reader = new FileReader();
+          reader.onloadend = function (e) {
+            observer.next(this.result);
+          };
+          reader.readAsDataURL(file);
+        });
+      }).catch(err => {
+        this.warn('convertImgToBase64:' + err);
+        observer.error('图片路径转换base64失败');
       });
-    }
-
-    this.file.resolveLocalFilesystemUrl(path).then(fileEnter => gotFile(fileEnter)).catch(err => fail(err));
-    // window['resolveLocalFileSystemURL'](path, gotFile, fail);
-  }
-
-  /**
-   * 获取网络类型 如`unknown`, `ethernet`, `wifi`, `2g`, `3g`, `4g`, `cellular`, `none`
-   */
-  getNetworkType(): string {
-    if (!this.isMobile()) {
-      return 'wifi';
-    }
-    return this.network.type;
-  }
-
-  /**
-   * 判断是否有网络
-   * @returns {boolean}
-   */
-  isConnecting(): boolean {
-    return this.getNetworkType() != 'none';
+    });
   }
 
   /**
    * 获得app版本号,如0.01
    * @description  对应/config.xml中version的值
-   * @returns {Promise<string>}
    */
-  getVersionNumber(): Promise<string> {
-    return new Promise((resolve) => {
+  getVersionNumber(): Observable<string> {
+    return Observable.create(observer => {
       this.appVersion.getVersionNumber().then((value: string) => {
-        resolve(value);
+        observer.next(value);
       }).catch(err => {
         this.warn('getVersionNumber:' + err);
+        observer.error(err);
       });
     });
   }
@@ -345,14 +363,14 @@ export class NativeService {
   /**
    * 获得app name,如ionic2_tabs
    * @description  对应/config.xml中name的值
-   * @returns {Promise<string>}
    */
-  getAppName(): Promise<string> {
-    return new Promise((resolve) => {
+  getAppName(): Observable<string> {
+    return Observable.create(observer => {
       this.appVersion.getAppName().then((value: string) => {
-        resolve(value);
+        observer.next(value);
       }).catch(err => {
         this.warn('getAppName:' + err);
+        observer.error(err);
       });
     });
   }
@@ -360,55 +378,36 @@ export class NativeService {
   /**
    * 获得app包名/id,如com.kit.ionic2tabs
    * @description  对应/config.xml中id的值
-   * @returns {Promise<string>}
    */
-  getPackageName(): Promise<string> {
-    return new Promise((resolve) => {
+  getPackageName(): Observable<string> {
+    return Observable.create(observer => {
       this.appVersion.getPackageName().then((value: string) => {
-        resolve(value);
+        observer.next(value);
       }).catch(err => {
         this.warn('getPackageName:' + err);
+        observer.error(err);
       });
     });
   }
 
   /**
-   * 使用默认状态栏
-   */
-  statusBarStyleDefault() {
-    this.statusBar.styleDefault();
-  }
-
-  /**
-   * 隐藏启动页面
-   */
-  splashScreenHide() {
-    this.splashScreen.hide();
-  }
-
-  /**
-   * 调用最小化app插件
-   */
-  minimize() {
-    this.appMinimize.minimize()
-  }
-
-  /**
    * 获得用户当前坐标
-   * @return {Promise<Position>}
    */
-  getUserLocation(): Promise<Position> {
-    return new Promise((resolve) => {
+  getUserLocation(): Observable<Position> {
+    return Observable.create(observer => {
       if (this.isMobile()) {
         LocationPlugin.getLocation(data => {
-          resolve({'lng': data.longitude, 'lat': data.latitude});
+          observer.next({'lng': data.longitude, 'lat': data.latitude});
         }, msg => {
-          alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
+          this.alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
           this.warn('getUserLocation:' + msg);
+          observer.error(msg);
+        }, err => {
+          observer.error(err);
         });
       } else {
-        this.warn('getUserLocation:非手机环境,即测试环境返回固定坐标');
-        resolve({'lng': 113.350912, 'lat': 23.119495});
+        console.log('非手机环境,即测试环境返回固定坐标');
+        observer.next({'lng': 113.350912, 'lat': 23.119495});
       }
     });
   }
@@ -418,10 +417,9 @@ export class NativeService {
    * @param startPoint 开始坐标
    * @param endPoint 结束坐标
    * @param type 0实时导航,1模拟导航,默认为模拟导航
-   * @return {Promise<string>}
    */
-  navigation(startPoint: Position, endPoint: Position, type = 1): Promise<string> {
-    return new Promise((resolve) => {
+  navigation(startPoint: Position, endPoint: Position, type = 1): Observable<string> {
+    return Observable.create(observer => {
       if (this.platform.is('mobile') && !this.platform.is('mobileweb')) {
         AMapNavigation.navigation({
           lng: startPoint.lng,
@@ -429,14 +427,15 @@ export class NativeService {
         }, {
           lng: endPoint.lng,
           lat: endPoint.lat
-        }, type, function (message) {
-          resolve(message);
-        }, function (err) {
-          alert('导航失败:' + err);
+        }, type, message => {
+          observer.next(message);
+        }, err => {
+          this.alert('导航失败');
           this.warn('navigation:' + err);
+          observer.error(err);
         });
       } else {
-        this.showToast('非手机环境不能导航');
+        this.alert('非手机环境不能导航');
       }
     });
   }

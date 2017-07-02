@@ -51,7 +51,7 @@ export class FileService {
    * @param fileObjList,数组中的对象必须包含bse64属性
    * @return {Promise<TResult|T>}
    */
-  uploadMultiByBase64(fileObjList: FileObj[]) {
+  uploadMultiByBase64(fileObjList: FileObj[]): Observable<Result> {
     if (!fileObjList || fileObjList.length == 0) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
@@ -65,7 +65,7 @@ export class FileService {
    * @param FileObj,对象必须包含origPath属性
    * @return {Promise<TResult|T>}
    */
-  uploadByBase64(fileObj: FileObj) {
+  uploadByBase64(fileObj: FileObj): Observable<Result> {
     if (!fileObj.base64) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
@@ -79,7 +79,7 @@ export class FileService {
    * @param fileObjList 数组中的对象必须包含origPath属性
    * @returns {any}
    */
-  uploadMultiByFilePath(fileObjList: FileObj[]) {
+  uploadMultiByFilePath(fileObjList: FileObj[]): Observable<Result> {
     if (fileObjList.length == 0) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
@@ -89,7 +89,7 @@ export class FileService {
       this.nativeService.showLoading();
       let fileObjs = [];
       for (let fileObj of fileObjList) {
-        this.nativeService.convertImgToBase64(fileObj.origPath, base64 => {
+        this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64=>{
           fileObjs.push({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
           if (fileObjs.length === fileObjList.length) {
             this.uploadMultiByBase64(fileObjs).subscribe(res => {
@@ -97,7 +97,7 @@ export class FileService {
               this.nativeService.hideLoading();
             })
           }
-        });
+        })
       }
     });
   }
@@ -107,7 +107,7 @@ export class FileService {
    * @param fileObj 对象必须包含origPath属性
    * @returns {any}
    */
-  uploadByFilePath(fileObj: FileObj) {
+  uploadByFilePath(fileObj: FileObj): Observable<Result> {
     if (!fileObj.origPath) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
@@ -115,17 +115,17 @@ export class FileService {
     }
     return Observable.create((observer) => {
       this.nativeService.showLoading();
-      this.nativeService.convertImgToBase64(fileObj.origPath, base64 => {
+      this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64=>{
         let file = <FileObj>({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
         this.uploadByBase64(file).subscribe(res => {
           observer.next(res);
           this.nativeService.hideLoading();
         })
-      });
+      })
     });
   }
 
-  private static getFileType(path: string) {
+  private static getFileType(path: string): string {
     return path.substring(path.lastIndexOf('.') + 1);
   }
 

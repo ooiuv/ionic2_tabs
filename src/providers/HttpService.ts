@@ -25,7 +25,7 @@ export class HttpService {
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
     url = HttpService.formatUrl(url);
     this.optionsAddToken(options);
-    return Observable.create((observer) => {
+    return Observable.create(observer => {
       this.nativeService.showLoading();
       console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
       this.http.request(url, options).subscribe(res => {
@@ -127,7 +127,7 @@ export class HttpService {
    * @param options
    * @param err
    */
-  private requestFailed(url: string, options: RequestOptionsArgs, err) {
+  private requestFailed(url: string, options: RequestOptionsArgs, err): void {
     this.nativeService.hideLoading();
     console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
     let msg = '请求发生异常', status = err.status;
@@ -144,7 +144,7 @@ export class HttpService {
     }
     this.alertCtrl.create({
       title: msg,
-      subTitle: status,
+      subTitle: '状态码:' + status,
       buttons: [{text: '确定'}]
     }).present();
   }
@@ -155,7 +155,7 @@ export class HttpService {
    * @param url
    * @returns {string}
    */
-  private static formatUrl(url) {
+  private static formatUrl(url): string {
     if (url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
       url = APP_SERVE_URL + url;
     }
@@ -163,7 +163,7 @@ export class HttpService {
     return url.substring(0, index) + url.substring(index).replace(/\/\//g, '/');
   }
 
-  private optionsAddToken(options: RequestOptionsArgs) {
+  private optionsAddToken(options: RequestOptionsArgs): void {
     let token = this.globalData.token;
     if (options.headers) {
       options.headers.append('token', token);

@@ -14,8 +14,6 @@ import {FILE_SERVE_URL} from "../../../providers/Constants";
 export class MineEditAvatarModalPage {
   isChange: boolean = false;//头像是否改变标识
   avatarPath: string;
-  imageBase64: string;
-
   constructor(private params: NavParams,
               private viewCtrl: ViewController,
               private fileService: FileService,
@@ -30,11 +28,11 @@ export class MineEditAvatarModalPage {
       targetHeight: 256
     };
     if (type == 1) {
-      this.nativeService.getPictureByCamera(options).then(imageBase64 => {
+      this.nativeService.getPictureByCamera(options).subscribe(imageBase64 => {
         this.getPictureSuccess(imageBase64);
       });
     } else {
-      this.nativeService.getPictureByPhotoLibrary(options).then(imageBase64 => {
+      this.nativeService.getPictureByPhotoLibrary(options).subscribe(imageBase64 => {
         this.getPictureSuccess(imageBase64);
       });
     }
@@ -42,13 +40,12 @@ export class MineEditAvatarModalPage {
 
   private getPictureSuccess(imageBase64) {
     this.isChange = true;
-    this.imageBase64 = <string>imageBase64;
-    this.avatarPath = 'data:image/jpg;base64,' + imageBase64;
+    this.avatarPath =  imageBase64;
   }
 
   saveAvatar() {
     if (this.isChange) {
-      let fileObj = <FileObj>{'base64': this.imageBase64};
+      let fileObj = <FileObj>{'base64': this.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(result => {// 上传图片到文件服务器
         if (result.success) {
           let origPath = FILE_SERVE_URL + result.data[0].origPath;

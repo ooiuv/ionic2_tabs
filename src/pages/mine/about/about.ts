@@ -14,7 +14,7 @@ export class AboutPage {
   constructor(private navCtrl: NavController,
               private nativeService: NativeService) {
     if (this.nativeService.isMobile()) {
-      this.nativeService.getVersionNumber().then(value => {
+      this.nativeService.getVersionNumber().subscribe(value => {
         this.versionNo = value;
       });
     }

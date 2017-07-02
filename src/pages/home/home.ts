@@ -84,7 +84,7 @@ export class HomePage {
   mapLocation() {
     let that = this;
     that.isPositioning = true;
-    that.nativeService.getUserLocation().then(position => {
+    that.nativeService.getUserLocation().subscribe(position => {
       that.map.clearMap();
       that.marker = new AMap.Marker({
         map: that.map,
