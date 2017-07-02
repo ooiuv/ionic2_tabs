@@ -8,6 +8,7 @@ import {FileObj} from "../model/FileObj";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
+import {Result} from "../model/Result";
 
 /**
  * 上传图片到文件服务器
@@ -22,7 +23,7 @@ export class FileService {
    * @param id 文件id
    * @return {Promise<TResult|T>}
    */
-  getFileInfoById(id: string) {
+  getFileInfoById(id: string): Observable<Result> {
     if (!id) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});
@@ -36,7 +37,7 @@ export class FileService {
    * @param ids id数组
    * @returns {Observable<R>}
    */
-  getFileInfoByIds(ids: string[]) {
+  getFileInfoByIds(ids: string[]): Observable<Result> {
     if (!ids || ids.length == 0) {
       return Observable.create((observer) => {
         observer.next({'data': [], 'success': true});

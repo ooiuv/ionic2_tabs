@@ -23,14 +23,8 @@ export class HttpService {
   }
 
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
-    url = HttpService.replaceUrl(url);
-    if (options.headers) {
-      options.headers.append('token', this.globalData.token);
-    } else {
-      options.headers = new Headers({
-        'token': this.globalData.token
-      });
-    }
+    url = HttpService.formatUrl(url);
+    this.optionsAddToken(options);
     return Observable.create((observer) => {
       this.nativeService.showLoading();
       console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
@@ -161,10 +155,22 @@ export class HttpService {
    * @param url
    * @returns {string}
    */
-  private static replaceUrl(url) {
-    if (url.indexOf('http://') == -1) {
+  private static formatUrl(url) {
+    if (url.indexOf('http://') == -1 && url.indexOf('https://') == -1) {
       url = APP_SERVE_URL + url;
     }
-    return 'http://' + url.substring(7).replace(/\/\//g, '/');
+    let index = url.indexOf('//') + 2;
+    return url.substring(0, index) + url.substring(index).replace(/\/\//g, '/');
+  }
+
+  private optionsAddToken(options: RequestOptionsArgs) {
+    let token = this.globalData.token;
+    if (options.headers) {
+      options.headers.append('token', token);
+    } else {
+      options.headers = new Headers({
+        'token': token
+      });
+    }
   }
 }
