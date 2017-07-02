@@ -47,7 +47,7 @@ export class NativeService {
               private globalData: GlobalData,) {
   }
 
-  warn(info): void {
+  log(info): void {
     console.log('%cNativeService/' + info, 'color:#C41A16');
   }
 
@@ -258,8 +258,7 @@ export class NativeService {
         if (String(err).indexOf('cancel') != -1) {
           return;
         }
-        this.warn('getPicture:' + err);
-        observer.error('获取照片失败');
+        this.log('getPicture:' + err);
       });
     });
   };
@@ -317,9 +316,8 @@ export class NativeService {
           }
         }
       }).catch(err => {
-        this.warn('getMultiplePicture:' + err);
+        this.log('getMultiplePicture:' + err);
         this.alert('获取照片失败');
-        observer.error(err);
       });
     });
   };
@@ -339,8 +337,7 @@ export class NativeService {
           reader.readAsDataURL(file);
         });
       }).catch(err => {
-        this.warn('convertImgToBase64:' + err);
-        observer.error('图片路径转换base64失败');
+        this.log('convertImgToBase64:' + err);
       });
     });
   }
@@ -354,8 +351,7 @@ export class NativeService {
       this.appVersion.getVersionNumber().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.warn('getVersionNumber:' + err);
-        observer.error(err);
+        this.log('getVersionNumber:' + err);
       });
     });
   }
@@ -369,8 +365,7 @@ export class NativeService {
       this.appVersion.getAppName().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.warn('getAppName:' + err);
-        observer.error(err);
+        this.log('getAppName:' + err);
       });
     });
   }
@@ -384,8 +379,7 @@ export class NativeService {
       this.appVersion.getPackageName().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.warn('getPackageName:' + err);
-        observer.error(err);
+        this.log('getPackageName:' + err);
       });
     });
   }
@@ -399,11 +393,11 @@ export class NativeService {
         LocationPlugin.getLocation(data => {
           observer.next({'lng': data.longitude, 'lat': data.latitude});
         }, msg => {
+          this.log('getUserLocation:' + msg);
           this.alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
-          this.warn('getUserLocation:' + msg);
-          observer.error(msg);
         }, err => {
-          observer.error(err);
+          this.log('getUserLocation:' + err);
+          this.alert('获取位置失败');
         });
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
@@ -430,9 +424,8 @@ export class NativeService {
         }, type, message => {
           observer.next(message);
         }, err => {
+          this.log('navigation:' + err);
           this.alert('导航失败');
-          this.warn('navigation:' + err);
-          observer.error(err);
         });
       } else {
         this.alert('非手机环境不能导航');

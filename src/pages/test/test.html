@@ -5,13 +5,6 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button block (click)="load()">加载图片data</button>
-  <button ion-button block (click)="click()">请求照片</button>
+  <button ion-button block (click)="getFileData()">请求照片</button>
   <page-select-pic [max]="6" [(fileObjList)]="fileObjList"></page-select-pic>
-  <br>
-  <br>
-  <br>
-  选择照片:
-  <page-select-pic [(fileObjList)]="filePaths"></page-select-pic>
-  <button ion-button block (click)="save()">上传</button>
 </ion-content>
