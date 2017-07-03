@@ -12,7 +12,6 @@ import {FileService} from "../../providers/FileService";
 })
 export class TestPage {
   fileObjList: FileObj[] = [];
-  filePaths: FileObj[] = [];
 
   constructor(private nativeService: NativeService,
               private httpService: HttpService,
@@ -24,11 +23,7 @@ export class TestPage {
 
   getFileData() {
     this.testService.getFileData().subscribe(res => {
-      if (res.success) {
-        for (let fileObj of res.data) {
-          this.fileObjList.push(<FileObj>{'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
-        }
-      }
+      this.fileObjList = res;
     });
   }
 

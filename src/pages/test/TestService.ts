@@ -5,10 +5,11 @@ import {Observable} from "rxjs";
 import {TestObj} from "./TestObj";
 import {HttpService} from "../../providers/HttpService";
 import {Result} from "../../model/Result";
+import {FileObj} from "../../model/FileObj";
 
 @Injectable()
 export class TestService {
-  constructor(public http: Http,public httpService: HttpService) {
+  constructor(public http: Http, public httpService: HttpService) {
   }
 
   getJson() {
@@ -23,8 +24,16 @@ export class TestService {
     return this.httpService.get('./assets/data/testList.json').map((res: Response) => res.json());
   }
 
-  getFileData(): Observable<Result> {
-    return this.http.get('./assets/data/fileData.json').map((res: Response) => res.json());
+  getFileData(): Observable<FileObj[]> {
+    return this.http.get('./assets/data/fileData.json').map((res: Response) => {
+      let result: Result = res.json(), fileObjList: FileObj[] = [];
+      if (result.success) {
+        for (let fileObj of result.data) {
+          fileObjList.push(<FileObj>{'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
+        }
+      }
+      return fileObjList;
+    });
   }
 
 }
