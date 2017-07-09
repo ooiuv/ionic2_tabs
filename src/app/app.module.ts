@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler, Config} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from './app.component';
 import {TabModule} from "../pages/tabs/tab.module";
@@ -30,6 +30,7 @@ import {TestModule} from "../pages/test/test.module";
 import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
+import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 
 @NgModule({
   declarations: [MyApp],
@@ -73,4 +74,14 @@ import {GlobalData} from "../providers/GlobalData";
   ]
 })
 export class AppModule {
+  constructor(public config: Config) {
+    this.setCustomTransitions();
+  }
+
+  private setCustomTransitions() {
+    this.config.setTransition('modal-from-right-enter', ModalFromRightEnter);
+    this.config.setTransition('modal-from-right-leave', ModalFromRightLeave);
+    this.config.setTransition('modal-scale-enter', ModalScaleEnter);
+    this.config.setTransition('modal-scale-leave', ModalScaleLeave);
+  }
 }
