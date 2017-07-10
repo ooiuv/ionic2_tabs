@@ -395,9 +395,7 @@ export class NativeService {
         }, msg => {
           this.log('getUserLocation:' + msg);
           this.alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
-        }, err => {
-          this.log('getUserLocation:' + err);
-          this.alert('获取位置失败');
+          observer.error('获取位置失败');
         });
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');

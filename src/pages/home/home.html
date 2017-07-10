@@ -14,10 +14,10 @@
     </ion-fab>
   </div>
   <div *ngIf="mapIsComplete">
-    <ion-searchbar class="searchBar" (ionFocus)="ionFocus()" placeholder="搜索" [ngStyle]="{'top': isIos?'16px':''}"></ion-searchbar>
+    <ion-searchbar class="search-bar" (ionFocus)="ionFocus()" placeholder="搜索" [ngStyle]="{'top': isIos?'16px':''}"></ion-searchbar>
   </div>
   <div *ngIf="mapIsComplete&&!isPositioning">
     <ion-icon name="radio-button-on" class="position-btn" (click)="mapLocation()"></ion-icon>
   </div>
-  <div id="map_container" class="map_container"></div>
+  <div id="map_container" class="map-container"></div>
 </ion-content>
