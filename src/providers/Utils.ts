@@ -31,7 +31,6 @@ export class Utils {
   }
 
 
-
   /**
    * 日期对象转为日期字符串
    * @param date 需要格式化的日期对象
@@ -106,4 +105,17 @@ export class Utils {
       return ++sequence;
     };
   })();
+
+  /**
+   * 返回字符串长度，汉子计数为2
+   * @param str
+   * @returns {number}
+   */
+  static strLength(str: string): number {
+    let len = 0;
+    for (let i = 0, length = str.length; i < length; i++) {
+      str.charCodeAt(i) > 255 ? len += 2 : len++;
+    }
+    return len;
+  }
 }

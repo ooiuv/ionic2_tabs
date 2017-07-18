@@ -21,8 +21,6 @@ export class TransitionDemoPage {
 
   scaleModalScalePage() {
     this.modalCtrl.create(ModalScalePage, {}, {
-      showBackdrop: true,
-      enableBackdropDismiss: true,
       enterAnimation: 'modal-scale-enter',
       leaveAnimation: 'modal-scale-leave'
     }).present();
@@ -30,8 +28,6 @@ export class TransitionDemoPage {
 
   presentModalFromRightPage() {
     this.modalCtrl.create(ModalFromRightPage, {}, {
-      showBackdrop: true,
-      enableBackdropDismiss: true,
       enterAnimation: 'modal-from-right-enter',
       leaveAnimation: 'modal-from-right-leave'
     }).present();
