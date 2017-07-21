@@ -10,10 +10,41 @@
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-  <!--����ͼ��-->
+  <!--阿里图标-->
   <link href="http://at.alicdn.com/t/font_8r9qc41oky5jyvi.css" rel="stylesheet">
-  <!--�ߵµ�ͼ-->
+  <!--高德地图-->
   <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=39d5ce75adbc78bdffd0c9fe13e3b5eb"></script>
+  <!--<script src="https://og6593g2z.qnssl.com/fundebug.0.0.8.min.js"
+          apikey="d8cad29f103c3358bf3ef7c7d383c135b82b52c2e2de70eb42e3ca524a832648"></script>
+  <script>
+    fundebug.appversion = '0.7.0';//应用版本
+    fundebug.releasestage = "production";//releasestage指的是应用开发阶段，例如『开发』、『测试』、『生产』: dreleasestage:evelopment test production
+    fundebug.silent = false;//如果您暂时不需要使用Fundebug，可以选择配置安静模式，将silent属性设为true
+    /*
+     //user指的是网站的用户，user对象含有name和email两个属性
+     fundebug.user = {
+     name: "fundebug",
+     email: "help@fundebug.com"
+     };
+     //metaData是其他定义信息，开发者可以使用metaData收集所需要的信息
+     fundebug.metaData = {company: {name: "Fundebug", nation: "China"}};
+     */
+
+//登录成功
+ fundebug.user = {
+                            name: user.username
+                        };
+
+ fundebug.notifyError(msg);
+
+
+      fundebug.notifyError(err, {
+                        metaData: {
+                            name: 'app升级失败'
+                        }
+                    }
+                );
+  </script>-->
   <link rel="stylesheet" href="./assets/lib/swiper-3.4.2.min.css">
   <script src="./assets/lib/swiper-3.4.2.min.js"></script>
 
