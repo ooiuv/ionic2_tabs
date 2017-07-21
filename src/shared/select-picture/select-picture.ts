@@ -1,20 +1,21 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {NavController, ActionSheetController} from 'ionic-angular';
+import {IonicPage, ActionSheetController, ModalController} from 'ionic-angular';
 import {FileObj} from "../../model/FileObj";
 import {NativeService} from "../../providers/NativeService";
-import {ViewerPic} from "./viewer-pic";
+import {PreviewPicturePage} from "../preview-picture/preview-picture";
 
 /**
- * 自定义添加/预览图片组件
- * @description
- * @example <page-select-pic [(fileObjList)]="fileObjList"></page-select-pic>
- * @example <page-select-pic [max]="6" [allowAdd]="true" [allowDelete]="true" [(fileObjList)]="fileObjList"></page-select-pic>
+ * Generated class for the SelectPicturePage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
  */
+@IonicPage()
 @Component({
-  selector: 'page-select-pic',
-  templateUrl: 'select-pic.html',
+  selector: 'page-select-picture',
+  templateUrl: 'select-picture.html',
 })
-export class SelectPic {
+export class SelectPicturePage {
   @Input() max: number = 4;  //最多可选择多少张图片，默认为4张
 
   @Input() destinationType: number = 1;  //期望返回的图片格式,默认1图片路径,0为返回图片base64
@@ -26,7 +27,7 @@ export class SelectPic {
   @Input() fileObjList: FileObj[] = [];   //图片列表,与fileObjListChange形成双向数据绑定
   @Output() fileObjListChange = new EventEmitter<any>();
 
-  constructor(public navCtrl: NavController,
+  constructor(private modalCtrl: ModalController,
               private actionSheetCtrl: ActionSheetController,
               private nativeService: NativeService) {
   }
@@ -93,7 +94,7 @@ export class SelectPic {
     for (let fileObj of this.fileObjList) {
       picturePaths.push(fileObj.origPath);
     }
-    this.navCtrl.push(ViewerPic, {'initialSlide': index, 'picturePaths': picturePaths});
+    this.modalCtrl.create(PreviewPicturePage, {'initialSlide': index, 'picturePaths': picturePaths}).present();
   }
 
   private getPictureSuccess(img) {

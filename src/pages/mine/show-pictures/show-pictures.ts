@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import { NavParams, ViewController} from 'ionic-angular';
 
 /*
   Generated class for the ShowPictures page.
@@ -14,12 +14,11 @@ import {NavController, NavParams, ViewController} from 'ionic-angular';
 export class ShowPicturesPage {
   imagePaths: string[];
 
-  constructor(private navCtrl: NavController,
-              private navParams: NavParams,
+  constructor(private navParams: NavParams,
               private viewCtrl: ViewController
 
   ) {
-    this.imagePaths = navParams.data.imagePaths;
+    this.imagePaths = this.navParams.data.imagePaths;
   }
  deletePictures(i){
    this.imagePaths.splice(i,1);

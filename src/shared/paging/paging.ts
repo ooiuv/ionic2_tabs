@@ -1,4 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { IonicPage} from 'ionic-angular';
 import {PAGE_SIZE} from "../../providers/Constants";
 
 /**
@@ -7,11 +8,12 @@ import {PAGE_SIZE} from "../../providers/Constants";
  * @example <page-pagination [total]="18" (pageNumChange)="doSearch($event)"></page-pagination>
  * @example <page-pagination [total]="total" (pageNumChange)="doSearch($event)" pageSize="10" color="dark"></page-pagination>
  */
+@IonicPage()
 @Component({
-  selector: 'page-pagination',
-  templateUrl: 'pagination.html'
+  selector: 'page-paging',
+  templateUrl: 'paging.html',
 })
-export class PaginationPage {
+export class PagingPage {
 
   @Input()
   total:number;//共多少条数据

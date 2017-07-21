@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {ModalController, ViewController, Platform, AlertController} from 'ionic-angular';
+import {ModalController, ViewController, Platform, AlertController, Events} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import {FormBuilder, Validators} from '@angular/forms';
 
@@ -7,10 +7,7 @@ import {LoginService} from './LoginService';
 
 import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
-import {UserInfo} from "../../model/UserInfo";
-import {GlobalData} from "../../providers/GlobalData";
-import {Helper} from "../../providers/Helper";
-
+import {UserInfo, LoginInfo} from "../../model/UserInfo";
 
 @Component({
   selector: 'page-login',
@@ -29,8 +26,7 @@ export class LoginPage {
               private modalCtrl: ModalController,
               private platform: Platform,
               private alertCtrl: AlertController,
-              private helper: Helper,
-              private globalData: GlobalData,
+              private events: Events,
               private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
       username: ['yanxiaojun617', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
@@ -39,8 +35,8 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    this.storage.get('UserInfo').then(userInfo => {
-      this.userInfo = userInfo || null;
+    this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
+      this.userInfo = loginInfo && loginInfo.user ? loginInfo.user : null;
     });
   }
 
@@ -67,16 +63,13 @@ export class LoginPage {
   login(user) {
     this.submitted = true;
     this.loginService.login(user)
-      .subscribe((userInfo: UserInfo) => {
+      .subscribe(loginInfo => {
         this.submitted = false;
-        userInfo.token = 'xx122a9Wf';//从后台获取token,暂时写死
-        this.globalData.userId =userInfo.id;
-        this.globalData.username =userInfo.username;
-        this.globalData.token =userInfo.token;
-        this.userInfo = userInfo;
-        this.storage.set('UserInfo', userInfo);
-        this.helper.setAlias(userInfo.id);
-        this.viewCtrl.dismiss(userInfo);
+        this.userInfo = loginInfo.user;
+        this.events.publish('user:login', loginInfo);
+        this.viewCtrl.dismiss(loginInfo.user);
+      }, err => {
+        this.submitted = false;
       });
   }
 

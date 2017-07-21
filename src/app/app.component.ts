@@ -3,8 +3,7 @@ import {Storage} from '@ionic/storage';
 import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from 'ionic-angular';
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
-import {GlobalData} from "../providers/GlobalData";
-import {UserInfo} from "../model/UserInfo";
+import {LoginInfo} from "../model/UserInfo";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 
@@ -21,21 +20,15 @@ export class MyApp {
               private ionicApp: IonicApp,
               private storage: Storage,
               private helper: Helper,
-              private globalData: GlobalData,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private events: Events,
               private nativeService: NativeService) {
     platform.ready().then(() => {
       this.helper.initJpush();//初始化极光推送
-      this.storage.get('UserInfo').then((userInfo: UserInfo) => {
-        if (userInfo) {
-          this.events.publish('user:login', userInfo);
-          this.globalData.userId = userInfo.id;
-          this.globalData.username = userInfo.username;
-          this.globalData.token = userInfo.token;
-          this.helper.setTags();
-          this.helper.setAlias(userInfo.id);
+      this.storage.get('LoginInfo').then((loginInfo:LoginInfo) => {
+        if (loginInfo) {
+          this.events.publish('user:login', loginInfo);
         } else {
           let modal = this.modalCtrl.create(LoginPage);
           modal.present();

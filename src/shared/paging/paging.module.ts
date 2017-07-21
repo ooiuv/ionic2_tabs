@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { ViewerPic } from './viewer-pic';
+import { PagingPage } from './paging';
 
 @NgModule({
   declarations: [
-    ViewerPic,
+    PagingPage,
   ],
   imports: [
-    IonicPageModule.forChild(ViewerPic),
+    IonicPageModule.forChild(PagingPage),
   ],
   exports: [
-    ViewerPic
+    PagingPage
   ]
 })
-export class ViewerPicModule {}
+export class PagingPageModule {}

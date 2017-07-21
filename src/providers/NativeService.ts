@@ -17,12 +17,12 @@ import {Network} from '@ionic-native/network';
 import {AppMinimize} from "@ionic-native/app-minimize";
 
 import {Position} from "../model/type";
-import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE} from "./Constants";
+import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
 declare var LocationPlugin;
 declare var AMapNavigation;
-declare var cordova: any;
+
 
 @Injectable()
 export class NativeService {
@@ -170,9 +170,10 @@ export class NativeService {
     return this.isMobile() && (this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone'));
   }
 
-  alert(title: string): void {
+  alert(title: string, subTitle: string = "",): void {
     this.alertCtrl.create({
       title: title,
+      subTitle: subTitle,
       buttons: [{text: '确定'}]
     }).present();
   }
@@ -209,10 +210,10 @@ export class NativeService {
         content: content
       });
       this.loading.present();
-      setTimeout(() => {//最长显示15秒
+      setTimeout(() => {
         this.loadingIsOpen && this.loading.dismiss();
         this.loadingIsOpen = false;
-      }, 15000);
+      }, REQUEST_TIMEOUT);
     }
   };
 

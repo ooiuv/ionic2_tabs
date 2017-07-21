@@ -1,4 +1,4 @@
-export class Result {
+export interface Result {
   success: boolean;
   msg: string;
   data: any;

@@ -8,7 +8,7 @@ import {FileObj} from "../model/FileObj";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
-import {Result} from "../model/Result";
+import {Result} from "../model/Result.";
 
 /**
  * 上传图片到文件服务器
@@ -89,8 +89,12 @@ export class FileService {
       this.nativeService.showLoading();
       let fileObjs = [];
       for (let fileObj of fileObjList) {
-        this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64=>{
-          fileObjs.push({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
+        this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64 => {
+          fileObjs.push({
+            'base64': base64,
+            'type': FileService.getFileType(fileObj.origPath),
+            'parameter': fileObj.parameter
+          });
           if (fileObjs.length === fileObjList.length) {
             this.uploadMultiByBase64(fileObjs).subscribe(res => {
               observer.next(res);
@@ -115,8 +119,12 @@ export class FileService {
     }
     return Observable.create((observer) => {
       this.nativeService.showLoading();
-      this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64=>{
-        let file = <FileObj>({'base64': base64, 'type': FileService.getFileType(fileObj.origPath)});
+      this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64 => {
+        let file = <FileObj>({
+          'base64': base64,
+          'type': FileService.getFileType(fileObj.origPath),
+          'parameter': fileObj.parameter
+        });
         this.uploadByBase64(file).subscribe(res => {
           observer.next(res);
           this.nativeService.hideLoading();

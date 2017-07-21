@@ -60,19 +60,20 @@ $colors: (
 // so that the above variables are used and Ionic's
 // default are overridden.
 
-$toolbar-background:                    color($colors, primary);
-$tabs-ios-background:                   #f8f8f8;
-$tabs-md-background:                    #f8f8f8;
-$searchbar-ios-input-height:            33px;
-$searchbar-ios-background-color:        color($colors, primary);
+$toolbar-background: color($colors, primary);
+$toolbar-ios-border-color: color($colors, primary);
+$tabs-ios-background: #f8f8f8;
+$tabs-md-background: #f8f8f8;
+$searchbar-ios-input-height: 33px;
+$searchbar-ios-background-color: color($colors, primary);
 
-$hairlines-width:                       1px;
-$list-border-color:                     #e0dfe4;
+$hairlines-width: 1px;
+$list-border-color: #e0dfe4;
 
 @import "ionic.theme.default";
 
 // start 自定义全局css,具体使用例子,请全局搜索class名
-.validation-failed{
+.validation-failed {
   float: right;
   padding-right: 10px;
   color: #ff0000;
@@ -85,7 +86,8 @@ $list-border-color:                     #e0dfe4;
   display: table;
   content: " ";
 }
-.clear-fix:after{
+
+.clear-fix:after {
   clear: both;
 }
 
@@ -97,7 +99,6 @@ $list-border-color:                     #e0dfe4;
 // http://ionicframework.com/docs/v2/ionicons/
 
 @import "ionic.ionicons";
-
 
 // Fonts
 // --------------------------------------------------

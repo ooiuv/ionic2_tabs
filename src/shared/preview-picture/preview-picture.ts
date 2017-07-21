@@ -1,18 +1,18 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavParams, ViewController} from 'ionic-angular';
 declare var Swiper;
 
 @IonicPage()
 @Component({
-  selector: 'page-viewer-pic',
-  templateUrl: 'viewer-pic.html',
+  selector: 'page-preview-picture',
+  templateUrl: 'preview-picture.html',
 })
-export class ViewerPic {
+export class PreviewPicturePage {
   @ViewChild('panel') panel: ElementRef;
   initialSlide: number = 0;
   picturePaths: string[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private viewCtrl: ViewController, public navParams: NavParams) {
     this.initialSlide = navParams.get('initialSlide');
     this.picturePaths = navParams.get('picturePaths');
   }
@@ -30,4 +30,7 @@ export class ViewerPic {
     })
   }
 
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
 }

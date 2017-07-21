@@ -18,9 +18,19 @@
     </ion-item>
   </ion-list>
   <ion-list>
-    <ion-item>
+    <ion-item (click)="setting()">
       <ion-icon name="settings" item-left color="primary"></ion-icon>
       设置
+      <ion-icon name='ios-arrow-forward' item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="map()" >
+      <ion-icon name="map" item-left color="bright"></ion-icon>
+      工作地图
+      <ion-icon name='ios-arrow-forward' item-right></ion-icon>
+    </ion-item>
+    <ion-item (click)="changePassword()" >
+      <ion-icon name="finger-print" item-left color="primary"></ion-icon>
+      修改密码
     </ion-item>
   </ion-list>
   <ion-list>

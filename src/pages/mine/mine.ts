@@ -5,9 +5,13 @@ import {Platform, NavController, ModalController, AlertController} from 'ionic-a
 import {MineEditPage} from './mine-edit/mine-edit';
 import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar-modal';
 import {UserInfo} from "../../model/UserInfo";
-import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {AboutPage} from "./about/about";
 import {LoginPage} from "../login/login";
+import {Helper} from "../../providers/Helper";
+import {DEFAULT_AVATAR} from "../../providers/Constants";
+import {WorkMapPage} from "./work-map/work-map";
+import {SettingPage} from "./setting/setting";
+import {ChangePasswordPage} from "./change-password/change-password";
 
 @Component({
   selector: 'page-mine',
@@ -15,38 +19,34 @@ import {LoginPage} from "../login/login";
 })
 export class MinePage {
   userInfo: UserInfo;
-  avatarPath: string = DEFAULT_AVATAR;
+  avatarPath: String = DEFAULT_AVATAR;
 
   constructor(private navCtrl: NavController,
               private platform: Platform,
               private storage: Storage,
+              private helper: Helper,
               private modalCtrl: ModalController,
               private alertCtrl: AlertController) {
-    this.storage.get('UserInfo').then((userInfo: UserInfo) => {
+
+  }
+
+  ionViewWillEnter() {
+    this.storage.get('LoginInfo').then(loginInfo => {
+      let userInfo = loginInfo.user;
       if (userInfo) {
         this.userInfo = userInfo;
-        userInfo.avatar && (this.avatarPath = userInfo.avatar);
+        this.avatarPath = userInfo.avatarPath;
       }
     });
   }
 
-
   edit() {
-    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo, 'avatarPath': this.avatarPath});
+    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo,'avatarPath':this.avatarPath});
   }
 
-  viewAvatar($event) {
-    $event.stopPropagation();
-    let modal = this.modalCtrl.create(MineEditAvatarModalPage, {
-      'userInfo': this.userInfo,
-      'avatarPath': this.avatarPath
-    });
-    modal.present();
-    modal.onDidDismiss(data => {
-      data && (this.avatarPath = data.avatarPath)
-    });
+  setting() {
+    this.navCtrl.push(SettingPage);
   }
-
 
   loginOut() {
     this.alertCtrl.create({
@@ -60,13 +60,23 @@ export class MinePage {
             modal.onDidDismiss(userInfo => {
               if (userInfo) {
                 this.userInfo = userInfo;
-                userInfo.avatar && (this.avatarPath = userInfo.avatar);
+                this.helper.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {//获取头像路径
+                  this.avatarPath = avatarPath
+                });
               }
             });
           }
         }
       ]
     }).present();
+  }
+
+  map() {
+    this.navCtrl.push(WorkMapPage);
+  }
+
+  changePassword() {
+    this.navCtrl.push(ChangePasswordPage);
   }
 
   exitSoftware() {
@@ -86,4 +96,14 @@ export class MinePage {
   about() {
     this.navCtrl.push(AboutPage);
   }
+
+  viewAvatar($event) {
+    $event.stopPropagation();
+    let modal = this.modalCtrl.create(MineEditAvatarModalPage, {avatarPath: this.avatarPath});
+    modal.present();
+    modal.onDidDismiss(data => {
+      data && (this.avatarPath = data.avatarPath)
+    });
+  }
+
 }
