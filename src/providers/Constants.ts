@@ -1,3 +1,7 @@
+export const APP_VERSION = '0.0.2';
+export const IS_DEBUG = true;//是否开发(调试)模式
+export const FUNDEBUG = true;//是否启用fundebug日志监控
+
 export const FILE_SERVE_URL = 'http://88.128.18.144:3333/';
 export const APP_SERVE_URL = 'http://localhost:8100';
 

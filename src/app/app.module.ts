@@ -31,6 +31,20 @@ import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
+import {APP_VERSION, IS_DEBUG, FUNDEBUG} from "../providers/Constants";
+declare var require: any;
+let fundebug:any = require("fundebug-javascript");
+fundebug.apikey = '3701a358f79b7daa39592255bde6c3c8772efad642883e42dbb65f3f8ffbae11';
+fundebug.appversion = APP_VERSION;//app版本号,务必和config.xml中版本号一致
+fundebug.releasestage = IS_DEBUG?'development':'production';//应用开发阶段，development:开发;production:生产
+fundebug.silent = !FUNDEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
+
+class FunDebugErrorHandler implements ErrorHandler {
+  handleError(err:any) : void {
+    fundebug.notifyError(err);
+    console.error(err)
+  }
+}
 
 @NgModule({
   declarations: [MyApp],
@@ -64,7 +78,7 @@ import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLea
     Network,
     AppMinimize,
     JPush,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    {provide: FunDebugErrorHandler, useClass: IonicErrorHandler},
     NativeService,
     HttpService,
     FileService,

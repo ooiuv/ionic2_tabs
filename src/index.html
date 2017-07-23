@@ -3,21 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Ionic App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
 
   <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4e8ef7">
-  <!--阿里图标-->
+
+  <!--阿里图标 http://www.iconfont.cn/-->
   <link href="http://at.alicdn.com/t/font_8r9qc41oky5jyvi.css" rel="stylesheet">
-  <!--高德地图-->
+
+  <!--高德地图 http://lbs.amap.com/api/javascript-api/summary/-->
   <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=39d5ce75adbc78bdffd0c9fe13e3b5eb"></script>
-  <!--<script src="https://og6593g2z.qnssl.com/fundebug.0.0.8.min.js"
-          apikey="d8cad29f103c3358bf3ef7c7d383c135b82b52c2e2de70eb42e3ca524a832648"></script>
-  <script>
-    fundebug.appversion = '0.7.0';//应用版本
+
+  <!--FunDebug全栈JavaScript错误监控 https://fundebug.com/-->
+  <!--<script src="https://og6593g2z.qnssl.com/fundebug.0.1.6.min.js"
+          apikey="3701a358f79b7daa39592255bde6c3c8772efad642883e42dbb65f3f8ffbae11"></script>-->
+  <!--<script>
+    fundebug.appversion = '0.0.1';//应用版本
     fundebug.releasestage = "production";//releasestage指的是应用开发阶段，例如『开发』、『测试』、『生产』: dreleasestage:evelopment test production
     fundebug.silent = false;//如果您暂时不需要使用Fundebug，可以选择配置安静模式，将silent属性设为true
     /*
@@ -30,23 +35,30 @@
      fundebug.metaData = {company: {name: "Fundebug", nation: "China"}};
      */
 
-//登录成功
- fundebug.user = {
-                            name: user.username
-                        };
+    //登录成功
+    fundebug.user = {
+      name: user.username
+    };
 
- fundebug.notifyError(msg);
+    fundebug.notifyError(msg);
 
 
-      fundebug.notifyError(err, {
-                        metaData: {
-                            name: 'app升级失败'
-                        }
-                    }
-                );
+    fundebug.notifyError(err, {
+        metaData: {
+          name: 'app升级失败'
+        }
+      }
+    );
   </script>-->
+
+  <!--swiper http://www.swiper.com.cn/api/index.html-->
   <link rel="stylesheet" href="./assets/lib/swiper-3.4.2.min.css">
   <script src="./assets/lib/swiper-3.4.2.min.js"></script>
+
+  <!--AlloyClip https://github.com/AlloyTeam/AlloyClip-->
+  <link rel="stylesheet" href="./assets/lib/alloyclip/AlloyClip.css">
+  <script src="./assets/lib/alloyclip/alloyimage.min.js"></script>
+  <script src="./assets/lib/alloyclip/alloyclip.min.js"></script>
 
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
@@ -62,21 +74,22 @@
 
   <link href="build/main.css" rel="stylesheet">
 
+
 </head>
 <body>
 
-  <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
+<!-- Ionic's root component and where the app will load -->
+<ion-app></ion-app>
 
-  <!-- The polyfills js is generated during the build process -->
-  <script src="build/polyfills.js"></script>
+<!-- The polyfills js is generated during the build process -->
+<script src="build/polyfills.js"></script>
 
-  <!-- The vendor js is generated during the build process
-       It contains all of the dependencies in node_modules -->
-  <script src="build/vendor.js"></script>
+<!-- The vendor js is generated during the build process
+     It contains all of the dependencies in node_modules -->
+<script src="build/vendor.js"></script>
 
-  <!-- The main bundle js is generated during the build process -->
-  <script src="build/main.js"></script>
+<!-- The main bundle js is generated during the build process -->
+<script src="build/main.js"></script>
 
 </body>
 </html>

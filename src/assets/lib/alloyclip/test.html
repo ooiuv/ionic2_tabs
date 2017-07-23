@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="AlloyClip.css">
+</head>
+<body>
+<div class="clip"></div>
+<div class="clip2"></div>
+<script type="text/javascript" src="alloyimage.js"></script>
+<script type="text/javascript" src="alloyclip.min.js"></script>
+<script>
+    new $AC(".clip", 100, 100, 0).ok(function(base64, aiObj){
+      alert(base64);
+
+      aiObj.saveFile("AlloyCliped.jpg", 0.8);
+    });
+
+    new $AC(".clip2", 100, 100, 1).ok(function(base64, aiObj){
+      alert(base64);
+      aiObj.saveFile("AlloyCliped_2.jpg", 0.8);
+    });
+
+</script>
+</body>
+</html>
