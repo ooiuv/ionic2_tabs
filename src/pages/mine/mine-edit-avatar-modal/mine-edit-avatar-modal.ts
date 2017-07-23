@@ -28,7 +28,8 @@ export class MineEditAvatarModalPage {
   getPicture(type) {//1拍照,0从图库选择
     let options = {
       targetWidth: 256,
-      targetHeight: 256
+      targetHeight: 256,
+      quality: 100
     };
     if (type == 1) {
       this.nativeService.getPictureByCamera(options).subscribe(imageBase64 => {
