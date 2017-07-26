@@ -18,6 +18,11 @@ import {MineService} from "../MineService";
 })
 export class ChangePasswordPage {
   form: any;
+  strength = {
+    low: false,
+    middle: false,
+    high: false
+  };
   verifyMessages = {
     'oldPsw': {
       'errorMsg': '',
@@ -25,11 +30,13 @@ export class ChangePasswordPage {
     },
     'newPsw': {
       'errorMsg': '',
-      'required': '旧密码为必填项'
+      'required': '新密码为必填项',
+      'minlength': '密码最少4个字符'
     },
     'newPsw2': {
       'errorMsg': '',
-      'required': '请重复输入新密码'
+      'required': '请重复输入新密码',
+      'minlength': '密码最少4个字符'
     }
   };
 
@@ -39,8 +46,8 @@ export class ChangePasswordPage {
               private nativeService: NativeService) {
     this.form = this.formBuilder.group({
       oldPsw: ['', [Validators.required]],
-      newPsw: ['', [Validators.required]],
-      newPsw2: ['', [Validators.required]]
+      newPsw: ['', [Validators.required, Validators.minLength(4)]],
+      newPsw2: ['', [Validators.required, Validators.minLength(4)]]
     });
     this.form.valueChanges
       .subscribe(data => {
@@ -67,13 +74,29 @@ export class ChangePasswordPage {
       return;
     }
     this.mineService.updateUserPassword(oldPsw, newPsw).subscribe(res => {
-      this.nativeService.showToast('保存成功');
+      this.nativeService.showToast('密码修改成功');
       this.dismiss();
     });
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  input(val) {
+    let m = this.checkPass(val);
+    if(m>=3){
+      this.strength.high=true;
+    }
+    if(m==2){
+      this.strength.high=false;
+      this.strength.middle=true;
+    }
+    if(m<2){
+      this.strength.high=false;
+      this.strength.middle=false;
+      this.strength.low=true;
+    }
   }
 
   /**
@@ -83,8 +106,8 @@ export class ChangePasswordPage {
    */
   private checkPass(pwd) {
     let m = 0;
-    if (pwd.length < 6) {
-      return m; //密码长度小于6
+    if (pwd.length <= 4) {
+      return m; //密码长度小于等于4
     }
     if (/\d/.test(pwd)) {
       m++; //纯数字密码
