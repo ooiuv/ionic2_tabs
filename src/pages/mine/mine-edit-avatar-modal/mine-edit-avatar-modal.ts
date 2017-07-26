@@ -29,7 +29,8 @@ export class MineEditAvatarModalPage {
     let options = {
       targetWidth: 256,
       targetHeight: 256,
-      quality: 100
+      quality: 100,
+      allowEdit: true
     };
     if (type == 1) {
       this.nativeService.getPictureByCamera(options).subscribe(imageBase64 => {

@@ -105,7 +105,7 @@ export class Utils {
       return ++sequence;
     };
   })();
-  
+
   /**
    * 返回字符串长度，汉子计数为2
    * @param str

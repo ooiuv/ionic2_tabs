@@ -37,7 +37,6 @@ export class SelectPicDemoPage {
 
   uploadMultiByBase64(){
     this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(res => {
-      console.log(res);
       if (res && res.data) {
         this.nativeService.showToast('成功上传' + res.data.length + '张图片');
       }
@@ -46,7 +45,6 @@ export class SelectPicDemoPage {
 
   uploadMultiByFilePath(){
     this.fileService.uploadMultiByFilePath(this.filePaths).subscribe(res => {
-      console.log(res);
       if (res && res.data) {
         this.nativeService.showToast('成功上传' + res.data.length + '张图片');
       }

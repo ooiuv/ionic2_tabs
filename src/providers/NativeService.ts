@@ -17,12 +17,18 @@ import {Network} from '@ionic-native/network';
 import {AppMinimize} from "@ionic-native/app-minimize";
 
 import {Position} from "../model/type";
-import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} from "./Constants";
+import {
+  APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT,
+  APP_VERSION_SERVE_URL, APP_NAME
+} from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
+import {CommonService} from "../service/CommonService";
+import {Http, Response} from "@angular/http";
+import {Utils} from "./Utils";
+import {Logger} from "./Logger";
 declare var LocationPlugin;
 declare var AMapNavigation;
-
 
 @Injectable()
 export class NativeService {
@@ -44,12 +50,11 @@ export class NativeService {
               private network: Network,
               private appMinimize: AppMinimize,
               private loadingCtrl: LoadingController,
-              private globalData: GlobalData,) {
+              private globalData: GlobalData,
+              public logger: Logger,
+              private http: Http) {
   }
 
-  log(info): void {
-    console.log('%cNativeService/' + info, 'color:#C41A16');
-  }
 
   /**
    * 使用默认状态栏
@@ -100,26 +105,55 @@ export class NativeService {
    * 检查app是否需要升级
    */
   detectionUpgrade(): void {
-    //这里连接后台判断是否需要升级,不需要升级就return
-    this.alertCtrl.create({
-      title: '升级',
-      subTitle: '发现新版本,是否立即升级？',
-      buttons: [{text: '取消'},
-        {
-          text: '确定',
-          handler: () => {
-            this.downloadApp();
+    if (this.isMobile()) {
+      let appType = this.isAndroid() ? 'android' : 'ios';
+      //从后台查询app最新版本信息
+      this.http.get(Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${APP_NAME}/${appType}/latest/version`)).map((res: Response) => res.json()).subscribe(res => {
+        this.getVersionNumber().subscribe(currentNo => {//获得当前app版本
+          if (currentNo != res.version) {//比较版本号
+            if (res.isForcedUpdate == 1) {//判断是否强制更新
+              this.alertCtrl.create({
+                title: '重要升级',
+                subTitle: '您必须升级后才能使用！',
+                buttons: [{
+                  text: '确定',
+                  handler: () => {
+                    this.downloadApp();
+                  }
+                }
+                ]
+              }).present();
+            } else {
+              this.alertCtrl.create({
+                title: '升级',
+                subTitle: '发现新版本,是否立即升级？',
+                buttons: [{text: '取消'},
+                  {
+                    text: '确定',
+                    handler: () => {
+                      this.downloadApp();
+                    }
+                  }
+                ]
+              }).present();
+            }
           }
-        }
-      ]
-    }).present();
+        })
+      });
+    }
+
   }
 
   /**
    * 下载安装app
    */
   downloadApp(): void {
-    if (this.isAndroid()) {
+    if (this.isIos()) {//ios打开网页下载
+      this.openUrlByBrowser(APP_DOWNLOAD);
+    }
+    if (this.isAndroid()) {//android本地下载
+
+      //显示下载进度
       let alert = this.alertCtrl.create({
         title: '下载进度：0%',
         enableBackdropDismiss: false,
@@ -130,10 +164,27 @@ export class NativeService {
       const fileTransfer: TransferObject = this.transfer.create();
       const apk = this.file.externalRootDirectory + 'android.apk'; //apk保存的目录
 
+      //下载并安装apk
       fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
         window['install'].install(apk.replace('file://', ''));
+      }, err => {
+        alert.dismiss();
+        this.logger.log(err, 'android app 本地升级失败');
+        this.alertCtrl.create({
+          title: '前往网页下载',
+          subTitle: '本地升级失败',
+          buttons: [
+            {
+              text: '确定',
+              handler: () => {
+                this.openUrlByBrowser(APP_DOWNLOAD);//打开网页下载
+              }
+            }
+          ]
+        }).present();
       });
 
+      //更新下载进度
       fileTransfer.onProgress((event: ProgressEvent) => {
         let num = Math.floor(event.loaded / event.total * 100);
         if (num === 100) {
@@ -143,9 +194,6 @@ export class NativeService {
           title && (title.innerHTML = '下载进度：' + num + '%');
         }
       });
-    }
-    if (this.isIos()) {
-      this.openUrlByBrowser(APP_DOWNLOAD);
     }
   }
 
@@ -237,7 +285,7 @@ export class NativeService {
       sourceType: this.camera.PictureSourceType.CAMERA,//图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
       destinationType: this.camera.DestinationType.DATA_URL,//默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
       quality: QUALITY_SIZE,//图像质量，范围为0 - 100
-      allowEdit: true,//选择图片前是否允许编辑
+      allowEdit: false,//选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
       targetWidth: IMAGE_SIZE,//缩放图像的宽度（像素）
       targetHeight: IMAGE_SIZE,//缩放图像的高度（像素）
@@ -259,7 +307,8 @@ export class NativeService {
         if (String(err).indexOf('cancel') != -1) {
           return;
         }
-        this.log('getPicture:' + err);
+        this.logger.log(err, '使用cordova-plugin-camera获取照片失败');
+        this.alert('获取照片失败');
       });
     });
   };
@@ -317,7 +366,7 @@ export class NativeService {
           }
         }
       }).catch(err => {
-        this.log('getMultiplePicture:' + err);
+        this.logger.log(err, '通过图库选择多图失败');
         this.alert('获取照片失败');
       });
     });
@@ -338,7 +387,7 @@ export class NativeService {
           reader.readAsDataURL(file);
         });
       }).catch(err => {
-        this.log('convertImgToBase64:' + err);
+        this.logger.log(err, '根据图片绝对路径转化为base64字符串失败');
       });
     });
   }
@@ -352,13 +401,13 @@ export class NativeService {
       this.appVersion.getVersionNumber().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.log('getVersionNumber:' + err);
+        this.logger.log(err, '获得app版本号失败');
       });
     });
   }
 
   /**
-   * 获得app name,如ionic2_tabs
+   * 获得app name,如现场作业
    * @description  对应/config.xml中name的值
    */
   getAppName(): Observable<string> {
@@ -366,7 +415,7 @@ export class NativeService {
       this.appVersion.getAppName().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.log('getAppName:' + err);
+        this.logger.log(err, '获得app name失败');
       });
     });
   }
@@ -380,7 +429,7 @@ export class NativeService {
       this.appVersion.getPackageName().then((value: string) => {
         observer.next(value);
       }).catch(err => {
-        this.log('getPackageName:' + err);
+        this.logger.log(err, '获得app包名失败');
       });
     });
   }
@@ -394,9 +443,13 @@ export class NativeService {
         LocationPlugin.getLocation(data => {
           observer.next({'lng': data.longitude, 'lat': data.latitude});
         }, msg => {
-          this.log('getUserLocation:' + msg);
-          this.alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
           observer.error('获取位置失败');
+          if (msg.indexOf('缺少定位权限') == -1) {
+            this.alert('缺少定位权限，请在手机设置中开启');
+            return;
+          }
+          this.alert('错误消息：' + msg);
+          this.logger.log(msg, '获取位置失败');
         });
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
@@ -423,7 +476,7 @@ export class NativeService {
         }, type, message => {
           observer.next(message);
         }, err => {
-          this.log('navigation:' + err);
+          this.logger.log(err, '导航失败');
           this.alert('导航失败');
         });
       } else {

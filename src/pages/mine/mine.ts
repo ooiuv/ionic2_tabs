@@ -76,7 +76,10 @@ export class MinePage {
   }
 
   changePassword() {
-    this.navCtrl.push(ChangePasswordPage);
+    let modal = this.modalCtrl.create(ChangePasswordPage);
+    modal.present();
+    modal.onDidDismiss(data => {
+    });
   }
 
   exitSoftware() {

@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {IonicApp, IonicModule, IonicErrorHandler, Config} from 'ionic-angular';
+import {IonicApp, IonicModule, Config} from 'ionic-angular';
 import {IonicStorageModule} from '@ionic/storage';
 import {MyApp} from './app.component';
 import {TabModule} from "../pages/tabs/tab.module";
@@ -30,21 +30,24 @@ import {TestModule} from "../pages/test/test.module";
 import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
+import {ENABLE_FUNDEBUG, IS_DEBUG, APP_VERSION, FUNDEBUG_API_KEY} from "../providers/Constants";
+import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
-import {APP_VERSION, IS_DEBUG, FUNDEBUG} from "../providers/Constants";
+
 declare var require: any;
-let fundebug:any = require("fundebug-javascript");
-fundebug.apikey = '3701a358f79b7daa39592255bde6c3c8772efad642883e42dbb65f3f8ffbae11';
+let fundebug:any = require("fundebug-javascript");//先安装依赖:cnpm i fundebug-javascript --save
+fundebug.apikey = FUNDEBUG_API_KEY;
 fundebug.appversion = APP_VERSION;//app版本号,务必和config.xml中版本号一致
 fundebug.releasestage = IS_DEBUG?'development':'production';//应用开发阶段，development:开发;production:生产
-fundebug.silent = !FUNDEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
+fundebug.silent = !ENABLE_FUNDEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
 
 class FunDebugErrorHandler implements ErrorHandler {
   handleError(err:any) : void {
     fundebug.notifyError(err);
-    console.error(err)
+    console.error(err);
   }
 }
+
 
 @NgModule({
   declarations: [MyApp],
@@ -78,13 +81,14 @@ class FunDebugErrorHandler implements ErrorHandler {
     Network,
     AppMinimize,
     JPush,
-    {provide: FunDebugErrorHandler, useClass: IonicErrorHandler},
+    {provide: ErrorHandler, useClass: FunDebugErrorHandler},
     NativeService,
     HttpService,
     FileService,
     Helper,
     Utils,
-    GlobalData
+    GlobalData,
+    Logger
   ]
 })
 export class AppModule {

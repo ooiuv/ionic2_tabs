@@ -11,12 +11,14 @@ import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
 import {NativeService} from "./NativeService";
 import {APP_SERVE_URL, REQUEST_TIMEOUT} from "./Constants";
+import {Logger} from "./Logger";
 
 @Injectable()
 export class HttpService {
 
   constructor(public http: Http,
               private globalData: GlobalData,
+              public logger: Logger,
               private nativeService: NativeService) {
   }
 
@@ -132,25 +134,30 @@ export class HttpService {
       this.nativeService.alert('请求超时,请稍后再试!');
       return;
     }
-    let status = err.status;
-    let result = err.json();
-    let msg = result.message;
-    if (!msg) {
-      if (!this.nativeService.isConnecting()) {
-        msg = '请求失败，请连接网络';
-      } else {
-        if (status === 0) {
-          msg = '请求失败，请求响应出错';
-        } else if (status === 404) {
-          msg = '请求失败，未找到请求地址';
-        } else if (status === 500) {
-          msg = '请求失败，服务器出错，请稍后再试';
-        } else {
-          msg = '请求发生异常';
-        }
-      }
+    if (!this.nativeService.isConnecting()) {
+      this.nativeService.alert('请求失败，请连接网络');
+      return;
     }
-    this.nativeService.alert(msg);
+    let msg = '请求发生异常';
+    try {
+      let result = err.json();
+      this.nativeService.alert(result.message || msg);
+    } catch (err) {
+      let status = err.status;
+      if (status === 0) {
+        msg = '请求失败，请求响应出错';
+      } else if (status === 404) {
+        msg = '请求失败，未找到请求地址';
+      } else if (status === 500) {
+        msg = '请求失败，服务器出错，请稍后再试';
+      }
+      this.nativeService.alert(msg);
+      this.logger.httpLog(err, msg, {
+        url: url,
+        status: status
+      });
+    }
+
   }
 
   private optionsAddToken(options: RequestOptionsArgs): void {
