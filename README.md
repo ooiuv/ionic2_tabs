@@ -11,7 +11,7 @@ Ionic 2 App
 * 图标使用chart.js
 * 高德地图,定位,导航,并封装为地图服务公共组件
 * 代码按功能划分多module
-* 封装angular http,异常处理,请求超时超时
+* 封装angular http,异常处理,请求超时处理
 * 自定义分页组件
 * 自定义图标
 * 图片上传demo
