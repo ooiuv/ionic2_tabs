@@ -9,15 +9,15 @@ Ionic 2 App
 * 最小化app
 * 拍照,相册多图选择,多图预览(放大缩小)功能
 * 图标使用chart.js
-* 高德地图,定位,导航
+* 高德地图,定位,导航,并封装为地图服务公共组件
 * 代码按功能划分多module
-* 封装angular http
+* 封装angular http,异常处理,请求超时超时
 * 自定义分页组件
 * 自定义图标
 * 图片上传demo
-* 请求超时处理
 * fundebug错误日志
-* 其他cordova插件封装和常用工具方法
+* app升级功能
+* 其他cordova插件封装和常用功能,工具方法
 
 ##如何运行此app
 1.  先保证app开发环境配置好,可以参考[这里](http://www.jianshu.com/p/1f1205602ce0)
