@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {IonicPage, ActionSheetController, ModalController} from 'ionic-angular';
+import {IonicPage, ActionSheetController, ModalController,AlertController} from 'ionic-angular';
 import {FileObj} from "../../model/FileObj";
 import {NativeService} from "../../providers/NativeService";
 import {PreviewPicturePage} from "../preview-picture/preview-picture";
@@ -28,6 +28,7 @@ export class SelectPicturePage {
   @Output() fileObjListChange = new EventEmitter<any>();
 
   constructor(private modalCtrl: ModalController,
+              private alertCtrl: AlertController,
               private actionSheetCtrl: ActionSheetController,
               private nativeService: NativeService) {
   }
@@ -71,19 +72,14 @@ export class SelectPicturePage {
     if (!this.allowDelete) {
       return;
     }
-    let that = this;
-    that.actionSheetCtrl.create({
-      buttons: [
+    this.alertCtrl.create({
+      title: '确认删除？',
+      buttons: [{text: '取消'},
         {
-          text: '删除',
-          role: 'destructive',
+          text: '确定',
           handler: () => {
-            that.fileObjList.splice(i, 1);
+            this.fileObjList.splice(i, 1);
           }
-        },
-        {
-          text: '取消',
-          role: 'cancel'
         }
       ]
     }).present();
