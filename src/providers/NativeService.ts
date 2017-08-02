@@ -18,8 +18,12 @@ import {AppMinimize} from "@ionic-native/app-minimize";
 
 import {Position} from "../model/type";
 import {
-  APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT,
-  APP_VERSION_SERVE_URL, APP_NAME
+  APP_DOWNLOAD,
+  APK_DOWNLOAD,
+  IMAGE_SIZE,
+  QUALITY_SIZE,
+  REQUEST_TIMEOUT,
+  APP_VERSION_SERVE_URL
 } from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
@@ -106,40 +110,45 @@ export class NativeService {
    */
   detectionUpgrade(): void {
     if (this.isMobile()) {
-      let appType = this.isAndroid() ? 'android' : 'ios';
-      //从后台查询app最新版本信息
-      this.http.get(Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${APP_NAME}/${appType}/latest/version`)).map((res: Response) => res.json()).subscribe(res => {
-        this.getVersionNumber().subscribe(currentNo => {//获得当前app版本
-          if (currentNo != res.version) {//比较版本号
-            if (res.isForcedUpdate == 1) {//判断是否强制更新
-              this.alertCtrl.create({
-                title: '重要升级',
-                subTitle: '您必须升级后才能使用！',
-                buttons: [{
-                  text: '确定',
-                  handler: () => {
-                    this.downloadApp();
-                  }
-                }
-                ]
-              }).present();
-            } else {
-              this.alertCtrl.create({
-                title: '升级',
-                subTitle: '发现新版本,是否立即升级？',
-                buttons: [{text: '取消'},
-                  {
+      //获得app包名
+      this.getPackageName().subscribe(packageName => {
+        let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
+        let appType = this.isAndroid() ? 'android' : 'ios';
+        //从后台查询app最新版本信息
+        this.http.get(Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${appName}/${appType}/latest/version`)).map((res: Response) => res.json()).subscribe(res => {
+          //获得当前app版本
+          this.getVersionNumber().subscribe(currentNo => {
+            if (currentNo != res.version) {//比较版本号
+              if (res.isForcedUpdate == 1) {//判断是否强制更新
+                this.alertCtrl.create({
+                  title: '重要升级',
+                  subTitle: '您必须升级后才能使用！',
+                  buttons: [{
                     text: '确定',
                     handler: () => {
                       this.downloadApp();
                     }
                   }
-                ]
-              }).present();
+                  ]
+                }).present();
+              } else {
+                this.alertCtrl.create({
+                  title: '升级',
+                  subTitle: '发现新版本,是否立即升级？',
+                  buttons: [{text: '取消'},
+                    {
+                      text: '确定',
+                      handler: () => {
+                        this.downloadApp();
+                      }
+                    }
+                  ]
+                }).present();
+              }
             }
-          }
-        })
-      });
+          })
+        });
+      })
     }
 
   }
@@ -152,7 +161,6 @@ export class NativeService {
       this.openUrlByBrowser(APP_DOWNLOAD);
     }
     if (this.isAndroid()) {//android本地下载
-
       //显示下载进度
       let alert = this.alertCtrl.create({
         title: '下载进度：0%',

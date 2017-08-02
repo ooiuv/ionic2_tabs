@@ -6,6 +6,8 @@ import {TabsPage} from "../pages/tabs/tabs";
 import {LoginInfo} from "../model/UserInfo";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
+import {ENABLE_FUNDEBUG} from "../providers/Constants";
+declare var fundebug;
 
 @Component({
   templateUrl: 'app.html'
@@ -25,8 +27,13 @@ export class MyApp {
               private events: Events,
               private nativeService: NativeService) {
     platform.ready().then(() => {
+      if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) {//设置日志监控app的版本号
+        this.nativeService.getVersionNumber().subscribe(version => {
+          fundebug.appversion = version;
+        })
+      }
       this.helper.initJpush();//初始化极光推送
-      this.storage.get('LoginInfo').then((loginInfo:LoginInfo) => {
+      this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
         if (loginInfo) {
           this.events.publish('user:login', loginInfo);
         } else {

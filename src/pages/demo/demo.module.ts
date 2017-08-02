@@ -12,11 +12,12 @@ import {SelectPicturePageModule} from "../../shared/select-picture/select-pictur
 import {ModalScalePageModule} from "./transition-demo/modal-scale/modal-scale.module";
 import {ModalFromRightPageModule} from "./transition-demo/modal-from-right/modal-from-right.module";
 import {TransitionDemoPageModule} from "./transition-demo/transition-demo.module";
+import {CropPicDemoPage} from "./crop-pic-demo/crop-pic-demo";
 
 @NgModule({
   imports: [IonicModule, PagingPageModule,SelectPicturePageModule,TransitionDemoPageModule, ModalScalePageModule,ModalFromRightPageModule],
-  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,Conversion],
-  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo],
+  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,Conversion,CropPicDemoPage],
+  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,CropPicDemoPage],
   providers: [],
   exports: [IonicModule]
 })

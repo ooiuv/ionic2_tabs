@@ -8,7 +8,7 @@ import {FileObj} from "../model/FileObj";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
-import {Result} from "../model/Result.";
+import {Result} from "../model/Result";
 
 /**
  * 上传图片到文件服务器

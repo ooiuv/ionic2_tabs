@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {Observable} from "rxjs";
 import {TestObj} from "./TestObj";
 import {HttpService} from "../../providers/HttpService";
-import {Result} from "../../model/Result.";
+import {Result} from "../../model/Result";
 import {FileObj} from "../../model/FileObj";
 
 @Injectable()

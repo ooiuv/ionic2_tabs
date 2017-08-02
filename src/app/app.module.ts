@@ -30,14 +30,13 @@ import {TestModule} from "../pages/test/test.module";
 import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
-import {ENABLE_FUNDEBUG, IS_DEBUG, APP_VERSION, FUNDEBUG_API_KEY} from "../providers/Constants";
+import {ENABLE_FUNDEBUG, IS_DEBUG, FUNDEBUG_API_KEY} from "../providers/Constants";
 import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 
 declare var require: any;
 let fundebug:any = require("fundebug-javascript");//先安装依赖:cnpm i fundebug-javascript --save
 fundebug.apikey = FUNDEBUG_API_KEY;
-fundebug.appversion = APP_VERSION;//app版本号,务必和config.xml中版本号一致
 fundebug.releasestage = IS_DEBUG?'development':'production';//应用开发阶段，development:开发;production:生产
 fundebug.silent = !ENABLE_FUNDEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
 

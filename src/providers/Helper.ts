@@ -7,7 +7,7 @@ import {JPush} from "../../typings/modules/jpush/index";
 import {Observable} from "rxjs";
 import {DEFAULT_AVATAR, FILE_SERVE_URL} from "./Constants";
 import {FileService} from "./FileService";
-import {Result} from "../model/Result.";
+import {Result} from "../model/Result";
 
 /**
  * Helper类存放和业务有关的公共方法

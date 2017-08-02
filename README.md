@@ -17,6 +17,7 @@ Ionic 2 App
 * 图片上传demo
 * fundebug错误日志
 * app升级功能
+* 图片裁剪demo
 * 其他cordova插件封装和常用功能,工具方法
 
 ##如何运行此app

@@ -7,6 +7,7 @@ import {FileService} from "../../../providers/FileService";
 import {FileObj} from "../../../model/FileObj";
 import {FILE_SERVE_URL} from "../../../providers/Constants";
 import {MineService} from "../MineService";
+declare var AlloyCrop;
 
 @Component({
   selector: 'page-mine-edit-avatar-modal',
@@ -27,10 +28,9 @@ export class MineEditAvatarModalPage {
 
   getPicture(type) {//1拍照,0从图库选择
     let options = {
-      targetWidth: 256,
-      targetHeight: 256,
-      quality: 100,
-      allowEdit: true
+      targetWidth: 400,
+      targetHeight: 400,
+      quality: 100
     };
     if (type == 1) {
       this.nativeService.getPictureByCamera(options).subscribe(imageBase64 => {
@@ -44,18 +44,31 @@ export class MineEditAvatarModalPage {
   }
 
   private getPictureSuccess(imageBase64) {
-    this.isChange = true;
-    this.avatarPath = imageBase64;
+    new AlloyCrop({//api:https://github.com/AlloyTeam/AlloyCrop
+      image_src: imageBase64,
+      circle: true, // optional parameters , the default value is false
+      width: 256, // crop width
+      height: 256, // crop height
+      output: 1,
+      ok: (base64)=>{
+        this.isChange = true;
+        this.avatarPath = base64;
+      },
+      cancel:()=>{},
+      ok_text: "确定", // optional parameters , the default value is ok
+      cancel_text: "取消" // optional parameters , the default value is cancel
+    });
+
   }
 
   saveAvatar() {
     if (this.isChange) {
       let fileObj = <FileObj>{'base64': this.avatarPath};
-      this.fileService.uploadByBase64(fileObj).subscribe(result => {// 上传头像图片到文件服务器
+      this.fileService.uploadByBase64(fileObj).subscribe(result => {//上传头像图片到文件服务器
         if (result.success) {
           let data = result.data[0], avatarId = data.id, avatarPath = FILE_SERVE_URL + data.origPath;
-          this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
-            this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
+          this.mineService.updateUserAvatarId(avatarId).subscribe(() => {//保存头像id到用户表
+            this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {//保存头像id,头像路径到缓存中
               loginInfo.user.avatarId = avatarId;
               loginInfo.user.avatarPath = avatarPath;
               this.storage.set('LoginInfo', loginInfo);

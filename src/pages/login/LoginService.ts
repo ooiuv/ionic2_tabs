@@ -19,7 +19,7 @@ export class LoginService {
      };
      return this.httpService.post('/authenticate', param).map((res: Response) => res.json());*/
     let loginInfo = {
-      access_token: 'JhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMiIsImNsaWVudF9pZ…a1xwEVxvsZj8Xuar__68EbM7MZ8tSSIAvfUZ7HbCpI-wT',
+      access_token: 'test_test_test_test_test_test_test',
       user: {
         id: 1,
         username: user.username,
