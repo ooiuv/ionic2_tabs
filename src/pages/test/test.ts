@@ -2,7 +2,6 @@ import {Component} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {TestService} from "./TestService";
 import {FileObj} from "../../model/FileObj";
-declare var AlloyCrop;
 
 @Component({
   selector: 'page-test',
@@ -21,10 +20,9 @@ export class TestPage {
   }
 
   getFileData() {
-    // this.testService.getFileData().subscribe(res => {
-    //   this.fileObjList = res;
-    // });
-    throw new Error('test');
+    this.testService.getFileData().subscribe(res => {
+      this.fileObjList = res;
+    });
   }
 
 
