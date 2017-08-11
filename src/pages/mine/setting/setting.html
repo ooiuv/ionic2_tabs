@@ -7,11 +7,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>setting</ion-title>
+    <ion-title>设置</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+  <ion-list>
+    <ion-item (click)="clearCache()">
+      <ion-icon name="trash" item-left color="danger"></ion-icon>
+      清除缓存
+    </ion-item>
+  </ion-list>
 </ion-content>

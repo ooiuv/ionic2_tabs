@@ -14,9 +14,9 @@ export class Logger {
   constructor(private globalData: GlobalData) {
   }
 
-  log(err: any, action: string, other = {}): void {
+  log(err: any, action: string, other = null): void {
     console.log('Logger.log：action-' + action);
-    console.log(other);
+    other && console.log(other);
     console.log(err);
     fundebug.notifyError(err,
       {

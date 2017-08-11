@@ -20,70 +20,106 @@ export class FileService {
 
   /**
    * 根据文件id获取文件信息
-   * @param id 文件id
-   * @return {Promise<TResult|T>}
+   * @param id
+   * @returns {FileObj}
    */
-  getFileInfoById(id: string): Observable<Result> {
+  getFileInfoById(id: string): Observable<FileObj> {
     if (!id) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of({});
     }
-    return this.httpService.get(FILE_SERVE_URL + '/getById', {id: id}).map((res: Response) => res.json());
+    return this.httpService.get(FILE_SERVE_URL + '/getById', {id: id}).map((res: Response) => {
+      let result = res.json();
+      if (!result.success) {
+        this.nativeService.alert(result.msg);
+        return {};
+      } else {
+        let fileObj = result.data;
+        fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+        fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+        return fileObj;
+      }
+    });
   }
 
   /**
    * 根据文件id数组获取文件信息
-   * @param ids id数组
-   * @returns {Observable<R>}
+   * @param ids
+   * @returns {FileObj[]}
    */
-  getFileInfoByIds(ids: string[]): Observable<Result> {
+  getFileInfoByIds(ids: string[]): Observable<FileObj[]> {
     if (!ids || ids.length == 0) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of([]);
     }
-    return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: ids}).map((res: Response) => res.json());
+    return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: ids}).map((res: Response) => {
+      let result = res.json();
+      if (!result.success) {
+        this.nativeService.alert(result.msg);
+        return [];
+      } else {
+        for (let fileObj of result.data) {
+          fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+          fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+        }
+        return result.data;
+      }
+    });
   }
 
   /**
    * 批量上传图片,只支持上传base64字符串
-   * @param fileObjList,数组中的对象必须包含bse64属性
-   * @return {Promise<TResult|T>}
+   * @param fileObjList 数组中的对象必须包含bse64属性
+   * @returns {FileObj[]}
    */
-  uploadMultiByBase64(fileObjList: FileObj[]): Observable<Result> {
+  uploadMultiByBase64(fileObjList: FileObj[]): Observable<FileObj[]> {
     if (!fileObjList || fileObjList.length == 0) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of([]);
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=liveWork', fileObjList).map((res: Response) => {
+      let result = res.json();
+      if (!result.success) {
+        this.nativeService.alert(result.msg);
+        return [];
+      } else {
+        for (let fileObj of result.data) {
+          fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+          fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+        }
+        return result.data;
+      }
+    });
   }
 
   /**
    * 上传单张图片,只支持上传base64字符串
-   * @param FileObj,对象必须包含origPath属性
-   * @return {Promise<TResult|T>}
+   * @param fileObj 对象必须包含origPath属性
+   * @returns {FileObj}
    */
-  uploadByBase64(fileObj: FileObj): Observable<Result> {
+  uploadByBase64(fileObj: FileObj): Observable<FileObj> {
     if (!fileObj.base64) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of({});
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', [fileObj]).map((res: Response) => res.json());
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=liveWork', [fileObj]).map((res: Response) => {
+      let result = res.json();
+      if (!result.success) {
+        this.nativeService.alert(result.msg);
+        return [];
+      } else {
+        let fileObj = result.data[0];
+        fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+        fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+        return fileObj;
+      }
+    });
   }
 
   /**
    * 批量上传图片
    * @param fileObjList 数组中的对象必须包含origPath属性
-   * @returns {any}
+   * @returns {FileObj[]}
    */
-  uploadMultiByFilePath(fileObjList: FileObj[]): Observable<Result> {
+  uploadMultiByFilePath(fileObjList: FileObj[]): Observable<FileObj[]> {
     if (fileObjList.length == 0) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of([]);
     }
     return Observable.create((observer) => {
       this.nativeService.showLoading();
@@ -109,13 +145,11 @@ export class FileService {
   /**
    * app上传单张图片
    * @param fileObj 对象必须包含origPath属性
-   * @returns {any}
+   * @returns {FileObj}
    */
-  uploadByFilePath(fileObj: FileObj): Observable<Result> {
+  uploadByFilePath(fileObj: FileObj): Observable<FileObj> {
     if (!fileObj.origPath) {
-      return Observable.create((observer) => {
-        observer.next({'data': [], 'success': true});
-      })
+      return Observable.of({});
     }
     return Observable.create((observer) => {
       this.nativeService.showLoading();

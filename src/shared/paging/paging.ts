@@ -5,8 +5,8 @@ import {PAGE_SIZE} from "../../providers/Constants";
 /**
  * @name 自定义分页组件
  * @description
- * @example <page-pagination [total]="18" (pageNumChange)="doSearch($event)"></page-pagination>
- * @example <page-pagination [total]="total" (pageNumChange)="doSearch($event)" pageSize="10" color="dark"></page-pagination>
+ * @example <page-paging [total]="18" (pageNumChange)="doSearch($event)"></page-paging>
+ * @example <page-paging [total]="total" (pageNumChange)="doSearch($event)" pageSize="10" color="dark"></page-paging>
  */
 @IonicPage()
 @Component({

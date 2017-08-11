@@ -132,4 +132,21 @@ export class Utils {
     }
     return url.substring(0, index) + url.substring(index).replace(/\/\//g, '/');
   }
+
+
+  static sessionStorageGetItem(key: string) {
+    let jsonString = sessionStorage.getItem(key);
+    if (jsonString) {
+      return JSON.parse(jsonString);
+    }
+    return null;
+  }
+
+  static sessionStorageSetItem(key: string, value: any) {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  }
+
+  static sessionStorageClear() {
+    sessionStorage.clear();
+  }
 }

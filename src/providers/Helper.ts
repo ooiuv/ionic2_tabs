@@ -8,6 +8,7 @@ import {Observable} from "rxjs";
 import {DEFAULT_AVATAR, FILE_SERVE_URL} from "./Constants";
 import {FileService} from "./FileService";
 import {Result} from "../model/Result";
+import {FileObj} from "../model/FileObj";
 
 /**
  * Helper类存放和业务有关的公共方法
@@ -33,9 +34,9 @@ export class Helper {
       if (!avatarId) {
         observer.next(DEFAULT_AVATAR);
       } else {
-        this.fileService.getFileInfoById(avatarId).subscribe((res: Result) => {
-          if (res.success) {
-            let avatarPath = FILE_SERVE_URL + res.data.origPath;
+        this.fileService.getFileInfoById(avatarId).subscribe((res: FileObj) => {
+          if (res.origPath) {
+            let avatarPath = FILE_SERVE_URL + res.origPath;
             observer.next(avatarPath);
           } else {
             observer.next(DEFAULT_AVATAR);

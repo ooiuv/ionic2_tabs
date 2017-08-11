@@ -27,7 +27,6 @@ import {
 } from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
-import {CommonService} from "../service/CommonService";
 import {Http, Response} from "@angular/http";
 import {Utils} from "./Utils";
 import {Logger} from "./Logger";
@@ -115,10 +114,17 @@ export class NativeService {
         let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
         let appType = this.isAndroid() ? 'android' : 'ios';
         //从后台查询app最新版本信息
-        this.http.get(Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${appName}/${appType}/latest/version`)).map((res: Response) => res.json()).subscribe(res => {
+        let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${appName}/${appType}/latest/version`);
+        this.http.get(url).map((res: Response) => res.json()).subscribe(res => {
+          if (!res) {
+            this.logger.log('', '从app升级获取版本信息失败', {url: url});
+            return;
+          }
           //获得当前app版本
           this.getVersionNumber().subscribe(currentNo => {
-            if (currentNo != res.version) {//比较版本号
+            if (currentNo == res.version) {//比较版本号
+              this.alert('已经是最新版本');
+            }else{
               if (res.isForcedUpdate == 1) {//判断是否强制更新
                 this.alertCtrl.create({
                   title: '重要升级',
@@ -145,6 +151,7 @@ export class NativeService {
                   ]
                 }).present();
               }
+
             }
           })
         });

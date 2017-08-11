@@ -3,7 +3,6 @@ import {HttpService} from "../../providers/HttpService";
 import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {LoginInfo} from "../../model/UserInfo";
-declare let hex_md5;
 
 @Injectable()
 export class LoginService {
@@ -15,7 +14,7 @@ export class LoginService {
     /* let param = {
      'client_id': 'app',
      'username': user.username,
-     'password': hex_md5(user.password)
+     'password': user.password
      };
      return this.httpService.post('/authenticate', param).map((res: Response) => res.json());*/
     let loginInfo = {

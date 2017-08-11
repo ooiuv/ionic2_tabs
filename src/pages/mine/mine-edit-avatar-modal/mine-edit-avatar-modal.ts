@@ -64,18 +64,16 @@ export class MineEditAvatarModalPage {
   saveAvatar() {
     if (this.isChange) {
       let fileObj = <FileObj>{'base64': this.avatarPath};
-      this.fileService.uploadByBase64(fileObj).subscribe(result => {//上传头像图片到文件服务器
-        if (result.success) {
-          let data = result.data[0], avatarId = data.id, avatarPath = FILE_SERVE_URL + data.origPath;
-          this.mineService.updateUserAvatarId(avatarId).subscribe(() => {//保存头像id到用户表
-            this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {//保存头像id,头像路径到缓存中
-              loginInfo.user.avatarId = avatarId;
-              loginInfo.user.avatarPath = avatarPath;
-              this.storage.set('LoginInfo', loginInfo);
-            });
-            this.viewCtrl.dismiss({avatarPath: avatarPath});
+      this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
+        let avatarId = fileObj.id, avatarPath = FILE_SERVE_URL + fileObj.origPath;
+        this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
+          this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
+            loginInfo.user.avatarId = avatarId;
+            loginInfo.user.avatarPath = avatarPath;
+            this.storage.set('LoginInfo', loginInfo);
           });
-        }
+          this.viewCtrl.dismiss({avatarPath: avatarPath});
+        });
       });
     } else {
       this.dismiss();

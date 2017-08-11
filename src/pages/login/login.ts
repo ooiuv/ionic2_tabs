@@ -35,6 +35,7 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
+    this.canLeave = false;
     this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
       this.userInfo = loginInfo && loginInfo.user ? loginInfo.user : null;
     });
@@ -78,14 +79,12 @@ export class LoginPage {
     this.canLeave = true;
     let modal = this.modalCtrl.create(RegisterPage);
     modal.present();
-    this.canLeave = false;
   }
 
   findPassword() {
     this.canLeave = true;
     let modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
-    this.canLeave = false
   }
 
 }

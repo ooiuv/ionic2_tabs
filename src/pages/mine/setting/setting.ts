@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {Storage} from '@ionic/storage';
+import {NavController, NavParams, AlertController, ModalController} from 'ionic-angular';
+import {Utils} from "../../../providers/Utils";
+import {LoginPage} from "../../login/login";
 
 /**
  * Generated class for the SettingPage page.
@@ -14,11 +17,32 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class SettingPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private storage: Storage,
+              private modalCtrl: ModalController,
+              private alertCtrl: AlertController) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingPage');
+  clearCache() {
+    this.alertCtrl.create({
+      title: '确认清除缓存？',
+      subTitle: '清除后需要重新登录',
+      buttons: [{text: '取消'},
+        {
+          text: '确定',
+          handler: () => {
+            Utils.sessionStorageClear();
+            this.storage.clear();
+            let modal = this.modalCtrl.create(LoginPage);
+            modal.present();
+            modal.onDidDismiss(data => {
+              this.navCtrl.popToRoot();
+            });
+          }
+        }
+      ]
+    }).present();
   }
 
 }
