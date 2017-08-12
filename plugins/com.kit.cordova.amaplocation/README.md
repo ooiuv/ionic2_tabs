@@ -1,14 +1,16 @@
+# com.kit.cordova.amaplocation
+使用高德Android定位SDK进行定位，以解决webapp中定位不准的问题
 
-#com.kit.cordova.amaplocation
-	使用高德Android定位SDK进行定位，以解决webapp中定位不准的问题
+## 安装
+`cordova plugin add https://github.com/yanxiaojun617/com.kit.cordova.amaplocation --save`
 
-## 安装&配置
+## 配置
+*  修改 plugin.xml(:54)文件中的高德地图android key,更多详情请看http://www.jianshu.com/p/85aceaee3b35
 
-    cordova plugin E:\Study\Ionic\plugins\com.kit.cordova.amaplocation
-	修改plugin.xml中的高德定位SDK对应的KEY
-	<meta-data android:name="com.amap.api.v2.apikey" android:value="您的API KEY" />
+`<meta-data android:name="com.amap.api.v2.apikey" android:value="您申请的高德地图android key"/>`
 
-### 调用方法
+ps:_此插件android定位功能使用高德定位,ios定位功能使用苹果系统自带的定位功能,所以只需要配置android key,不需要配置ios key_
+### ionic1调用方法
 
 	document.addEventListener('deviceready', function(){
 		window.LocationPlugin.getLocation(successCallback,errorCallback);
@@ -49,3 +51,28 @@
         //34	无法获取城市信息
 		console.log("错误消息："+msg);
 	}
+
+### ionic2调用方法
+
+```
+import {Injectable} from '@angular/core';
+declare var LocationPlugin;
+
+@Injectable()
+export class NativeService {
+  constructor() { }
+  /**
+   * 获得用户当前坐标
+   * @return {Promise<any>}
+   */
+  getUserLocation(): Promise<any> {
+    return new Promise((resolve) => {
+        LocationPlugin.getLocation(data => {
+          resolve({'lng': data.longitude, 'lat': data.latitude});
+        }, msg => {
+          alert(msg.indexOf('缺少定位权限') == -1 ? ('错误消息：' + msg) : '缺少定位权限，请在手机设置中开启');
+        });
+    });
+  }
+}
+```
