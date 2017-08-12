@@ -26,7 +26,10 @@ export class PreviewPicturePage {
       lazyLoading: true,//延迟加载
       lazyLoadingOnTransitionStart: true,//    lazyLoadingInPrevNext : true,
       pagination: '.swiper-pagination',//分页器
-      paginationType: 'fraction'//分页器类型
+      paginationType: 'fraction',//分页器类型
+      onClick: ()=>{
+        this.dismiss();
+      }
     })
   }
 

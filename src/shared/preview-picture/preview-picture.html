@@ -1,13 +1,4 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>照片预览</ion-title>
-    <ion-buttons>
-      <button ion-button (click)="dismiss()">关闭</button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
-
-<ion-content>
+<ion-content style="background-color: #000;color: #fff">
   <div #panel class="swiper-container">
     <div class="swiper-wrapper">
       <div class="swiper-slide" *ngFor="let path of picturePaths">
