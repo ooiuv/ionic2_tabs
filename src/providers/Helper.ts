@@ -5,9 +5,8 @@ import {Injectable} from '@angular/core';
 import {NativeService} from "./NativeService";
 import {JPush} from "../../typings/modules/jpush/index";
 import {Observable} from "rxjs";
-import {DEFAULT_AVATAR, FILE_SERVE_URL} from "./Constants";
+import {DEFAULT_AVATAR} from "./Constants";
 import {FileService} from "./FileService";
-import {Result} from "../model/Result";
 import {FileObj} from "../model/FileObj";
 
 /**
@@ -23,7 +22,6 @@ export class Helper {
   }
 
 
-
   /**
    * 获取用户头像路径
    * @param avatarId
@@ -36,7 +34,7 @@ export class Helper {
       } else {
         this.fileService.getFileInfoById(avatarId).subscribe((res: FileObj) => {
           if (res.origPath) {
-            let avatarPath = FILE_SERVE_URL + res.origPath;
+            let avatarPath = res.origPath;
             observer.next(avatarPath);
           } else {
             observer.next(DEFAULT_AVATAR);
@@ -63,7 +61,7 @@ export class Helper {
   }
 
   private jPushAddEventListener() {
-    this.jPush.getUserNotificationSettings().then(result=>{
+    this.jPush.getUserNotificationSettings().then(result => {
       if (result == 0) {
         console.log('系统设置中已关闭应用推送');
       } else if (result > 0) {
