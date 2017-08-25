@@ -21,7 +21,7 @@ export class AboutPage {
   }
 
   checkNewVersion() {
-    this.nativeService.detectionUpgrade();
+    this.nativeService.detectionUpgrade(true);
   }
 
   updateLog() {

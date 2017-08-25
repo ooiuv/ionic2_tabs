@@ -107,7 +107,7 @@ export class NativeService {
   /**
    * 检查app是否需要升级
    */
-  detectionUpgrade(): void {
+  detectionUpgrade(manual = false): void {
     if (this.isMobile()) {
       //获得app包名
       this.getPackageName().subscribe(packageName => {
@@ -123,7 +123,7 @@ export class NativeService {
           //获得当前app版本
           this.getVersionNumber().subscribe(currentNo => {
             if (currentNo == res.version) {//比较版本号
-              this.alert('已经是最新版本');
+              manual && this.alert('已经是最新版本');
             }else{
               if (res.isForcedUpdate == 1) {//判断是否强制更新
                 this.alertCtrl.create({
