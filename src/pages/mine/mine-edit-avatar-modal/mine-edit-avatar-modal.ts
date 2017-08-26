@@ -5,7 +5,6 @@ import {NativeService} from '../../../providers/NativeService';
 import {LoginInfo} from "../../../model/UserInfo";
 import {FileService} from "../../../providers/FileService";
 import {FileObj} from "../../../model/FileObj";
-import {FILE_SERVE_URL} from "../../../providers/Constants";
 import {MineService} from "../MineService";
 declare var AlloyCrop;
 
@@ -50,11 +49,12 @@ export class MineEditAvatarModalPage {
       width: 256, // crop width
       height: 256, // crop height
       output: 1,
-      ok: (base64)=>{
+      ok: (base64) => {
         this.isChange = true;
         this.avatarPath = base64;
       },
-      cancel:()=>{},
+      cancel: () => {
+      },
       ok_text: "确定", // optional parameters , the default value is ok
       cancel_text: "取消" // optional parameters , the default value is cancel
     });
@@ -65,7 +65,7 @@ export class MineEditAvatarModalPage {
     if (this.isChange) {
       let fileObj = <FileObj>{'base64': this.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
-        let avatarId = fileObj.id, avatarPath = FILE_SERVE_URL + fileObj.origPath;
+        let avatarId = fileObj.id, avatarPath = fileObj.origPath;
         this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
           this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
             loginInfo.user.avatarId = avatarId;
