@@ -13,12 +13,15 @@ import {ModalScalePageModule} from "./transition-demo/modal-scale/modal-scale.mo
 import {ModalFromRightPageModule} from "./transition-demo/modal-from-right/modal-from-right.module";
 import {TransitionDemoPageModule} from "./transition-demo/transition-demo.module";
 import {CropPicDemoPage} from "./crop-pic-demo/crop-pic-demo";
+import {CityPickerDemoPage} from "./city-picker-demo/city-picker-demo";
+import {CityPickerModule} from "ionic2-city-picker";
+import {DemoService} from "./DemoService";
 
 @NgModule({
-  imports: [IonicModule, PagingPageModule,SelectPicturePageModule,TransitionDemoPageModule, ModalScalePageModule,ModalFromRightPageModule],
-  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,Conversion,CropPicDemoPage],
-  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,CropPicDemoPage],
-  providers: [],
+  imports: [IonicModule, PagingPageModule,SelectPicturePageModule,TransitionDemoPageModule, ModalScalePageModule,ModalFromRightPageModule,CityPickerModule],
+  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,Conversion,CropPicDemoPage,CityPickerDemoPage],
+  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,CropPicDemoPage,CityPickerDemoPage],
+  providers: [DemoService],
   exports: [IonicModule]
 })
 export class DemoModule {

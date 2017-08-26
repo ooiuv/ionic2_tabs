@@ -8,6 +8,7 @@ import {SelectPicDemoPage} from "./select-pic-demo/select-pic-demo";
 import {CustomPipeDemo} from "./custom-pipe-demo/custom-pipe-demo";
 import {TransitionDemoPage} from "./transition-demo/transition-demo";
 import {CropPicDemoPage} from "./crop-pic-demo/crop-pic-demo";
+import {CityPickerDemoPage} from "./city-picker-demo/city-picker-demo";
 
 @Component({
   selector: 'page-contact',
@@ -46,4 +47,9 @@ export class DemoPage {
   pageTransition() {
     this.navCtrl.push(TransitionDemoPage);
   }
+
+  cityPicker() {
+    this.navCtrl.push(CityPickerDemoPage);
+  }
+
 }

@@ -2,6 +2,7 @@ import {Animation, PageTransition} from 'ionic-angular';
 
 export class ModalFromRightEnter extends PageTransition {
   public init() {
+    super.init();
     const ele = this.enteringView.pageRef().nativeElement;
 
     const backdrop = new Animation(this.plt, ele.querySelector('ion-backdrop'));
@@ -26,6 +27,7 @@ export class ModalFromRightEnter extends PageTransition {
 
 export class ModalFromRightLeave extends PageTransition {
   public init() {
+    super.init();
     const ele = this.leavingView.pageRef().nativeElement;
     const backdrop = new Animation(this.plt, ele.querySelector('ion-backdrop'));
     backdrop.beforeStyles({'visibility': 'hidden'});
@@ -45,6 +47,7 @@ export class ModalFromRightLeave extends PageTransition {
 
 export class ModalScaleEnter extends PageTransition {
   public init() {
+    super.init();
     const ele = this.enteringView.pageRef().nativeElement;
     const wrapper = new Animation(this.plt, ele.querySelector('.modal-wrapper'));
     wrapper.fromTo('transform', 'scale(0)', 'scale(1)');
@@ -59,6 +62,7 @@ export class ModalScaleEnter extends PageTransition {
 
 export class ModalScaleLeave extends PageTransition {
   public init() {
+    super.init();
     const ele = this.leavingView.pageRef().nativeElement;
     const wrapper = new Animation(this.plt, ele.querySelector('.modal-wrapper'));
     wrapper.fromTo('transform', 'scale(1)', 'scale(0)');
