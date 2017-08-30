@@ -7,6 +7,7 @@ import {LoginInfo} from "../model/UserInfo";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
+import {GlobalData} from "../providers/GlobalData";
 declare var fundebug;
 
 @Component({
@@ -21,6 +22,7 @@ export class MyApp {
               private keyboard: Keyboard,
               private ionicApp: IonicApp,
               private storage: Storage,
+              private globalData: GlobalData,
               private helper: Helper,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
@@ -35,6 +37,7 @@ export class MyApp {
       this.helper.initJpush();//初始化极光推送
       this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
         if (loginInfo) {
+          this.globalData.token = loginInfo.access_token;
           this.events.publish('user:login', loginInfo);
         } else {
           let modal = this.modalCtrl.create(LoginPage);

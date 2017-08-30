@@ -22,11 +22,11 @@ export class LoginService {
       user: {
         id: 1,
         username: user.username,
-        name: '小军',
+        fullName: '小军',
         email: 'yanxiaojun617@163.com',
         phone: '18688498342',
         avatarId: '',
-        description: '有图有真相，一本正经的胡说八道..'
+        description: '这个人很懒，什么都没有留下'
       }
     };
     return Observable.create((observer) => {

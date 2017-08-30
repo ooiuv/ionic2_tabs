@@ -12,6 +12,7 @@ import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {WorkMapPage} from "./work-map/work-map";
 import {SettingPage} from "./setting/setting";
 import {ChangePasswordPage} from "./change-password/change-password";
+import {NativeService} from "../../providers/NativeService";
 
 @Component({
   selector: 'page-mine',
@@ -26,6 +27,7 @@ export class MinePage {
               private storage: Storage,
               private helper: Helper,
               private modalCtrl: ModalController,
+              private nativeService: NativeService,
               private alertCtrl: AlertController) {
 
   }
@@ -100,13 +102,16 @@ export class MinePage {
     this.navCtrl.push(AboutPage);
   }
 
-  viewAvatar($event) {
-    $event.stopPropagation();
+  viewAvatar() {
     let modal = this.modalCtrl.create(MineEditAvatarModalPage, {avatarPath: this.avatarPath});
     modal.present();
     modal.onDidDismiss(data => {
       data && (this.avatarPath = data.avatarPath)
     });
+  }
+
+  notice(){
+    this.nativeService.alert('开发中...');
   }
 
 }

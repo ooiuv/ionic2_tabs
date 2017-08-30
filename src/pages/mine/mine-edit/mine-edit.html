@@ -12,10 +12,10 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-avatar item-left (click)="viewAvatar($event)">
+      <ion-avatar item-left (click)="viewAvatar();$event.stopPropagation()">
         <img [src]="avatarPath">
       </ion-avatar>
-      <h2>{{userInfo.name}}</h2>
+      <h2>{{userInfo.fullName}}</h2>
       <p>一本正经的胡说八道</p>
       <i class="icon ion-chevron-right icon-accessory"></i>
     </ion-item>

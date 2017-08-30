@@ -22,11 +22,11 @@
 <div *ngIf="mapIsComplete&&!isPositioning">
   <ion-icon name="radio-button-on" class="position-btn" (click)="mapLocation()"></ion-icon>
 </div>
-<ion-searchbar
+<ion-searchbar *ngIf="params.address||params.searchBar"
   class="search"
   placeholder="搜索地址"
-  [(ngModel)]="markerAddress"
-  debounce="500"
+  [(ngModel)]="params.address"
+  debounce="600"
   (ionFocus)="locationSearch()"
 >
 </ion-searchbar>

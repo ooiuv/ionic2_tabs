@@ -34,12 +34,14 @@ export class Utils {
   /**
    * 日期对象转为日期字符串
    * @param date 需要格式化的日期对象
-   * @param sFormat 输出格式,默认为yyyy-MM-dd                         年：y，月：M，日：d，时：h，分：m，秒：s
-   * @example  dateFormat(new Date())                                "2017-02-28"
-   * @example  dateFormat(new Date(),'yyyy-MM-dd')                   "2017-02-28"
-   * @example  dateFormat(new Date(),'yyyy-MM-dd hh:mm:ss')         "2017-02-28 09:24:00"
+   * @param sFormat 输出格式,默认为yyyy-MM-dd                        年：y，月：M，日：d，时：h，分：m，秒：s
+   * @example  dateFormat(new Date())                               "2017-02-28"
+   * @example  dateFormat(new Date(),'yyyy-MM-dd')                  "2017-02-28"
+   * @example  dateFormat(new Date(),'yyyy-MM-dd HH:mm:ss')         "2017-02-28 13:24:00"   ps:HH:24小时制
+   * @example  dateFormat(new Date(),'yyyy-MM-dd hh:mm:ss')         "2017-02-28 01:24:00"   ps:hh:12小时制
    * @example  dateFormat(new Date(),'hh:mm')                       "09:24"
-   * @example  dateFormat(new Date(),'yyyy-MM-ddThh:mm:ss+08:00')   "2017-02-28T09:24:00+08:00"
+   * @example  dateFormat(new Date(),'yyyy-MM-ddTHH:mm:ss+08:00')   "2017-02-28T13:24:00+08:00"
+   * @example  dateFormat(new Date('2017-02-28 13:24:00'),'yyyy-MM-ddTHH:mm:ss+08:00')   "2017-02-28T13:24:00+08:00"
    * @returns {string}
    */
   static dateFormat(date: Date, sFormat: String = 'yyyy-MM-dd'): string {
@@ -130,7 +132,7 @@ export class Utils {
     if (url.startsWith('http')) {
       index = 7
     }
-    return url.substring(0, index) + url.substring(index).replace(/\/\//g, '/');
+    return url.substring(0, index) + url.substring(index).replace(/\/\/*/g, '/');
   }
 
 
@@ -144,6 +146,10 @@ export class Utils {
 
   static sessionStorageSetItem(key: string, value: any) {
     sessionStorage.setItem(key, JSON.stringify(value));
+  }
+
+  static sessionStorageRemoveItem(key: string) {
+    sessionStorage.removeItem(key);
   }
 
   static sessionStorageClear() {

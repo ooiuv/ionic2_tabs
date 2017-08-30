@@ -40,7 +40,7 @@ export class MineEditModalPage {
               private nativeService: NativeService) {
     this.userInfo = this.params.get('userInfo');
     this.userForm = this.formBuilder.group({
-      name: [this.userInfo.name, [Validators.required, Validators.minLength(2), Validators.chinese]],
+      name: [this.userInfo.fullName, [Validators.required, Validators.minLength(2), Validators.chinese]],
       phone: [this.userInfo.phone, [Validators.required, Validators.phone]],
       email: [this.userInfo.email, [Validators.required, Validators.email]]
     });

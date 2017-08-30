@@ -41,10 +41,15 @@ export class SearchAddress {
     });
   }
 
+  ionViewDidEnter() {
+    setTimeout(() => {
+      this.searchBar.setFocus();
+    });
+  }
+
   ngAfterContentInit() {
-    this.searchBar.setFocus();
     this.searchTextStream
-      .debounceTime(500)
+      .debounceTime(600)
       .distinctUntilChanged()
       .subscribe(value => {
         this.getSearchData(value).then(list => this.items = <[any]>list);
@@ -96,6 +101,7 @@ export class SearchAddress {
       }
     });
   }
+
   dismiss() {
     this.viewCtrl.dismiss();
   }

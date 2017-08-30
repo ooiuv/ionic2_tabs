@@ -9,9 +9,8 @@
     <ion-title>
       <ion-searchbar #searchBar
                      mode="ios"
-                     animated
                      placeholder="搜索"
-                     debounce="500"
+                     debounce="600"
                      [(ngModel)]="address"
                      (ionInput)="getItems($event)">
       </ion-searchbar>

@@ -8,6 +8,7 @@ import {LoginService} from './LoginService';
 import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
 import {UserInfo, LoginInfo} from "../../model/UserInfo";
+import {GlobalData} from "../../providers/GlobalData";
 
 @Component({
   selector: 'page-login',
@@ -23,6 +24,7 @@ export class LoginPage {
   constructor(private viewCtrl: ViewController,
               private formBuilder: FormBuilder,
               private storage: Storage,
+              private globalData: GlobalData,
               private modalCtrl: ModalController,
               private platform: Platform,
               private alertCtrl: AlertController,
@@ -65,11 +67,12 @@ export class LoginPage {
     this.submitted = true;
     this.loginService.login(user)
       .subscribe(loginInfo => {
+        this.globalData.token = loginInfo.access_token;
         this.submitted = false;
         this.userInfo = loginInfo.user;
         this.events.publish('user:login', loginInfo);
         this.viewCtrl.dismiss(loginInfo.user);
-      }, err => {
+      }, () => {
         this.submitted = false;
       });
   }

@@ -20,18 +20,21 @@ export class MapLocation {
   mapIsComplete: boolean = false;//地图是否加载完成
   isPositioning: boolean = false;//是否正在定位
   marker: any;//标注
-  markerAddress: any;//搜索框的值
   showIonFab: boolean = false;//是否显示导航按钮
   @Input()
-  draggable: boolean = true;//标注是否可以拖拽;
-  @Input()
-  click: boolean = false;//地图是否点击改变标注的位置
-  @Input()
-  address: any; //主页面传过来的地址
-  @Input()
-  position: any;//主页面传过来的坐标
-  @Input()
-  lnglatXY: any;//双向数据绑定,把标注的经纬坐标传到主页面
+  params = {
+    draggable: true,//标注是否可以拖拽;
+    click: false,//地图是否点击改变标注的位置
+    searchBar: true,//是否显示搜索框
+    navigation: true,
+    address: '',//主页面传过来的地址
+    position: {
+      lng: '',
+      lat: ''
+    },//主页面传过来的坐标
+    lnglatXY: {}
+  };
+
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public  nativeService: NativeService,
@@ -65,13 +68,18 @@ export class MapLocation {
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {//添加工具条和比例尺
           that.map.addControl(new AMap.ToolBar());
         });
-        if (that.address) {//判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
-          that.markerAddress=that.address;
+        if (that.params.position && that.params.position.lat && that.params.position.lng) { //判断主页面传过来的是坐标就直接描点标注
+          that.drawMarker(that.params.position);
+        } else if (!that.params.position && that.params.address) {
+          //判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
           that.locationSearch();
-        } else if (that.position) {//判断主页面传过来的是坐标就直接描点标注
-          that.drawMarker(that.position);
+        } else {
+          //主页面不传address和position就直接定位到当前位置
+          that.mapLocation();
         }
-        if (that.click) { //判断是否可以点击地图改变标注位置
+
+        //判断是否可以点击地图改变标注位置
+        if (that.params.click) {
           that.map.on('click', function (e) {
             let position = {
               lng: e.lnglat.getLng(),
@@ -92,12 +100,11 @@ export class MapLocation {
 //跳转到地址查询搜索页面,并返回一个地址对象(经纬坐标+中文地址)
   private locationSearch() {
     let that = this;
-    let locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.markerAddress});
+    let locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address});
     locationSearchModal.present();
-    locationSearchModal.onDidDismiss(item=> {
-      if(item){
-        that.address = item;
-        this.drawMarker(that.address.location);
+    locationSearchModal.onDidDismiss(item => {
+      if (item) {
+        this.drawMarker(item.location, item.name);
       }
     })
   }
@@ -115,28 +122,32 @@ export class MapLocation {
   }
 
 //描点标注
-  private drawMarker(position) {
+  private drawMarker(position, addressName: string = '') {
     let that = this;
-    that.lnglatXY = new AMap.LngLat(position['lng'], position['lat']);
+    that.params.lnglatXY = new AMap.LngLat(position.lng, position.lat);
     that.map.clearMap();
 
-    //根据传进来的position参数给搜索框的赋值
-    if (that.address && position === that.address.location) {
-      that.markerAddress = that.address.name;
-    } else if (position === that.position) {
-      that.markerAddress = '';
-    } else {
-      that.geocoder(that.lnglatXY);
+    //配置需要显示搜索框就根据传进来的position参数给搜索框赋值
+    if (that.params.searchBar) {
+      if (addressName) {
+        that.params.address = addressName;
+      } else {
+        that.geocoder(that.params.lnglatXY);
+      }
     }
+
 
     that.marker = new AMap.Marker({
       map: that.map,
-      draggable: that.draggable,//控制标注是否可以拖拽
-      position: that.lnglatXY,
+      draggable: that.params.draggable,//控制标注是否可以拖拽
+      position: that.params.lnglatXY,
     });
 
-    if (that.marker) {
-      that.showIonFab = true;
+    //配置需要搜索框才执行
+    if (that.params.navigation) {
+      if (that.marker) {
+        that.showIonFab = true;
+      }
     }
 
     //拖拽标注
@@ -147,7 +158,6 @@ export class MapLocation {
       };
       that.drawMarker(position);
     });
-
     that.map.setFitView();
   }
 
@@ -162,10 +172,10 @@ export class MapLocation {
       if (status === 'complete' && result.info === 'OK') {
         //获得了有效的地址信息:
         let addressComponent = result.regeocode.addressComponent;
-        that.markerAddress = addressComponent.district + addressComponent.township +
+        that.params.address = addressComponent.district + addressComponent.township +
           addressComponent.street + addressComponent.streetNumber;
       } else {
-        that.markerAddress = '';
+        that.params.address = '';
       }
     });
   }

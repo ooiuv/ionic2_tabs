@@ -19,8 +19,7 @@ export class MineEditPage {
     this.avatarPath = this.params.get('avatarPath');
   }
 
-  viewAvatar($event) {
-    $event.stopPropagation();
+  viewAvatar() {
     let modal = this.modalCtrl.create(MineEditAvatarModalPage, {avatarPath: this.avatarPath});
     modal.present();
     modal.onDidDismiss(data => {

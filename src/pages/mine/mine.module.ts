@@ -7,7 +7,6 @@ import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar
 import {FeedBackPage} from "./feed-back/feed-back";
 import {AboutPage} from "./about/about";
 import {UpdateLogPage} from "./update-log/update-log";
-import {ShowPicturesPage} from "./show-pictures/show-pictures";
 import {SelectPicturePageModule} from "../../shared/select-picture/select-picture.module";
 import {MineService} from "./MineService";
 import {WorkMapPage} from "./work-map/work-map";
@@ -18,8 +17,8 @@ import {ChangePasswordPage} from "./change-password/change-password";
 
 @NgModule({
   imports: [IonicModule,SelectPicturePageModule,MapLocationModule],
-  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage,WorkMapPage,SettingPage,ChangePasswordPage],
-  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, ShowPicturesPage,WorkMapPage,SettingPage,ChangePasswordPage],
+  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage,SettingPage,ChangePasswordPage],
+  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage,SettingPage,ChangePasswordPage],
   providers: [MineService],
   exports: [IonicModule]
 })
