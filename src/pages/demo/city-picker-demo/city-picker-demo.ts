@@ -17,7 +17,7 @@ import {DemoService} from "../DemoService";
 })
 export class CityPickerDemoPage {
   cityData: any[] = []; //城市数据
-  cityName: string = '广东省-广州市-天河区'; //初始化城市名
+  cityName:string = '广东省-广州市-天河区'; //初始化城市名
   code: string; //城市编码
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

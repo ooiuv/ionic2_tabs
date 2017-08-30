@@ -13,14 +13,14 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-list>
     <ion-item>
       <ion-label>省市区选择器</ion-label>
       <city-picker item-content
                    [cancelText]="'取消'"
                    [doneText]="'完成'"
-                   [separator]="' - '"
+                   [separator]="'-'"
                    [citiesData]="cityData"
                    [(ngModel)]="cityName"
                    (ionChange)="cityChange($event)">

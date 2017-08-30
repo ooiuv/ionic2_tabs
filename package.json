@@ -37,9 +37,11 @@
     "@ionic/storage": "2.0.1",
     "chart.js": "^2.4.0",
     "fundebug-javascript": "^0.1.8",
+    "ion2-calendar": "^1.0.7",
     "ionic-angular": "3.6.0",
     "ionic2-city-picker": "^0.0.11",
     "ionicons": "3.0.0",
+    "moment": "^2.18.1",
     "rxjs": "5.4.0",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.12"
