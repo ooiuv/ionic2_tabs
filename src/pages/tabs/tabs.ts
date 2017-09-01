@@ -28,11 +28,13 @@ export class TabsPage {
       let userInfo = loginInfo.user;
       this.globalData.userId = userInfo.id;
       this.globalData.username = userInfo.username;
-      this.globalData.token = loginInfo.access_token;
-      this.helper.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {
-        userInfo.avatarPath = avatarPath;
-        this.storage.set('LoginInfo', loginInfo);
-      });
+      this.globalData.fullName = userInfo.fullName;
+      if (!userInfo.avatarPath) {
+        this.helper.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {
+          userInfo.avatarPath = avatarPath;
+          this.storage.set('LoginInfo', loginInfo);
+        });
+      }
       this.helper.setTags();
       this.helper.setAlias(userInfo.id);
     });

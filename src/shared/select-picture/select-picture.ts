@@ -18,8 +18,6 @@ import {PreviewPicturePage} from "../preview-picture/preview-picture";
 export class SelectPicturePage {
   @Input() max: number = 4;  //最多可选择多少张图片，默认为4张
 
-  @Input() destinationType: number = 1;  //期望返回的图片格式,默认1图片路径,0为返回图片base64
-
   @Input() allowAdd: boolean = true;  //是否允许新增
 
   @Input() allowDelete: boolean = true;  //是否允许删除
@@ -42,7 +40,7 @@ export class SelectPicturePage {
           handler: () => {
             that.nativeService.getMultiplePicture({//从相册多选
               maximumImagesCount: (that.max - that.fileObjList.length),
-              destinationType: this.destinationType
+              destinationType: 1//期望返回的图片格式,1图片路径
             }).subscribe(imgs => {
               for (let img of <string[]>imgs) {
                 that.getPictureSuccess(img);
@@ -54,7 +52,7 @@ export class SelectPicturePage {
           text: '拍照',
           handler: () => {
             that.nativeService.getPictureByCamera({
-              destinationType: this.destinationType
+              destinationType: 1//期望返回的图片格式,1图片路径
             }).subscribe(img => {
               that.getPictureSuccess(img);
             });

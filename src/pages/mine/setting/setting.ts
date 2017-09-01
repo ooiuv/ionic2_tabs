@@ -3,6 +3,7 @@ import {Storage} from '@ionic/storage';
 import {NavController, NavParams, AlertController, ModalController} from 'ionic-angular';
 import {Utils} from "../../../providers/Utils";
 import {LoginPage} from "../../login/login";
+import {ChangePasswordPage} from "../change-password/change-password";
 
 /**
  * Generated class for the SettingPage page.
@@ -44,5 +45,14 @@ export class SettingPage {
       ]
     }).present();
   }
+
+
+  changePassword() {
+    let modal = this.modalCtrl.create(ChangePasswordPage);
+    modal.present();
+    modal.onDidDismiss(data => {
+    });
+  }
+
 
 }

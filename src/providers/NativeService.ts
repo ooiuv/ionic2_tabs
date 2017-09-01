@@ -124,7 +124,7 @@ export class NativeService {
           this.getVersionNumber().subscribe(currentNo => {
             if (currentNo == res.version) {//比较版本号
               manual && this.alert('已经是最新版本');
-            }else{
+            } else {
               if (res.isForcedUpdate == 1) {//判断是否强制更新
                 this.alertCtrl.create({
                   title: '重要升级',

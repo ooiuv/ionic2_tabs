@@ -15,7 +15,8 @@ export interface Sign {
   createId?: string,//签到人userId
   createBy?: string,//签到人username
   createTime?: Date,//签到时间
-  signPersonList?: SignPerson[]//签到人列表
+  signPersonList?: SignPerson[],//签到人列表
+  repeat?: boolean//是否需要重复签到
 }
 export interface SignPerson {
   id?: string,

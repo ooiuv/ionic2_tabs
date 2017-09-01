@@ -31,6 +31,9 @@ export class HttpService {
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
         this.nativeService.hideLoading();
         console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
+        if (res['_body'] == '') {
+          res['_body'] = null;
+        }
         observer.next(res);
       }, err => {
         this.requestFailed(url, options, err);//处理请求失败

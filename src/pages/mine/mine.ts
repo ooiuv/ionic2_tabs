@@ -73,16 +73,11 @@ export class MinePage {
     }).present();
   }
 
+  //工作地图
   map() {
     this.navCtrl.push(WorkMapPage);
   }
 
-  changePassword() {
-    let modal = this.modalCtrl.create(ChangePasswordPage);
-    modal.present();
-    modal.onDidDismiss(data => {
-    });
-  }
 
   exitSoftware() {
     this.alertCtrl.create({

@@ -20,7 +20,7 @@
 </div>
 
 <div *ngIf="mapIsComplete&&!isPositioning">
-  <ion-icon name="radio-button-on" class="position-btn" (click)="mapLocation()"></ion-icon>
+  <ion-icon name="radio-button-on" class="position-btn" tappable (click)="mapLocation()"></ion-icon>
 </div>
 <ion-searchbar *ngIf="params.address||params.searchBar"
   class="search"

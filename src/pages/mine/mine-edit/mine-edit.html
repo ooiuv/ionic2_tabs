@@ -12,7 +12,7 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-avatar item-left (click)="viewAvatar();$event.stopPropagation()">
+      <ion-avatar item-left tappable (click)="viewAvatar();$event.stopPropagation()">
         <img [src]="avatarPath">
       </ion-avatar>
       <h2>{{userInfo.fullName}}</h2>

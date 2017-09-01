@@ -9,6 +9,7 @@ import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
 import {UserInfo, LoginInfo} from "../../model/UserInfo";
 import {GlobalData} from "../../providers/GlobalData";
+import {Utils} from "../../providers/Utils";
 
 @Component({
   selector: 'page-login',
@@ -67,6 +68,8 @@ export class LoginPage {
     this.submitted = true;
     this.loginService.login(user)
       .subscribe(loginInfo => {
+        this.storage.clear();//清除缓存
+        Utils.sessionStorageClear();//清除缓存
         this.globalData.token = loginInfo.access_token;
         this.submitted = false;
         this.userInfo = loginInfo.user;
