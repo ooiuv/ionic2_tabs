@@ -1,34 +1,24 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from '@angular/core';
-import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
-
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
-import {AppVersion} from '@ionic-native/app-version';
-import {Camera, CameraOptions} from '@ionic-native/camera';
-import {Toast} from '@ionic-native/toast';
-import {File, FileEntry} from '@ionic-native/file';
-import {Transfer, TransferObject} from '@ionic-native/transfer';
-import {InAppBrowser} from '@ionic-native/in-app-browser';
-import {ImagePicker} from '@ionic-native/image-picker';
-import {Network} from '@ionic-native/network';
+import {Injectable} from "@angular/core";
+import {ToastController, LoadingController, Platform, Loading, AlertController} from "ionic-angular";
+import {StatusBar} from "@ionic-native/status-bar";
+import {SplashScreen} from "@ionic-native/splash-screen";
+import {AppVersion} from "@ionic-native/app-version";
+import {Camera, CameraOptions} from "@ionic-native/camera";
+import {Toast} from "@ionic-native/toast";
+import {File, FileEntry} from "@ionic-native/file";
+import {Transfer, TransferObject} from "@ionic-native/transfer";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {ImagePicker} from "@ionic-native/image-picker";
+import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
-
 import {Position} from "../model/type";
-import {
-  APP_DOWNLOAD,
-  APK_DOWNLOAD,
-  IMAGE_SIZE,
-  QUALITY_SIZE,
-  REQUEST_TIMEOUT,
-  APP_VERSION_SERVE_URL
-} from "./Constants";
+import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
-import {Http, Response} from "@angular/http";
-import {Utils} from "./Utils";
+import {Http} from "@angular/http";
 import {Logger} from "./Logger";
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -105,65 +95,9 @@ export class NativeService {
   }
 
   /**
-   * 检查app是否需要升级
-   */
-  detectionUpgrade(manual = false): void {
-    if (this.isMobile()) {
-      //获得app包名
-      this.getPackageName().subscribe(packageName => {
-        let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
-        let appType = this.isAndroid() ? 'android' : 'ios';
-        //从后台查询app最新版本信息
-        let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/app/${appName}/${appType}/latest/version`);
-        this.http.get(url).map((res: Response) => res.json()).subscribe(res => {
-          if (!res) {
-            this.logger.log('', '从app升级获取版本信息失败', {url: url});
-            return;
-          }
-          //获得当前app版本
-          this.getVersionNumber().subscribe(currentNo => {
-            if (currentNo == res.version) {//比较版本号
-              manual && this.alert('已经是最新版本');
-            } else {
-              if (res.isForcedUpdate == 1) {//判断是否强制更新
-                this.alertCtrl.create({
-                  title: '重要升级',
-                  subTitle: '您必须升级后才能使用！',
-                  buttons: [{
-                    text: '确定',
-                    handler: () => {
-                      this.downloadApp();
-                    }
-                  }
-                  ]
-                }).present();
-              } else {
-                this.alertCtrl.create({
-                  title: '升级',
-                  subTitle: '发现新版本,是否立即升级？',
-                  buttons: [{text: '取消'},
-                    {
-                      text: '确定',
-                      handler: () => {
-                        this.downloadApp();
-                      }
-                    }
-                  ]
-                }).present();
-              }
-
-            }
-          })
-        });
-      })
-    }
-
-  }
-
-  /**
    * 下载安装app
    */
-  downloadApp(): void {
+  downloadApp(updateData = null): void {
     if (this.isIos()) {//ios打开网页下载
       this.openUrlByBrowser(APP_DOWNLOAD);
     }
@@ -199,14 +133,21 @@ export class NativeService {
         }).present();
       });
 
-      //更新下载进度
+      let timer, firstTime = true;
       fileTransfer.onProgress((event: ProgressEvent) => {
-        let num = Math.floor(event.loaded / event.total * 100);
-        if (num === 100) {
-          alert.dismiss();
+        let progress = Math.floor(event.loaded / event.total * 100);//下载进度
+        updateData && (updateData.progress = progress);
+        if (progress === 100) {
+          alert && alert.dismiss();
         } else {
-          let title = document.getElementsByClassName('alert-title')[0];
-          title && (title.innerHTML = '下载进度：' + num + '%');
+          if (!timer || firstTime) {
+            firstTime = false;
+            timer = setTimeout(() => {
+              clearTimeout(timer);
+              let title = document.getElementsByClassName('alert-title')[0];
+              title && (title.innerHTML = `下载进度：${progress}%`);
+            }, 1000);
+          }
         }
       });
     }

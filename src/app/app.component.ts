@@ -1,6 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from 'ionic-angular';
+import {Component, ViewChild} from "@angular/core";
+import {Storage} from "@ionic/storage";
+import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from "ionic-angular";
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 import {LoginInfo} from "../model/UserInfo";
@@ -51,7 +51,9 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      this.nativeService.detectionUpgrade();//检测app是否升级
+      this.helper.assertUpgrade().subscribe(isUpdate => {//检测app是否升级
+        isUpdate && this.nativeService.downloadApp();
+      })
     });
   }
 

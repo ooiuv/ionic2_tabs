@@ -1,9 +1,8 @@
-import {Component} from '@angular/core';
-import {Storage} from '@ionic/storage';
-
-import {Platform, NavController, ModalController, AlertController} from 'ionic-angular';
-import {MineEditPage} from './mine-edit/mine-edit';
-import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar-modal';
+import {Component} from "@angular/core";
+import {Storage} from "@ionic/storage";
+import {Platform, NavController, ModalController, AlertController} from "ionic-angular";
+import {MineEditPage} from "./mine-edit/mine-edit";
+import {MineEditAvatarModalPage} from "./mine-edit-avatar-modal/mine-edit-avatar-modal";
 import {UserInfo} from "../../model/UserInfo";
 import {AboutPage} from "./about/about";
 import {LoginPage} from "../login/login";
@@ -11,7 +10,6 @@ import {Helper} from "../../providers/Helper";
 import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {WorkMapPage} from "./work-map/work-map";
 import {SettingPage} from "./setting/setting";
-import {ChangePasswordPage} from "./change-password/change-password";
 import {NativeService} from "../../providers/NativeService";
 
 @Component({

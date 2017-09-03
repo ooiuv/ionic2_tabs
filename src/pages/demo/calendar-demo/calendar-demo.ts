@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
 import {CalendarController} from "ion2-calendar";
 import {NativeService} from "../../../providers/NativeService";
 import {Utils} from "../../../providers/Utils";
@@ -25,6 +25,8 @@ export class CalendarDemoPage {
   }
 
   calendar() {
+    let from = new Date();
+    from.setMonth(from.getMonth() - 6);//半年前
     this.calendarCtrl.openCalendar({
       isRadio: false,//是否单选,默认true
       canBackwardsSelected: true,//能否选择今天以前的日期
@@ -32,7 +34,9 @@ export class CalendarDemoPage {
       monthTitle: ' yyyy 年 MM 月 ',
       weekdaysTitle: ["天", "一", "二", "三", "四", "五", "六"],
       closeLabel: '取消',
-      cssClass: 'color'
+      cssClass: 'color',
+      from: from,
+      defaultDate: new Date(),
     }).then(res => {
       this.dateRangeStr = Utils.dateFormat(new Date(res.from.time)) + '~' + Utils.dateFormat(new Date(res.to.time));
       console.log(res);
