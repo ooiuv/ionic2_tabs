@@ -18,7 +18,6 @@ import {Position} from "../model/type";
 import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
-import {Http} from "@angular/http";
 import {Logger} from "./Logger";
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -44,8 +43,7 @@ export class NativeService {
               private appMinimize: AppMinimize,
               private loadingCtrl: LoadingController,
               private globalData: GlobalData,
-              public logger: Logger,
-              private http: Http) {
+              public logger: Logger) {
   }
 
 
