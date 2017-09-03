@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Component} from "@angular/core";
+import {NavController, NavParams} from "ionic-angular";
 import {NativeService} from "../../../providers/NativeService";
-import {Http, Response} from "@angular/http";
 import {DemoService} from "../DemoService";
 
 /**

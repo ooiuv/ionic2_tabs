@@ -1,12 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpService} from "../../providers/HttpService";
+import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
-import {Response} from "@angular/http";
 import {LoginInfo} from "../../model/UserInfo";
 
 @Injectable()
 export class LoginService {
-  constructor(private httpService: HttpService) {
+  constructor() {
   }
 
 

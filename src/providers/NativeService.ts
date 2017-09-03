@@ -131,17 +131,17 @@ export class NativeService {
         }).present();
       });
 
-      let timer, firstTime = true;
+      let timer = null;
       fileTransfer.onProgress((event: ProgressEvent) => {
         let progress = Math.floor(event.loaded / event.total * 100);//下载进度
         updateData && (updateData.progress = progress);
         if (progress === 100) {
           alert && alert.dismiss();
         } else {
-          if (!timer || firstTime) {
-            firstTime = false;
+          if (!timer) {
             timer = setTimeout(() => {
               clearTimeout(timer);
+              timer = null;
               let title = document.getElementsByClassName('alert-title')[0];
               title && (title.innerHTML = `下载进度：${progress}%`);
             }, 1000);

@@ -1,14 +1,13 @@
 /**
  * Created by yanxiaojun617@163.com on 12-23.
  */
-import {Injectable} from '@angular/core';
+import {Injectable} from "@angular/core";
 import {HttpService} from "./HttpService";
-import {FILE_SERVE_URL} from './Constants';
+import {FILE_SERVE_URL} from "./Constants";
 import {FileObj} from "../model/FileObj";
 import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
-import {Result} from "../model/Result";
 
 /**
  * 上传图片到文件服务器
