@@ -10,9 +10,12 @@ export class GlobalData {
   private _username: string;//用户名
   private _fullName: string;//姓名
   private _token: string;//token
+
   //设置http请求是否显示loading,注意:设置为true,接下来的请求会不显示loading,请求执行完成会自动设置为false
   private _showLoading: boolean = true;
 
+  //app更新进度.默认为0,在app升级过程中会改变
+  private _updateProgress: number = -1;
 
   get userId(): string {
     return this._userId;
@@ -52,5 +55,13 @@ export class GlobalData {
 
   set showLoading(value: boolean) {
     this._showLoading = value;
+  }
+
+  get updateProgress(): number {
+    return this._updateProgress;
+  }
+
+  set updateProgress(value: number) {
+    this._updateProgress = value;
   }
 }

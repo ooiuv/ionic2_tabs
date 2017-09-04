@@ -101,8 +101,8 @@ export class Utils {
    * 每次调用sequence加1
    * @type {()=>number}
    */
-  getSequence = (function () {
-    let sequence = 100;
+  static getSequence = (function () {
+    let sequence = 1;
     return function () {
       return ++sequence;
     };

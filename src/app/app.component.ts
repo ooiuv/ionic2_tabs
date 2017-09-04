@@ -51,8 +51,8 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      this.helper.assertUpgrade().subscribe(isUpdate => {//检测app是否升级
-        isUpdate && this.nativeService.downloadApp();
+      this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
+        res.update && this.nativeService.downloadApp();
       })
     });
   }

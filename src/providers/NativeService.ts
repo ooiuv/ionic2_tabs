@@ -19,6 +19,7 @@ import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} f
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
 import {Logger} from "./Logger";
+import {Utils} from "./Utils";
 declare var LocationPlugin;
 declare var AMapNavigation;
 
@@ -95,21 +96,26 @@ export class NativeService {
   /**
    * 下载安装app
    */
-  downloadApp(updateData = null): void {
+  downloadApp(): void {
     if (this.isIos()) {//ios打开网页下载
       this.openUrlByBrowser(APP_DOWNLOAD);
     }
     if (this.isAndroid()) {//android本地下载
-      //显示下载进度
-      let alert = this.alertCtrl.create({
+      let backgroundProcess = false;//是否后台下载
+      let alert = this.alertCtrl.create({//显示下载进度
         title: '下载进度：0%',
         enableBackdropDismiss: false,
-        buttons: ['后台下载']
+        buttons: [{
+          text: '后台下载', handler: () => {
+            backgroundProcess = true;
+          }
+        }
+        ]
       });
       alert.present();
 
       const fileTransfer: TransferObject = this.transfer.create();
-      const apk = this.file.externalRootDirectory + 'android.apk'; //apk保存的目录
+      const apk = this.file.externalRootDirectory + `android_${Utils.getSequence()}.apk`; //apk保存的目录
 
       //下载并安装apk
       fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
@@ -131,20 +137,22 @@ export class NativeService {
         }).present();
       });
 
-      let timer = null;
+      let timer = null;//由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
       fileTransfer.onProgress((event: ProgressEvent) => {
         let progress = Math.floor(event.loaded / event.total * 100);//下载进度
-        updateData && (updateData.progress = progress);
-        if (progress === 100) {
-          alert && alert.dismiss();
-        } else {
-          if (!timer) {
-            timer = setTimeout(() => {
-              clearTimeout(timer);
-              timer = null;
-              let title = document.getElementsByClassName('alert-title')[0];
-              title && (title.innerHTML = `下载进度：${progress}%`);
-            }, 1000);
+        this.globalData.updateProgress = progress;
+        if (!backgroundProcess) {
+          if (progress === 100) {
+            alert.dismiss();
+          } else {
+            if (!timer) {
+              timer = setTimeout(() => {
+                clearTimeout(timer);
+                timer = null;
+                let title = document.getElementsByClassName('alert-title')[0];
+                title && (title.innerHTML = `下载进度：${progress}%`);
+              }, 1000);
+            }
           }
         }
       });

@@ -4,6 +4,7 @@ import {NativeService} from "../../../providers/NativeService";
 import {UpdateLogPage} from "../update-log/update-log";
 import {FeedBackPage} from "../feed-back/feed-back";
 import {Helper} from "../../../providers/Helper";
+import {GlobalData} from "../../../providers/GlobalData";
 
 @Component({
   selector: 'page-about',
@@ -11,13 +12,11 @@ import {Helper} from "../../../providers/Helper";
 })
 export class AboutPage {
   versionNo: string = '0.0.1';
-  update = {//更新进度
-    progress: -1
-  };
 
   constructor(private navCtrl: NavController,
               private alertCtrl: AlertController,
               private helper: Helper,
+              private globalData: GlobalData,
               private nativeService: NativeService) {
     if (this.nativeService.isMobile()) {
       this.nativeService.getVersionNumber().subscribe(value => {
@@ -27,27 +26,27 @@ export class AboutPage {
   }
 
   checkNewVersion() {
-    if (!this.nativeService.isMobile()) {
-      this.nativeService.alert('请使用真机调试');
-      return;
-    }
-    if (this.update.progress == -1 || this.update.progress == 100) {
-      this.helper.assertUpgrade().subscribe(isUpdate => {
-        if (isUpdate) {
-          this.nativeService.downloadApp(this.update);
+    if (this.globalData.updateProgress == -1 || this.globalData.updateProgress == 100) {
+      this.helper.assertUpgrade().subscribe(res => {
+        if (res.update) {
+          this.nativeService.downloadApp();
         } else {
-          this.nativeService.alert('已经是最新版本');
+          res.msg && this.nativeService.alert(res.msg);
         }
       })
     } else {//正在更新
       let alert = this.alertCtrl.create({
-        title: '下载进度：',
+        title: `下载进度：${this.globalData.updateProgress}%`,
         buttons: [{text: '确定'}
         ]
       });
       alert.present();
-      setInterval(() => {
-        alert.setTitle(`下载进度：${this.update.progress}%`);
+      let interval = setInterval(() => {
+        alert.setTitle(`下载进度：${this.globalData.updateProgress}%`);
+        if (this.globalData.updateProgress == 100) {
+          clearInterval(interval);
+          alert && alert.dismiss();
+        }
       }, 1000);
     }
   }
