@@ -406,8 +406,12 @@ export class NativeService {
           observer.next({'lng': data.longitude, 'lat': data.latitude});
         }, msg => {
           observer.error('获取位置失败');
-          if (msg.indexOf('缺少定位权限') == -1) {
+          if (msg.indexOf('缺少定位权限') != -1) {
             this.alert('缺少定位权限，请在手机设置中开启');
+            return;
+          }
+          if (msg.indexOf('KEY错误') != -1) {
+            this.alert('KEY错误，请到高德开发者官网申请key');
             return;
           }
           this.alert('错误消息：' + msg);
