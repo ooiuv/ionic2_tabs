@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import "rxjs/add/operator/map";
 import {TestService} from "./TestService";
 import {FileObj} from "../../model/FileObj";
+import {NativeService} from "../../providers/NativeService";
 
 @Component({
   selector: 'page-test',
@@ -11,7 +12,7 @@ export class TestPage {
 
   fileObjList: FileObj[] = [];
 
-  constructor(public testService: TestService) {
+  constructor(public testService: TestService, private nativeService: NativeService) {
 
   }
 
@@ -21,5 +22,13 @@ export class TestPage {
     });
   }
 
-
+  getUserLocation() {
+    this.nativeService.getUserLocation().subscribe(res => {
+      console.log(res);
+      alert(res.lng + ',' + res.lat);
+    }, err => {
+      console.log(err);
+      alert(err);
+    })
+  }
 }

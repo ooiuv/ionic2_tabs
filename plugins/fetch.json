@@ -136,15 +136,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "com.synconset.imagepicker": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Telerik-Verified-Plugins/ImagePicker",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-jcore": {
         "source": {
             "type": "local",
@@ -171,5 +162,23 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova.plugins.diagnostic": {
+        "source": {
+            "type": "registry",
+            "id": "cordova.plugins.diagnostic"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.synconset.imagepicker": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-telerik-imagepicker"
+        },
+        "is_top_level": true,
+        "variables": {
+            "PHOTO_LIBRARY_USAGE_DESCRIPTION": "正在读取照片"
+        }
     }
 }

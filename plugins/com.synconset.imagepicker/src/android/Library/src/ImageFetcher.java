@@ -16,40 +16,40 @@
 
 package com.synconset;
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.RejectedExecutionException;
+.lang.ref.SoftReference;
+.lang.ref.WeakReference;
+.util.HashMap;
+.util.LinkedHashMap;
+.util.concurrent.ConcurrentHashMap;
+.util.concurrent.ExecutorService;
+.util.concurrent.Executors;
+.util.concurrent.RejectedExecutionException;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.Matrix;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+.content.Context;
+.graphics.Bitmap;
+.graphics.Color;
+.graphics.drawable.ColorDrawable;
+.graphics.drawable.Drawable;
+.graphics.Matrix;
+.os.AsyncTask;
+.os.Build;
+.os.Handler;
+.provider.MediaStore;
+.util.Log;
+.view.View;
+.view.animation.Animation;
+.view.animation.AnimationUtils;
+.widget.ImageView;
 
 /**
  * This helper class download images from the Internet and binds those with the
  * provided ImageView.
- * 
+ *
  * <p>
  * It requires the INTERNET permission, which should be added to your
  * application's manifest file.
  * </p>
- * 
+ *
  * A local cache of downloaded images is maintained internally to improve
  * performance.
  */
@@ -249,7 +249,7 @@ public class ImageFetcher {
     /**
      * A fake Drawable that will be attached to the imageView while the download
      * is in progress.
-     * 
+     *
      * <p>
      * Contains a reference to the actual download task, so that a download task
      * can be stopped if a new binding is required, and makes sure that only the
@@ -278,7 +278,7 @@ public class ImageFetcher {
 
     /*
      * Cache-related fields and methods.
-     * 
+     *
      * We use a hard and a soft cache. A soft reference cache is too aggressively cleared by the
      * Garbage Collector.
      */
@@ -315,7 +315,7 @@ public class ImageFetcher {
 
     /**
      * Adds this bitmap to the cache.
-     * 
+     *
      * @param bitmap
      *            The newly downloaded bitmap.
      */

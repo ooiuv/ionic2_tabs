@@ -3,24 +3,24 @@
  */
 package com.synconset;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
+.apache.cordova.CallbackContext;
+.apache.cordova.CordovaPlugin;
 
-import org.apache.cordova.PluginResult;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+.apache.cordova.PluginResult;
+.json.JSONArray;
+.json.JSONException;
+.json.JSONObject;
 
-import java.util.ArrayList;
+.util.ArrayList;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+.Manifest;
+.annotation.SuppressLint;
+.app.Activity;
+.content.Intent;
+.content.pm.PackageManager;
+.os.Build;
+.support.v4.app.ActivityCompat;
+.support.v4.content.ContextCompat;
 
 public class ImagePicker extends CordovaPlugin {
 
