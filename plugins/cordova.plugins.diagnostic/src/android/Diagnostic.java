@@ -18,61 +18,64 @@
 */
 package cordova.plugins;
 
-.io.File;
-.io.InputStream;
-.lang.reflect.Method;
-.util.ArrayList;
-.util.Collections;
-.util.HashMap;
-.util.HashSet;
-.util.List;
-.util.Map;
-.util.Random;
+/*
+ * Imports
+ */
+import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 
-.apache.cordova.CordovaWebView;
-.apache.cordova.CallbackContext;
-.apache.cordova.CordovaPlugin;
-.apache.cordova.CordovaInterface;
-.json.JSONArray;
-.json.JSONException;
-.json.JSONObject;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaInterface;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-.Manifest;
-.app.Activity;
-.bluetooth.BluetoothAdapter;
-.content.BroadcastReceiver;
-.content.IntentFilter;
-.location.Location;
-.location.LocationListener;
-.location.LocationManager;
-.location.LocationProvider;
-.net.Uri;
-.nfc.NfcAdapter;
-.nfc.NfcManager;
-.os.Build;
-.os.Bundle;
-.os.Environment;
-.os.StatFs;
-.support.v4.os.EnvironmentCompat;
-.text.TextUtils;
-.util.Log;
+import android.Manifest;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import android.support.v4.os.EnvironmentCompat;
+import android.text.TextUtils;
+import android.util.Log;
 
-.content.Context;
-.content.Intent;
-.content.pm.PackageManager;
-.provider.Settings;
-.net.wifi.WifiManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.provider.Settings;
+import android.net.wifi.WifiManager;
 
-.support.v4.app.ActivityCompat;
-.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
-.lang.SecurityException;
-.util.Set;
+import java.lang.SecurityException;
+import java.util.Set;
 
-android.nfc.NfcAdapter.EXTRA_ADAPTER_STATE;
-android.nfc.NfcAdapter.STATE_OFF;
-android.nfc.NfcAdapter.STATE_ON;
+import static android.nfc.NfcAdapter.EXTRA_ADAPTER_STATE;
+import static android.nfc.NfcAdapter.STATE_OFF;
+import static android.nfc.NfcAdapter.STATE_ON;
 
 /**
  * Diagnostic plugin implementation for Android
@@ -468,7 +471,7 @@ public class Diagnostic extends CordovaPlugin{
         }
         return false;
     }
-
+       
     public void switchToAppSettings() {
         Log.d(TAG, "Switch to App Settings");
         Intent appIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);

@@ -402,63 +402,122 @@ export class NativeService {
   /**
    * 获得用户当前坐标
    */
-  getUserLocation = (() => {//自执行函数,使用闭包保存locationAuthorization变量
-      let locationAuthorization = false;//是否有定位权限
-      return () => {
-        return Observable.create(observer => {
-          if (this.isMobile()) {
-            if (locationAuthorization) {
-              return this.getLocation(observer);
-            } else {
-              this.diagnostic.isLocationAvailable().then(res => {//判断是否有定位权限.返回true或false
-                if (res) {
-                  locationAuthorization = true;
-                  return this.getLocation(observer);
-                } else {
-                  this.diagnostic.requestLocationAuthorization('always').then(res => {//请求定位权限
-                    if (res == 'DENIED_ALWAYS') {//拒绝访问状态,必须手动开启
-                      locationAuthorization = false;
-                      this.alert('缺少定位权限，请在手机设置中开启');
-                      return;
-                    } else {
-                      locationAuthorization = true;
-                      return this.getLocation(observer);
-                    }
-                  }).catch(err => {
-                    this.logger.log(err, '调用diagnostic.requestLocationAuthorization方法失败');
-                  });
-                }
-              }).catch(err => {
-                this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
-              });
-            }
-          } else {
-            console.log('非手机环境,即测试环境返回固定坐标');
-            observer.next({'lng': 113.350912, 'lat': 23.119495});
+  getUserLocation() {
+    return Observable.create(observer => {
+      if (this.isMobile()) {
+        this.assertLocationService().subscribe(res => {
+          if (res) {
+            this.assertLocationAuthorization().subscribe(res => {
+              if (res) {
+                return this.getLocation(observer);
+              }
+            })
           }
-        });
+        })
+      } else {
+        console.log('非手机环境,即测试环境返回固定坐标');
+        observer.next({'lng': 113.350912, 'lat': 23.119495});
       }
-    })();
+    });
+  }
 
-
-  private getLocation(observer){
+  private getLocation(observer) {
     LocationPlugin.getLocation(data => {
       observer.next({'lng': data.longitude, 'lat': data.latitude});
     }, msg => {
       observer.error('获取位置失败');
       if (msg.indexOf('缺少定位权限') != -1) {
-        this.alert('缺少定位权限，请在设备的设置中开启app的定位权限');
-        return;
+        alert('缺少定位权限，请在手机设置中检查是否同时已开启GPS和应用授权定位')
+      } else if (msg.indexOf('WIFI信息不足') != -1) {
+        alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据')
+      } else if (msg.indexOf('网络连接异常') != -1) {
+        alert('网络连接异常,请检查您的网络是否畅通')
+      } else {
+        alert('位置错误,错误消息:' + msg);
+        this.logger.log(msg, '获取位置失败');
       }
-      if (msg.indexOf('KEY错误') != -1) {
-        this.alert('KEY错误，请到高德开发者官网申请key');
-        return;
-      }
-      this.alert('错误消息：' + msg);
-      this.logger.log(msg, '获取位置失败');
     });
   }
 
+  //检测app位置服务是否开启
+  private assertLocationService = (() => {
+    let enabledLocationService = false;//手机是否开启位置服务
+    return () => {
+      return Observable.create(observer => {
+        if (enabledLocationService) {
+          observer.next(true);
+        } else {
+          this.diagnostic.isLocationEnabled().then(enabled => {
+            if (enabled) {
+              enabledLocationService = true;
+              observer.next(true);
+            } else {
+              enabledLocationService = false;
+              this.alertCtrl.create({
+                title: '您未开启位置服务',
+                subTitle: '正在获取位置信息',
+                buttons: [{text: '取消'},
+                  {
+                    text: '去开启',
+                    handler: () => {
+                      this.diagnostic.switchToLocationSettings();
+                    }
+                  }
+                ]
+              }).present();
+            }
+          }).catch(err => {
+            this.logger.log(err, '调用diagnostic.isLocationEnabled方法失败');
+          });
+        }
+      });
+    };
+  })();
+
+  //检测app是否有定位权限
+  private assertLocationAuthorization = (() => {
+    let locationAuthorization = false;
+    return () => {
+      return Observable.create(observer => {
+        if (locationAuthorization) {
+          observer.next(true);
+        } else {
+          this.diagnostic.isLocationAvailable().then(res => {
+            if (res) {
+              locationAuthorization = true;
+              observer.next(true);
+            } else {
+              locationAuthorization = false;
+              this.diagnostic.requestLocationAuthorization('always').then(res => {//请求定位权限
+                if (res == 'DENIED_ALWAYS') {//拒绝访问状态,必须手动开启
+                  locationAuthorization = false;
+                  this.alertCtrl.create({
+                    title: '缺少定位权限',
+                    subTitle: '请在手机设置或app权限管理中开启',
+                    buttons: [{text: '取消'},
+                      {
+                        text: '去开启',
+                        handler: () => {
+                          this.diagnostic.switchToSettings();
+                        }
+                      }
+                    ]
+                  }).present();
+                } else {
+                  locationAuthorization = true;
+                  observer.next(true);
+                }
+              }).catch(err => {
+                this.logger.log(err, '调用diagnostic.requestLocationAuthorization方法失败');
+              });
+            }
+          }).catch(err => {
+            this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
+          });
+        }
+      });
+    };
+  })();
 
   /**
    * 地图导航

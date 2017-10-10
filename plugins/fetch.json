@@ -163,14 +163,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova.plugins.diagnostic": {
-        "source": {
-            "type": "registry",
-            "id": "cordova.plugins.diagnostic"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "com.synconset.imagepicker": {
         "source": {
             "type": "registry",
@@ -180,5 +172,13 @@
         "variables": {
             "PHOTO_LIBRARY_USAGE_DESCRIPTION": "正在读取照片"
         }
+    },
+    "cordova.plugins.diagnostic": {
+        "source": {
+            "type": "registry",
+            "id": "cordova.plugins.diagnostic@~3.6.7"
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }
