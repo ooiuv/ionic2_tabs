@@ -70,7 +70,7 @@ export class MapLocation {
         });
         if (that.params.position && that.params.position.lat && that.params.position.lng) { //判断主页面传过来的是坐标就直接描点标注
           that.drawMarker(that.params.position);
-        } else if (!that.params.position && that.params.address) {
+        } else if (!(that.params.position.lat&&that.params.position.lng) && that.params.address) {
           //判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
           that.locationSearch();
         } else {
