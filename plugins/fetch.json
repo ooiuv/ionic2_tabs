@@ -180,5 +180,37 @@
         "variables": {
             "PHOTO_LIBRARY_USAGE_DESCRIPTION": "正在读取照片"
         }
+    },
+    "cordova-plugin-code-push": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-code-push@latest"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "code-push": {
+        "source": {
+            "type": "registry",
+            "id": "code-push"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-zip": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-zip"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-dialogs": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-dialogs"
+        },
+        "is_top_level": false,
+        "variables": {}
     }
 }

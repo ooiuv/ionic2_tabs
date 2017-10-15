@@ -15,12 +15,21 @@ import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
 import {Position} from "../model/type";
-import {APP_DOWNLOAD, APK_DOWNLOAD, IMAGE_SIZE, QUALITY_SIZE, REQUEST_TIMEOUT} from "./Constants";
+import {
+  APP_DOWNLOAD,
+  APK_DOWNLOAD,
+  IMAGE_SIZE,
+  QUALITY_SIZE,
+  REQUEST_TIMEOUT,
+  CODE_PUSH_DEPLOYMENT_KEY,
+  IS_DEBUG
+} from "./Constants";
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
 import {Logger} from "./Logger";
 import {Utils} from "./Utils";
 import {Diagnostic} from "@ionic-native/diagnostic";
+import {CodePush} from "@ionic-native/code-push";
 
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -46,10 +55,33 @@ export class NativeService {
               private appMinimize: AppMinimize,
               private loadingCtrl: LoadingController,
               private globalData: GlobalData,
+              public logger: Logger,
               private diagnostic: Diagnostic,
-              public logger: Logger) {
+              private codePush: CodePush) {
   }
 
+  sync() {
+    if (this.isMobile()) {
+      let deploymentKey = '';
+      if (this.isAndroid() && IS_DEBUG) {
+        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.android.Staging;
+      }
+      if (this.isAndroid() && !IS_DEBUG) {
+        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.android.Production;
+      }
+      if (this.isIos() && IS_DEBUG) {
+        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.ios.Staging;
+      }
+      if (this.isIos() && !IS_DEBUG) {
+        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.ios.Production;
+      }
+      this.codePush.sync({
+        deploymentKey: deploymentKey
+      }).subscribe(syncStatus => {
+        console.log(syncStatus);
+      });
+    }
+  }
 
   /**
    * 使用默认状态栏
@@ -403,45 +435,45 @@ export class NativeService {
    * 获得用户当前坐标
    */
   getUserLocation = (() => {//自执行函数,使用闭包保存locationAuthorization变量
-      let locationAuthorization = false;//是否有定位权限
-      return () => {
-        return Observable.create(observer => {
-          if (this.isMobile()) {
-            if (locationAuthorization) {
-              return this.getLocation(observer);
-            } else {
-              this.diagnostic.isLocationAvailable().then(res => {//判断是否有定位权限.返回true或false
-                if (res) {
-                  locationAuthorization = true;
-                  return this.getLocation(observer);
-                } else {
-                  this.diagnostic.requestLocationAuthorization('always').then(res => {//请求定位权限
-                    if (res == 'DENIED_ALWAYS') {//拒绝访问状态,必须手动开启
-                      locationAuthorization = false;
-                      this.alert('缺少定位权限，请在手机设置中开启');
-                      return;
-                    } else {
-                      locationAuthorization = true;
-                      return this.getLocation(observer);
-                    }
-                  }).catch(err => {
-                    this.logger.log(err, '调用diagnostic.requestLocationAuthorization方法失败');
-                  });
-                }
-              }).catch(err => {
-                this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
-              });
-            }
+    let locationAuthorization = false;//是否有定位权限
+    return () => {
+      return Observable.create(observer => {
+        if (this.isMobile()) {
+          if (locationAuthorization) {
+            return this.getLocation(observer);
           } else {
-            console.log('非手机环境,即测试环境返回固定坐标');
-            observer.next({'lng': 113.350912, 'lat': 23.119495});
+            this.diagnostic.isLocationAvailable().then(res => {//判断是否有定位权限.返回true或false
+              if (res) {
+                locationAuthorization = true;
+                return this.getLocation(observer);
+              } else {
+                this.diagnostic.requestLocationAuthorization('always').then(res => {//请求定位权限
+                  if (res == 'DENIED_ALWAYS') {//拒绝访问状态,必须手动开启
+                    locationAuthorization = false;
+                    this.alert('缺少定位权限，请在手机设置中开启');
+                    return;
+                  } else {
+                    locationAuthorization = true;
+                    return this.getLocation(observer);
+                  }
+                }).catch(err => {
+                  this.logger.log(err, '调用diagnostic.requestLocationAuthorization方法失败');
+                });
+              }
+            }).catch(err => {
+              this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
+            });
           }
-        });
-      }
-    })();
+        } else {
+          console.log('非手机环境,即测试环境返回固定坐标');
+          observer.next({'lng': 113.350912, 'lat': 23.119495});
+        }
+      });
+    }
+  })();
 
 
-  private getLocation(observer){
+  private getLocation(observer) {
     LocationPlugin.getLocation(data => {
       observer.next({'lng': data.longitude, 'lat': data.latitude});
     }, msg => {

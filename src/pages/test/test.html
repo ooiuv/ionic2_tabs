@@ -5,7 +5,10 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button block (click)="getFileData()">请求照片</button>
+  <button ion-button block (click)="getFileData()" color="dark">请求照片</button>
   <page-select-picture [max]="6" [(fileObjList)]="fileObjList"></page-select-picture>
   <button ion-button block (click)="getUserLocation()">getUserLocation</button>
+  <button ion-button block (click)="sync()">同步</button>
+  <button ion-button block (click)="checkForUpdate()">检查更新</button>
+  <button ion-button block>add button</button>
 </ion-content>

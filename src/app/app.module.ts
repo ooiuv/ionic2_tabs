@@ -19,6 +19,7 @@ import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
 import {JPush} from "../../typings/modules/jpush/index";
+import {CodePush} from "@ionic-native/code-push";
 import {NativeService} from "../providers/NativeService";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
@@ -81,6 +82,7 @@ export class FunDebugErrorHandler implements ErrorHandler {
     AppMinimize,
     Diagnostic,
     JPush,
+    CodePush,
     {provide: ErrorHandler, useClass: FunDebugErrorHandler},
     NativeService,
     HttpService,

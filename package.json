@@ -23,6 +23,7 @@
     "@ionic-native/app-minimize": "^3.10.2",
     "@ionic-native/app-version": "^3.10.2",
     "@ionic-native/camera": "^3.10.2",
+    "@ionic-native/code-push": "^4.3.1",
     "@ionic-native/core": "^3.10.2",
     "@ionic-native/device": "^3.10.2",
     "@ionic-native/diagnostic": "^4.2.1",

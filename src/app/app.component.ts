@@ -51,9 +51,10 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
+      this.nativeService.sync();//启动app检查热更新
       this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
         res.update && this.nativeService.downloadApp();
-      })
+      });
     });
   }
 
