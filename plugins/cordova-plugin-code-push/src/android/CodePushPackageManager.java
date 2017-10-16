@@ -1,11 +1,11 @@
 package com.microsoft.cordova;
 
-.content.Context;
+import android.content.Context;
 
-.json.JSONException;
+import org.json.JSONException;
 
-.io.File;
-.io.IOException;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Handles update package management.

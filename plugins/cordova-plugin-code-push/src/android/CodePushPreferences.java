@@ -1,12 +1,12 @@
 package com.microsoft.cordova;
 
-.content.Context;
-.content.SharedPreferences;
+import android.content.Context;
+import android.content.SharedPreferences;
 
-.json.JSONException;
+import org.json.JSONException;
 
-.util.HashSet;
-.util.Set;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Manages interaction with the Android preferences system.

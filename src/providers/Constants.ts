@@ -25,11 +25,11 @@ export const APP_DOWNLOAD = 'http://omzo595hi.bkt.clouddn.com/download.html';//a
 //code push 部署key
 export const CODE_PUSH_DEPLOYMENT_KEY = {
   'android':{
-    'Production':'uKtaKu49CxcuAGknKeY-d_u6Wuvi26690215-d954-4697-a879-90e0c4612b59',
-    'Staging':'Qg75N1FjpREJFvMF3C9wmDEPjjsv26690215-d954-4697-a879-90e0c4612b59'
+    'Production':'i0LgJRugiIfjVYTgmXs9go45Xc7g26690215-d954-4697-a879-90e0c4612b59',
+    'Staging':'WY29_Zyq_hg0eB3TSTGaKRSKPE6k26690215-d954-4697-a879-90e0c4612b59'
   },
   'ios':{
-    'Production':'7RJBztVqBeI6WQIKpTUNRciD4AEg26690215-d954-4697-a879-90e0c4612b59',
-    'Staging':'dleOo0L5C_kRyL5IyPkzkWhDKxQ926690215-d954-4697-a879-90e0c4612b59'
+    'Production':'kn3VJ28z0hB_zQYnW-KnblldnBzN26690215-d954-4697-a879-90e0c4612b59',
+    'Staging':'SRoxClVMoed8SgwIRxeVCPWx26Fk26690215-d954-4697-a879-90e0c4612b59'
   }
 };

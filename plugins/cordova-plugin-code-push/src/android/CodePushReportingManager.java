@@ -1,9 +1,9 @@
 package com.microsoft.cordova;
 
-.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaWebView;
 
-.util.Locale;
-.app.Activity;
+import java.util.Locale;
+import android.app.Activity;
 
 /**
  * Handles the native -> JS reporting mechanism.

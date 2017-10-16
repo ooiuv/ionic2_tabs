@@ -106,9 +106,9 @@
     <plugin name="cordova-plugin-x-toast" spec="~2.6.0" />
     <plugin name="cordova-plugin-appminimize" spec="https://github.com/tomloprod/cordova-plugin-appminimize.git" />
     <plugin name="cordova.plugins.diagnostic" spec="~3.6.7" />
-    <engine name="android" spec="~5.2.2" />
     <plugin name="com.synconset.imagepicker" spec="~2.1.8">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="正在读取照片" />
     </plugin>
     <plugin name="cordova-plugin-code-push" spec="~1.9.8-beta" />
+    <engine name="android" spec="~6.1.2" />
 </widget>

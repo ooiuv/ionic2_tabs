@@ -1,7 +1,7 @@
 package com.microsoft.cordova;
 
-.json.JSONException;
-.json.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Represents a status report to be sent to metrics.

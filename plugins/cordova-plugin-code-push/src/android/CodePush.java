@@ -1,22 +1,22 @@
 package com.microsoft.cordova;
 
-.content.pm.PackageManager;
-.os.AsyncTask;
+import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 
-.apache.cordova.CallbackContext;
-.apache.cordova.ConfigXmlParser;
-.apache.cordova.CordovaArgs;
-.apache.cordova.CordovaInterface;
-.apache.cordova.CordovaPlugin;
-.apache.cordova.CordovaWebView;
-.json.JSONException;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.ConfigXmlParser;
+import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaWebView;
+import org.json.JSONException;
 
-.io.File;
-.io.IOException;
-.net.MalformedURLException;
-.security.NoSuchAlgorithmException;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.security.NoSuchAlgorithmException;
 
-.util.Date;
+import java.util.Date;
 
 /**
  * Native Android CodePush Cordova Plugin.

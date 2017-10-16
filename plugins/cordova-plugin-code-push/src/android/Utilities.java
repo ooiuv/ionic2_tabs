@@ -1,17 +1,17 @@
 package com.microsoft.cordova;
 
-.content.Context;
-.content.pm.PackageInfo;
-.content.pm.PackageManager;
-.content.res.Resources;
-.util.Log;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.util.Log;
 
-.io.BufferedReader;
-.io.File;
-.io.FileReader;
-.io.IOException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
-java.lang.Long.parseLong;
+import static java.lang.Long.parseLong;
 
 /**
  * Utilities class used for file and other common native operations.

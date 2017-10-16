@@ -1,24 +1,24 @@
 package org.apache.cordova;
 
-.io.BufferedInputStream;
-.io.File;
-.io.FileOutputStream;
-.io.IOException;
-.io.InputStream;
-.io.FileNotFoundException;
-.util.zip.ZipEntry;
-.util.zip.ZipInputStream;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 
-.net.Uri;
-.apache.cordova.CallbackContext;
-.apache.cordova.CordovaPlugin;
-.apache.cordova.CordovaResourceApi.OpenForReadResult;
-.apache.cordova.PluginResult;
-.json.JSONException;
-.json.JSONObject;
+import android.net.Uri;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaResourceApi.OpenForReadResult;
+import org.apache.cordova.PluginResult;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-.util.Log;
+import android.util.Log;
 
 public class Zip extends CordovaPlugin {
 

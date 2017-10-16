@@ -181,14 +181,6 @@
             "PHOTO_LIBRARY_USAGE_DESCRIPTION": "正在读取照片"
         }
     },
-    "cordova-plugin-code-push": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-code-push@~1.9.8-beta"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "code-push": {
         "source": {
             "type": "registry",
@@ -211,6 +203,14 @@
             "id": "cordova-plugin-dialogs"
         },
         "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-code-push": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-code-push@~1.9.8-beta"
+        },
+        "is_top_level": true,
         "variables": {}
     }
 }

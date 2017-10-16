@@ -1,8 +1,8 @@
 package com.microsoft.cordova;
 
-.json.JSONObject;
+import org.json.JSONObject;
 
-.io.File;
+import java.io.File;
 
 /**
  * Model class for the CodePush metadata stored alongside a package deployment.

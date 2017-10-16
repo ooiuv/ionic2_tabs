@@ -1,18 +1,18 @@
 package com.microsoft.cordova;
 
-.app.Activity;
-.content.res.AssetManager;
+import android.app.Activity;
+import android.content.res.AssetManager;
 
-.json.JSONArray;
+import org.json.JSONArray;
 
-.io.ByteArrayInputStream;
-.io.IOException;
-.io.InputStream;
-.security.DigestInputStream;
-.security.MessageDigest;
-.security.NoSuchAlgorithmException;
-.util.ArrayList;
-.util.Collections;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.DigestInputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Utilities class used for native operations related to calculating hashes of update contents.
