@@ -60,6 +60,9 @@ export class NativeService {
               private codePush: CodePush) {
   }
 
+  /**
+   * 热更新同步方法
+   */
   sync() {
     if (this.isMobile()) {
       let deploymentKey = '';
@@ -459,7 +462,18 @@ export class NativeService {
     }, msg => {
       observer.error('获取位置失败');
       if (msg.indexOf('缺少定位权限') != -1) {
-        alert('缺少定位权限，请在手机设置中检查是否同时已开启GPS和应用授权定位')
+        this.alertCtrl.create({
+          title: '缺少定位权限',
+          subTitle: '请在手机设置或app权限管理中开启',
+          buttons: [{text: '取消'},
+            {
+              text: '去开启',
+              handler: () => {
+                this.diagnostic.switchToSettings();
+              }
+            }
+          ]
+        }).present();
       } else if (msg.indexOf('WIFI信息不足') != -1) {
         alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据')
       } else if (msg.indexOf('网络连接异常') != -1) {
@@ -514,7 +528,7 @@ export class NativeService {
         if (locationAuthorization) {
           observer.next(true);
         } else {
-          this.diagnostic.isLocationAvailable().then(res => {
+          this.diagnostic.isLocationAuthorized().then(res => {
             if (res) {
               locationAuthorization = true;
               observer.next(true);
