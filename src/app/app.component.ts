@@ -8,6 +8,8 @@ import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
+import {HttpService} from "../providers/HttpService";
+import {Response} from "@angular/http";
 declare var fundebug;
 
 @Component({
@@ -27,6 +29,7 @@ export class MyApp {
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private events: Events,
+              private httpService: HttpService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
       if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) {//设置日志监控app的版本号
@@ -38,7 +41,11 @@ export class MyApp {
       this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
         if (loginInfo) {
           this.globalData.token = loginInfo.access_token;
+          this.globalData.showLoading = false;
+          //this.httpService.post('/refresh_token').map((res: Response) => res.json()).subscribe(res => {//使用旧token获取新token
+          //this.globalData.token = res.access_token;
           this.events.publish('user:login', loginInfo);
+          //})
         } else {
           let modal = this.modalCtrl.create(LoginPage);
           modal.present();
@@ -55,6 +62,7 @@ export class MyApp {
       this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
         res.update && this.nativeService.downloadApp();
       });
+      // this.refreshToken();//定时刷新token
     });
   }
 
@@ -80,7 +88,7 @@ export class MyApp {
       }
       //如果想点击返回按钮隐藏toast或loading或Overlay就把下面加上
       // this.ionicApp._toastPortal.getActive() ||this.ionicApp._loadingPortal.getActive()|| this.ionicApp._overlayPortal.getActive()
-      let activePortal = this.ionicApp._modalPortal.getActive();
+      let activePortal = this.ionicApp._modalPortal.getActive() || this.ionicApp._toastPortal.getActive() || this.ionicApp._overlayPortal.getActive();
       if (activePortal) {
         activePortal.dismiss();
         return;
@@ -106,4 +114,14 @@ export class MyApp {
     }
   }
 
+  //定时刷新token
+  refreshToken() {
+    setInterval(() => {
+      if (this.globalData.token) {
+        this.httpService.post('/refresh_token').map((res: Response) => res.json()).subscribe(res => {
+          this.globalData.token = res.access_token;
+        })
+      }
+    }, 1000 * 60 * 25);//定时25分钟
+  }
 }
