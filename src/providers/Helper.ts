@@ -222,7 +222,7 @@ export class Helper {
   timerRefreshToken() {
     return setInterval(() => {
       if (this.globalData.token) {
-        this.commonService.refreshToken().subscribe(res => {
+        this.commonService.getNewToken().subscribe(res => {
           this.globalData.token = res.access_token;
         })
       }

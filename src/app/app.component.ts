@@ -41,7 +41,7 @@ export class MyApp {
         if (loginInfo) {
           this.globalData.token = loginInfo.access_token;
           this.globalData.showLoading = false;
-          //this.commonService.refreshToken().subscribe(res => {
+          //this.commonService.getNewToken().subscribe(res => {
           // this.globalData.token = res.access_token;
             this.events.publish('user:login', loginInfo);
           //})
@@ -121,7 +121,7 @@ export class MyApp {
     });
     this.platform.resume.subscribe(() => {//app从后台恢复事件
       timer = this.helper.timerRefreshToken();
-      this.commonService.refreshToken().subscribe(res => {
+      this.commonService.getNewToken().subscribe(res => {
         this.globalData.token = res.access_token;
       })
     });

@@ -14,6 +14,8 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
+import {CallNumber} from '@ionic-native/call-number';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
 import {Position} from "../model/type";
 import {
   APP_DOWNLOAD,
@@ -53,6 +55,8 @@ export class NativeService {
               private imagePicker: ImagePicker,
               private network: Network,
               private appMinimize: AppMinimize,
+              private cn: CallNumber,
+              private barcodeScanner: BarcodeScanner,
               private loadingCtrl: LoadingController,
               private globalData: GlobalData,
               public logger: Logger,
@@ -430,6 +434,30 @@ export class NativeService {
         observer.next(value);
       }).catch(err => {
         this.logger.log(err, '获得app包名失败');
+      });
+    });
+  }
+
+  /**
+   * 拨打电话
+   * @param number
+   */
+  callNumber(number: string): void {
+    this.cn.callNumber(number, true)
+      .then(() => console.log('Launched dialer!拨打电话'))
+      .catch(err => this.logger.log(err, '拨打电话失败'));
+  }
+
+  /**
+   * 扫描二维码
+   * @returns {any}
+   */
+  scan() {
+    return Observable.create(observer => {
+      this.barcodeScanner.scan().then((barcodeData) => {
+        observer.next(barcodeData.text);
+      }).catch(err => {
+        this.logger.log(err, '扫描二维码失败');
       });
     });
   }

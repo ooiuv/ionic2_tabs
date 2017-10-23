@@ -10,7 +10,7 @@ import {Observable, TimeoutError} from "rxjs";
 import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
 import {NativeService} from "./NativeService";
-import {APP_SERVE_URL, REQUEST_TIMEOUT} from "./Constants";
+import {APP_SERVE_URL, REQUEST_TIMEOUT, IS_DEBUG} from "./Constants";
 import {Logger} from "./Logger";
 
 @Injectable()
@@ -27,10 +27,10 @@ export class HttpService {
     this.optionsAddToken(options);
     return Observable.create(observer => {
       this.nativeService.showLoading();
-      console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
+      IS_DEBUG && console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
         this.nativeService.hideLoading();
-        console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
+        IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
         if (res['_body'] == '') {
           res['_body'] = null;
         }
@@ -132,13 +132,9 @@ export class HttpService {
    */
   private requestFailed(url: string, options: RequestOptionsArgs, err: Response): void {
     this.nativeService.hideLoading();
-    console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
+    IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
     if (err instanceof TimeoutError) {
       this.nativeService.alert('请求超时,请稍后再试!');
-      return;
-    }
-    if (!this.nativeService.isConnecting()) {
-      this.nativeService.alert('请求失败，请连接网络');
       return;
     }
     let msg = '请求发生异常';
@@ -146,6 +142,10 @@ export class HttpService {
       let result = err.json();
       this.nativeService.alert(result.message || msg);
     } catch (err) {
+      if (!this.nativeService.isConnecting()) {
+        this.nativeService.alert('请求失败，请连接网络');
+        return;
+      }
       let status = err.status;
       if (status === 0) {
         msg = '请求失败，请求响应出错';

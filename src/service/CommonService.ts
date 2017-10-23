@@ -13,7 +13,7 @@ export class CommonService {
   }
 
   //获取新token
-  refreshToken() {
+  getNewToken() {
     return this.httpService.post('/refresh_token').map((res: Response) => res.json());
   }
 

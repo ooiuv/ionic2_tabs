@@ -20,6 +20,9 @@ import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
 import {JPush} from "../../typings/modules/jpush/index";
 import {CodePush} from "@ionic-native/code-push";
+import {CallNumber} from '@ionic-native/call-number';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+
 import {NativeService} from "../providers/NativeService";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
@@ -84,6 +87,8 @@ export class FunDebugErrorHandler implements ErrorHandler {
     Diagnostic,
     JPush,
     CodePush,
+    CallNumber,
+    BarcodeScanner,
     {provide: ErrorHandler, useClass: FunDebugErrorHandler},
     NativeService,
     HttpService,
