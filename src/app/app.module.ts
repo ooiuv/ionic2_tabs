@@ -33,6 +33,7 @@ import {ENABLE_FUNDEBUG, IS_DEBUG, FUNDEBUG_API_KEY} from "../providers/Constant
 import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 import {Diagnostic} from "@ionic-native/diagnostic";
+import {CommonService} from "../service/CommonService";
 
 //安装依赖:cnpm i fundebug-javascript --save
 //https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
@@ -90,7 +91,8 @@ export class FunDebugErrorHandler implements ErrorHandler {
     Helper,
     Utils,
     GlobalData,
-    Logger
+    Logger,
+    CommonService
   ]
 })
 export class AppModule {

@@ -33,6 +33,8 @@ export declare class JPush {
 
   setBadge(badgeNum?: number): Promise<any>;
 
+  setApplicationIconBadgeNumber(badgeNum?: number): Promise<any>;
+
   openNotification(): Observable<any>;
 
   receiveNotification(): Observable<any>;

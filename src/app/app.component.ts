@@ -8,8 +8,7 @@ import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
-import {HttpService} from "../providers/HttpService";
-import {Response} from "@angular/http";
+import {CommonService} from "../service/CommonService";
 declare var fundebug;
 
 @Component({
@@ -29,7 +28,7 @@ export class MyApp {
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private events: Events,
-              private httpService: HttpService,
+              private commonService: CommonService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
       if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) {//设置日志监控app的版本号
@@ -42,9 +41,9 @@ export class MyApp {
         if (loginInfo) {
           this.globalData.token = loginInfo.access_token;
           this.globalData.showLoading = false;
-          //this.httpService.post('/refresh_token').map((res: Response) => res.json()).subscribe(res => {//使用旧token获取新token
-          //this.globalData.token = res.access_token;
-          this.events.publish('user:login', loginInfo);
+          //this.commonService.refreshToken().subscribe(res => {
+          // this.globalData.token = res.access_token;
+            this.events.publish('user:login', loginInfo);
           //})
         } else {
           let modal = this.modalCtrl.create(LoginPage);
@@ -62,7 +61,7 @@ export class MyApp {
       this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
         res.update && this.nativeService.downloadApp();
       });
-      // this.refreshToken();//定时刷新token
+      //this.tokenHandle();//处理token
     });
   }
 
@@ -114,14 +113,17 @@ export class MyApp {
     }
   }
 
-  //定时刷新token
-  refreshToken() {
-    setInterval(() => {
-      if (this.globalData.token) {
-        this.httpService.post('/refresh_token').map((res: Response) => res.json()).subscribe(res => {
-          this.globalData.token = res.access_token;
-        })
-      }
-    }, 1000 * 60 * 25);//定时25分钟
+  //处理token
+  tokenHandle() {
+    let timer = this.helper.timerRefreshToken();//定时刷新token
+    this.platform.pause.subscribe(() => {//app进入后台模式事件
+      clearInterval(timer);
+    });
+    this.platform.resume.subscribe(() => {//app从后台恢复事件
+      timer = this.helper.timerRefreshToken();
+      this.commonService.refreshToken().subscribe(res => {
+        this.globalData.token = res.access_token;
+      })
+    });
   }
 }

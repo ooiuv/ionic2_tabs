@@ -55,6 +55,9 @@ export var JPush = (function () {
   JPush.prototype.setBadge = function (badgeNum) {
     return;
   };
+  JPush.prototype.setApplicationIconBadgeNumber = function (badgeNum) {
+    return;
+  };
   JPush.prototype.openNotification = function () {
     return;
   };
@@ -128,6 +131,12 @@ export var JPush = (function () {
     __metadata('design:paramtypes', [Number]),
     __metadata('design:returntype', Promise)
   ], JPush.prototype, "setBadge", null);
+  __decorate([
+    Cordova(),
+    __metadata('design:type', Function),
+    __metadata('design:paramtypes', [Number]),
+    __metadata('design:returntype', Promise)
+  ], JPush.prototype, "setApplicationIconBadgeNumber", null);
   __decorate([
     Cordova({
       eventObservable: true,

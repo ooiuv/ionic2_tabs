@@ -12,6 +12,8 @@ import {Http, Response} from "@angular/http";
 import {Utils} from "./Utils";
 import {Logger} from "./Logger";
 import {AlertController} from "ionic-angular";
+import {GlobalData} from "./GlobalData";
+import {CommonService} from "../service/CommonService";
 
 /**
  * Helper类存放和业务有关的公共方法
@@ -25,7 +27,9 @@ export class Helper {
               public logger: Logger,
               private alertCtrl: AlertController,
               private fileService: FileService,
-              private nativeService: NativeService) {
+              private nativeService: NativeService,
+              private commonService: CommonService,
+              private globalData: GlobalData) {
   }
 
 
@@ -144,7 +148,7 @@ export class Helper {
 
     //点击通知进入应用程序时会触发的事件
     document.addEventListener("jpush.openNotification", event => {
-      //  window['plugins'].jPushPlugin.resetBadge();
+      this.setIosIconBadgeNumber(0);
       let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
       console.log("jpush.openNotification" + content);
     }, false);
@@ -195,7 +199,7 @@ export class Helper {
       return;
     }
     console.log('设置setAlias:' + userId);
-    this.jPush.setAlias('' + userId);////ios设置setAlias有bug,值必须为string类型,不能是number
+    this.jPush.setAlias('' + userId);//ios设置setAlias有bug,值必须为string类型,不能是number
   }
 
   setTagsWithAlias(userId) {
@@ -204,5 +208,24 @@ export class Helper {
     }
     console.log('设置setTagsWithAlias:' + userId);
     this.jPush.setTagsWithAlias(['man', 'test'], '' + userId);
+  }
+
+  //设置ios角标数量
+  setIosIconBadgeNumber(badgeNumber) {
+    if (this.nativeService.isIos()) {
+      this.jPush.setBadge(badgeNumber);//上传badge值到jPush服务器
+      this.jPush.setApplicationIconBadgeNumber(badgeNumber);//设置应用badge值
+    }
+  }
+
+  //定时刷新token
+  timerRefreshToken() {
+    return setInterval(() => {
+      if (this.globalData.token) {
+        this.commonService.refreshToken().subscribe(res => {
+          this.globalData.token = res.access_token;
+        })
+      }
+    }, 1000 * 60 * 25);//定时25分钟,因为token30分钟过期
   }
 }
