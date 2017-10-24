@@ -88,7 +88,7 @@ describe('Camera tests iOS.', function () {
             .fail(function () {
                 if (isXCUI) {
                     return driver
-                        .waitForElementByAccessibilityId('Choose', MINUTE / 3)
+                        .waitForElementByAccessibilityId('选择', MINUTE / 3)
                         .click();
                 }
                 // For some reason "Choose" element is not clickable by standard Appium methods on iOS <= 9
@@ -162,13 +162,13 @@ describe('Camera tests iOS.', function () {
                 }
                 if (cancelCamera) {
                     return driver
-                        .waitForElementByAccessibilityId('Cancel', MINUTE / 2)
+                        .waitForElementByAccessibilityId('取消', MINUTE / 2)
                         .click();
                 }
                 return driver
-                    .waitForElementByAccessibilityId('Take Picture', MINUTE / 2)
+                    .waitForElementByAccessibilityId('拍照', MINUTE / 2)
                     .click()
-                    .waitForElementByAccessibilityId('Use Photo', MINUTE / 2)
+                    .waitForElementByAccessibilityId('确定', MINUTE / 2)
                     .click();
             })
             .fail(fail);
@@ -283,7 +283,7 @@ describe('Camera tests iOS.', function () {
             if (specsRun >= 15) {
                 specsRun = 0;
                 // we need to restart the session regularly because for some reason
-                // when running against iOS 10 simulator on SauceLabs, 
+                // when running against iOS 10 simulator on SauceLabs,
                 // Appium cannot handle more than ~20 specs at one session
                 // the error would be as follows:
                 // "Could not proxy command to remote server. Original error: Error: connect ECONNREFUSED 127.0.0.1:8100"

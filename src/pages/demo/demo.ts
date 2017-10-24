@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
 import {NavController} from 'ionic-angular';
+import {NativeDemoPage} from "./native-demo/native-demo";
 import {PaginationDemoPage} from "./pagination-demo/pagination-demo";
 import {CustomIconDemoPage} from "./custom-icon-demo/custom-icon-demo";
 import {ChartjsDemoPage} from "./chartjs-demo/chartjs-demo";
@@ -19,6 +20,10 @@ export class DemoPage {
 
   constructor(private navCtrl: NavController) {
 
+  }
+
+  native() {
+    this.navCtrl.push(NativeDemoPage);
   }
 
   pagination() {

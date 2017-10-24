@@ -22,7 +22,6 @@
 </ion-header>
 
 
-
 <ion-content>
 
   <ion-list>
@@ -32,7 +31,7 @@
         <span class="address">{{add}}</span>
       </span>
     </ion-item>
-    <button *ngIf="items.length>0" ion-button full clear (click)="clearHistory()">清空搜索历史</button>
+    <button *ngIf="items.length>0&&historyButton" ion-button full clear (click)="clearHistory()">清空搜索历史</button>
   </ion-list>
 </ion-content>
 

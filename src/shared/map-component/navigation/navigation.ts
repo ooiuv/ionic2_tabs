@@ -31,36 +31,41 @@ export class Navigation {
   }
 
   ngAfterContentInit() {
-    let type = this.navigationType, options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
-    if (type === 1) {
+    this.nativeService.showLoading();
+    let options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
+    if (this.navigationType == 1) {
       AMap.service('AMap.Driving', () => {
         this.navigationIsReady = true;
-        this.doSearch(type, new AMap.Driving(options));
+        this.doSearch(new AMap.Driving(options));
       });
-    } else if (type === 2) {
+    } else if (this.navigationType == 2) {
       AMap.service('AMap.Transfer', () => {
-        this.doSearch(type, new AMap.Transfer(options));
+        this.doSearch(new AMap.Transfer(options));
       });
-    } else if (type === 3) {
+    } else if (this.navigationType == 3) {
       AMap.service('AMap.Walking', () => {
-        this.doSearch(type, new AMap.Walking(options));
+        this.doSearch(new AMap.Walking(options));
       });
     }
   }
 
-  doSearch(navigationType, navigationService) {
+  doSearch(navigationService) {
     this.nativeService.getUserLocation().subscribe(location => {
       this.map.clearMap();
       this.startPoint = location;
       navigationService.search([this.startPoint.lng, this.startPoint.lat], [this.endPoint.lng, this.endPoint.lat], (status, result) => {
-
+        this.nativeService.hideLoading();
+        console.log(status);
+        console.log(result);
       });
-    });
+    },()=>{
+      this.nativeService.hideLoading();
+    })
   }
 
   doNavigation(type) {// 0实时导航,1模拟导航
     this.nativeService.navigation(this.startPoint, this.endPoint, type).subscribe(message => {
-      debugger;
+      console.log(message);
     });
   }
 

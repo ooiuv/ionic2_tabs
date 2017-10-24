@@ -30,6 +30,7 @@ export class TabsPage {
       this.globalData.username = userInfo.username;
       this.globalData.fullName = userInfo.fullName;
       if (!userInfo.avatarPath) {
+        this.globalData.showLoading = false;
         this.helper.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {
           userInfo.avatarPath = avatarPath;
           this.storage.set('LoginInfo', loginInfo);

@@ -4,12 +4,7 @@ import {SearchAddress} from "../search-address/search-address";
 import {Navigation} from "../navigation/navigation";
 import {NativeService} from "../../../providers/NativeService";
 declare var AMap;
-/**
- * Generated class for the MapLocation page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
 @IonicPage()
 @Component({
   selector: 'page-map-location',
@@ -26,13 +21,12 @@ export class MapLocation {
     draggable: true,//标注是否可以拖拽;
     click: false,//地图是否点击改变标注的位置
     searchBar: true,//是否显示搜索框
-    navigation: true,
+    navigation: true,//是否显示导航按钮
     address: '',//主页面传过来的地址
     position: {
       lng: '',
       lat: ''
-    },//主页面传过来的坐标
-    lnglatXY: {}
+    }//主页面传过来的坐标
   };
 
   constructor(public navCtrl: NavController,
@@ -56,7 +50,7 @@ export class MapLocation {
     try {
       that.map = new AMap.Map('map-share', {
         view: new AMap.View2D({//创建地图二维视口
-          zoom: 14, //设置地图缩放级别
+          zoom: 16, //设置地图缩放级别
           rotateEnable: true,
           showBuildingBlock: true,
           baseRender: 'd'
@@ -70,7 +64,7 @@ export class MapLocation {
         });
         if (that.params.position && that.params.position.lat && that.params.position.lng) { //判断主页面传过来的是坐标就直接描点标注
           that.drawMarker(that.params.position);
-        } else if (!(that.params.position.lat&&that.params.position.lng) && that.params.address) {
+        } else if (!(that.params.position.lat && that.params.position.lng) && that.params.address) {
           //判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
           that.locationSearch();
         } else {
@@ -98,7 +92,7 @@ export class MapLocation {
   }
 
 //跳转到地址查询搜索页面,并返回一个地址对象(经纬坐标+中文地址)
-  private locationSearch() {
+  locationSearch() {
     let that = this;
     let locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address});
     locationSearchModal.present();
@@ -124,7 +118,7 @@ export class MapLocation {
 //描点标注
   private drawMarker(position, addressName: string = '') {
     let that = this;
-    that.params.lnglatXY = new AMap.LngLat(position.lng, position.lat);
+    that.params.position = position;
     that.map.clearMap();
 
     //配置需要显示搜索框就根据传进来的position参数给搜索框赋值
@@ -132,22 +126,19 @@ export class MapLocation {
       if (addressName) {
         that.params.address = addressName;
       } else {
-        that.geocoder(that.params.lnglatXY);
+        that.geocoder(new AMap.LngLat(position.lng, position.lat));
       }
     }
-
 
     that.marker = new AMap.Marker({
       map: that.map,
       draggable: that.params.draggable,//控制标注是否可以拖拽
-      position: that.params.lnglatXY,
+      position: new AMap.LngLat(position.lng, position.lat),
     });
 
     //配置需要搜索框才执行
-    if (that.params.navigation) {
-      if (that.marker) {
-        that.showIonFab = true;
-      }
+    if (that.params.navigation && that.marker) {
+      that.showIonFab = true;
     }
 
     //拖拽标注

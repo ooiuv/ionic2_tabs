@@ -19,8 +19,8 @@ export class SearchAddress {
 
   @ViewChild('searchBar') searchBar: Searchbar;
   address: any = '';
-  // searchQuery: string = '';
   items: any[] = [];
+  historyButton: boolean = false;
   placeSearch;
   searchTextStream: Subject<string> = new Subject<string>();
 
@@ -36,9 +36,6 @@ export class SearchAddress {
         city: '广州市'
       });
     });
-    this.storage.get('MapSearchHistory').then(items => {
-      this.items = (items || []).reverse();
-    });
   }
 
   ionViewDidEnter() {
@@ -52,7 +49,10 @@ export class SearchAddress {
       .debounceTime(600)
       .distinctUntilChanged()
       .subscribe(value => {
-        this.getSearchData(value).then(list => this.items = <[any]>list);
+        this.getSearchData(value).then(list => {
+          this.items = <[any]>list;
+          this.historyButton = false;
+        });
       });
     this.searchTextStream.next(this.address);
   }
@@ -97,6 +97,11 @@ export class SearchAddress {
           } else {
             this.nativeService.showToast('地图查询失败,稍后再试.')
           }
+        });
+      }else{
+        this.storage.get('MapSearchHistory').then(items => {
+          this.items = (items || []).reverse();
+          this.historyButton = true;
         });
       }
     });
