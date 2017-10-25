@@ -4,17 +4,23 @@
 import {Injectable} from '@angular/core';
 import {Response} from "@angular/http";
 import {HttpService} from "../providers/HttpService";
+import {GlobalData} from "../providers/GlobalData";
+import {Observable} from "rxjs";
 /**
  *
  */
 @Injectable()
 export class CommonService {
-  constructor(private httpService: HttpService) {
+  constructor(public httpService: HttpService, public globalData: GlobalData) {
   }
 
   //获取新token
   getNewToken() {
-    return this.httpService.post('/refresh_token').map((res: Response) => res.json());
+    this.globalData.showLoading = false;
+    // return this.httpService.post('/refresh_token').map((res: Response) => res.json());
+    return Observable.create((observer) => {
+      observer.next({access_token: 'test_test_test_test_test_test_test'});
+    });
   }
 
 }

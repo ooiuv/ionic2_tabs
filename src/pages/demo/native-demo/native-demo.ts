@@ -10,17 +10,18 @@ export class NativeDemoPage {
   networkType = 'unknown';
   currentVersionNo: string = '1.0.0';
   scanText = '';
-  location;
+  location = {};
   imgPath;
 
   constructor(public navCtrl: NavController, public nativeService: NativeService) {
   }
 
   ionViewWillEnter() {
-    if(!this.nativeService.isMobile()){
+    if (!this.nativeService.isMobile()) {
       this.nativeService.alert('请使用真机调试');
     }
   }
+
   getNetworkType() {
     this.networkType = this.nativeService.getNetworkType()
   }

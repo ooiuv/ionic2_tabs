@@ -41,10 +41,10 @@ export class MyApp {
         if (loginInfo) {
           this.globalData.token = loginInfo.access_token;
           this.globalData.showLoading = false;
-          //this.commonService.getNewToken().subscribe(res => {
-          // this.globalData.token = res.access_token;
+          this.commonService.getNewToken().subscribe(res => {
+            this.globalData.token = res.access_token;
             this.events.publish('user:login', loginInfo);
-          //})
+          })
         } else {
           let modal = this.modalCtrl.create(LoginPage);
           modal.present();
@@ -57,14 +57,13 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      this.nativeService.sync();//启动app检查热更新
       this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
         res.update && this.nativeService.downloadApp();
       });
-      //this.tokenHandle();//处理token
+      this.tokenHandle();//处理token
+      this.nativeService.sync();//启动app检查热更新
     });
   }
-
 
   assertNetwork() {
     if (!this.nativeService.isConnecting()) {
@@ -126,4 +125,6 @@ export class MyApp {
       })
     });
   }
+
+
 }

@@ -26,9 +26,9 @@
     "cordova-plugin-device": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-device@1.1.4"
+            "id": "cordova-plugin-device"
         },
-        "is_top_level": true,
+        "is_top_level": false,
         "variables": {}
     },
     "cordova-plugin-compat": {
@@ -205,14 +205,6 @@
         "is_top_level": false,
         "variables": {}
     },
-    "cordova-plugin-code-push": {
-        "source": {
-            "type": "registry",
-            "id": "cordova-plugin-code-push@~1.9.8-beta"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "mx.ferreyra.callnumber": {
         "source": {
             "type": "registry",
@@ -225,6 +217,14 @@
         "source": {
             "type": "registry",
             "id": "phonegap-plugin-barcodescanner"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-code-push": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-code-push"
         },
         "is_top_level": true,
         "variables": {}

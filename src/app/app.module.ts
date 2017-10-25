@@ -13,7 +13,7 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Camera} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File} from "@ionic-native/file";
-import {Transfer} from "@ionic-native/transfer";
+import {FileTransfer} from '@ionic-native/file-transfer';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
@@ -79,7 +79,7 @@ export class FunDebugErrorHandler implements ErrorHandler {
     Camera,
     Toast,
     File,
-    Transfer,
+    FileTransfer,
     InAppBrowser,
     ImagePicker,
     Network,

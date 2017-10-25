@@ -9,7 +9,7 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File, FileEntry} from "@ionic-native/file";
-import {Transfer, TransferObject} from "@ionic-native/transfer";
+import {FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
@@ -49,7 +49,7 @@ export class NativeService {
               private appVersion: AppVersion,
               private camera: Camera,
               private toast: Toast,
-              private transfer: Transfer,
+              private transfer: FileTransfer,
               private file: File,
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
@@ -85,7 +85,19 @@ export class NativeService {
       this.codePush.sync({
         deploymentKey: deploymentKey
       }).subscribe(syncStatus => {
-        console.log(syncStatus);
+        if (syncStatus == 0) {
+          console.log('[CodePush]:app已经是最新版本;syncStatus:' + syncStatus);
+        } else if (syncStatus == 3) {
+          console.log('[CodePush]:更新出错;syncStatus:' + syncStatus);
+        } else if (syncStatus == 5) {
+          console.log('[CodePush]:检查是否有更新;syncStatus:' + syncStatus);
+        } else if (syncStatus == 7) {
+          console.log('[CodePush]:准备下载安装包;syncStatus:' + syncStatus);
+        } else if (syncStatus == 8) {
+          console.log('[CodePush]:下载完成准备安装;syncStatus:' + syncStatus);
+        } else {
+          console.log('[CodePush]:syncStatus:' + syncStatus);
+        }
       });
     }
   }
@@ -156,7 +168,7 @@ export class NativeService {
       });
       alert.present();
 
-      const fileTransfer: TransferObject = this.transfer.create();
+      const fileTransfer: FileTransferObject = this.transfer.create();
       const apk = this.file.externalRootDirectory + `android_${Utils.getSequence()}.apk`; //apk保存的目录
 
       //下载并安装apk
