@@ -17,18 +17,20 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.util.Log;
+import android.support.v4.content.FileProvider;
+import android.os.Build;
 
 public class InstallUtils {
 
     public static final String TAG = "INSTALL UTILS";
-    
+
     /**
      * App installation location settings values, same to {@link #PackageHelper}
      */
     public static final int    APP_INSTALL_AUTO     = 0;
     public static final int    APP_INSTALL_INTERNAL = 1;
     public static final int    APP_INSTALL_EXTERNAL = 2;
-    
+
     /**
      * command
      */
@@ -43,7 +45,7 @@ public class InstallUtils {
      * <li>if system application or rooted, see {@link #installSilent(Context, String)}</li>
      * <li>else see {@link #installNormal(Context, String)}</li>
      * </ul>
-     * 
+     *
      * @param context
      * @param filePath
      * @return
@@ -57,20 +59,25 @@ public class InstallUtils {
 
     /**
      * install package normal by system intent
-     * 
+     *
      * @param context
      * @param filePath file path of package
      * @return whether apk exist
      */
     public static boolean installNormal(Context context, String filePath) {
-        Intent i = new Intent(Intent.ACTION_VIEW);
         File file = new File(filePath);
         if (file == null || !file.exists() || !file.isFile() || file.length() <= 0) {
             return false;
         }
-
-        i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+        Intent i = new Intent(Intent.ACTION_VIEW);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(Build.VERSION.SDK_INT >= 24){
+              i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+              Uri uri = FileProvider.getUriForFile(context, "com.vaenow.appupdate.android.provider", file);
+              i.setDataAndType(uri, "application/vnd.android.package-archive");
+          }else{
+              i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
+          }
         context.startActivity(i);
         return true;
     }
@@ -224,7 +231,7 @@ public class InstallUtils {
 
     /**
      * whether context is system application
-     * 
+     *
      * @param context
      * @return
      */
@@ -238,7 +245,7 @@ public class InstallUtils {
 
     /**
      * whether packageName is system application
-     * 
+     *
      * @param context
      * @param packageName
      * @return
@@ -253,7 +260,7 @@ public class InstallUtils {
 
     /**
      * whether packageName is system application
-     * 
+     *
      * @param packageManager
      * @param packageName
      * @return <ul>
@@ -282,7 +289,7 @@ public class InstallUtils {
     /**
      * get system install location<br/>
      * can be set by System Menu Setting->Storage->Prefered install location
-     * 
+     *
      * @return
      * @see {@link IPackageManager#getInstallLocation()}
      */
@@ -308,7 +315,7 @@ public class InstallUtils {
 
     /**
      * get params for pm install location
-     * 
+     *
      * @return
      */
     private static String getInstallLocationParams() {
@@ -321,19 +328,19 @@ public class InstallUtils {
         }
         return "";
     }
-    
+
     /**
      * check whether has root permission
-     * 
+     *
      * @return
      */
     public static boolean checkRootPermission() {
         return execCommand("echo root", true, false).result == 0;
     }
-    
+
     /**
      * execute shell command, default return result msg
-     * 
+     *
      * @param command command
      * @param isRoot whether need to run with root
      * @return
@@ -345,7 +352,7 @@ public class InstallUtils {
 
     /**
      * execute shell commands, default return result msg
-     * 
+     *
      * @param commands command list
      * @param isRoot whether need to run with root
      * @return
@@ -357,7 +364,7 @@ public class InstallUtils {
 
     /**
      * execute shell commands, default return result msg
-     * 
+     *
      * @param commands command array
      * @param isRoot whether need to run with root
      * @return
@@ -369,7 +376,7 @@ public class InstallUtils {
 
     /**
      * execute shell command
-     * 
+     *
      * @param command command
      * @param isRoot whether need to run with root
      * @param isNeedResultMsg whether need result msg
@@ -382,7 +389,7 @@ public class InstallUtils {
 
     /**
      * execute shell commands
-     * 
+     *
      * @param commands command list
      * @param isRoot whether need to run with root
      * @param isNeedResultMsg whether need result msg
@@ -395,7 +402,7 @@ public class InstallUtils {
 
     /**
      * execute shell commands
-     * 
+     *
      * @param commands command array
      * @param isRoot whether need to run with root
      * @param isNeedResultMsg whether need result msg
@@ -475,15 +482,15 @@ public class InstallUtils {
         return new CommandResult(result, successMsg == null ? null : successMsg.toString(), errorMsg == null ? null
             : errorMsg.toString());
     }
-    
+
     public static class CommandResult {
 
         /** result of command **/
         public int    result;
-        
+
         /** success message of command result **/
         public String successMsg;
-        
+
         /** error message of command result **/
         public String errorMsg;
 
