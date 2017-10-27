@@ -8,7 +8,6 @@ import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
-import {CommonService} from "../service/CommonService";
 declare var fundebug;
 
 @Component({
@@ -28,7 +27,6 @@ export class MyApp {
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private events: Events,
-              private commonService: CommonService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
       if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) {//设置日志监控app的版本号
@@ -40,9 +38,8 @@ export class MyApp {
       this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
         if (loginInfo) {
           this.globalData.token = loginInfo.access_token;
-          this.globalData.showLoading = false;
-          this.commonService.getNewToken().subscribe(res => {
-            this.globalData.token = res.access_token;
+          this.globalData.refreshToken = loginInfo.refresh_token;
+          this.helper.getNewToken().subscribe(() => {
             this.events.publish('user:login', loginInfo);
           })
         } else {
@@ -120,9 +117,7 @@ export class MyApp {
     });
     this.platform.resume.subscribe(() => {//app从后台恢复事件
       timer = this.helper.timerRefreshToken();
-      this.commonService.getNewToken().subscribe(res => {
-        this.globalData.token = res.access_token;
-      })
+      this.helper.getNewToken().subscribe()
     });
   }
 

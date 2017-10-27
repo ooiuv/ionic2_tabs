@@ -67,10 +67,11 @@ export class LoginPage {
   login(user) {
     this.submitted = true;
     this.loginService.login(user)
-      .subscribe(loginInfo => {
+      .subscribe((loginInfo: LoginInfo) => {
         this.storage.clear();//清除缓存
         Utils.sessionStorageClear();//清除缓存
         this.globalData.token = loginInfo.access_token;
+        this.globalData.refreshToken = loginInfo.refresh_token;
         this.submitted = false;
         this.userInfo = loginInfo.user;
         this.events.publish('user:login', loginInfo);

@@ -73,7 +73,7 @@ public class InstallUtils {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if(Build.VERSION.SDK_INT >= 24){
               i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-              Uri uri = FileProvider.getUriForFile(context, "com.vaenow.appupdate.android.provider", file);
+              Uri uri = FileProvider.getUriForFile(context, "so.doo.app.plugins.fileProvider", file);
               i.setDataAndType(uri, "application/vnd.android.package-archive");
           }else{
               i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");

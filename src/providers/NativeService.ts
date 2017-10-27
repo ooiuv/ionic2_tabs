@@ -155,61 +155,62 @@ export class NativeService {
       this.openUrlByBrowser(APP_DOWNLOAD);
     }
     if (this.isAndroid()) {//android本地下载
-      let backgroundProcess = false;//是否后台下载
-      let alert = this.alertCtrl.create({//显示下载进度
-        title: '下载进度：0%',
-        enableBackdropDismiss: false,
-        buttons: [{
-          text: '后台下载', handler: () => {
-            backgroundProcess = true;
+      this.externalStoragePermissionsAuthorization().subscribe(() => {
+        let backgroundProcess = false;//是否后台下载
+        let alert = this.alertCtrl.create({//显示下载进度
+          title: '下载进度：0%',
+          enableBackdropDismiss: false,
+          buttons: [{
+            text: '后台下载', handler: () => {
+              backgroundProcess = true;
+            }
           }
-        }
-        ]
-      });
-      alert.present();
+          ]
+        });
+        alert.present();
+        const fileTransfer: FileTransferObject = this.transfer.create();
+        const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; //apk保存的目录
+        //下载并安装apk
+        fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
+          window['install'].install(apk.replace('file://', ''));
+        }, err => {
+          this.globalData.updateProgress = -1;
+          alert.dismiss();
+          this.logger.log(err, 'android app 本地升级失败');
+          this.alertCtrl.create({
+            title: '前往网页下载',
+            subTitle: '本地升级失败',
+            buttons: [
+              {
+                text: '确定',
+                handler: () => {
+                  this.openUrlByBrowser(APP_DOWNLOAD);//打开网页下载
+                }
+              }
+            ]
+          }).present();
+        });
 
-      const fileTransfer: FileTransferObject = this.transfer.create();
-      const apk = this.file.externalRootDirectory + `android_${Utils.getSequence()}.apk`; //apk保存的目录
-
-      //下载并安装apk
-      fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
-        window['install'].install(apk.replace('file://', ''));
-      }, err => {
-        alert.dismiss();
-        this.logger.log(err, 'android app 本地升级失败');
-        this.alertCtrl.create({
-          title: '前往网页下载',
-          subTitle: '本地升级失败',
-          buttons: [
-            {
-              text: '确定',
-              handler: () => {
-                this.openUrlByBrowser(APP_DOWNLOAD);//打开网页下载
+        let timer = null;//由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
+        fileTransfer.onProgress((event: ProgressEvent) => {
+          let progress = Math.floor(event.loaded / event.total * 100);//下载进度
+          this.globalData.updateProgress = progress;
+          if (!backgroundProcess) {
+            if (progress === 100) {
+              alert.dismiss();
+            } else {
+              if (!timer) {
+                timer = setTimeout(() => {
+                  clearTimeout(timer);
+                  timer = null;
+                  let title = document.getElementsByClassName('alert-title')[0];
+                  title && (title.innerHTML = `下载进度：${progress}%`);
+                }, 1000);
               }
             }
-          ]
-        }).present();
-      });
-
-      let timer = null;//由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
-      fileTransfer.onProgress((event: ProgressEvent) => {
-        let progress = Math.floor(event.loaded / event.total * 100);//下载进度
-        this.globalData.updateProgress = progress;
-        if (!backgroundProcess) {
-          if (progress === 100) {
-            alert.dismiss();
-          } else {
-            if (!timer) {
-              timer = setTimeout(() => {
-                clearTimeout(timer);
-                timer = null;
-                let title = document.getElementsByClassName('alert-title')[0];
-                title && (title.innerHTML = `下载进度：${progress}%`);
-              }, 1000);
-            }
           }
-        }
-      });
+        });
+      })
     }
   }
 
@@ -599,6 +600,52 @@ export class NativeService {
             }
           }).catch(err => {
             this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
+          });
+        }
+      });
+    };
+  })();
+
+  //检测app是否有读取存储权限
+  private externalStoragePermissionsAuthorization = (() => {
+    let havePermission = false;
+    return () => {
+      return Observable.create(observer => {
+        if (havePermission) {
+          observer.next(true);
+        } else {
+          let permissions = [this.diagnostic.permission.READ_EXTERNAL_STORAGE, this.diagnostic.permission.WRITE_EXTERNAL_STORAGE];
+          this.diagnostic.getPermissionsAuthorizationStatus(permissions).then(res => {
+            if (res.READ_EXTERNAL_STORAGE == 'GRANTED' && res.WRITE_EXTERNAL_STORAGE == 'GRANTED') {
+              havePermission = true;
+              observer.next(true);
+            } else {
+              havePermission = false;
+              this.diagnostic.requestRuntimePermissions(permissions).then(res => {//请求权限
+                if (res.READ_EXTERNAL_STORAGE == 'GRANTED' && res.WRITE_EXTERNAL_STORAGE == 'GRANTED') {
+                  havePermission = true;
+                  observer.next(true);
+                } else {
+                  havePermission = false;
+                  this.alertCtrl.create({
+                    title: '缺少读取存储权限',
+                    subTitle: '请在手机设置或app权限管理中开启',
+                    buttons: [{text: '取消'},
+                      {
+                        text: '去开启',
+                        handler: () => {
+                          this.diagnostic.switchToSettings();
+                        }
+                      }
+                    ]
+                  }).present();
+                }
+              }).catch(err => {
+                this.logger.log(err, '调用diagnostic.requestRuntimePermissions方法失败');
+              });
+            }
+          }).catch(err => {
+            this.logger.log(err, '调用diagnostic.getPermissionsAuthorizationStatus方法失败');
           });
         }
       });

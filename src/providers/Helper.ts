@@ -2,6 +2,7 @@
  * Created by yanxiaojun617@163.com on 12-27.
  */
 import {Injectable} from "@angular/core";
+import {Storage} from '@ionic/storage';
 import {NativeService} from "./NativeService";
 import {JPush} from "../../typings/modules/jpush/index";
 import {Observable} from "rxjs";
@@ -14,6 +15,7 @@ import {Logger} from "./Logger";
 import {AlertController} from "ionic-angular";
 import {GlobalData} from "./GlobalData";
 import {CommonService} from "../service/CommonService";
+import {LoginInfo} from "../model/UserInfo";
 
 /**
  * Helper类存放和业务有关的公共方法
@@ -29,6 +31,7 @@ export class Helper {
               private fileService: FileService,
               private nativeService: NativeService,
               private commonService: CommonService,
+              private storage: Storage,
               private globalData: GlobalData) {
   }
 
@@ -221,11 +224,26 @@ export class Helper {
   //定时刷新token
   timerRefreshToken() {
     return setInterval(() => {
+      this.getNewToken().subscribe();
+    }, 1000 * 60 * 25);//定时25分钟,因为token30分钟过期
+  }
+
+  getNewToken() {
+    return Observable.create((observer) => {
+      this.globalData.showLoading = false;
       if (this.globalData.token) {
-        this.commonService.getNewToken().subscribe(res => {
+        this.commonService.getNewToken(this.globalData.refreshToken).subscribe(res => {
           this.globalData.token = res.access_token;
+          this.globalData.refreshToken = res.refresh_token;
+          observer.next(res);
+          this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
+            loginInfo.access_token = res.access_token;
+            loginInfo.refresh_token = res.refresh_token;
+            this.storage.set('LoginInfo', loginInfo);
+          });
         })
       }
-    }, 1000 * 60 * 25);//定时25分钟,因为token30分钟过期
+    });
+
   }
 }
