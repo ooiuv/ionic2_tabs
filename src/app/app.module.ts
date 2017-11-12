@@ -13,16 +13,15 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Camera} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File} from "@ionic-native/file";
-import {FileTransfer} from '@ionic-native/file-transfer';
+import {FileTransfer} from "@ionic-native/file-transfer";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
 import {JPush} from "../../typings/modules/jpush/index";
 import {CodePush} from "@ionic-native/code-push";
-import {CallNumber} from '@ionic-native/call-number';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-
+import {CallNumber} from "@ionic-native/call-number";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {NativeService} from "../providers/NativeService";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
@@ -37,6 +36,7 @@ import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CommonService} from "../service/CommonService";
+import {DirectivesModule} from "../directives/directives.module";
 
 //安装依赖:cnpm i fundebug-javascript --save
 //https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
@@ -63,6 +63,7 @@ export class FunDebugErrorHandler implements ErrorHandler {
       backButtonText: ''
     }),
     IonicStorageModule.forRoot(),
+    DirectivesModule,
     TabModule,
     LoginModule,
     HomeModule,

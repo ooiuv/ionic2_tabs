@@ -9,13 +9,13 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File, FileEntry} from "@ionic-native/file";
-import {FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
 import {AppMinimize} from "@ionic-native/app-minimize";
-import {CallNumber} from '@ionic-native/call-number';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+import {CallNumber} from "@ionic-native/call-number";
+import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {Position} from "../model/type";
 import {
   APP_DOWNLOAD,
@@ -106,14 +106,14 @@ export class NativeService {
    * 使用默认状态栏
    */
   statusBarStyleDefault(): void {
-    this.statusBar.styleDefault();
+    this.isMobile() && this.statusBar.styleDefault();
   }
 
   /**
    * 隐藏启动页面
    */
   splashScreenHide(): void {
-    this.splashScreen.hide();
+    this.isMobile() && this.splashScreen.hide();
   }
 
   /**
