@@ -36,7 +36,6 @@ import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CommonService} from "../service/CommonService";
-import {DirectivesModule} from "../directives/directives.module";
 
 //安装依赖:cnpm i fundebug-javascript --save
 //https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
@@ -63,7 +62,6 @@ export class FunDebugErrorHandler implements ErrorHandler {
       backButtonText: ''
     }),
     IonicStorageModule.forRoot(),
-    DirectivesModule,
     TabModule,
     LoginModule,
     HomeModule,
