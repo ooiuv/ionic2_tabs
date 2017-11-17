@@ -11,6 +11,7 @@ export class GlobalData {
   private _fullName: string;//姓名
   private _token: string;//token
   private _refreshToken: string;//refreshToken
+  private _authTime: number;//token认证时间
 
   //设置http请求是否显示loading,注意:设置为true,接下来的请求会不显示loading,请求执行完成会自动设置为false
   private _showLoading: boolean = true;
@@ -72,5 +73,14 @@ export class GlobalData {
 
   set refreshToken(value: string) {
     this._refreshToken = value;
+  }
+
+
+  get authTime(): number {
+    return this._authTime;
+  }
+
+  set authTime(value: number) {
+    this._authTime = value;
   }
 }

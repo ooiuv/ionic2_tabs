@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {NavController, NavParams, AlertController, ModalController} from 'ionic-angular';
+import {NavController, NavParams, ModalController} from 'ionic-angular';
 import {Utils} from "../../../providers/Utils";
-import {LoginPage} from "../../login/login";
 import {ChangePasswordPage} from "../change-password/change-password";
+import {NativeService} from "../../../providers/NativeService";
 
 /**
  * Generated class for the SettingPage page.
@@ -20,30 +19,14 @@ export class SettingPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private storage: Storage,
-              private modalCtrl: ModalController,
-              private alertCtrl: AlertController) {
+              public nativeService: NativeService,
+              private modalCtrl: ModalController) {
   }
 
   clearCache() {
-    this.alertCtrl.create({
-      title: '确认清除缓存？',
-      subTitle: '清除后需要重新登录',
-      buttons: [{text: '取消'},
-        {
-          text: '确定',
-          handler: () => {
-            Utils.sessionStorageClear();
-            this.storage.clear();
-            let modal = this.modalCtrl.create(LoginPage);
-            modal.present();
-            modal.onDidDismiss(data => {
-              this.navCtrl.popToRoot();
-            });
-          }
-        }
-      ]
-    }).present();
+    Utils.sessionStorageClear();//清除数据缓存
+    this.nativeService.showToast('缓存清除成功');
+    this.navCtrl.pop();
   }
 
 

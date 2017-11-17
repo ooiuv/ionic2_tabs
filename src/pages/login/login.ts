@@ -69,7 +69,8 @@ export class LoginPage {
     this.loginService.login(user)
       .subscribe((loginInfo: LoginInfo) => {
         this.storage.clear();//清除缓存
-        Utils.sessionStorageClear();//清除缓存
+        Utils.sessionStorageClear();//清除数据缓存
+        this.globalData.authTime = new Date().getTime();
         this.globalData.token = loginInfo.access_token;
         this.globalData.refreshToken = loginInfo.refresh_token;
         this.submitted = false;

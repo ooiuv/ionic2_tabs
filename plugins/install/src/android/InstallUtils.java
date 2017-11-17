@@ -39,6 +39,10 @@ public class InstallUtils {
     public static final String COMMAND_EXIT     = "exit\n";
     public static final String COMMAND_LINE_END = "\n";
 
+    public final static String getFileProviderName(Context context){
+      return context.getPackageName()+".fileprovider";
+    }
+
     /**
      * install according conditions
      * <ul>
@@ -73,7 +77,7 @@ public class InstallUtils {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if(Build.VERSION.SDK_INT >= 24){
               i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-              Uri uri = FileProvider.getUriForFile(context, "so.doo.app.plugins.fileProvider", file);
+              Uri uri = FileProvider.getUriForFile(context, getFileProviderName(context), file);
               i.setDataAndType(uri, "application/vnd.android.package-archive");
           }else{
               i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");

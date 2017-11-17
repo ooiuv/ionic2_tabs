@@ -18,6 +18,7 @@ export class Navigation {
   @ViewChild('panel') panel: ElementRef;
   navigationType:number;
   navigationIsReady: boolean = false;
+  walkNavigationIsReady: boolean = false;
   map;
   startPoint;
   endPoint;
@@ -35,8 +36,8 @@ export class Navigation {
     let options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
     if (this.navigationType == 1) {
       AMap.service('AMap.Driving', () => {
-        this.navigationIsReady = true;
         this.doSearch(new AMap.Driving(options));
+        this.navigationIsReady = true;
       });
     } else if (this.navigationType == 2) {
       AMap.service('AMap.Transfer', () => {
@@ -45,6 +46,7 @@ export class Navigation {
     } else if (this.navigationType == 3) {
       AMap.service('AMap.Walking', () => {
         this.doSearch(new AMap.Walking(options));
+        this.walkNavigationIsReady = true;
       });
     }
   }

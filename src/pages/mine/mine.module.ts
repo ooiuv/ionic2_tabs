@@ -14,12 +14,15 @@ import {MapLocationModule} from "../../shared/map-component/map-location/map-loc
 import {SettingPage} from "./setting/setting";
 import {ChangePasswordPage} from "./change-password/change-password";
 import {DirectivesModule} from "../../directives/directives.module";
+import {FeedBackListPage} from "./feed-back/feed-back-list";
+import {PagingPageModule} from "../../shared/paging/paging.module";
+import {FeedBackDetailPage} from "./feed-back/feed-back-detail";
 
 
 @NgModule({
-  imports: [IonicModule, SelectPicturePageModule, MapLocationModule, DirectivesModule],
-  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage],
-  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage],
+  imports: [IonicModule, SelectPicturePageModule, MapLocationModule, DirectivesModule, PagingPageModule],
+  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
+  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
   providers: [MineService],
   exports: [IonicModule]
 })

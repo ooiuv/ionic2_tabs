@@ -137,30 +137,30 @@ export class HttpService {
       this.nativeService.alert('请求超时,请稍后再试!');
       return;
     }
-    let msg = '请求发生异常';
-    try {
-      let result = err.json();
-      this.nativeService.alert(result.message || msg);
-    } catch (err) {
-      if (!this.nativeService.isConnecting()) {
-        this.nativeService.alert('请求失败，请连接网络');
-        return;
-      }
-      let status = err.status;
-      if (status === 0) {
-        msg = '请求失败，请求响应出错';
-      } else if (status === 404) {
-        msg = '请求失败，未找到请求地址';
-      } else if (status === 500) {
-        msg = '请求失败，服务器出错，请稍后再试';
-      }
-      this.nativeService.alert(msg);
-      this.logger.httpLog(err, msg, {
-        url: url,
-        status: status
-      });
+    //err数据类型不确定,判断消息体是否有message字段,如果有说明是后台返回的json数据
+    let index = JSON.stringify(err['_body']).indexOf('message');
+    if (index != -1) {
+      this.nativeService.alert(err.json().message || '请求发生异常');
+      return;
     }
-
+    if (!this.nativeService.isConnecting()) {
+      this.nativeService.alert('请连接网络');
+      return;
+    }
+    let status = err.status;
+    let msg = '请求发生异常';
+    if (status === 0) {
+      msg = '请求失败，请求响应出错';
+    } else if (status === 404) {
+      msg = '请求失败，未找到请求地址';
+    } else if (status === 500) {
+      msg = '请求失败，服务器出错，请稍后再试';
+    }
+    this.nativeService.alert(msg);
+    this.logger.httpLog(err, msg, {
+      url: url,
+      status: status
+    });
   }
 
   private optionsAddToken(options: RequestOptionsArgs): void {

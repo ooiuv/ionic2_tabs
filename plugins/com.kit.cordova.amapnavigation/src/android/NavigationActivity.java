@@ -35,8 +35,7 @@ public class NavigationActivity extends Activity implements
         AMapNaviListener,AMapNaviViewListener{
     //导航View
     private AMapNaviView mAmapAMapNaviView;
-    //是否为模拟导航
-    private boolean mIsEmulatorNavi = false;
+
     //记录由哪个页面跳转而来，处理返回键
     private int mCode=-1;
 
@@ -48,6 +47,8 @@ public class NavigationActivity extends Activity implements
     private ArrayList<NaviLatLng> mEndPoints = new ArrayList<NaviLatLng>();
     // 合成对象.
     private SpeechSynthesizer mSpeechSynthesizer = null;
+
+    private String navType;//导航类型
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,14 +62,8 @@ public class NavigationActivity extends Activity implements
                 ViewGroup.LayoutParams.MATCH_PARENT);
         l.setLayoutParams(layoutParams);
 
-        //判断实时还是模拟
-         if(intent.getStringExtra("NavType").equals("0") ){
-           mIsEmulatorNavi=false;
-        }
-        else
-        {
-           mIsEmulatorNavi=true;
-        }
+        navType = intent.getStringExtra("NavType");
+
         mAmapAMapNaviView = new AMapNaviView(this);
 
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams
@@ -89,8 +84,12 @@ public class NavigationActivity extends Activity implements
         mEndPoints.add(mNaviEnd);
         mAmapAMapNaviView.onCreate(savedInstanceState);
         mAmapAMapNaviView.setAMapNaviViewListener(this);
-        AMapNavi.getInstance(this).calculateDriveRoute(mStartPoints,
-                mEndPoints, null, AMapNavi.DrivingDefault);
+        if("0".equals(navType)||"1".equals(navType)){//驾车导航
+          AMapNavi.getInstance(this).calculateDriveRoute(mStartPoints,
+            mEndPoints, null, AMapNavi.DrivingDefault);
+        }else{//步行导航
+          AMapNavi.getInstance(this).calculateWalkRoute(mNaviStart, mNaviEnd);
+        }
         Log.i("result","注册");
 
         SpeechUtility.createUtility(this,"appid=5804981b");
@@ -153,18 +152,18 @@ public class NavigationActivity extends Activity implements
 
     @Override
     public void onCalculateRouteSuccess() {
-        if (mIsEmulatorNavi) {
-            Log.i("result","模拟");
-            // 设置模拟速度
-            AMapNavi.getInstance(this).setEmulatorNaviSpeed(60);
-            // 开启模拟导航
-            AMapNavi.getInstance(this).startNavi(AMapNavi.EmulatorNaviMode);
-
-        } else {
-            Log.i("result","实时");
-            // 开启实时导航
-            AMapNavi.getInstance(this).startNavi(AMapNavi.GPSNaviMode);
-        }
+      //判断实时还是模拟
+      if("0".equals(navType)||"2".equals(navType)){
+        Log.i("result","实时");
+        // 开启实时导航
+        AMapNavi.getInstance(this).startNavi(AMapNavi.GPSNaviMode);
+      } else {
+        Log.i("result","模拟");
+        // 设置模拟速度
+        AMapNavi.getInstance(this).setEmulatorNaviSpeed(60);
+        // 开启模拟导航
+        AMapNavi.getInstance(this).startNavi(AMapNavi.EmulatorNaviMode);
+      }
     }
 
     @Override

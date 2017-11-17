@@ -3,10 +3,12 @@ import {Response} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {HttpService} from "../../providers/HttpService";
 import {GlobalData} from "../../providers/GlobalData";
+import {Utils} from "../../providers/Utils";
+import {FileService} from "../../providers/FileService";
 
 @Injectable()
 export class MineService {
-  constructor(public httpService: HttpService, private globalData: GlobalData) {
+  constructor(public httpService: HttpService, private globalData: GlobalData, private fileService: FileService) {
   }
 
   /**
@@ -31,5 +33,38 @@ export class MineService {
     }).map((res: Response) => res.json());
   }
 
+  /**
+   * 添加反馈
+   * @param data
+   * @returns {Observable<R>}
+   */
+  requirementSave(data) {
+    return this.httpService.post('/requirement/save', data).map((res: Response) => res.json());
+  }
 
+  /**
+   * 查询返回记录
+   * @param sourceId 1:现场作业app；2:精准营销app；3:web
+   * @returns {Observable<R>}
+   */
+  requirementPersonList(query) {
+    return this.httpService.post('/requirement/personalList', query).map((res: Response) => res.json());
+  }
+
+  /**
+   * 反馈详情
+   * @param id
+   * @returns {Observable<R>}
+   */
+  requirementDetail(id) {
+
+    return this.httpService.get(`/requirement/getDetailById/${id}`).map((res: Response) => {
+      let data = res.json();
+      data.answerList = data.answerList.reverse();
+      this.fileService.getFileInfoByIds(data.requirement.fileIdList).subscribe(fileList => {
+        data.requirement.fileList = fileList;
+      });
+      return data;
+    });
+  }
 }

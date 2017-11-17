@@ -35,7 +35,7 @@ export class Helper {
               private globalData: GlobalData) {
   }
 
-
+  private TOKEN_INVALID_TIME = 1500000;//1000 * 60 * 25;定时25分钟,因为token 30分钟过期
   /**
    * 断言app是否需要更新
    * @returns {any}
@@ -225,7 +225,7 @@ export class Helper {
   timerRefreshToken() {
     return setInterval(() => {
       this.getNewToken().subscribe();
-    }, 1000 * 60 * 25);//定时25分钟,因为token30分钟过期
+    }, this.TOKEN_INVALID_TIME);
   }
 
   getNewToken() {
@@ -233,10 +233,13 @@ export class Helper {
       this.globalData.showLoading = false;
       if (this.globalData.token) {
         this.commonService.getNewToken(this.globalData.refreshToken).subscribe(res => {
+          const now = new Date().getTime();
+          this.globalData.authTime = now;
           this.globalData.token = res.access_token;
           this.globalData.refreshToken = res.refresh_token;
           observer.next(res);
           this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
+            loginInfo.authTime = now;
             loginInfo.access_token = res.access_token;
             loginInfo.refresh_token = res.refresh_token;
             this.storage.set('LoginInfo', loginInfo);
@@ -244,6 +247,15 @@ export class Helper {
         })
       }
     });
-
   }
+
+  //验证token是否有效
+  assertTokenEffective() {
+    if (!this.globalData.token) {
+      return false;
+    }
+    const difference = new Date().getTime() - this.globalData.authTime;
+    return difference < this.TOKEN_INVALID_TIME;
+  }
+
 }

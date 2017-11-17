@@ -239,7 +239,8 @@ export class NativeService {
     this.alertCtrl.create({
       title: title,
       subTitle: subTitle,
-      buttons: [{text: '确定'}]
+      buttons: [{text: '确定'}],
+      enableBackdropDismiss: false
     }).present();
   }
 
@@ -656,7 +657,7 @@ export class NativeService {
    * 地图导航
    * @param startPoint 开始坐标
    * @param endPoint 结束坐标
-   * @param type 0实时导航,1模拟导航,默认为模拟导航
+   * @param type 0驾车实时导航,1驾车模拟导航,2步行实时导航,3步行模拟导航.默认为0
    */
   navigation(startPoint: Position, endPoint: Position, type = 1): Observable<string> {
     return Observable.create(observer => {

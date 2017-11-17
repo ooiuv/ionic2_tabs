@@ -12,7 +12,8 @@ export interface UserInfo {
 
 
 export interface LoginInfo {
-  access_token: string;//ÓĞĞ§ÆÚ30·ÖÖÓ
-  refresh_token: string;//ÓĞĞ§ÆÚ30Ìì,30ÌìºóµÄÍíÉÏ12µã¹ıÆÚ.ĞèÒªÖØĞÂµÇÂ¼²ÅÄÜ»ñÈ¡
+  access_token: string;//æœ‰æ•ˆæœŸ30åˆ†é’Ÿ
+  refresh_token: string;//æœ‰æ•ˆæœŸ30å¤©,30å¤©åçš„æ™šä¸Š12ç‚¹è¿‡æœŸ.éœ€è¦é‡æ–°ç™»å½•æ‰èƒ½è·å–
+  authTime: number;//tokenè®¤è¯æ—¶é—´
   user: UserInfo;
 }

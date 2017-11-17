@@ -8,6 +8,7 @@ import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
+import {Utils} from "../providers/Utils";
 declare var fundebug;
 
 @Component({
@@ -37,8 +38,8 @@ export class MyApp {
       this.helper.initJpush();//初始化极光推送
       this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
         if (loginInfo) {
-          this.globalData.token = loginInfo.access_token;
-          this.globalData.refreshToken = loginInfo.refresh_token;
+          this.globalData.refreshToken = loginInfo.refresh_token;//获取新token需要旧token
+          this.globalData.token = loginInfo.access_token;//获取新token需要旧token
           this.helper.getNewToken().subscribe(() => {
             this.events.publish('user:login', loginInfo);
           })
@@ -54,11 +55,14 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络
-      this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
-        res.update && this.nativeService.downloadApp();
-      });
-      this.tokenHandle();//处理token
-      this.nativeService.sync();//启动app检查热更新
+      setTimeout(() => {
+        this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
+          res.update && this.nativeService.downloadApp();
+        });
+        this.tokenHandle();//处理token
+        this.nativeService.sync();//启动app检查热更新
+        Utils.sessionStorageClear();//清除数据缓存
+      }, 10000);
     });
   }
 

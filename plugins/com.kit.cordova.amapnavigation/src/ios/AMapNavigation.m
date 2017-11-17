@@ -46,7 +46,11 @@
 
     AMapNaviPoint* startPoint = [AMapNaviPoint locationWithLatitude:startLat longitude:startLng];
     AMapNaviPoint* endPoint = [AMapNaviPoint locationWithLatitude:endLat longitude:endLng];
-    [self calculateRoute:startPoint endPoint:endPoint];
+     if(opType== 0||opType==1) {
+        [self calculateRoute:startPoint endPoint:endPoint];
+      } else {
+        [self calculateWalkRoute:startPoint endPoint:endPoint];
+      }
 }
 
 - (void)returnSuccess:(int)status{
@@ -112,17 +116,22 @@
     NSArray* startPoints = @[startPoint];
     NSArray* endPoints = @[endPoint];
 
+     // 驾车路径规划（未设置途经点、导航策略为速度优先）
     [self.naviManager calculateDriveRouteWithStartPoints:startPoints endPoints:endPoints wayPoints:nil drivingStrategy:0];
 }
 
+- (void)calculateWalkRoute:(AMapNaviPoint*)startPoint endPoint:(AMapNaviPoint*)endPoint{
+    NSArray* startPoints = @[startPoint];
+    NSArray* endPoints = @[endPoint];
+
+    //步行路径规划
+    [self.naviManager calculateWalkRouteWithStartPoints:startPoints endPoints:endPoints];
+}
+
 - (void)naviManager:(AMapNaviManager *)naviManager didPresentNaviViewController:(UIViewController *)naviViewController{
-    
-    if(opType== 0)
-    {
+    if(opType== 0||opType== 2) {
         [self.naviManager startGPSNavi];
-    }
-    else
-    {
+    } else {
         [self.naviManager startEmulatorNavi];
     }
 }

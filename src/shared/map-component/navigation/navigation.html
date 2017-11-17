@@ -13,10 +13,20 @@
   <ion-grid *ngIf="navigationIsReady">
     <ion-row class="align-center">
       <ion-col width-50>
-        <button ion-button outline small (click)="doNavigation(0)">开始实时导航</button>
+        <button ion-button outline small (click)="doNavigation(0)">驾车实时导航</button>
       </ion-col>
       <ion-col width-50>
-        <button ion-button color="secondary" outline small (click)="doNavigation(1)">开始模拟导航</button>
+        <button ion-button color="secondary" outline small (click)="doNavigation(1)">驾车模拟导航</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="walkNavigationIsReady">
+    <ion-row class="align-center">
+      <ion-col width-50>
+        <button ion-button outline small (click)="doNavigation(2)">步行实时导航</button>
+      </ion-col>
+      <ion-col width-50>
+        <button ion-button color="secondary" outline small (click)="doNavigation(3)">步行模拟导航</button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -2,13 +2,13 @@ import {Component} from "@angular/core";
 import {NavController, AlertController} from "ionic-angular";
 import {NativeService} from "../../../providers/NativeService";
 import {UpdateLogPage} from "../update-log/update-log";
-import {FeedBackPage} from "../feed-back/feed-back";
 import {Helper} from "../../../providers/Helper";
 import {GlobalData} from "../../../providers/GlobalData";
 import {Utils} from "../../../providers/Utils";
 import {APP_VERSION_SERVE_URL} from "../../../providers/Constants";
 import {HttpService} from "../../../providers/HttpService";
 import {Response} from "@angular/http";
+import {FeedBackListPage} from "../feed-back/feed-back-list";
 
 @Component({
   selector: 'page-about',
@@ -89,7 +89,7 @@ export class AboutPage {
   }
 
   feedBack() {
-    this.navCtrl.push(FeedBackPage);
+    this.navCtrl.push(FeedBackListPage);
   }
 
 }

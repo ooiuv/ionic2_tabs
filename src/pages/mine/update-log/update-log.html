@@ -4,13 +4,11 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="content-background">
   <ion-list>
-    <ion-item>
-      v0.0.1
-    </ion-item>
-    <ion-item>
-      第一版
+    <ion-item *ngFor="let version of versions" margin-top no-lines>
+      <div>{{version.updateTime|date:'yyyy-MM-dd HH:mm'}}</div>
+      <div class="label-color" text-wrap>{{version.updateLog}}</div>
     </ion-item>
   </ion-list>
 </ion-content>
