@@ -9,7 +9,7 @@ import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
 import {Utils} from "../providers/Utils";
-declare var fundebug;
+import * as fundebug from "fundebug-javascript";
 
 @Component({
   templateUrl: 'app.html'
@@ -51,7 +51,7 @@ export class MyApp {
           });
         }
       });
-      this.nativeService.statusBarStyleDefault();
+      this.nativeService.statusBarStyle();
       this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
       this.assertNetwork();//检测网络

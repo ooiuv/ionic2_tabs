@@ -3,6 +3,8 @@
  */
 import {Injectable} from '@angular/core';
 
+declare let hex_md5;
+
 /**
  * Utils类存放和业务无关的公共方法
  * @description
@@ -26,7 +28,7 @@ export class Utils {
    * @param value
    * @returns {string|string}
    */
-  static formatYesOrNo(value: number|string): string {
+  static formatYesOrNo(value: number | string): string {
     return value == 1 ? '是' : (value == '0' ? '否' : null);
   }
 
@@ -109,7 +111,7 @@ export class Utils {
   })();
 
   /**
-   * 返回字符串长度，汉子计数为2
+   * 返回字符串长度，中文计数为2
    * @param str
    * @returns {number}
    */
@@ -154,5 +156,24 @@ export class Utils {
 
   static sessionStorageClear() {
     sessionStorage.clear();
+  }
+
+  /**
+   * 字符串加密
+   * @param str
+   * @returns {any}
+   */
+  static hex_md5(str: string) {
+    return hex_md5(str);
+  }
+
+  /** 产生一个随机的32位长度字符串 */
+  static uuid() {
+    let text = "";
+    let possible = "abcdef0123456789";
+    for (let i = 0; i < 19; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text + new Date().getTime();
   }
 }

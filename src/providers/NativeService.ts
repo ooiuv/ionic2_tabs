@@ -103,10 +103,14 @@ export class NativeService {
   }
 
   /**
-   * 使用默认状态栏
+   * 状态栏
    */
-  statusBarStyleDefault(): void {
-    this.isMobile() && this.statusBar.styleDefault();
+  statusBarStyle(): void {
+    if (this.isMobile()) {
+      this.statusBar.overlaysWebView(false);
+      this.statusBar.styleLightContent();
+      this.statusBar.backgroundColorByHexString('#488aff');
+    }
   }
 
   /**
@@ -290,8 +294,12 @@ export class NativeService {
     if (!this.globalData.showLoading) {
       this.globalData.showLoading = true;
     }
-    this.loadingIsOpen && this.loading.dismiss();
-    this.loadingIsOpen = false;
+    if (this.loadingIsOpen) {
+      setTimeout(() => {
+        this.loading.dismiss();
+        this.loadingIsOpen = false;
+      }, 200);
+    }
   };
 
   /**
@@ -458,7 +466,7 @@ export class NativeService {
    */
   callNumber(number: string): void {
     this.cn.callNumber(number, true)
-      .then(() => console.log('Launched dialer!拨打电话'))
+      .then(() => console.log('成功拨打电话:' + number))
       .catch(err => this.logger.log(err, '拨打电话失败'));
   }
 
@@ -502,8 +510,7 @@ export class NativeService {
     LocationPlugin.getLocation(data => {
       observer.next({'lng': data.longitude, 'lat': data.latitude});
     }, msg => {
-      observer.error('获取位置失败');
-      if (msg.indexOf('缺少定位权限') != -1) {
+      if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {
         this.alertCtrl.create({
           title: '缺少定位权限',
           subTitle: '请在手机设置或app权限管理中开启',
@@ -521,9 +528,10 @@ export class NativeService {
       } else if (msg.indexOf('网络连接异常') != -1) {
         alert('网络连接异常,请检查您的网络是否畅通')
       } else {
-        alert('位置错误,错误消息:' + msg);
+        alert('获取位置错误,错误消息:' + msg);
         this.logger.log(msg, '获取位置失败');
       }
+      observer.error('获取位置失败');
     });
   }
 

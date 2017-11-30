@@ -3,7 +3,7 @@
  */
 import {Injectable} from '@angular/core';
 import {GlobalData} from "./GlobalData";
-declare var fundebug;
+import * as fundebug from "fundebug-javascript";
 
 /**
  * Utils类存放和业务无关的公共方法
@@ -39,7 +39,5 @@ export class Logger {
         }
       });
   }
-
-
 
 }

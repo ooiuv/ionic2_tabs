@@ -28,7 +28,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class Device extends CordovaPlugin {
     public static final String TAG = "Device";
@@ -74,8 +77,9 @@ public class Device extends CordovaPlugin {
             r.put("platform", this.getPlatform());
             r.put("model", this.getModel());
             r.put("manufacturer", this.getManufacturer());
-	        r.put("isVirtual", this.isVirtual());
+	          r.put("isVirtual", this.isVirtual());
             r.put("serial", this.getSerialNumber());
+            r.put("imei", this.imei());
             callbackContext.success(r);
         }
         else {
@@ -88,6 +92,13 @@ public class Device extends CordovaPlugin {
     // LOCAL METHODS
     //--------------------------------------------------------------------------
 
+  //imei
+  private String imei() {
+    TelephonyManager systemService = (TelephonyManager)cordova.getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+    String deviceId = systemService.getDeviceId();
+    Log.i("imei", deviceId);
+    return systemService.getDeviceId();
+  }
     /**
      * Get the OS name.
      *

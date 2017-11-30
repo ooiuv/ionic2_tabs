@@ -90,20 +90,6 @@ export class HttpService {
     }));
   }
 
-  public head(url: string, paramMap: any = null): Observable<Response> {
-    return this.request(url, new RequestOptions({
-      method: RequestMethod.Head,
-      search: HttpService.buildURLSearchParams(paramMap).toString()
-    }));
-  }
-
-  public options(url: string, paramMap: any = null): Observable<Response> {
-    return this.request(url, new RequestOptions({
-      method: RequestMethod.Options,
-      search: HttpService.buildURLSearchParams(paramMap).toString()
-    }));
-  }
-
   /**
    * 将对象转为查询参数
    * @param paramMap

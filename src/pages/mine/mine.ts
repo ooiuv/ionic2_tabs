@@ -41,7 +41,7 @@ export class MinePage {
   }
 
   edit() {
-    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo,'avatarPath':this.avatarPath});
+    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo, 'avatarPath': this.avatarPath});
   }
 
   setting() {

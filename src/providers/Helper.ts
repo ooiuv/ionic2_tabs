@@ -36,6 +36,7 @@ export class Helper {
   }
 
   private TOKEN_INVALID_TIME = 1500000;//1000 * 60 * 25;定时25分钟,因为token 30分钟过期
+
   /**
    * 断言app是否需要更新
    * @returns {any}
@@ -126,6 +127,61 @@ export class Helper {
     });
   }
 
+  /**
+   * 从文件对象数组中找出指定id对应的文件对象
+   * @param fileList 文件对象数组
+   * @param idList id数组
+   * @returns {Array}
+   */
+  static findFileListById(fileList, ids) {
+    if (!ids || ids.length == 0) {
+      return [];
+    }
+    let newFileList = [];
+    for (let file of fileList) {
+      for (let id of ids) {
+        if (file.id == id) {
+          newFileList.push(file);
+        }
+      }
+    }
+    return newFileList;
+  }
+
+  /**
+   * 上传文件返回文件id
+   */
+  uploadPictureByPath(fileList) {
+    return Observable.create(observer => {
+      if (!fileList || fileList.length == 0) {
+        observer.next([]);
+        return;
+      }
+      let fileIds = [];
+      let uploadFileList = [];
+      for (let fileObj of fileList) {
+        if (fileObj.id) {
+          fileIds.push(fileObj.id);
+        } else {
+          fileObj.parameter = fileObj.origPath;
+          uploadFileList.push(fileObj);
+        }
+      }
+
+      this.globalData.showLoading = false;
+      this.fileService.uploadMultiByFilePath(uploadFileList).subscribe(fileList => {
+        for (let fileObj of fileList) {
+          fileIds.push(fileObj.id);
+        }
+        observer.next(fileIds);
+      });
+
+    })
+  }
+
+  /**
+   * 极光推送
+   */
   initJpush() {
     if (!this.nativeService.isMobile()) {
       return;
@@ -221,16 +277,20 @@ export class Helper {
     }
   }
 
-  //定时刷新token
+  /**
+   * 定时刷新token
+   */
   timerRefreshToken() {
     return setInterval(() => {
       this.getNewToken().subscribe();
     }, this.TOKEN_INVALID_TIME);
   }
 
+  /**
+   * 获取新token
+   */
   getNewToken() {
     return Observable.create((observer) => {
-      this.globalData.showLoading = false;
       if (this.globalData.token) {
         this.commonService.getNewToken(this.globalData.refreshToken).subscribe(res => {
           const now = new Date().getTime();
@@ -249,7 +309,9 @@ export class Helper {
     });
   }
 
-  //验证token是否有效
+  /**
+   * 验证token是否有效
+   */
   assertTokenEffective() {
     if (!this.globalData.token) {
       return false;

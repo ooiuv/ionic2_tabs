@@ -9,6 +9,7 @@ export class GlobalData {
   private _userId: string;//用户id
   private _username: string;//用户名
   private _fullName: string;//姓名
+
   private _token: string;//token
   private _refreshToken: string;//refreshToken
   private _authTime: number;//token认证时间
@@ -18,6 +19,9 @@ export class GlobalData {
 
   //app更新进度.默认为0,在app升级过程中会改变
   private _updateProgress: number = -1;
+
+  //是否启用文件缓存
+  private _enabledFileCache :boolean = true;
 
   get userId(): string {
     return this._userId;
@@ -82,5 +86,13 @@ export class GlobalData {
 
   set authTime(value: number) {
     this._authTime = value;
+  }
+
+  get enabledFileCache(): boolean {
+    return this._enabledFileCache;
+  }
+
+  set enabledFileCache(value: boolean) {
+    this._enabledFileCache = value;
   }
 }

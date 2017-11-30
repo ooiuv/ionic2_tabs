@@ -75,13 +75,14 @@ public class InstallUtils {
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if(Build.VERSION.SDK_INT >= 24){
+        /*if(Build.VERSION.SDK_INT >= 24){
               i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
               Uri uri = FileProvider.getUriForFile(context, getFileProviderName(context), file);
               i.setDataAndType(uri, "application/vnd.android.package-archive");
           }else{
               i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
-          }
+          }*/
+          i.setDataAndType(Uri.parse("file://" + filePath), "application/vnd.android.package-archive");
         context.startActivity(i);
         return true;
     }

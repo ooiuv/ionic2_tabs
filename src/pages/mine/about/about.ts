@@ -66,7 +66,7 @@ export class AboutPage {
     } else {//正在更新
       let alert = this.alertCtrl.create({
         title: `下载进度：${this.globalData.updateProgress}%`,
-        buttons: [{text: '确定'}
+        buttons: [{text: '后台下载'}
         ]
       });
       alert.present();

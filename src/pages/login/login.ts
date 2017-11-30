@@ -32,8 +32,8 @@ export class LoginPage {
               private events: Events,
               private loginService: LoginService) {
     this.loginForm = this.formBuilder.group({
-      username: ['yanxiaojun617', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
-      password: ['123456', [Validators.required, Validators.minLength(4)]]
+      username: [this.globalData.username || '', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
@@ -68,7 +68,6 @@ export class LoginPage {
     this.submitted = true;
     this.loginService.login(user)
       .subscribe((loginInfo: LoginInfo) => {
-        this.storage.clear();//清除缓存
         Utils.sessionStorageClear();//清除数据缓存
         this.globalData.authTime = new Date().getTime();
         this.globalData.token = loginInfo.access_token;

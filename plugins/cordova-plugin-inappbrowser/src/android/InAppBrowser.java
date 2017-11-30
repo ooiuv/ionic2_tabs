@@ -809,6 +809,11 @@ public class InAppBrowser extends CordovaPlugin {
                     CookieManager.getInstance().removeSessionCookie();
                 }
 
+                // Enable Thirdparty Cookies on >=Android 5.0 device
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(inAppWebView,true);
+                }
+
                 inAppWebView.loadUrl(url);
                 inAppWebView.setId(Integer.valueOf(6));
                 inAppWebView.getSettings().setLoadWithOverviewMode(true);
@@ -1045,6 +1050,10 @@ public class InAppBrowser extends CordovaPlugin {
             } else {
                 CookieSyncManager.getInstance().sync();
             }
+
+            // https://issues.apache.org/jira/browse/CB-11248
+            view.clearFocus();
+            view.requestFocus();
 
             try {
                 JSONObject obj = new JSONObject();

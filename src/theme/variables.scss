@@ -71,21 +71,32 @@ $colors: (
 // so that the above variables are used and Ionic's
 // default are overridden.
 
+/*********************************************华丽的分割线**************************************************/
+
+/*start:覆盖ionic 默认样式*/
+
 $toolbar-background: color($colors, primary);
 $toolbar-ios-border-color: color($colors, primary);
 $tabs-ios-background: #f8f8f8;
 $tabs-md-background: #f8f8f8;
-$tabs-ios-border: 0;
+//$tabs-ios-border: 0;
+$tabs-ios-border-color: #e0dfe4;
 $searchbar-ios-input-height: 33px;
 $searchbar-ios-background-color: color($colors, primary);
-
 $hairlines-width: 1px;
 $list-border-color: #e0dfe4;
 
 @import "ionic.theme.default";
 
-// start 自定义全局css,具体使用例子,请全局搜索class名
+[text-wrap] {
+  word-break: break-all;
+}
 
+/*end*/
+
+/*********************************************华丽的分割线**************************************************/
+
+/*start:自定义全局css,具体使用例子,请全局搜索class名*/
 ion-label.required:after { //表单必填项样式
   content: '*';
   color: #DB2828;
@@ -114,7 +125,12 @@ ion-label.required:after { //表单必填项样式
   background-color: #f2f2f2;
 }
 
-// end 自定义全局css
+.label-color {
+  color: #666;
+}
+
+
+/*end*/
 
 // Ionicons
 // --------------------------------------------------

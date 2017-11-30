@@ -2,6 +2,11 @@ package com.microsoft.cordova;
 
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.util.Base64;
+
+import com.nimbusds.jose.JWSVerifier;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jwt.SignedJWT;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.ConfigXmlParser;
@@ -13,10 +18,16 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.MalformedURLException;
+import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-
+import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Native Android CodePush Cordova Plugin.
@@ -24,7 +35,10 @@ import java.util.Date;
 public class CodePush extends CordovaPlugin {
 
     private static final String DEPLOYMENT_KEY_PREFERENCE = "codepushdeploymentkey";
+    private static final String PUBLIC_KEY_PREFERENCE = "codepushpublickey";
+    private static final String SERVER_URL_PREFERENCE = "codepushserverurl";
     private static final String WWW_ASSET_PATH_PREFIX = "file:///android_asset/www/";
+    private static final String NEW_LINE = System.getProperty("line.separator");
     private static boolean ShouldClearHistoryOnLoad = false;
     private CordovaWebView mainWebView;
     private CodePushPackageManager codePushPackageManager;
@@ -56,7 +70,7 @@ public class CodePush extends CordovaPlugin {
         } else if ("getNativeBuildTime".equals(action)) {
             return execGetNativeBuildTime(callbackContext);
         } else if ("getServerURL".equals(action)) {
-            this.returnStringPreference("codepushserverurl", callbackContext);
+            this.returnStringPreference(SERVER_URL_PREFERENCE, callbackContext);
             return true;
         } else if ("install".equals(action)) {
             return execInstall(args, callbackContext);
@@ -76,8 +90,93 @@ public class CodePush extends CordovaPlugin {
             return execReportSucceeded(args, callbackContext);
         } else if ("restartApplication".equals(action)) {
             return execRestartApplication(args, callbackContext);
+        } else if ("getPackageHash".equals(action)) {
+            return execGetPackageHash(args, callbackContext);
+        } else if ("decodeSignature".equals(action)) {
+            return execDecodeSignature(args, callbackContext);
+        } else if ("getPublicKey".equals(action)) {
+            return execGetPublicKey(args, callbackContext);
         } else {
             return false;
+        }
+    }
+
+    private boolean execGetPublicKey(final CordovaArgs args, final CallbackContext callbackContext) {
+        String publicKey = mainWebView.getPreferences().getString(PUBLIC_KEY_PREFERENCE, null);
+        callbackContext.success(publicKey);
+        return true;
+    }
+
+    private boolean execDecodeSignature(final CordovaArgs args, final CallbackContext callbackContext) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                try {
+                    String stringPublicKey = args.getString(0);
+
+                    final PublicKey publicKey;
+                    try {
+                        publicKey = parsePublicKey(stringPublicKey);
+                    } catch (CodePushException e) {
+                        callbackContext.error("Error occurred while creating the a public key" + e.getMessage());
+                        return null;
+                    }
+
+                    final String signature = args.getString(1);
+
+                    final Map<String, Object> claims;
+                    try {
+                        claims = verifyAndDecodeJWT(signature, publicKey);
+                    } catch (CodePushException e) {
+                        callbackContext.error("The update could not be verified because it was not signed by a trusted party. " + e.getMessage());
+                        return null;
+                    }
+
+                    final String contentHash = (String) claims.get("contentHash");
+                    if (contentHash == null) {
+                        callbackContext.error("The update could not be verified because the signature did not specify a content hash.");
+                        return null;
+                    }
+                    callbackContext.success(contentHash);
+
+                } catch (Exception e) {
+                    callbackContext.error("Unknown error occurred during signature decoding. " + e.getMessage());
+                }
+
+                return null;
+            }
+        }.execute();
+        return true;
+    }
+
+    private PublicKey parsePublicKey(String stringPublicKey) throws CodePushException {
+        try {
+            stringPublicKey = stringPublicKey
+                    .replace("-----BEGIN PUBLIC KEY-----", "")
+                    .replace("-----END PUBLIC KEY-----", "")
+                    .replace("&#xA;", "") //gradle automatically replaces new line to &#xA;
+                    .replace(NEW_LINE, "");
+            byte[] byteKey = Base64.decode(stringPublicKey.getBytes(), Base64.DEFAULT);
+            X509EncodedKeySpec X509Key = new X509EncodedKeySpec(byteKey);
+            KeyFactory kf = KeyFactory.getInstance("RSA");
+            return kf.generatePublic(X509Key);
+        } catch (Exception e) {
+            throw new CodePushException(e);
+        }
+    }
+
+    private Map<String, Object> verifyAndDecodeJWT(String jwt, PublicKey publicKey) throws CodePushException {
+        try {
+            SignedJWT signedJWT = SignedJWT.parse(jwt);
+            JWSVerifier verifier = new RSASSAVerifier((RSAPublicKey) publicKey);
+            if (signedJWT.verify(verifier)) {
+                Map<String, Object> claims = signedJWT.getJWTClaimsSet().getClaims();
+                Utilities.logMessage("JWT verification succeeded, payload content: " + claims.toString());
+                return claims;
+            }
+            throw new CodePushException("JWT verification failed: wrong signature");
+        } catch (Exception e) {
+            throw new CodePushException(e);
         }
     }
 
@@ -91,9 +190,7 @@ public class CodePush extends CordovaPlugin {
                         String binaryHash = UpdateHashUtils.getBinaryHash(cordova.getActivity());
                         codePushPackageManager.saveBinaryHash(binaryHash);
                         callbackContext.success(binaryHash);
-                    } catch (IOException e) {
-                        callbackContext.error("An error occurred when trying to get the hash of the binary contents. " + e.getMessage());
-                    } catch (NoSuchAlgorithmException e) {
+                    } catch (Exception e) {
                         callbackContext.error("An error occurred when trying to get the hash of the binary contents. " + e.getMessage());
                     }
 
@@ -104,6 +201,23 @@ public class CodePush extends CordovaPlugin {
             callbackContext.success(cachedBinaryHash);
         }
 
+        return true;
+    }
+
+    private boolean execGetPackageHash(final CordovaArgs args, final CallbackContext callbackContext) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    String binaryHash = UpdateHashUtils.getHashForPath(cordova.getActivity(), args.getString(0) + "/www");
+                    callbackContext.success(binaryHash);
+                } catch (Exception e) {
+                    callbackContext.error("An error occurred when trying to get the hash of the binary contents. " + e.getMessage());
+                }
+
+                return null;
+            }
+        }.execute();
         return true;
     }
 

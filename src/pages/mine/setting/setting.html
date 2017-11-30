@@ -19,6 +19,16 @@
       <ion-icon name="trash" item-left color="danger"></ion-icon>
       清除缓存数据
     </button>
+    <ion-item>
+      <ion-icon class="iconfont icon-upload" item-left style="color: #6fc572;"></ion-icon>
+      <ion-label>
+        图片缓存
+      </ion-label>
+      <ion-note item-end>
+        {{enabledFileCache?'开启中':'已关闭'}}
+      </ion-note>
+      <ion-toggle [(ngModel)]="enabledFileCache" (ionChange)="cacheChange()"></ion-toggle>
+    </ion-item>
     <button ion-item (click)="changePassword()" detail-none>
       <ion-icon name="finger-print" item-left color="primary"></ion-icon>
       修改密码

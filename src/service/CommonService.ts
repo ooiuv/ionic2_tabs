@@ -38,4 +38,9 @@ export class CommonService {
   }
 
 
+  //更新文件缓存文件关系
+  fileRelationReplace(data) {
+    return this.httpService.post('/fileRelation/replace', data).map((res: Response) => res.json());
+  }
+
 }

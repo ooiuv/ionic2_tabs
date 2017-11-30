@@ -1,8 +1,10 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {IonicPage, ActionSheetController, ModalController,AlertController} from 'ionic-angular';
+import {IonicPage, ActionSheetController, ModalController, AlertController} from 'ionic-angular';
 import {FileObj} from "../../model/FileObj";
 import {NativeService} from "../../providers/NativeService";
 import {PreviewPicturePage} from "../preview-picture/preview-picture";
+import {FileService} from "../../providers/FileService";
+import {GlobalData} from "../../providers/GlobalData";
 
 /**
  * Generated class for the SelectPicturePage page.
@@ -28,6 +30,8 @@ export class SelectPicturePage {
   constructor(private modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private actionSheetCtrl: ActionSheetController,
+              private fileService: FileService,
+              private globalData: GlobalData,
               private nativeService: NativeService) {
   }
 
@@ -76,7 +80,12 @@ export class SelectPicturePage {
         {
           text: '确定',
           handler: () => {
-            this.fileObjList.splice(i, 1);
+            let delArr = this.fileObjList.splice(i, 1);
+            let delId = delArr[0].id;
+            if (delId) {
+              this.globalData.showLoading = false;
+              this.fileService.deleteById(delId);
+            }
           }
         }
       ]

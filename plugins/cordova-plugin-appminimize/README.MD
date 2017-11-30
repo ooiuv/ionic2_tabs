@@ -10,7 +10,7 @@
 
 Cordova:
 
-    cordova plugin add cordova-plugin-appminimize
+    cordova plugin add https://github.com/tomloprod/cordova-plugin-appminimize.git
 
 ## Usage
 
