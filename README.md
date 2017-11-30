@@ -1,3 +1,6 @@
+# 预览
+![](http://106.14.238.69:8089/ionic2tabs/code.png)
+
 # app开发指引
 * [开发框架github](https://github.com/yanxiaojun617/ionic2_tabs/)
 * [开发框架说明文档](http://www.jianshu.com/p/1c6e5fe9e255)
