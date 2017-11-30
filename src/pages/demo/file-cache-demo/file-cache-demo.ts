@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 import {NativeService} from "../../../providers/NativeService";
 import {FileService} from "../../../providers/FileService";
 

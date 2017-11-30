@@ -3,7 +3,6 @@ import {Response} from "@angular/http";
 import 'rxjs/add/operator/map';
 import {HttpService} from "../../providers/HttpService";
 import {GlobalData} from "../../providers/GlobalData";
-import {Utils} from "../../providers/Utils";
 import {FileService} from "../../providers/FileService";
 
 @Injectable()
