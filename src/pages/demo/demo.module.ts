@@ -19,11 +19,12 @@ import {DemoService} from "./DemoService";
 import {CalendarModule} from "ion2-calendar";
 import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
 import {NativeDemoPage} from "./native-demo/native-demo";
+import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
 
 @NgModule({
-  imports: [IonicModule, PagingPageModule,SelectPicturePageModule,TransitionDemoPageModule, ModalScalePageModule,ModalFromRightPageModule,CityPickerModule,CalendarModule],
-  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,Conversion,CropPicDemoPage,CityPickerDemoPage,CalendarDemoPage,NativeDemoPage],
-  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage,CustomPipeDemo,CropPicDemoPage,CityPickerDemoPage,CalendarDemoPage,NativeDemoPage],
+  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule],
+  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
+  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })

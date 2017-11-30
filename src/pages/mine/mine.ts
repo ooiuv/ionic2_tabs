@@ -11,6 +11,7 @@ import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {WorkMapPage} from "./work-map/work-map";
 import {SettingPage} from "./setting/setting";
 import {NativeService} from "../../providers/NativeService";
+import {FileCachePage} from "../../shared/file-cache/file-cache";
 
 @Component({
   selector: 'page-mine',
@@ -76,6 +77,9 @@ export class MinePage {
     this.navCtrl.push(WorkMapPage);
   }
 
+  fileCache(){
+    this.navCtrl.push(FileCachePage);
+  }
 
   exitSoftware() {
     this.alertCtrl.create({

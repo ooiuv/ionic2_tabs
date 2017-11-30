@@ -11,6 +11,7 @@ import {TransitionDemoPage} from "./transition-demo/transition-demo";
 import {CropPicDemoPage} from "./crop-pic-demo/crop-pic-demo";
 import {CityPickerDemoPage} from "./city-picker-demo/city-picker-demo";
 import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
+import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
 
 @Component({
   selector: 'page-contact',
@@ -60,6 +61,10 @@ export class DemoPage {
 
   calendar() {
     this.navCtrl.push(CalendarDemoPage);
+  }
+
+  fileCache() {
+    this.navCtrl.push(FileCacheDemoPage);
   }
 
 }

@@ -17,10 +17,11 @@ import {DirectivesModule} from "../../directives/directives.module";
 import {FeedBackListPage} from "./feed-back/feed-back-list";
 import {PagingPageModule} from "../../shared/paging/paging.module";
 import {FeedBackDetailPage} from "./feed-back/feed-back-detail";
+import {FileCachePageModule} from "../../shared/file-cache/file-cache.module";
 
 
 @NgModule({
-  imports: [IonicModule, SelectPicturePageModule, MapLocationModule, DirectivesModule, PagingPageModule],
+  imports: [IonicModule, SelectPicturePageModule, MapLocationModule, DirectivesModule, PagingPageModule, FileCachePageModule],
   declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
   entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
   providers: [MineService],

@@ -39,6 +39,7 @@ export class FileService {
 
   /**
    * 根据ids(文件数组)获取文件信息
+   * 先从本地缓存中查找文件,然后再去文件服务器上查找文件
    * @param ids
    * @returns {FileObj[]}
    */
@@ -132,12 +133,14 @@ export class FileService {
     //开启了缓存
     if (this.globalData.enabledFileCache) {
       for (let fileObj of fileObjList) {
+        //生成一个临时id,待真正上传到后台需要替换掉临时id
         fileObj.id = FileService.uuid();
       }
       let cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
         cacheData = cacheData ? cacheData.concat(fileObjList) : fileObjList;
-        this.storage.set(cacheKey, cacheData)
+        //缓存文件信息
+        this.storage.set(cacheKey, cacheData);
       });
       return Observable.of(fileObjList);
     } else {

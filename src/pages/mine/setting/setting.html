@@ -25,7 +25,7 @@
         图片缓存
       </ion-label>
       <ion-note item-end>
-        {{enabledFileCache?'开启中':'已关闭'}}
+        {{enabledFileCache?'已开启':'已关闭'}}
       </ion-note>
       <ion-toggle [(ngModel)]="enabledFileCache" (ionChange)="cacheChange()"></ion-toggle>
     </ion-item>
