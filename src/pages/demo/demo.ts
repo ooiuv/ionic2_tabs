@@ -12,6 +12,7 @@ import {CropPicDemoPage} from "./crop-pic-demo/crop-pic-demo";
 import {CityPickerDemoPage} from "./city-picker-demo/city-picker-demo";
 import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
 import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
+import {EchartsDemoPage} from "./echarts-demo/echarts-demo";
 
 @Component({
   selector: 'page-contact',
@@ -41,6 +42,10 @@ export class DemoPage {
 
   chartjs() {
     this.navCtrl.push(ChartjsDemoPage);
+  }
+
+  echarts() {
+    this.navCtrl.push(EchartsDemoPage);
   }
 
   selectPic() {
