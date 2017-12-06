@@ -2,13 +2,6 @@ import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import ECharts from 'echarts';
 
-/**
- * Generated class for the EchartsDemoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @Component({
   selector: 'page-echarts-demo',
   templateUrl: 'echarts-demo.html',
