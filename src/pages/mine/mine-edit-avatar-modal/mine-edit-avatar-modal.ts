@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {NavParams, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {NativeService} from '../../../providers/NativeService';
-import {LoginInfo} from "../../../model/UserInfo";
 import {FileService} from "../../../providers/FileService";
 import {FileObj} from "../../../model/FileObj";
 import {MineService} from "../MineService";
+import {GlobalData} from "../../../providers/GlobalData";
+
 declare var AlloyCrop;
 
 @Component({
@@ -13,16 +13,15 @@ declare var AlloyCrop;
   templateUrl: 'mine-edit-avatar-modal.html'
 })
 export class MineEditAvatarModalPage {
+  userInfo;
   isChange: boolean = false;//头像是否改变标识
-  avatarPath: string;
 
-  constructor(private params: NavParams,
-              private viewCtrl: ViewController,
+  constructor(private viewCtrl: ViewController,
               private fileService: FileService,
               private nativeService: NativeService,
               private mineService: MineService,
-              private storage: Storage) {
-    this.avatarPath = this.params.get('avatarPath');
+              private globalData: GlobalData) {
+    this.userInfo = this.globalData.user;
   }
 
   getPicture(type) {//1拍照,0从图库选择
@@ -51,7 +50,7 @@ export class MineEditAvatarModalPage {
       output: 1,
       ok: (base64) => {
         this.isChange = true;
-        this.avatarPath = base64;
+        this.userInfo.avatarPath = base64;
       },
       cancel: () => {
       },
@@ -63,16 +62,13 @@ export class MineEditAvatarModalPage {
 
   saveAvatar() {
     if (this.isChange) {
-      let fileObj = <FileObj>{'base64': this.avatarPath};
+      let fileObj = <FileObj>{'base64': this.userInfo.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
         let avatarId = fileObj.id, avatarPath = fileObj.origPath;
         this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
-          this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
-            loginInfo.user.avatarId = avatarId;
-            loginInfo.user.avatarPath = avatarPath;
-            this.storage.set('LoginInfo', loginInfo);
-          });
-          this.viewCtrl.dismiss({avatarPath: avatarPath});
+          this.globalData.user.avatarId = avatarId;
+          this.globalData.user.avatarPath = avatarPath;
+          this.viewCtrl.dismiss();
         });
       });
     } else {

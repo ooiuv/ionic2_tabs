@@ -239,14 +239,29 @@ export class NativeService {
     return this.isMobile() && (this.platform.is('ios') || this.platform.is('ipad') || this.platform.is('iphone'));
   }
 
-  alert(title: string, subTitle: string = "",): void {
-    this.alertCtrl.create({
-      title: title,
-      subTitle: subTitle,
-      buttons: [{text: '确定'}],
-      enableBackdropDismiss: false
-    }).present();
-  }
+  /**
+   * 一个确定按钮的alert弹出框.
+   * @type {(title: string, subTitle?: string, message?: string) => void}
+   */
+  alert = (() => {
+    let isExist = false;
+    return (title: string, subTitle: string = '', message: string = ''): void => {
+      if (!isExist) {
+        isExist = true;
+        this.alertCtrl.create({
+          title: title,
+          subTitle: subTitle,
+          message: message,
+          buttons: [{
+            text: '确定', handler: () => {
+              isExist = false;
+            }
+          }],
+          enableBackdropDismiss: false
+        }).present();
+      }
+    };
+  })();
 
   /**
    * 统一调用此方法显示提示信息
@@ -496,8 +511,12 @@ export class NativeService {
               if (res) {
                 return this.getLocation(observer);
               }
+            }, err => {
+              observer.error(err);
             })
           }
+        }, err => {
+          observer.error(err);
         })
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
@@ -561,9 +580,11 @@ export class NativeService {
                   }
                 ]
               }).present();
+              observer.error(false);
             }
           }).catch(err => {
             this.logger.log(err, '调用diagnostic.isLocationEnabled方法失败');
+            observer.error(false);
           });
         }
       });
@@ -599,16 +620,19 @@ export class NativeService {
                       }
                     ]
                   }).present();
+                  observer.error(false);
                 } else {
                   locationAuthorization = true;
                   observer.next(true);
                 }
               }).catch(err => {
                 this.logger.log(err, '调用diagnostic.requestLocationAuthorization方法失败');
+                observer.error(false);
               });
             }
           }).catch(err => {
             this.logger.log(err, '调用diagnostic.isLocationAvailable方法失败');
+            observer.error(false);
           });
         }
       });

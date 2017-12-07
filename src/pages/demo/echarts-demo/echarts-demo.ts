@@ -1,6 +1,7 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import ECharts from 'echarts';
+import {NativeService} from "../../../providers/NativeService";
 
 @Component({
   selector: 'page-echarts-demo',
@@ -8,7 +9,7 @@ import ECharts from 'echarts';
 })
 export class EchartsDemoPage {
   @ViewChild('chart') chart: ElementRef;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private nativeService: NativeService) {
   }
 
   ionViewDidEnter() {
@@ -65,4 +66,7 @@ export class EchartsDemoPage {
     });
   }
 
+  details(url) {
+    this.nativeService.openUrlByBrowser(url);
+  }
 }

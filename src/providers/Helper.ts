@@ -12,10 +12,8 @@ import {FileObj} from "../model/FileObj";
 import {Http, Response} from "@angular/http";
 import {Utils} from "./Utils";
 import {Logger} from "./Logger";
-import {AlertController} from "ionic-angular";
+import {AlertController, Events} from "ionic-angular";
 import {GlobalData} from "./GlobalData";
-import {CommonService} from "../service/CommonService";
-import {LoginInfo} from "../model/UserInfo";
 
 /**
  * Helper类存放和业务有关的公共方法
@@ -30,12 +28,10 @@ export class Helper {
               private alertCtrl: AlertController,
               private fileService: FileService,
               private nativeService: NativeService,
-              private commonService: CommonService,
               private storage: Storage,
+              private events: Events,
               private globalData: GlobalData) {
   }
-
-  private TOKEN_INVALID_TIME = 1500000;//1000 * 60 * 25;定时25分钟,因为token 30分钟过期
 
   /**
    * 断言app是否需要更新
@@ -106,7 +102,6 @@ export class Helper {
   /**
    * 获取用户头像路径
    * @param avatarId
-   * @returns {any}
    */
   loadAvatarPath(avatarId) {
     return Observable.create(observer => {
@@ -128,10 +123,32 @@ export class Helper {
   }
 
   /**
+   * 登录成功处理
+   */
+  loginSuccessHandle(userInfo) {
+    Utils.sessionStorageClear();//清除数据缓存
+    this.globalData.user = userInfo;
+    this.globalData.userId = userInfo.id;
+    this.globalData.username = userInfo.username;
+    this.storage.get('enabled-file-cache-' + userInfo.id).then(res => {//获取是否启用缓存文件
+      if (res === false) {
+        this.globalData.enabledFileCache = false;
+      }
+    });
+    this.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {//加载用户头像
+      userInfo.avatarPath = avatarPath;
+      this.globalData.user.avatarPath = avatarPath;
+    });
+    this.setTags();
+    this.setAlias();
+    this.events.publish('user:login', userInfo);
+  }
+
+
+  /**
    * 从文件对象数组中找出指定id对应的文件对象
    * @param fileList 文件对象数组
    * @param idList id数组
-   * @returns {Array}
    */
   static findFileListById(fileList, ids) {
     if (!ids || ids.length == 0) {
@@ -253,12 +270,12 @@ export class Helper {
   }
 
   //设置别名,一个用户只有一个别名
-  setAlias(userId) {
+  setAlias() {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    console.log('设置setAlias:' + userId);
-    this.jPush.setAlias('' + userId);//ios设置setAlias有bug,值必须为string类型,不能是number
+    console.log('设置setAlias:' + this.globalData.userId);
+    this.jPush.setAlias('' + this.globalData.userId);//ios设置setAlias有bug,值必须为string类型,不能是number
   }
 
   setTagsWithAlias(userId) {
@@ -275,49 +292,6 @@ export class Helper {
       this.jPush.setBadge(badgeNumber);//上传badge值到jPush服务器
       this.jPush.setApplicationIconBadgeNumber(badgeNumber);//设置应用badge值
     }
-  }
-
-  /**
-   * 定时刷新token
-   */
-  timerRefreshToken() {
-    return setInterval(() => {
-      this.getNewToken().subscribe();
-    }, this.TOKEN_INVALID_TIME);
-  }
-
-  /**
-   * 获取新token
-   */
-  getNewToken() {
-    return Observable.create((observer) => {
-      if (this.globalData.token) {
-        this.commonService.getNewToken(this.globalData.refreshToken).subscribe(res => {
-          const now = new Date().getTime();
-          this.globalData.authTime = now;
-          this.globalData.token = res.access_token;
-          this.globalData.refreshToken = res.refresh_token;
-          observer.next(res);
-          this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
-            loginInfo.authTime = now;
-            loginInfo.access_token = res.access_token;
-            loginInfo.refresh_token = res.refresh_token;
-            this.storage.set('LoginInfo', loginInfo);
-          });
-        })
-      }
-    });
-  }
-
-  /**
-   * 验证token是否有效
-   */
-  assertTokenEffective() {
-    if (!this.globalData.token) {
-      return false;
-    }
-    const difference = new Date().getTime() - this.globalData.authTime;
-    return difference < this.TOKEN_INVALID_TIME;
   }
 
 }

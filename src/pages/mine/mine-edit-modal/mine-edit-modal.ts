@@ -2,17 +2,17 @@ import {Component} from '@angular/core';
 import {Storage} from '@ionic/storage';
 
 import {FormBuilder} from '@angular/forms';
-import {NavParams, ViewController} from 'ionic-angular';
+import {ViewController} from 'ionic-angular';
 import {NativeService} from '../../../providers/NativeService';
-import {UserInfo} from "../../../model/UserInfo";
 import {Validators} from "../../../providers/Validators";
+import {GlobalData} from "../../../providers/GlobalData";
 
 @Component({
   selector: 'page-mine-edit-modal',
   templateUrl: 'mine-edit-modal.html'
 })
 export class MineEditModalPage {
-  userInfo: UserInfo;
+  userInfo;
   userForm: any;
   verifyMessages = {
     'name': {
@@ -33,15 +33,15 @@ export class MineEditModalPage {
     }
   };
 
-  constructor(private params: NavParams,
-              private viewCtrl: ViewController,
+  constructor(private viewCtrl: ViewController,
               private storage: Storage,
               private formBuilder: FormBuilder,
+              private globalData: GlobalData,
               private nativeService: NativeService) {
-    this.userInfo = this.params.get('userInfo');
+    this.userInfo = this.globalData.user;
     this.userForm = this.formBuilder.group({
-      name: [this.userInfo.fullName, [Validators.required, Validators.minLength(2), Validators.chinese]],
-      phone: [this.userInfo.phone, [Validators.required, Validators.phone]],
+      name: [this.userInfo.realname, [Validators.required, Validators.minLength(2), Validators.chinese]],
+      mobileNumber: [this.userInfo.mobileNumber, [Validators.required, Validators.phone]],
       email: [this.userInfo.email, [Validators.required, Validators.email]]
     });
     this.userForm.valueChanges

@@ -2,94 +2,77 @@ import {Component} from '@angular/core';
 import {ModalController, ViewController, Platform, AlertController, Events} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import {FormBuilder, Validators} from '@angular/forms';
-
-import {LoginService} from './LoginService';
-
 import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
-import {UserInfo, LoginInfo} from "../../model/UserInfo";
 import {GlobalData} from "../../providers/GlobalData";
-import {Utils} from "../../providers/Utils";
+import {CommonService} from "../../service/CommonService";
+import {Helper} from "../../providers/Helper";
 
 @Component({
   selector: 'page-login',
-  templateUrl: 'login.html',
-  providers: [LoginService]
+  templateUrl: 'login.html'
 })
 export class LoginPage {
-  userInfo: UserInfo;
   submitted: boolean = false;
-  canLeave: boolean = false;
   loginForm: any;
 
-  constructor(private viewCtrl: ViewController,
-              private formBuilder: FormBuilder,
-              private storage: Storage,
-              private globalData: GlobalData,
-              private modalCtrl: ModalController,
-              private platform: Platform,
-              private alertCtrl: AlertController,
-              private events: Events,
-              private loginService: LoginService) {
+  constructor(public viewCtrl: ViewController,
+              public formBuilder: FormBuilder,
+              public storage: Storage,
+              public events: Events,
+              public globalData: GlobalData,
+              public modalCtrl: ModalController,
+              public platform: Platform,
+              public alertCtrl: AlertController,
+              public helper: Helper,
+              public commonService: CommonService) {
     this.loginForm = this.formBuilder.group({
-      username: [this.globalData.username || '', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
-      password: ['', [Validators.required, Validators.minLength(4)]]
+      username: [this.globalData.username || 'admin', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
+      password: ['qqqq1111', [Validators.required, Validators.minLength(4)]]
     });
-  }
-
-  ionViewWillEnter() {
-    this.canLeave = false;
-    this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
-      this.userInfo = loginInfo && loginInfo.user ? loginInfo.user : null;
-    });
-  }
-
-  ionViewCanLeave(): boolean {
-    let bool = !!this.userInfo;
-    if (this.canLeave || bool) {
-      return true;
-    } else {
-      this.alertCtrl.create({
-        title: '确认退出软件？',
-        buttons: [{text: '取消'},
-          {
-            text: '确定',
-            handler: () => {
-              this.platform.exitApp();
-            }
-          }
-        ]
-      }).present();
-      return false;
-    }
   }
 
   login(user) {
     this.submitted = true;
-    this.loginService.login(user)
-      .subscribe((loginInfo: LoginInfo) => {
-        Utils.sessionStorageClear();//清除数据缓存
-        this.globalData.authTime = new Date().getTime();
-        this.globalData.token = loginInfo.access_token;
-        this.globalData.refreshToken = loginInfo.refresh_token;
+    this.commonService.getToken(user.username, user.password).subscribe(token => {
+      this.globalData.token = token;
+      this.storage.set('token', token);
+      this.commonService.getUserInfo().subscribe(userInfo => {
         this.submitted = false;
-        this.userInfo = loginInfo.user;
-        this.events.publish('user:login', loginInfo);
-        this.viewCtrl.dismiss(loginInfo.user);
+        this.helper.loginSuccessHandle(userInfo);
+        this.viewCtrl.dismiss(userInfo);
       }, () => {
         this.submitted = false;
       });
+    }, () => {
+      this.submitted = false;
+    });
   }
 
+  ionViewWillEnter() {
+    this.events.subscribe('android:backButtonAction',()=>{ //订阅安卓返回按钮事件
+      if(!this.globalData.user.id){ //如果没有登录,弹出是否确定退出软件
+        this.alertCtrl.create({
+          title: '确认退出软件？',
+          buttons: [{text: '取消'},
+            {
+              text: '确定',
+              handler: () => {
+                this.platform.exitApp();
+              }
+            }
+          ]
+        }).present();
+      }
+    })
+  }
 
   toRegister() {
-    this.canLeave = true;
     let modal = this.modalCtrl.create(RegisterPage);
     modal.present();
   }
 
   findPassword() {
-    this.canLeave = true;
     let modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
   }

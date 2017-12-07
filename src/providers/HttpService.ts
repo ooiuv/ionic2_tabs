@@ -5,7 +5,6 @@ import {Injectable} from '@angular/core';
 import {
   Http, Response, Headers, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
 } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
 import {Observable, TimeoutError} from "rxjs";
 import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
@@ -17,39 +16,37 @@ import {Logger} from "./Logger";
 export class HttpService {
 
   constructor(public http: Http,
-              private globalData: GlobalData,
+              public globalData: GlobalData,
               public logger: Logger,
-              private nativeService: NativeService) {
+              public nativeService: NativeService) {
   }
 
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
-    url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url);
-    this.optionsAddToken(options);
+    url = this.formatUrlDefaultApi(url);
+    if (url.indexOf(APP_SERVE_URL) != -1) {
+      options = this.addAuthorizationHeader(options);
+    }
+    IS_DEBUG && console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
+    this.nativeService.showLoading();
     return Observable.create(observer => {
-      this.nativeService.showLoading();
-      IS_DEBUG && console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
-        this.nativeService.hideLoading();
-        IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
-        if (res['_body'] == '') {
-          res['_body'] = null;
-        }
-        observer.next(res);
+        let result = this.requestSuccessHandle(url, options, res);
+        result.success ? observer.next(result.data) : observer.error(result.data);
       }, err => {
-        this.requestFailed(url, options, err);//处理请求失败
-        observer.error(err);
+        observer.error(this.requestFailedHandle(url, options, err));
       });
     });
   }
 
-  public get(url: string, paramMap: any = null): Observable<Response> {
+
+  public get(url: string, paramMap: any = null): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Get,
       search: HttpService.buildURLSearchParams(paramMap)
     }));
   }
 
-  public post(url: string, body: any = {}): Observable<Response> {
+  public post(url: string, body: any = {}): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Post,
       body: body,
@@ -59,41 +56,90 @@ export class HttpService {
     }));
   }
 
-  public postFormData(url: string, paramMap: any = null): Observable<Response> {
+  public postFormData(url: string, paramMap: any = null): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Post,
-      search: HttpService.buildURLSearchParams(paramMap).toString(),
+      body: HttpService.buildURLSearchParams(paramMap).toString(),
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
     }));
   }
 
-  public put(url: string, body: any = {}): Observable<Response> {
+  public put(url: string, body: any = {}): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Put,
       body: body
     }));
   }
 
-  public delete(url: string, paramMap: any = null): Observable<Response> {
+  public delete(url: string, paramMap: any = null): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Delete,
       search: HttpService.buildURLSearchParams(paramMap).toString()
     }));
   }
 
-  public patch(url: string, body: any = {}): Observable<Response> {
+  public patch(url: string, body: any = {}): Observable<any> {
     return this.request(url, new RequestOptions({
       method: RequestMethod.Patch,
       body: body
     }));
   }
 
+
+  /**
+   * 处理请求成功事件
+   */
+  requestSuccessHandle(url: string, options: RequestOptionsArgs, res: Response) {
+    this.nativeService.hideLoading();
+    let json = res.json();
+    if (url.indexOf(APP_SERVE_URL) != -1) {
+      if (json.code != 1) {
+        IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
+        this.nativeService.alert(json.msg || '请求失败,请稍后再试!');
+        return {success: false, data: json.data};
+      } else {
+        IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
+        return {success: true, data: json.data};
+      }
+    } else {
+      return {success: true, data: json};
+    }
+  }
+
+
+  /**
+   * 处理请求失败事件
+   */
+  private requestFailedHandle(url: string, options: RequestOptionsArgs, err: Response) {
+    IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
+    this.nativeService.hideLoading();
+    if (err instanceof TimeoutError) {
+      this.nativeService.alert('请求超时,请稍后再试!');
+    } else if (!this.nativeService.isConnecting()) {
+      this.nativeService.alert('请连接网络');
+    } else {
+      let status = err.status;
+      let msg = '请求发生异常';
+      if (status === 0) {
+        msg = '请求失败，请求响应出错';
+      } else if (status === 404) {
+        msg = '请求失败，未找到请求地址';
+      } else if (status === 500) {
+        msg = '请求失败，服务器出错，请稍后再试';
+      }
+      this.nativeService.alert(msg);
+      this.logger.httpLog(err, msg, {
+        url: url,
+        status: status
+      });
+    }
+    return err;
+  }
+
   /**
    * 将对象转为查询参数
-   * @param paramMap
-   * @returns {URLSearchParams}
    */
   private static buildURLSearchParams(paramMap): URLSearchParams {
     let params = new URLSearchParams();
@@ -111,45 +157,16 @@ export class HttpService {
   }
 
   /**
-   * 处理请求失败事件
-   * @param url
-   * @param options
-   * @param err
+   * 格式化url使用默认API地址:APP_SERVE_URL
    */
-  private requestFailed(url: string, options: RequestOptionsArgs, err: Response): void {
-    this.nativeService.hideLoading();
-    IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
-    if (err instanceof TimeoutError) {
-      this.nativeService.alert('请求超时,请稍后再试!');
-      return;
-    }
-    //err数据类型不确定,判断消息体是否有message字段,如果有说明是后台返回的json数据
-    let index = JSON.stringify(err['_body']).indexOf('message');
-    if (index != -1) {
-      this.nativeService.alert(err.json().message || '请求发生异常');
-      return;
-    }
-    if (!this.nativeService.isConnecting()) {
-      this.nativeService.alert('请连接网络');
-      return;
-    }
-    let status = err.status;
-    let msg = '请求发生异常';
-    if (status === 0) {
-      msg = '请求失败，请求响应出错';
-    } else if (status === 404) {
-      msg = '请求失败，未找到请求地址';
-    } else if (status === 500) {
-      msg = '请求失败，服务器出错，请稍后再试';
-    }
-    this.nativeService.alert(msg);
-    this.logger.httpLog(err, msg, {
-      url: url,
-      status: status
-    });
+  private formatUrlDefaultApi(url: string = ''): string {
+    return Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url)
   }
 
-  private optionsAddToken(options: RequestOptionsArgs): void {
+  /**
+   * 给请求头添加权限认证token
+   */
+  private addAuthorizationHeader(options: RequestOptionsArgs): RequestOptionsArgs {
     let token = this.globalData.token;
     if (options.headers) {
       options.headers.append('Authorization', 'Bearer ' + token);
@@ -158,5 +175,7 @@ export class HttpService {
         'Authorization': 'Bearer ' + token
       });
     }
+    return options;
   }
+
 }

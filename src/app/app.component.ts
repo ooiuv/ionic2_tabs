@@ -3,13 +3,13 @@ import {Storage} from "@ionic/storage";
 import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from "ionic-angular";
 import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
-import {LoginInfo} from "../model/UserInfo";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
 import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
 import {Utils} from "../providers/Utils";
 import * as fundebug from "fundebug-javascript";
+import {CommonService} from "../service/CommonService";
 
 @Component({
   templateUrl: 'app.html'
@@ -23,25 +23,29 @@ export class MyApp {
               private keyboard: Keyboard,
               private ionicApp: IonicApp,
               private storage: Storage,
+              private events: Events,
               private globalData: GlobalData,
               private helper: Helper,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
-              private events: Events,
+              private commonService: CommonService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
-      if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) {//设置日志监控app的版本号
+      if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) { //设置日志监控app的版本号
         this.nativeService.getVersionNumber().subscribe(version => {
           fundebug.appversion = version;
         })
       }
       this.helper.initJpush();//初始化极光推送
-      this.storage.get('LoginInfo').then((loginInfo: LoginInfo) => {
-        if (loginInfo) {
-          this.globalData.refreshToken = loginInfo.refresh_token;//获取新token需要旧token
-          this.globalData.token = loginInfo.access_token;//获取新token需要旧token
-          this.helper.getNewToken().subscribe(() => {
-            this.events.publish('user:login', loginInfo);
+      this.storage.get('token').then(token => { //从缓存中获取token
+        if (token) {
+          this.globalData.token = token;
+          this.commonService.getNewToken().subscribe((newToken) => { //用旧token获取新token
+            this.globalData.token = newToken;
+            this.storage.set('token', newToken);
+            this.commonService.getUserInfo().subscribe(userInfo => {
+              this.helper.loginSuccessHandle(userInfo);
+            });
           })
         } else {
           let modal = this.modalCtrl.create(LoginPage);
@@ -59,7 +63,6 @@ export class MyApp {
         this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
           res.update && this.nativeService.downloadApp();
         });
-        this.tokenHandle();//处理token
         this.nativeService.sync();//启动app检查热更新
         Utils.sessionStorageClear();//清除数据缓存
       }, 10000);
@@ -81,6 +84,7 @@ export class MyApp {
       return;
     }
     this.platform.registerBackButtonAction(() => {
+      this.events.publish('android:backButtonAction');
       if (this.keyboard.isOpen()) {//如果键盘开启则隐藏键盘
         this.keyboard.close();
         return;
@@ -112,18 +116,5 @@ export class MyApp {
       }, 2000)
     }
   }
-
-  //处理token
-  tokenHandle() {
-    let timer = this.helper.timerRefreshToken();//定时刷新token
-    this.platform.pause.subscribe(() => {//app进入后台模式事件
-      clearInterval(timer);
-    });
-    this.platform.resume.subscribe(() => {//app从后台恢复事件
-      timer = this.helper.timerRefreshToken();
-      this.helper.getNewToken().subscribe()
-    });
-  }
-
 
 }

@@ -1,48 +1,35 @@
 import {Component} from "@angular/core";
-import {Storage} from "@ionic/storage";
 import {Platform, NavController, ModalController, AlertController} from "ionic-angular";
 import {MineEditPage} from "./mine-edit/mine-edit";
 import {MineEditAvatarModalPage} from "./mine-edit-avatar-modal/mine-edit-avatar-modal";
-import {UserInfo} from "../../model/UserInfo";
 import {AboutPage} from "./about/about";
 import {LoginPage} from "../login/login";
 import {Helper} from "../../providers/Helper";
-import {DEFAULT_AVATAR} from "../../providers/Constants";
 import {WorkMapPage} from "./work-map/work-map";
 import {SettingPage} from "./setting/setting";
 import {NativeService} from "../../providers/NativeService";
 import {FileCachePage} from "../../shared/file-cache/file-cache";
+import {GlobalData} from "../../providers/GlobalData";
 
 @Component({
   selector: 'page-mine',
   templateUrl: 'mine.html'
 })
 export class MinePage {
-  userInfo: UserInfo;
-  avatarPath: String = DEFAULT_AVATAR;
+  userInfo;
 
-  constructor(private navCtrl: NavController,
-              private platform: Platform,
-              private storage: Storage,
-              private helper: Helper,
-              private modalCtrl: ModalController,
-              private nativeService: NativeService,
-              private alertCtrl: AlertController) {
-
-  }
-
-  ionViewWillEnter() {
-    this.storage.get('LoginInfo').then(loginInfo => {
-      let userInfo = loginInfo.user;
-      if (userInfo) {
-        this.userInfo = userInfo;
-        this.avatarPath = userInfo.avatarPath;
-      }
-    });
+  constructor(public navCtrl: NavController,
+              public platform: Platform,
+              public helper: Helper,
+              public modalCtrl: ModalController,
+              public nativeService: NativeService,
+              public globalData: GlobalData,
+              public alertCtrl: AlertController) {
+    this.userInfo = this.globalData.user;
   }
 
   edit() {
-    this.navCtrl.push(MineEditPage, {'userInfo': this.userInfo, 'avatarPath': this.avatarPath});
+    this.navCtrl.push(MineEditPage);
   }
 
   setting() {
@@ -61,9 +48,6 @@ export class MinePage {
             modal.onDidDismiss(userInfo => {
               if (userInfo) {
                 this.userInfo = userInfo;
-                this.helper.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {//获取头像路径
-                  this.avatarPath = avatarPath
-                });
               }
             });
           }
@@ -77,7 +61,7 @@ export class MinePage {
     this.navCtrl.push(WorkMapPage);
   }
 
-  fileCache(){
+  fileCache() {
     this.navCtrl.push(FileCachePage);
   }
 
@@ -100,14 +84,10 @@ export class MinePage {
   }
 
   viewAvatar() {
-    let modal = this.modalCtrl.create(MineEditAvatarModalPage, {avatarPath: this.avatarPath});
-    modal.present();
-    modal.onDidDismiss(data => {
-      data && (this.avatarPath = data.avatarPath)
-    });
+    this.modalCtrl.create(MineEditAvatarModalPage).present();
   }
 
-  notice(){
+  notice() {
     this.nativeService.alert('开发中...');
   }
 

@@ -5,7 +5,6 @@ import {Injectable} from "@angular/core";
 import {HttpService} from "./HttpService";
 import {FILE_SERVE_URL} from "./Constants";
 import {FileObj} from "../model/FileObj";
-import {Response} from "@angular/http";
 import {Observable} from "rxjs";
 import {NativeService} from "./NativeService";
 import {GlobalData} from "./GlobalData";
@@ -34,7 +33,7 @@ export class FileService {
       return Observable.of({});
     }
     this.deleteFileCacheByIds([id]);
-    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id}).map((res: Response) => res.json());
+    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id});
   }
 
   /**
@@ -52,8 +51,7 @@ export class FileService {
       if (queryIds.length == 0) {
         return Observable.of(cacheData);
       }
-      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}).map((res: Response) => {
-        let result = res.json();
+      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}).map(result => {
         if (!result.success) {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
@@ -92,8 +90,7 @@ export class FileService {
     if (!fileObjList || fileObjList.length == 0) {
       return Observable.of([]);
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=liveWork', fileObjList).map((res: Response) => {
-      let result = res.json();
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=liveWork', fileObjList).map(result => {
       if (!result.success) {
         this.nativeService.alert(result.msg);
         return [];

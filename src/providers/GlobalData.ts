@@ -8,11 +8,9 @@ export class GlobalData {
 
   private _userId: string;//用户id
   private _username: string;//用户名
-  private _fullName: string;//姓名
+  private _user;//用户信息
 
   private _token: string;//token
-  private _refreshToken: string;//refreshToken
-  private _authTime: number;//token认证时间
 
   //设置http请求是否显示loading,注意:设置为true,接下来的请求会不显示loading,请求执行完成会自动设置为false
   private _showLoading: boolean = true;
@@ -21,7 +19,7 @@ export class GlobalData {
   private _updateProgress: number = -1;
 
   //是否启用文件缓存
-  private _enabledFileCache :boolean = true;
+  private _enabledFileCache: boolean = true;
 
   get userId(): string {
     return this._userId;
@@ -39,12 +37,12 @@ export class GlobalData {
     this._username = value;
   }
 
-  get fullName(): string {
-    return this._fullName;
+  get user() {
+    return this._user;
   }
 
-  set fullName(value: string) {
-    this._fullName = value;
+  set user(value) {
+    this._user = value;
   }
 
   get token(): string {
@@ -71,23 +69,6 @@ export class GlobalData {
     this._updateProgress = value;
   }
 
-  get refreshToken(): string {
-    return this._refreshToken;
-  }
-
-  set refreshToken(value: string) {
-    this._refreshToken = value;
-  }
-
-
-  get authTime(): number {
-    return this._authTime;
-  }
-
-  set authTime(value: number) {
-    this._authTime = value;
-  }
-
   get enabledFileCache(): boolean {
     return this._enabledFileCache;
   }
@@ -95,4 +76,5 @@ export class GlobalData {
   set enabledFileCache(value: boolean) {
     this._enabledFileCache = value;
   }
+
 }

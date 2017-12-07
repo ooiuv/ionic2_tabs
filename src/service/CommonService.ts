@@ -2,9 +2,10 @@
  * Created by yanxiaojun on 2017/2/16.
  */
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {HttpService} from "../providers/HttpService";
+import {Utils} from "../providers/Utils";
+
 /**
  *
  */
@@ -14,9 +15,20 @@ export class CommonService {
   }
 
 
+  getToken(username, password) {
+    return this.httpService.post('/v1/login', {
+      'client_id': 'app',
+      'username': username,
+      'password': Utils.hex_md5(password)
+    });
+  }
+
+  getUserInfo() {
+    return this.httpService.get('/v1/public/user/self');
+  }
+
   /**
    * 查询公告列表
-   * @returns {Observable<R>}
    */
   findPublishList() {
     return this.httpService.post('/sys/notice/findPublishList').map((res: Response) => res.json());
@@ -24,17 +36,14 @@ export class CommonService {
 
   /**
    * 查询公告详情
-   * @returns {Observable<R>}
    */
   getPublishDetail(id) {
     return this.httpService.get(`/sys/notice/getById/${id}`).map((res: Response) => res.json());
   }
+
   //获取新token
-  getNewToken(refreshToken) {
-    // return this.httpService.post('/refresh_token', refreshToken).map((res: Response) => res.json());
-    return Observable.create((observer) => {
-      observer.next({access_token: 'test_test_test_test_test_test_test',refresh_token: 'test_test_test_test_test_test_test'});
-    });
+  getNewToken() {
+    return this.httpService.post('/v1/refresh_token');
   }
 
 
