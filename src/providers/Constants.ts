@@ -1,6 +1,7 @@
 /*----------------------------------------后台Api地址----------------------------------------*/
-// export const APP_SERVE_URL = 'http://88.128.18.144:8081/api/';
-export const APP_SERVE_URL = 'http://88.128.19.164:8081/api/';
+// export const APP_SERVE_URL = 'http://88.128.18.144:8081/api/';//闫小军
+// export const APP_SERVE_URL = 'http://88.128.19.164:8081/api/';//马杰
+export const APP_SERVE_URL = 'http://172.16.19.138:9020/api/';//测试
 
 /*----------------------------------------文件服务器地址----------------------------------------*/
 export const FILE_SERVE_URL = 'http://172.16.19.86/kit_file_server/';//文件服务:测试环境

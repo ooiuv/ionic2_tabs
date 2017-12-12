@@ -13,6 +13,7 @@ import {CityPickerDemoPage} from "./city-picker-demo/city-picker-demo";
 import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
 import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
 import {EchartsDemoPage} from "./echarts-demo/echarts-demo";
+import {PermissionDemoPage} from "./permission-demo/permission-demo";
 
 @Component({
   selector: 'page-contact',
@@ -22,6 +23,10 @@ export class DemoPage {
 
   constructor(private navCtrl: NavController) {
 
+  }
+
+  permission() {
+    this.navCtrl.push(PermissionDemoPage);
   }
 
   native() {

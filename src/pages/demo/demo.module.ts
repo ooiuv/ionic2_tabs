@@ -21,11 +21,14 @@ import {CalendarModule} from "ion2-calendar";
 import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
 import {NativeDemoPage} from "./native-demo/native-demo";
 import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
+import {PermissionDemoPage} from "./permission-demo/permission-demo";
+import {PatrolTaskPage} from "./permission-demo/patrol-task/patrol-task";
+import {CustomerListPage} from "./permission-demo/customer-list/customer-list";
 
 @NgModule({
   imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule],
-  declarations: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
-  entryComponents: [DemoPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })

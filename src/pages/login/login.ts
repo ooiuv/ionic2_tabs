@@ -27,8 +27,8 @@ export class LoginPage {
               public helper: Helper,
               public commonService: CommonService) {
     this.loginForm = this.formBuilder.group({
-      username: [this.globalData.username || 'admin', [Validators.required, Validators.minLength(4)]],// 第一个参数是默认值
-      password: ['qqqq1111', [Validators.required, Validators.minLength(4)]]
+      username: [this.globalData.username || 'admin', [Validators.required, Validators.minLength(2)]],// 第一个参数是默认值
+      password: ['123456', [Validators.required, Validators.minLength(4)]]
     });
   }
 
