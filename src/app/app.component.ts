@@ -5,11 +5,10 @@ import {NativeService} from "../providers/NativeService";
 import {TabsPage} from "../pages/tabs/tabs";
 import {LoginPage} from "../pages/login/login";
 import {Helper} from "../providers/Helper";
-import {ENABLE_FUNDEBUG} from "../providers/Constants";
 import {GlobalData} from "../providers/GlobalData";
 import {Utils} from "../providers/Utils";
-import * as fundebug from "fundebug-javascript";
 import {CommonService} from "../service/CommonService";
+import {VersionService} from "../providers/VersionService";
 
 @Component({
   templateUrl: 'app.html'
@@ -29,13 +28,13 @@ export class MyApp {
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
               private commonService: CommonService,
+              private versionService: VersionService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
-      if (ENABLE_FUNDEBUG && this.nativeService.isMobile()) { //设置日志监控app的版本号
-        this.nativeService.getVersionNumber().subscribe(version => {
-          fundebug.appversion = version;
-        })
-      }
+      this.nativeService.statusBarStyle();
+      this.nativeService.splashScreenHide();
+      this.assertNetwork();//检测网络
+      this.helper.funDebugInit();//初始化fundebug
       this.helper.initJpush();//初始化极光推送
       this.storage.get('token').then(token => { //从缓存中获取token
         if (token) {
@@ -48,24 +47,16 @@ export class MyApp {
             });
           })
         } else {
-          let modal = this.modalCtrl.create(LoginPage);
-          modal.present();
-          modal.onDidDismiss(data => {
-            data && console.log(data);
-          });
+          this.modalCtrl.create(LoginPage).present();
         }
       });
-      this.nativeService.statusBarStyle();
-      this.nativeService.splashScreenHide();
       this.registerBackButtonAction();//注册返回按键事件
-      this.assertNetwork();//检测网络
+      this.versionService.init();//初始化版本信息
       setTimeout(() => {
-        this.helper.assertUpgrade().subscribe(res => {//检测app是否升级
-          res.update && this.nativeService.downloadApp();
-        });
+        this.versionService.assertUpgrade();//检测app是否升级
         this.nativeService.sync();//启动app检查热更新
         Utils.sessionStorageClear();//清除数据缓存
-      }, 10000);
+      }, 5000);
     });
   }
 
@@ -100,7 +91,6 @@ export class MyApp {
       let tabs = activeVC.instance.tabs;
       let activeNav = tabs.getSelected();
       return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize();//this.showExit()
-
     }, 1);
   }
 

@@ -15,9 +15,6 @@ export class GlobalData {
   //设置http请求是否显示loading,注意:设置为true,接下来的请求会不显示loading,请求执行完成会自动设置为false
   private _showLoading: boolean = true;
 
-  //app更新进度.默认为0,在app升级过程中会改变
-  private _updateProgress: number = -1;
-
   //是否启用文件缓存
   private _enabledFileCache: boolean = true;
 
@@ -60,15 +57,6 @@ export class GlobalData {
   set showLoading(value: boolean) {
     this._showLoading = value;
   }
-
-  get updateProgress(): number {
-    return this._updateProgress;
-  }
-
-  set updateProgress(value: number) {
-    this._updateProgress = value;
-  }
-
   get enabledFileCache(): boolean {
     return this._enabledFileCache;
   }

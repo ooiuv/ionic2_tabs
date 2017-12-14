@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {NavParams} from 'ionic-angular';
+import {VersionService} from "../../../providers/VersionService";
 
 @Component({
   selector: 'page-update-log',
@@ -9,8 +9,10 @@ export class UpdateLogPage {
 
   versions = [];
 
-  constructor(public navParams: NavParams) {
-    this.versions = this.navParams.get('versions');
+  constructor(public versionService: VersionService) {
+    this.versionService.getVersionList().subscribe(versions => {
+      this.versions = versions;
+    });
   }
 
 

@@ -31,17 +31,19 @@ import {TestModule} from "../pages/test/test.module";
 import {HttpModule} from "@angular/http";
 import {DemoModule} from "../pages/demo/demo.module";
 import {GlobalData} from "../providers/GlobalData";
-import {ENABLE_FUNDEBUG, IS_DEBUG, FUNDEBUG_API_KEY} from "../providers/Constants";
+import {IS_DEBUG, FUNDEBUG_API_KEY} from "../providers/Constants";
 import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CommonService} from "../service/CommonService";
+import {VersionService} from "../providers/VersionService";
 
 //参考文档:https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
 import * as fundebug from "fundebug-javascript";
+
 fundebug.apikey = FUNDEBUG_API_KEY;
 fundebug.releasestage = IS_DEBUG ? 'development' : 'production';//应用开发阶段，development:开发;production:生产
-fundebug.silent = !ENABLE_FUNDEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
+fundebug.silent = !IS_DEBUG;//如果暂时不需要使用Fundebug，将silent属性设为true
 
 export class FunDebugErrorHandler implements ErrorHandler {
   handleError(err: any): void {
@@ -94,7 +96,8 @@ export class FunDebugErrorHandler implements ErrorHandler {
     Utils,
     GlobalData,
     Logger,
-    CommonService
+    CommonService,
+    VersionService
   ]
 })
 export class AppModule {

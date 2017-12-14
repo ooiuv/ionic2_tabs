@@ -6,13 +6,16 @@ import {Observable} from "rxjs";
 import {Response} from "@angular/http";
 import {HttpService} from "../providers/HttpService";
 import {Utils} from "../providers/Utils";
+import {NativeService} from "../providers/NativeService";
+import {APP_VERSION_SERVE_URL} from "../providers/Constants";
+import {Logger} from "../providers/Logger";
 
 /**
  *
  */
 @Injectable()
 export class CommonService {
-  constructor(public httpService: HttpService) {
+  constructor(public httpService: HttpService, public nativeService: NativeService, public logger: Logger) {
   }
 
 
@@ -67,6 +70,32 @@ export class CommonService {
    */
   fileRelationReplace(data) {
     return this.httpService.post('/fileRelation/replace', data).map((res: Response) => res.json());
+  }
+
+  /**
+   * 从版本管理服务中查询app版本信息
+   */
+  getAppVersion() {
+    return Observable.create(observer => {
+      this.nativeService.getPackageName().subscribe(packageName => {//获得app包名
+        let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
+        let appType = this.nativeService.isAndroid() ? 'android' : 'ios';
+        let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${appName}/${appType}`);
+        this.httpService.get(url).subscribe(res => {
+          if (res && res.code == 1) {
+            observer.next(res.data);//返回app最新版本信息
+          }
+        }, err => {
+          this.logger.log(err, '从版本升级服务获取版本信息失败', {
+            url: url
+          });
+          observer.error(false);
+        })
+      },err=>{
+        this.logger.log(err, '获取包名失败');
+        observer.error(false);
+      })
+    });
   }
 
   /**

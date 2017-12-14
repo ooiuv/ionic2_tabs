@@ -9,7 +9,6 @@ import {AppVersion} from "@ionic-native/app-version";
 import {Camera, CameraOptions} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File, FileEntry} from "@ionic-native/file";
-import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
@@ -18,8 +17,6 @@ import {CallNumber} from "@ionic-native/call-number";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
 import {Position} from "../model/type";
 import {
-  APP_DOWNLOAD,
-  APK_DOWNLOAD,
   IMAGE_SIZE,
   QUALITY_SIZE,
   REQUEST_TIMEOUT,
@@ -29,7 +26,6 @@ import {
 import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
 import {Logger} from "./Logger";
-import {Utils} from "./Utils";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CodePush} from "@ionic-native/code-push";
 
@@ -49,7 +45,6 @@ export class NativeService {
               private appVersion: AppVersion,
               private camera: Camera,
               private toast: Toast,
-              private transfer: FileTransfer,
               private file: File,
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
@@ -151,72 +146,6 @@ export class NativeService {
     this.inAppBrowser.create(url, '_system');
   }
 
-  /**
-   * 下载安装app
-   */
-  downloadApp(): void {
-    if (this.isIos()) {//ios打开网页下载
-      this.openUrlByBrowser(APP_DOWNLOAD);
-    }
-    if (this.isAndroid()) {//android本地下载
-      this.externalStoragePermissionsAuthorization().subscribe(() => {
-        let backgroundProcess = false;//是否后台下载
-        let alert = this.alertCtrl.create({//显示下载进度
-          title: '下载进度：0%',
-          enableBackdropDismiss: false,
-          buttons: [{
-            text: '后台下载', handler: () => {
-              backgroundProcess = true;
-            }
-          }
-          ]
-        });
-        alert.present();
-        const fileTransfer: FileTransferObject = this.transfer.create();
-        const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; //apk保存的目录
-        //下载并安装apk
-        fileTransfer.download(APK_DOWNLOAD, apk).then(() => {
-          window['install'].install(apk.replace('file://', ''));
-        }, err => {
-          this.globalData.updateProgress = -1;
-          alert.dismiss();
-          this.logger.log(err, 'android app 本地升级失败');
-          this.alertCtrl.create({
-            title: '前往网页下载',
-            subTitle: '本地升级失败',
-            buttons: [
-              {
-                text: '确定',
-                handler: () => {
-                  this.openUrlByBrowser(APP_DOWNLOAD);//打开网页下载
-                }
-              }
-            ]
-          }).present();
-        });
-
-        let timer = null;//由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
-        fileTransfer.onProgress((event: ProgressEvent) => {
-          let progress = Math.floor(event.loaded / event.total * 100);//下载进度
-          this.globalData.updateProgress = progress;
-          if (!backgroundProcess) {
-            if (progress === 100) {
-              alert.dismiss();
-            } else {
-              if (!timer) {
-                timer = setTimeout(() => {
-                  clearTimeout(timer);
-                  timer = null;
-                  let title = document.getElementsByClassName('alert-title')[0];
-                  title && (title.innerHTML = `下载进度：${progress}%`);
-                }, 1000);
-              }
-            }
-          }
-        });
-      })
-    }
-  }
 
   /**
    * 是否真机环境
@@ -350,6 +279,7 @@ export class NativeService {
         }
         this.logger.log(err, '使用cordova-plugin-camera获取照片失败');
         this.alert('获取照片失败');
+        observer.error(false);
       });
     });
   };
@@ -409,6 +339,7 @@ export class NativeService {
       }).catch(err => {
         this.logger.log(err, '通过图库选择多图失败');
         this.alert('获取照片失败');
+        observer.error(false);
       });
     });
   };
@@ -429,6 +360,7 @@ export class NativeService {
         });
       }).catch(err => {
         this.logger.log(err, '根据图片绝对路径转化为base64字符串失败');
+        observer.error(false);
       });
     });
   }
@@ -443,6 +375,7 @@ export class NativeService {
         observer.next(value);
       }).catch(err => {
         this.logger.log(err, '获得app版本号失败');
+        observer.error(false);
       });
     });
   }
@@ -457,6 +390,7 @@ export class NativeService {
         observer.next(value);
       }).catch(err => {
         this.logger.log(err, '获得app name失败');
+        observer.error(false);
       });
     });
   }
@@ -471,6 +405,7 @@ export class NativeService {
         observer.next(value);
       }).catch(err => {
         this.logger.log(err, '获得app包名失败');
+        observer.error(false);
       });
     });
   }
@@ -495,6 +430,7 @@ export class NativeService {
         observer.next(barcodeData.text);
       }).catch(err => {
         this.logger.log(err, '扫描二维码失败');
+        observer.error(false);
       });
     });
   }
@@ -640,7 +576,7 @@ export class NativeService {
   })();
 
   //检测app是否有读取存储权限
-  private externalStoragePermissionsAuthorization = (() => {
+  externalStoragePermissionsAuthorization = (() => {
     let havePermission = false;
     return () => {
       return Observable.create(observer => {
@@ -672,13 +608,16 @@ export class NativeService {
                       }
                     ]
                   }).present();
+                  observer.error(false);
                 }
               }).catch(err => {
                 this.logger.log(err, '调用diagnostic.requestRuntimePermissions方法失败');
+                observer.error(false);
               });
             }
           }).catch(err => {
             this.logger.log(err, '调用diagnostic.getPermissionsAuthorizationStatus方法失败');
+            observer.error(false);
           });
         }
       });
@@ -705,9 +644,11 @@ export class NativeService {
         }, err => {
           this.logger.log(err, '导航失败');
           this.alert('导航失败');
+          observer.error(false);
         });
       } else {
         this.alert('非手机环境不能导航');
+        observer.error(false);
       }
     });
   }
