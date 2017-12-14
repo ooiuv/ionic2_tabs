@@ -1,4 +1,4 @@
-import {NgModule, ErrorHandler} from "@angular/core";
+import {NgModule, ErrorHandler, LOCALE_ID} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {IonicApp, IonicModule, Config} from "ionic-angular";
 import {IonicStorageModule} from "@ionic/storage";
@@ -37,6 +37,7 @@ import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLea
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CommonService} from "../service/CommonService";
 import {VersionService} from "../providers/VersionService";
+import {CalendarModule} from "ion2-calendar";
 
 //参考文档:https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
 import * as fundebug from "fundebug-javascript";
@@ -67,11 +68,13 @@ export class FunDebugErrorHandler implements ErrorHandler {
     HomeModule,
     DemoModule,
     MineModule,
-    TestModule
+    TestModule,
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [
+    {provide: LOCALE_ID, useValue: "zh-CN"},
     StatusBar,
     SplashScreen,
     AppVersion,

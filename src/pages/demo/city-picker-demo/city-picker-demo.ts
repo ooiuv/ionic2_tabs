@@ -20,12 +20,13 @@ export class CityPickerDemoPage {
   code: string; //城市编码
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private nativeService: NativeService,
+              public nativeService: NativeService,
               public demoService: DemoService) {
   }
 
   ionViewDidLoad() {
     //获取城市数据
+    //实际开发中,城市数据应该从后台接口获取
     this.demoService.geCityData().subscribe(res => {
       this.cityData = res;
     })

@@ -13,13 +13,8 @@
 </ion-header>
 
 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label>选择日期</ion-label>
-      <ion-input type="text" readonly [(ngModel)]="dateRangeStr" tappable (click)="calendar()"></ion-input>
-    </ion-item>
-  </ion-list>
+<ion-content padding>
+  <button ion-button (click)="openCalendar()">选择日期</button>
   <div padding>
     <button ion-button block (click)="details('https://github.com/HsuanXyz/ion2-calendar')">查看详情</button>
   </div>
