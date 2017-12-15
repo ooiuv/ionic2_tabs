@@ -238,12 +238,12 @@ export class NativeService {
     if (!this.globalData.showLoading) {
       this.globalData.showLoading = true;
     }
-    if (this.loadingIsOpen) {
-      setTimeout(() => {
-        this.loading.dismiss();
+    setTimeout(() => {
+      if (this.loadingIsOpen) {
         this.loadingIsOpen = false;
-      }, 200);
-    }
+        this.loading.dismiss();
+      }
+    }, 200);
   };
 
   /**

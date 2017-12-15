@@ -34,16 +34,14 @@ export class LoginPage {
 
   login(user) {
     this.submitted = true;
-    this.commonService.getToken(user.username, user.password).subscribe(token => {
+    this.commonService.getToken(user.username, user.password).flatMap(token => {
       this.globalData.token = token;
       this.storage.set('token', token);
-      this.commonService.getUserInfo().subscribe(userInfo => {
-        this.submitted = false;
-        this.helper.loginSuccessHandle(userInfo);
-        this.viewCtrl.dismiss(userInfo);
-      }, () => {
-        this.submitted = false;
-      });
+      return this.commonService.getUserInfo();
+    }).subscribe(userInfo => {
+      this.submitted = false;
+      this.helper.loginSuccessHandle(userInfo);
+      this.viewCtrl.dismiss();
     }, () => {
       this.submitted = false;
     });
