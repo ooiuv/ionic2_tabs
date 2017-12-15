@@ -19,7 +19,7 @@ cnpm i
 ionic serve
 ```
 
-* 生成android apk,把生成的apk发送到手机上安装
+* 生成android apk
 ```
 cordova platform add android
 ionic cordova build android  
