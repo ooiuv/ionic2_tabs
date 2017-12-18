@@ -29,6 +29,11 @@
   </form>
   <ion-grid>
     <ion-row>
+      <ion-col text-center tappable (click)="try()">
+        <button ion-button small clear color="secondary">没有密码?点击试用</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-col text-center tappable (click)="findPassword()">
         <button ion-button small clear color="primary">找回密码</button>
       </ion-col>

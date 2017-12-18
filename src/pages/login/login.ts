@@ -48,8 +48,8 @@ export class LoginPage {
   }
 
   ionViewWillEnter() {
-    this.events.subscribe('android:backButtonAction',()=>{ //订阅安卓返回按钮事件
-      if(!this.globalData.user.id){ //如果没有登录,弹出是否确定退出软件
+    this.events.subscribe('android:backButtonAction', () => { //订阅安卓返回按钮事件
+      if (!this.globalData.user.id) { //如果没有登录,弹出是否确定退出软件
         this.alertCtrl.create({
           title: '确认退出软件？',
           buttons: [{text: '取消'},
@@ -73,6 +73,30 @@ export class LoginPage {
   findPassword() {
     let modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
+  }
+
+  try() {
+    this.globalData.token = 'test';
+    let userInfo = {
+      "id": 1,
+      "username": "admin",
+      "mobileNumber": "13800003333",
+      "email": "admin@test.net",
+      "realname": "张无忌",
+      "departmentId": 1,
+      "registerTime": "2017-11-24 08:46:54",
+      "avatarId": null,
+      "roles": [{
+        "id": 2,
+        "code": "app_admin",
+        "name": "app管理员",
+        "description": "",
+        "clientType": 2,
+        "resourceIds": null
+      }]
+    };
+    this.helper.loginSuccessHandle(userInfo);
+    this.viewCtrl.dismiss();
   }
 
 }
