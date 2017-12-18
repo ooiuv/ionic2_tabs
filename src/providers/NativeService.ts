@@ -104,7 +104,7 @@ export class NativeService {
     if (this.isMobile()) {
       this.statusBar.overlaysWebView(false);
       this.statusBar.styleLightContent();
-      this.statusBar.backgroundColorByHexString('#488aff');
+      this.statusBar.backgroundColorByHexString('#488aff');//3261b3
     }
   }
 
@@ -225,8 +225,7 @@ export class NativeService {
       });
       this.loading.present();
       setTimeout(() => {
-        this.loadingIsOpen && this.loading.dismiss();
-        this.loadingIsOpen = false;
+        this.dismissLoading();
       }, REQUEST_TIMEOUT);
     }
   };
@@ -239,12 +238,16 @@ export class NativeService {
       this.globalData.showLoading = true;
     }
     setTimeout(() => {
-      if (this.loadingIsOpen) {
-        this.loadingIsOpen = false;
-        this.loading.dismiss();
-      }
+      this.dismissLoading();
     }, 200);
   };
+
+  dismissLoading() {
+    if (this.loadingIsOpen) {
+      this.loadingIsOpen = false;
+      this.loading.dismiss();
+    }
+  }
 
   /**
    * 使用cordova-plugin-camera获取照片
