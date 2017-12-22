@@ -22,11 +22,11 @@ export class MyApp {
               private keyboard: Keyboard,
               private ionicApp: IonicApp,
               private storage: Storage,
-              private events: Events,
               private globalData: GlobalData,
               private helper: Helper,
               private toastCtrl: ToastController,
               private modalCtrl: ModalController,
+              private events: Events,
               private commonService: CommonService,
               private versionService: VersionService,
               private nativeService: NativeService) {
@@ -35,6 +35,7 @@ export class MyApp {
       this.nativeService.splashScreenHide();
       this.assertNetwork();//检测网络
       this.helper.funDebugInit();//初始化fundebug
+      this.helper.alloyLeverInit();//本地"开发者工具"
       this.helper.initJpush();//初始化极光推送
       this.storage.get('token').then(token => { //从缓存中获取token
         if (token) {
@@ -50,7 +51,7 @@ export class MyApp {
           this.modalCtrl.create(LoginPage).present();
         }
       });
-      this.registerBackButtonAction();//注册返回按键事件
+      this.registerBackButtonAction();//注册android返回按键事件
       this.versionService.init();//初始化版本信息
       setTimeout(() => {
         this.versionService.assertUpgrade();//检测app是否升级

@@ -4,6 +4,7 @@ import {NativeService} from "../../../providers/NativeService";
 import {UpdateLogPage} from "../update-log/update-log";
 import {FeedBackListPage} from "../feed-back/feed-back-list";
 import {VersionService} from "../../../providers/VersionService";
+declare var AlloyLever;
 
 @Component({
   selector: 'page-about',
@@ -24,6 +25,10 @@ export class AboutPage {
     } else {
       this.nativeService.alert('请使用真机调试');
     }
+  }
+
+  ionViewDidEnter() {
+    AlloyLever.entry('#entry3')
   }
 
   checkNewVersion() {

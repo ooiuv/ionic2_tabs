@@ -8,7 +8,7 @@ export class GlobalData {
 
   private _userId: string;//用户id
   private _username: string;//用户名
-  private _user;//用户信息
+  private _user;//用户详细信息
 
   private _token: string;//token
 

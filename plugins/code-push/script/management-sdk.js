@@ -285,21 +285,18 @@ var AccountManager = (function () {
                         reject(_this.getCodePushError(err, res));
                         return;
                     }
+                    try {
+                        var body = JSON.parse(res.text);
+                    }
+                    catch (err) {
+                        reject({ message: "Could not parse response: " + res.text, statusCode: AccountManager.ERROR_INTERNAL_SERVER });
+                        return;
+                    }
                     if (res.ok) {
-                        resolve(null);
+                        resolve(body.package);
                     }
                     else {
-                        try {
-                            var body = JSON.parse(res.text);
-                        }
-                        catch (err) {
-                        }
-                        if (body) {
-                            reject({ message: body.message, statusCode: res && res.status });
-                        }
-                        else {
-                            reject({ message: res.text, statusCode: res && res.status });
-                        }
+                        reject({ message: body.message, statusCode: res && res.status });
                     }
                 });
             });

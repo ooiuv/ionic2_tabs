@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-
 import {NavController} from 'ionic-angular';
 import {NativeDemoPage} from "./native-demo/native-demo";
 import {PaginationDemoPage} from "./pagination-demo/pagination-demo";
@@ -14,6 +13,8 @@ import {CalendarDemoPage} from "./calendar-demo/calendar-demo";
 import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
 import {EchartsDemoPage} from "./echarts-demo/echarts-demo";
 import {PermissionDemoPage} from "./permission-demo/permission-demo";
+import {QrcodeDemoPage} from "./qrcode-demo/qrcode-demo";
+import {AllowleverDemoPage} from './allowlever-demo/allowlever-demo';
 
 @Component({
   selector: 'page-contact',
@@ -75,6 +76,14 @@ export class DemoPage {
 
   fileCache() {
     this.navCtrl.push(FileCacheDemoPage);
+  }
+
+  qrCode() {
+    this.navCtrl.push(QrcodeDemoPage);
+  }
+
+  alloylever() {
+    this.navCtrl.push(AllowleverDemoPage);
   }
 
 }

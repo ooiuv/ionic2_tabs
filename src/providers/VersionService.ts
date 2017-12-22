@@ -57,7 +57,7 @@ export class VersionService {
         let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
         this.httpService.get(url).subscribe(res => {
           this.isInit = false;//初始化完成
-          if (res && res.code == 1) {
+          if (res && res.code == 1 && res.data && res.data.lastVersion) {
             let data = res.data;
             this.lastVersionInfo = data.lastVersion;
             this.latestVersionNo = data.lastVersion.version;
@@ -233,7 +233,7 @@ export class VersionService {
       let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
       return this.httpService.get(url).map(res => {
         if (res && res.code == 1) {
-          return res.data.versions;
+          return res.data.versions || [];
         }
       })
     } else {

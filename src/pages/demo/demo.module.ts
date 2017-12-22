@@ -24,11 +24,13 @@ import {FileCacheDemoPage} from "./file-cache-demo/file-cache-demo";
 import {PermissionDemoPage} from "./permission-demo/permission-demo";
 import {PatrolTaskPage} from "./permission-demo/patrol-task/patrol-task";
 import {CustomerListPage} from "./permission-demo/customer-list/customer-list";
+import {QrcodeDemoPage} from "./qrcode-demo/qrcode-demo";
+import {AllowleverDemoPage} from './allowlever-demo/allowlever-demo';
 
 @NgModule({
   imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule],
-  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
-  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage,AllowleverDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, ChartjsDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage,AllowleverDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })
