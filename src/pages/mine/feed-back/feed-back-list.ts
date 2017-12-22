@@ -29,12 +29,19 @@ export class FeedBackListPage {
   };
 
   constructor(public navCtrl: NavController, private mineService: MineService) {
-
+    this.data = {
+      total: 1,
+      rows: [{
+        id: 1,
+        title: '测试1',
+        content: '哈哈哈,这是写死的.',
+        state: 1,
+        createTime: new Date(),
+      }]
+    }
+    // this.requirementPersonList();
   }
 
-  ionViewWillEnter() {
-    this.requirementPersonList();
-  }
 
   requirementPersonList() {
     this.mineService.requirementPersonList(this.query).subscribe(res => {
