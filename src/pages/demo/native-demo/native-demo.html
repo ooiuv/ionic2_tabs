@@ -44,6 +44,16 @@
     </ion-item>
   </ion-item-group>
 
+
+  <ion-item-group>
+    <ion-item-divider color="light">
+      <button ion-button (click)="getPictureByCamera();">拍照</button>
+    </ion-item-divider>
+    <ion-item *ngIf="imgPath">
+      <img src="{{imgPath}}">
+    </ion-item>
+  </ion-item-group>
+
   <ion-item-group>
     <ion-item-divider color="light">
       <button ion-button (click)="getUserLocation();">获得当前坐标</button>
@@ -55,11 +65,8 @@
 
   <ion-item-group>
     <ion-item-divider color="light">
-      <button ion-button (click)="getPictureByCamera();">拍照</button>
+      <button ion-button (click)="navigation();">导航</button>
     </ion-item-divider>
-    <ion-item *ngIf="imgPath">
-      <img src="{{imgPath}}">
-    </ion-item>
   </ion-item-group>
 
 </ion-content>

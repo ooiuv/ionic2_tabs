@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.kit.eTransfer" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
+<widget id="com.kit.ionic2tabs" version="0.0.1" xmlns="http://www.w3.org/ns/widgets">
     <name>ionic2_tabs</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="yanxiaojun617@163.com" href="http://www.gzkit.com.cn/">广州科腾信息集成部技术分部</author>
@@ -96,6 +96,7 @@
     <feature name="CDVWKWebViewEngine">
         <param name="ios-package" value="CDVWKWebViewEngine" />
     </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
     <plugin name="cordova-plugin-whitelist" spec="1.3.1" />
     <plugin name="cordova-plugin-console" spec="1.0.5" />

@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {NativeService} from "../../../providers/NativeService";
+import {Position} from "../../../model/type";
 
 @Component({
   selector: 'page-native-demo',
@@ -46,12 +47,6 @@ export class NativeDemoPage {
     }
   }
 
-  getUserLocation() {
-    this.nativeService.getUserLocation().subscribe(res => {
-      this.location = res;
-    });
-  }
-
   getPictureByCamera() {
     if (this.nativeService.isMobile()) {
       this.nativeService.getPictureByCamera({
@@ -61,5 +56,20 @@ export class NativeDemoPage {
       });
     }
   }
+
+  getUserLocation() {
+    this.nativeService.getUserLocation().subscribe(res => {
+      this.location = res;
+    });
+  }
+
+  navigation(){
+    let startPoint:Position = {'lng': '113.350912', 'lat': '23.119495'};
+    let endPoint :Position= {'lng': '113.450912', 'lat': '23.219495'};
+    this.nativeService.navigation(startPoint,endPoint).subscribe(res => {
+      console.log(res);
+    });
+  }
+
 
 }
