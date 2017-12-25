@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Platform, NavController, ModalController, AlertController} from "ionic-angular";
+import {Platform, NavController, ModalController, AlertController, Events} from "ionic-angular";
 import {MineEditPage} from "./mine-edit/mine-edit";
 import {MineEditAvatarModalPage} from "./mine-edit-avatar-modal/mine-edit-avatar-modal";
 import {AboutPage} from "./about/about";
@@ -24,8 +24,12 @@ export class MinePage {
               public modalCtrl: ModalController,
               public nativeService: NativeService,
               public globalData: GlobalData,
+              private events: Events,
               public alertCtrl: AlertController) {
     this.userInfo = this.globalData.user;
+    this.events.subscribe('user:login', userInfo => {
+      this.userInfo = userInfo;
+    })
   }
 
   edit() {
