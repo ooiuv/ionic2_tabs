@@ -5,9 +5,9 @@ export interface UserInfo {
   mobileNumber?: string;
   email?: string;
   avatarId?: string;
-  avatarPath?: string;
   departmentId?: string;
   departmentName?: string;
   roles?: Array<string>;
-}
 
+  avatarPath?: string;
+}

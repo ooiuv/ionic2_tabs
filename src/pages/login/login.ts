@@ -7,6 +7,7 @@ import {RegisterPage} from './register/register';
 import {GlobalData} from "../../providers/GlobalData";
 import {CommonService} from "../../service/CommonService";
 import {Helper} from "../../providers/Helper";
+import {UserInfo} from '../../model/UserInfo';
 
 @Component({
   selector: 'page-login',
@@ -38,7 +39,7 @@ export class LoginPage {
       this.globalData.token = token;
       this.storage.set('token', token);
       return this.commonService.getUserInfo();
-    }).subscribe(userInfo => {
+    }).subscribe((userInfo:UserInfo) => {
       this.submitted = false;
       this.helper.loginSuccessHandle(userInfo);
       this.viewCtrl.dismiss();

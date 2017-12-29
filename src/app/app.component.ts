@@ -9,6 +9,7 @@ import {GlobalData} from "../providers/GlobalData";
 import {Utils} from "../providers/Utils";
 import {CommonService} from "../service/CommonService";
 import {VersionService} from "../providers/VersionService";
+import {UserInfo} from '../model/UserInfo';
 
 @Component({
   templateUrl: 'app.html'
@@ -44,7 +45,7 @@ export class MyApp {
             this.globalData.token = newToken;
             this.storage.set('token', newToken);
             return this.commonService.getUserInfo();
-          }).subscribe(userInfo => {
+          }).subscribe((userInfo:UserInfo) => {
             this.helper.loginSuccessHandle(userInfo);
           });
         } else {

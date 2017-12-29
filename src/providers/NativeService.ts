@@ -169,12 +169,12 @@ export class NativeService {
   }
 
   /**
-   * 一个确定按钮的alert弹出框.
-   * @type {(title: string, subTitle?: string, message?: string) => void}
+   * 只有一个确定按钮的弹出框.
+   * 如果已经打开则不再打开
    */
   alert = (() => {
     let isExist = false;
-    return (title: string, subTitle: string = '', message: string = ''): void => {
+    return (title: string, subTitle: string = '', message: string = '', callBackFun = null): void => {
       if (!isExist) {
         isExist = true;
         this.alertCtrl.create({
@@ -184,6 +184,7 @@ export class NativeService {
           buttons: [{
             text: '确定', handler: () => {
               isExist = false;
+              callBackFun && callBackFun();
             }
           }],
           enableBackdropDismiss: false
@@ -242,7 +243,7 @@ export class NativeService {
     }, 200);
   };
 
-  dismissLoading() {
+  private dismissLoading() {
     if (this.loadingIsOpen) {
       this.loadingIsOpen = false;
       this.loading.dismiss();
