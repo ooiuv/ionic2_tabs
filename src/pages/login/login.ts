@@ -35,7 +35,7 @@ export class LoginPage {
 
   login(user) {
     this.submitted = true;
-    this.commonService.getToken(user.username, user.password).flatMap(token => {
+    this.commonService.getToken(user.username, user.password).mergeMap(token => {
       this.globalData.token = token;
       this.storage.set('token', token);
       return this.commonService.getUserInfo();

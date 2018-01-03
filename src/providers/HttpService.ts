@@ -97,7 +97,11 @@ export class HttpService {
     if (url.indexOf(APP_SERVE_URL) != -1) {
       if (json.code != 1) {
         IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-        this.nativeService.alert(json.msg || '请求失败,请稍后再试!');
+        if (json.code == 401) {//401 token无效或过期需要重新登录
+          this.nativeService.showToast('密码已过期,请重新登录');
+        } else {
+          this.nativeService.alert(json.msg || '请求失败,请稍后再试!');
+        }
         return {success: false, data: json.data};
       } else {
         IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
