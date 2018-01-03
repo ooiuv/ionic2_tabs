@@ -94,11 +94,12 @@ export class VersionService {
    */
   assertUpgrade() {
     if (this.isMobile) {
-      if (this.isInit) {
+      if (this.isInit) {//初始化未完成,延迟5秒
         setTimeout(() => {
           this.assertUpgrade();
         }, 5000);
       } else {
+        //判断版本号是否相等,不相等则需要更新
         if (this.latestVersionNo && (this.currentVersionNo != this.latestVersionNo)) {
           let that = this;
           if (this.lastVersionInfo.isForcedUpdate == 1) {//判断是否强制更新
@@ -144,16 +145,23 @@ export class VersionService {
       }
       this.nativeService.externalStoragePermissionsAuthorization().subscribe(() => {
         let backgroundProcess = false;//是否后台下载
-        let alert = this.alertCtrl.create({//显示下载进度
-          title: '下载进度：0%',
-          enableBackdropDismiss: false,
-          buttons: [{
-            text: '后台下载', handler: () => {
-              backgroundProcess = true;
-            }
-          }
-          ]
-        });
+        let alert;//显示下载进度
+        if (this.lastVersionInfo.isForcedUpdate == 1) {//如果是强制更新则没有后台下载按钮
+          alert = this.alertCtrl.create({
+            title: '下载进度：0%',
+            enableBackdropDismiss: false
+          });
+        } else {
+          alert = this.alertCtrl.create({
+            title: '下载进度：0%',
+            enableBackdropDismiss: false,
+            buttons: [{
+              text: '后台下载', handler: () => {
+                backgroundProcess = true;
+              }
+            }]
+          });
+        }
         alert.present();
         const fileTransfer: FileTransferObject = this.transfer.create();
         const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; //apk保存的目录

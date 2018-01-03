@@ -531,7 +531,7 @@ export class NativeService {
     };
   })();
 
-  //检测app是否有定位权限
+  //检测app是否有定位权限,如果没有权限则会请求权限
   private assertLocationAuthorization = (() => {
     let locationAuthorization = false;
     return () => {
@@ -579,7 +579,7 @@ export class NativeService {
     };
   })();
 
-  //检测app是否有读取存储权限
+  //检测app是否有读取存储权限,如果没有权限则会请求权限
   externalStoragePermissionsAuthorization = (() => {
     let havePermission = false;
     return () => {
