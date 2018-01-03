@@ -115,10 +115,10 @@ export class HttpService {
   private requestFailedHandle(url: string, options: RequestOptionsArgs, err: Response) {
     IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
     this.nativeService.hideLoading();
-    if (err instanceof TimeoutError) {
-      this.nativeService.alert('请求超时,请稍后再试!');
-    } else if (!this.nativeService.isConnecting()) {
+    if (!this.nativeService.isConnecting()) {
       this.nativeService.alert('请连接网络');
+    } else if (err instanceof TimeoutError) {
+      this.nativeService.alert('请求超时,请稍后再试!');
     } else {
       let status = err.status;
       let msg = '请求发生异常';
