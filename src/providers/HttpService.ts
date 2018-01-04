@@ -21,13 +21,15 @@ export class HttpService {
               public nativeService: NativeService) {
   }
 
+  count: number = 0;//记录未完成的请求数量
+
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
     url = this.formatUrlDefaultApi(url);
     if (url.indexOf(APP_SERVE_URL) != -1) {
       options = this.addAuthorizationHeader(options);
     }
     IS_DEBUG && console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
-    this.nativeService.showLoading();
+    this.showLoading();
     return Observable.create(observer => {
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
         let result = this.requestSuccessHandle(url, options, res);
@@ -92,7 +94,7 @@ export class HttpService {
    * 处理请求成功事件
    */
   requestSuccessHandle(url: string, options: RequestOptionsArgs, res: Response) {
-    this.nativeService.hideLoading();
+    this.hideLoading();
     let json = res.json();
     if (url.indexOf(APP_SERVE_URL) != -1) {
       if (json.code != 1) {
@@ -118,7 +120,7 @@ export class HttpService {
    */
   private requestFailedHandle(url: string, options: RequestOptionsArgs, err: Response) {
     IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
-    this.nativeService.hideLoading();
+    this.hideLoading();
     if (!this.nativeService.isConnecting()) {
       this.nativeService.alert('请连接网络');
     } else if (err instanceof TimeoutError) {
@@ -182,4 +184,16 @@ export class HttpService {
     return options;
   }
 
+  private showLoading() {
+    if (++this.count === 1) {//一旦有请求就弹出loading
+      this.globalData.showLoading && this.nativeService.showLoading();
+    }
+  }
+
+  private hideLoading() {
+    if (--this.count === 0) {//当正在请求数为0,关闭loading
+      this.nativeService.hideLoading();
+      this.globalData.showLoading = true;
+    }
+  }
 }

@@ -19,11 +19,9 @@ import {Position} from "../model/type";
 import {
   IMAGE_SIZE,
   QUALITY_SIZE,
-  REQUEST_TIMEOUT,
   CODE_PUSH_DEPLOYMENT_KEY,
   IS_DEBUG
 } from "./Constants";
-import {GlobalData} from "./GlobalData";
 import {Observable} from "rxjs";
 import {Logger} from "./Logger";
 import {Diagnostic} from "@ionic-native/diagnostic";
@@ -35,7 +33,6 @@ declare var AMapNavigation;
 @Injectable()
 export class NativeService {
   private loading: Loading;
-  private loadingIsOpen: boolean = false;
 
   constructor(private platform: Platform,
               private toastCtrl: ToastController,
@@ -53,7 +50,6 @@ export class NativeService {
               private cn: CallNumber,
               private barcodeScanner: BarcodeScanner,
               private loadingCtrl: LoadingController,
-              private globalData: GlobalData,
               public logger: Logger,
               private diagnostic: Diagnostic,
               private codePush: CodePush) {
@@ -216,18 +212,12 @@ export class NativeService {
    * @param content 显示的内容
    */
   showLoading(content: string = ''): void {
-    if (!this.globalData.showLoading) {
-      return;
-    }
-    if (!this.loadingIsOpen) {
-      this.loadingIsOpen = true;
-      this.loading = this.loadingCtrl.create({
+    if(!this.loading){//如果loading已经存在则不再打开
+      let loading = this.loadingCtrl.create({
         content: content
       });
-      this.loading.present();
-      setTimeout(() => {
-        this.dismissLoading();
-      }, REQUEST_TIMEOUT);
+      loading.present();
+      this.loading = loading;
     }
   };
 
@@ -235,20 +225,11 @@ export class NativeService {
    * 关闭loading
    */
   hideLoading(): void {
-    if (!this.globalData.showLoading) {
-      this.globalData.showLoading = true;
-    }
-    setTimeout(() => {
-      this.dismissLoading();
+    setTimeout(() => {//延迟200毫秒可以避免嵌套请求loading重复打开和关闭
+      this.loading && this.loading.dismiss();
+      this.loading = null;
     }, 200);
   };
-
-  private dismissLoading() {
-    if (this.loadingIsOpen) {
-      this.loadingIsOpen = false;
-      this.loading.dismiss();
-    }
-  }
 
   /**
    * 使用cordova-plugin-camera获取照片
