@@ -426,16 +426,33 @@ export class NativeService {
   getUserLocation() {
     return Observable.create(observer => {
       if (this.isMobile()) {
-        this.assertLocationService().subscribe(res => {
-          if (res) {
-            this.assertLocationAuthorization().subscribe(res => {
-              if (res) {
-                return this.getLocation(observer);
-              }
-            }, err => {
-              observer.error(err);
-            })
-          }
+        Observable.zip(this.assertLocationService(), this.assertLocationAuthorization()).subscribe(()=>{
+          LocationPlugin.getLocation(data => {
+            observer.next({'lng': data.longitude, 'lat': data.latitude});
+          }, msg => {
+            if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {
+              this.alertCtrl.create({
+                title: '缺少定位权限',
+                subTitle: '请在手机设置或app权限管理中开启',
+                buttons: [{text: '取消'},
+                  {
+                    text: '去开启',
+                    handler: () => {
+                      this.diagnostic.switchToSettings();
+                    }
+                  }
+                ]
+              }).present();
+            } else if (msg.indexOf('WIFI信息不足') != -1) {
+              alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据')
+            } else if (msg.indexOf('网络连接异常') != -1) {
+              alert('网络连接异常,请检查您的网络是否畅通')
+            } else {
+              alert('获取位置错误,错误消息:' + msg);
+              this.logger.log(msg, '获取位置失败');
+            }
+            observer.error('获取位置失败');
+          });
         }, err => {
           observer.error(err);
         })
@@ -443,35 +460,6 @@ export class NativeService {
         console.log('非手机环境,即测试环境返回固定坐标');
         observer.next({'lng': 113.350912, 'lat': 23.119495});
       }
-    });
-  }
-
-  private getLocation(observer) {
-    LocationPlugin.getLocation(data => {
-      observer.next({'lng': data.longitude, 'lat': data.latitude});
-    }, msg => {
-      if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {
-        this.alertCtrl.create({
-          title: '缺少定位权限',
-          subTitle: '请在手机设置或app权限管理中开启',
-          buttons: [{text: '取消'},
-            {
-              text: '去开启',
-              handler: () => {
-                this.diagnostic.switchToSettings();
-              }
-            }
-          ]
-        }).present();
-      } else if (msg.indexOf('WIFI信息不足') != -1) {
-        alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据')
-      } else if (msg.indexOf('网络连接异常') != -1) {
-        alert('网络连接异常,请检查您的网络是否畅通')
-      } else {
-        alert('获取位置错误,错误消息:' + msg);
-        this.logger.log(msg, '获取位置失败');
-      }
-      observer.error('获取位置失败');
     });
   }
 
