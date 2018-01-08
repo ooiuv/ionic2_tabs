@@ -10,6 +10,7 @@ import {Utils} from "../providers/Utils";
 import {CommonService} from "../service/CommonService";
 import {VersionService} from "../providers/VersionService";
 import {UserInfo} from '../model/UserInfo';
+import {AboutPage} from '../pages/mine/about/about';
 
 @Component({
   templateUrl: 'app.html'
@@ -38,6 +39,7 @@ export class MyApp {
       this.helper.funDebugInit();//初始化fundebug
       this.helper.alloyLeverInit();//本地"开发者工具"
       this.helper.initJpush();//初始化极光推送
+      this.jpushOpenNotification();//处理打开推送消息事件
       this.storage.get('token').then(token => { //从缓存中获取token
         if (token) {
           this.globalData.token = token;
@@ -89,9 +91,10 @@ export class MyApp {
         activePortal.dismiss();
         return;
       }
-      let activeVC = this.nav.getActive();
-      let tabs = activeVC.instance.tabs;
-      let activeNav = tabs.getSelected();
+      let tabs = this.nav.getActiveChildNav();//获取tabs导航,this.nav是总导航,tabs是子导航
+      let tab = tabs.getSelected();//获取选中的tab
+      let activeVC = tab.getActive();//通过当前选中的tab获取ViewController
+      let activeNav = activeVC.getNav();//通过当前视图的ViewController获取的NavController
       return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize();//this.showExit()
     }, 1);
   }
@@ -107,6 +110,26 @@ export class MyApp {
         this.backButtonPressed = false;
       }, 2000)
     }
+  }
+
+  jpushOpenNotification() {
+    //当点击极光推送消息跳转到指定页面
+    this.events.subscribe('jpush.openNotification', content => {
+      let tabs = this.nav.getActiveChildNav();
+      let tab = tabs.getSelected();
+      let activeVC = tab.getActive();
+      // if (activeVC.component == AboutPage) {//如果当前所在页面就是将要跳转到的页面则不处理
+      //   return;
+      // }
+      let activeNav = activeVC.getNav();
+      activeNav.popToRoot({}).then(() => {//导航跳到最顶层
+        tabs.select(3);//选中第一个tab
+        let tab = tabs.getSelected();//获取选中的tab
+        let activeVC = tab.getActive();//通过当前选中的tab获取ViewController
+        let activeNav = activeVC.getNav();//通过当前视图的ViewController获取的NavController
+        activeNav.push(AboutPage);//跳转到指定页面
+      });
+    });
   }
 
 }
