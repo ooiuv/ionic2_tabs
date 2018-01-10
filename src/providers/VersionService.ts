@@ -167,6 +167,7 @@ export class VersionService {
         const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; //apk保存的目录
         //下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
+          alert && alert.dismiss();
           window['install'].install(apk.replace('file://', ''));
         }, err => {
           this.updateProgress = -1;
@@ -188,19 +189,20 @@ export class VersionService {
         fileTransfer.onProgress((event: ProgressEvent) => {
           let progress = Math.floor(event.loaded / event.total * 100);//下载进度
           this.updateProgress = progress;
-          if (!backgroundProcess) {
-            if (progress === 100) {
-              alert && alert.dismiss();
-            } else {
-              if (!timer) {
-                timer = setTimeout(() => {
-                  clearTimeout(timer);
-                  timer = null;
+          if (!timer) {
+            //更新下载进度
+            timer = setTimeout(() => {
+              if (progress === 100) {
+                alert && alert.dismiss();
+              } else {
+                if (!backgroundProcess) {
                   let title = document.getElementsByClassName('alert-title')[0];
                   title && (title.innerHTML = `下载进度：${progress}%`);
-                }, 1000);
+                }
               }
-            }
+              clearTimeout(timer);
+              timer = null;
+            }, 1000);
           }
         });
       })
