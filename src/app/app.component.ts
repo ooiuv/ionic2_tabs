@@ -123,7 +123,7 @@ export class MyApp {
       // }
       let activeNav = activeVC.getNav();
       activeNav.popToRoot({}).then(() => {//导航跳到最顶层
-        tabs.select(3);//选中第一个tab
+        tabs.select(3);//选中第四个tab
         let tab = tabs.getSelected();//获取选中的tab
         let activeVC = tab.getActive();//通过当前选中的tab获取ViewController
         let activeNav = activeVC.getNav();//通过当前视图的ViewController获取的NavController
