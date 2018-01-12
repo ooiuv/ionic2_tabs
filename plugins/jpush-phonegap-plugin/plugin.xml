@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
   xmlns:android="http://schemas.android.com/apk/res/android"
   id="jpush-phonegap-plugin"
-  version="3.1.4">
+  version="3.2.13">
 
     <name>JPush</name>
     <description>JPush for cordova plugin</description>
@@ -38,7 +38,7 @@
         <source-file src="src/ios/Plugins/AppDelegate+JPush.m" />
 
         <header-file src="src/ios/lib/JPUSHService.h" />
-        <source-file src="src/ios/lib/jpush-ios-3.0.2.a" framework="true" />
+        <source-file src="src/ios/lib/jpush-ios-3.0.7.a" framework="true" />
         <resource-file src="src/ios/JPushConfig.plist" />
 
         <framework src="CFNetwork.framework" weak="true" />
@@ -57,31 +57,37 @@
         <config-file target="*JPushConfig.plist" parent="Appkey">
             <string>$APP_KEY</string>
         </config-file>
+
+        <!-- <hook type="after_platform_add" src="hooks/iosEnablePush.js" />
+        <hook type="after_plugin_install" src="hooks/iosEnablePush.js" />
+        <hook type="before_plugin_uninstall" src="hooks/iosDisablePush.js" /> -->
     </platform>
 
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="JPushPlugin">
-                <param name="android-package" value="cn.jpush.phonegap.JPushPlugin" />
+                <param name="android-package" value="cn.jiguang.cordova.push.JPushPlugin" />
             </feature>
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <!-- Required  一些系统要求的权限，如访问网络等-->
+            <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
+               android:protectionLevel="signature" />
+
             <uses-permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE" />
+
             <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.WAKE_LOCK" />
             <uses-permission android:name="android.permission.READ_PHONE_STATE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
             <uses-permission android:name="android.permission.VIBRATE" />
             <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-            <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-            <permission android:name="$PACKAGE_NAME.permission.JPUSH_MESSAGE"
-               android:protectionLevel="signature" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
@@ -154,7 +160,9 @@
             </service>
 
             <!-- User defined.  For test only  用户自定义的广播接收器 -->
-            <receiver android:name="cn.jpush.phonegap.MyReceiver" android:enabled="true">
+            <receiver
+              android:name="cn.jiguang.cordova.push.MyReceiver"
+              android:enabled="true">
                 <intent-filter android:priority="1000">
                     <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                     <!-- Required  显示通知栏 -->
@@ -181,21 +189,39 @@
               android:name="cn.jpush.android.service.AlarmReceiver"
               android:exported="false" />
 
+            <!-- since 3.0.9 Required SDK 核心功能-->
+            <provider
+                android:authorities="$PACKAGE_NAME.DataProvider"
+                android:name="cn.jpush.android.service.DataProvider"
+                android:exported="true" />
+
+            <receiver android:name="cn.jiguang.cordova.push.JPushEventReceiver">
+                <intent-filter>
+                    <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                    <category android:name="$PACKAGE_NAME"></category>
+                </intent-filter>
+            </receiver>
+
             <!-- Required. Enable it you can get statistics data with channel -->
             <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default" />
             <meta-data android:name="JPUSH_APPKEY" android:value="$APP_KEY" />
         </config-file>
 
-        <source-file src="src/android/libs/jpush-android_v3.0.5.jar" target-dir="libs" />
+        <source-file src="src/android/libs/jpush-android-3.1.0.jar" target-dir="libs" />
 
-        <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jpush/phonegap" />
-        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jpush/phonegap" />
+        <source-file src="src/android/MyReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushPlugin.java" target-dir="src/cn/jiguang/cordova/push" />
+        <source-file src="src/android/JPushEventReceiver.java" target-dir="src/cn/jiguang/cordova/push" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml" target-dir="res/drawable" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml" target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_btn_selector.xml"
+          target-dir="res/drawable" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_richpush_progressbar.xml"
+          target-dir="res/drawable" />
 
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png" target-dir="res/drawable-hdpi" />
-        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png" target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_back.png"
+          target-dir="res/drawable-hdpi" />
+        <source-file src="src/android/res/drawable-hdpi/jpush_ic_richpush_actionbar_divider.png"
+          target-dir="res/drawable-hdpi" />
 
         <source-file src="src/android/res/layout/jpush_popwin_layout.xml" target-dir="res/layout" />
         <source-file src="src/android/res/layout/jpush_webview_layout.xml" target-dir="res/layout" />

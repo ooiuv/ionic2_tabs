@@ -1,4 +1,5 @@
 import {Observable} from 'rxjs/Observable';
+
 /**
  * @name JPush
  * @description
@@ -25,11 +26,15 @@ export declare class JPush {
 
   getRegistrationID(): Promise<any>;
 
-  setTagsWithAlias(tags?: string[], alias?: string): Promise<any>;
+  setAlias(param: { sequence: number, alias: string }, successFunc?: Function, errorFunc?: Function): Promise<any>;
 
-  setTags(tags?: string[]): Promise<any>;
+  deleteAlias(param: { sequence: number }, successFunc?: Function, errorFunc?: Function): Promise<any>;
 
-  setAlias(alias?: string): Promise<any>;
+  setTags(param: { sequence: number, tags: Array<string> }, successFunc?: Function, errorFunc?: Function): Promise<any>;
+
+  addTags(param: { sequence: number, tags: Array<string> }, successFunc?: Function, errorFunc?: Function): Promise<any>;
+
+  deleteTags(param: { sequence: number, tags: Array<string> }, successFunc?: Function, errorFunc?: Function): Promise<any>;
 
   setBadge(badgeNum?: number): Promise<any>;
 

@@ -6,7 +6,7 @@ import {Storage} from '@ionic/storage';
 import {NativeService} from "./NativeService";
 import {JPush} from "../../typings/modules/jpush/index";
 import {Observable} from "rxjs";
-import {DEFAULT_AVATAR} from "./Constants";
+import {DEFAULT_AVATAR, IS_DEBUG} from "./Constants";
 import {FileService} from "./FileService";
 import {FileObj} from "../model/FileObj";
 import {Utils} from "./Utils";
@@ -166,30 +166,24 @@ export class Helper {
       return;
     }
     this.jPush.init();
-    if (this.nativeService.isIos()) {
-      this.jPush.setDebugModeFromIos();
-    } else {
-      this.jPush.setDebugMode(true);
-    }
-
+    this.jPush.setDebugMode(IS_DEBUG);
     this.jPushAddEventListener();
   }
 
   private jPushAddEventListener() {
     this.jPush.getUserNotificationSettings().then(result => {
       if (result == 0) {
-        console.log('系统设置中已关闭应用推送');
+        console.log('jpush-系统设置中已关闭应用推送');
       } else if (result > 0) {
-        console.log('系统设置中打开了应用推送');
+        console.log('jpush-系统设置中打开了应用推送');
       }
     });
-
     //点击通知进入应用程序时会触发的事件
     document.addEventListener("jpush.openNotification", event => {
       this.setIosIconBadgeNumber(0);
       let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
       console.log("jpush.openNotification" + content);
-      this.events.publish('jpush.openNotification',content);
+      this.events.publish('jpush.openNotification', content);
     }, false);
 
     //收到通知时会触发该事件
@@ -204,52 +198,63 @@ export class Helper {
       console.log("jpush.receiveMessage" + message);
     }, false);
 
-
-    //设置标签/别名回调函数
-    document.addEventListener("jpush.setTagsWithAlias", event => {
-      console.log("onTagsWithAlias");
-      let result = "result code:" + event['resultCode'] + " ";
-      result += "tags:" + event['tags'] + " ";
-      result += "alias:" + event['alias'] + " ";
-      console.log(result);
-    }, false);
-
   }
 
-  //设置标签
-  setTags() {
+  setAlias() {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    let tags = [];
+    this.jPush.setAlias({sequence: 1, alias: this.globalData.userId}, (result) => {
+      console.log('jpush-设置别名成功:');
+      console.log(result);
+    }, (error) => {
+      console.log('jpush-设置别名失败:' + error.code);
+    });
+  }
+
+  deleteAlias() {
+    if (!this.nativeService.isMobile()) {
+      return;
+    }
+    this.jPush.deleteAlias({sequence: 2}, (result) => {
+      console.log('jpush-删除别名成功');
+      console.log(result);
+    }, (error) => {
+      console.log('jpush-设删除别名失败:' + error.code);
+    });
+  }
+
+  setTags(tags: Array<string> = []) {
+    if (!this.nativeService.isMobile()) {
+      return;
+    }
     if (this.nativeService.isAndroid()) {
       tags.push('android');
     }
     if (this.nativeService.isIos()) {
       tags.push('ios');
     }
-    console.log('设置setTags:' + tags);
-    this.jPush.setTags(tags);
+    this.jPush.setTags({sequence: 3, tags: tags}, (result) => {
+      console.log('jpush-设置标签成功');
+      console.log(result);
+    }, (error) => {
+      console.log('jpush-设置标签失败:' + error.code);
+    })
   }
 
-  //设置别名,一个用户只有一个别名
-  setAlias() {
+  deleteTags(tags: Array<string> = []) {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    console.log('设置setAlias:' + this.globalData.userId);
-    this.jPush.setAlias('' + this.globalData.userId);//ios设置setAlias有bug,值必须为string类型,不能是number
+    this.jPush.deleteTags({sequence: 4, tags: tags}, (result) => {
+      console.log('jpush-删除标签成功');
+      console.log(result);
+    }, (error) => {
+      console.log('jpush-删除标签失败:' + error.code);
+    })
   }
 
-  setTagsWithAlias(userId) {
-    if (!this.nativeService.isMobile()) {
-      return;
-    }
-    console.log('设置setTagsWithAlias:' + userId);
-    this.jPush.setTagsWithAlias(['man', 'test'], '' + userId);
-  }
-
-  //设置ios角标数量
+  //设置ios应用角标数量
   setIosIconBadgeNumber(badgeNumber) {
     if (this.nativeService.isIos()) {
       this.jPush.setBadge(badgeNumber);//上传badge值到jPush服务器

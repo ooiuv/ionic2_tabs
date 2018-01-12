@@ -136,24 +136,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-jcore": {
-        "source": {
-            "type": "local",
-            "path": "D:\\cordova-plugin-jcore-master"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
-    "jpush-phonegap-plugin": {
-        "source": {
-            "type": "local",
-            "path": "D:\\jpush-phonegap-plugin-master"
-        },
-        "is_top_level": true,
-        "variables": {
-            "APP_KEY": "a0becaf86f63fcdc3bd071e5"
-        }
-    },
     "cordova-plugin-appminimize": {
         "source": {
             "type": "git",
@@ -235,6 +217,24 @@
             "id": "cordova-plugin-ionic-webview"
         },
         "is_top_level": true,
+        "variables": {}
+    },
+    "jpush-phonegap-plugin": {
+        "source": {
+            "type": "registry",
+            "id": "jpush-phonegap-plugin"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_KEY": "a0becaf86f63fcdc3bd071e5"
+        }
+    },
+    "cordova-plugin-jcore": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-jcore"
+        },
+        "is_top_level": false,
         "variables": {}
     }
 }

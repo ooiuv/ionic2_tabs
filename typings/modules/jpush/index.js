@@ -43,13 +43,19 @@ export var JPush = (function () {
   JPush.prototype.getRegistrationID = function () {
     return;
   };
-  JPush.prototype.setTagsWithAlias = function (tags, alias) {
+  JPush.prototype.setAlias = function (param,successFunc,errorFunc) {
     return;
   };
-  JPush.prototype.setTags = function (tags) {
+  JPush.prototype.deleteAlias = function (param,successFunc,errorFunc) {
     return;
   };
-  JPush.prototype.setAlias = function (alias) {
+  JPush.prototype.setTags = function (param,successFunc,errorFunc) {
+    return;
+  };
+  JPush.prototype.addTags = function (param,successFunc,errorFunc) {
+    return;
+  };
+  JPush.prototype.deleteTags = function (param,successFunc,errorFunc) {
     return;
   };
   JPush.prototype.setBadge = function (badgeNum) {
@@ -110,21 +116,33 @@ export var JPush = (function () {
   __decorate([
     Cordova(),
     __metadata('design:type', Function),
-    __metadata('design:paramtypes', [Array, String]),
+    __metadata('design:paramtypes', []),
     __metadata('design:returntype', Promise)
-  ], JPush.prototype, "setTagsWithAlias", null);
+  ], JPush.prototype, "setAlias", null);
   __decorate([
     Cordova(),
     __metadata('design:type', Function),
-    __metadata('design:paramtypes', [Array]),
+    __metadata('design:paramtypes', []),
+    __metadata('design:returntype', Promise)
+  ], JPush.prototype, "deleteAlias", null);
+  __decorate([
+    Cordova(),
+    __metadata('design:type', Function),
+    __metadata('design:paramtypes', []),
     __metadata('design:returntype', Promise)
   ], JPush.prototype, "setTags", null);
   __decorate([
     Cordova(),
     __metadata('design:type', Function),
-    __metadata('design:paramtypes', [String]),
+    __metadata('design:paramtypes', []),
     __metadata('design:returntype', Promise)
-  ], JPush.prototype, "setAlias", null);
+  ], JPush.prototype, "addTags", null);
+  __decorate([
+    Cordova(),
+    __metadata('design:type', Function),
+    __metadata('design:paramtypes', []),
+    __metadata('design:returntype', Promise)
+  ], JPush.prototype, "deleteTags", null);
   __decorate([
     Cordova(),
     __metadata('design:type', Function),
