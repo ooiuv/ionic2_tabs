@@ -59,7 +59,7 @@ public class LocationPlugin extends CordovaPlugin {
 		@Override
 		public void onLocationChanged(AMapLocation amapLocation) {
       if (amapLocation != null && amapLocation.getErrorCode() == 0) {
-        int locationType = amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+        int locationType = amapLocation.getLocationType();//获取当前定位结果来源 定位类型对照表: http://lbs.amap.com/api/android-location-sdk/guide/utilities/location-type/
         Double latitude = amapLocation.getLatitude();//获取纬度
         Double longitude = amapLocation.getLongitude();//获取经度
         boolean hasAccuracy = amapLocation.hasAccuracy();
