@@ -212,7 +212,7 @@ export class NativeService {
    * @param content 显示的内容
    */
   showLoading(content: string = ''): void {
-    if(!this.loading){//如果loading已经存在则不再打开
+    if (!this.loading) {//如果loading已经存在则不再打开
       let loading = this.loadingCtrl.create({
         content: content
       });
@@ -421,13 +421,14 @@ export class NativeService {
   }
 
   /**
-   * 获得用户当前坐标
+   * 获得用户当前坐标信息
    */
   getUserLocation() {
     return Observable.create(observer => {
       if (this.isMobile()) {
-        Observable.zip(this.assertLocationService(), this.assertLocationAuthorization()).subscribe(()=>{
+        Observable.zip(this.assertLocationService(), this.assertLocationAuthorization()).subscribe(() => {
           LocationPlugin.getLocation(data => {
+            //data形如:{"locationType":4,"latitude":23.119225,"longitude":113.350784,"hasAccuracy":true,"accuracy":29,"address":"广东省广州市天河区潭乐街靠近广电科技大厦","country":"中国","province":"广东省","city":"广州市","district":"天河区","street":"平云路","cityCode":"020","adCode":"440106","aoiName":"广电平云广场","speed":0,"bearing":0,"time":1515976535559}
             observer.next({'lng': data.longitude, 'lat': data.latitude});
           }, msg => {
             if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {

@@ -58,53 +58,58 @@ public class LocationPlugin extends CordovaPlugin {
 	public class KITLocation implements AMapLocationListener {
 		@Override
 		public void onLocationChanged(AMapLocation amapLocation) {
-
-			if (amapLocation != null && amapLocation.getErrorCode() == 0) {
-				// 获取位置信息
-				Double latitude = amapLocation.getLatitude();
-				Double longitude = amapLocation.getLongitude();
-				boolean hasAccuracy = amapLocation.hasAccuracy();
-				float accuracy = amapLocation.getAccuracy();
-				String address = amapLocation.getAddress();
-				String province = amapLocation.getProvince();
-				String road = amapLocation.getRoad();
-				// 速度
-				float speed = amapLocation.getSpeed();
-				// 角度
-				float bearing = amapLocation.getBearing();
-				// 星数
-				int satellites = amapLocation.getExtras().getInt("satellites",0);
-				// 时间
-				long time = amapLocation.getTime();
-
-				JSONObject jo = new JSONObject();
-				try {
-					jo.put("latitude", latitude);
-					jo.put("longitude", longitude);
-					jo.put("hasAccuracy", hasAccuracy);
-					jo.put("accuracy", accuracy);
-					jo.put("address", address);
-					jo.put("province", province);
-					jo.put("road", road);
-					jo.put("speed", speed);
-					jo.put("bearing", bearing);
-					jo.put("satellites", satellites);
-					jo.put("time", time);
-
-				} catch (JSONException e) {
-					jo = null;
-					e.printStackTrace();
-				}
-				callbackContext.success(jo);
-			} else {
-				callbackContext.error(amapLocation.getErrorInfo());
-			}
-		}
+      if (amapLocation != null && amapLocation.getErrorCode() == 0) {
+        int locationType = amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+        Double latitude = amapLocation.getLatitude();//获取纬度
+        Double longitude = amapLocation.getLongitude();//获取经度
+        boolean hasAccuracy = amapLocation.hasAccuracy();
+        float accuracy = amapLocation.getAccuracy();//获取精度信息
+        String address = amapLocation.getAddress();//地址，如果option中设置isNeedAddress为false，则没有此结果，网络定位结果中会有地址信息，GPS定位不返回地址信息。
+        String country = amapLocation.getCountry();//国家信息
+        String province = amapLocation.getProvince();//省信息
+        String city = amapLocation.getCity();//城市信息
+        String district = amapLocation.getDistrict();//城区信息
+        String street = amapLocation.getStreet();//街道信息
+        String cityCode = amapLocation.getCityCode();//城市编码
+        String adCode = amapLocation.getAdCode();//地区编码
+        String aoiName = amapLocation.getAoiName();//获取当前定位点的AOI信息
+        float speed = amapLocation.getSpeed(); // 速度
+        float bearing = amapLocation.getBearing();// 角度
+        long time = amapLocation.getTime();  // 时间
+        JSONObject jo = new JSONObject();
+        try {
+          jo.put("locationType", locationType);
+          jo.put("latitude", latitude);
+          jo.put("longitude", longitude);
+          jo.put("locationType", locationType);
+          jo.put("hasAccuracy", hasAccuracy);
+          jo.put("accuracy", accuracy);
+          jo.put("address", address);
+          jo.put("country", country);
+          jo.put("province", province);
+          jo.put("city", city);
+          jo.put("district", district);
+          jo.put("street", street);
+          jo.put("cityCode", cityCode);
+          jo.put("adCode", adCode);
+          jo.put("aoiName", aoiName);
+          jo.put("speed", speed);
+          jo.put("bearing", bearing);
+          jo.put("time", time);
+        } catch (JSONException e) {
+          jo = null;
+          e.printStackTrace();
+        }
+        callbackContext.success(jo);
+      } else {
+        callbackContext.error(amapLocation.getErrorInfo());
+      }
+    }
 
 		public void startSingleLocation(Context context) {
 			locationClient = new AMapLocationClient(context);
-			locationOption = new AMapLocationClientOption();			
-           /*			
+			locationOption = new AMapLocationClientOption();
+           /*
                                            低功耗   Battery_Saving
 			高精度   Hight_Accuracy
 			GPS    Device_Sensors
