@@ -99,5 +99,4 @@ export class LoginPage {
     this.helper.loginSuccessHandle(userInfo);
     this.viewCtrl.dismiss();
   }
-
 }
