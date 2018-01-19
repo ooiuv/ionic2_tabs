@@ -21,7 +21,7 @@ export class HttpService {
               public nativeService: NativeService) {
   }
 
-  count: number = 0;//记录未完成的请求数量
+  count: number = 0;//记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
 
   public request(url: string, options: RequestOptionsArgs): Observable<Response> {
     url = this.formatUrlDefaultApi(url);
@@ -185,15 +185,18 @@ export class HttpService {
   }
 
   private showLoading() {
-    if (++this.count === 1) {//一旦有请求就弹出loading
+    if (++this.count > 0) {//一旦有请求就弹出loading
       this.globalData.showLoading && this.nativeService.showLoading();
     }
   }
 
   private hideLoading() {
-    if (--this.count === 0) {//当正在请求数为0,关闭loading
-      this.nativeService.hideLoading();
-      this.globalData.showLoading = true;
-    }
+    this.globalData.showLoading = true;
+    //延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
+    setTimeout(() => {
+      if (--this.count === 0) {//当正在请求数为0,关闭loading
+        this.nativeService.hideLoading();
+      }
+    }, 200);
   }
 }
