@@ -225,10 +225,12 @@ export class NativeService {
    * 关闭loading
    */
   hideLoading(): void {
-    setTimeout(() => {//延迟200毫秒可以避免嵌套请求loading重复打开和关闭
-      this.loading && this.loading.dismiss();
-      this.loading = null;
-    }, 200);
+    if (this.loading) {
+      setTimeout(() => {//延迟200毫秒可以避免嵌套请求loading重复打开和关闭
+        this.loading && this.loading.dismiss();
+        this.loading = null;
+      }, 200);
+    }
   };
 
   /**
