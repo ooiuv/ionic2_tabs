@@ -14,6 +14,7 @@ import {Camera} from "@ionic-native/camera";
 import {Toast} from "@ionic-native/toast";
 import {File} from "@ionic-native/file";
 import {FileTransfer} from "@ionic-native/file-transfer";
+import {FileOpener} from '@ionic-native/file-opener';
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {ImagePicker} from "@ionic-native/image-picker";
 import {Network} from "@ionic-native/network";
@@ -22,6 +23,8 @@ import {JPush} from "../../typings/modules/jpush/index";
 import {CodePush} from "@ionic-native/code-push";
 import {CallNumber} from "@ionic-native/call-number";
 import {BarcodeScanner} from "@ionic-native/barcode-scanner";
+import {Diagnostic} from "@ionic-native/diagnostic";
+import {HTTP} from '@ionic-native/http';
 import {NativeService} from "../providers/NativeService";
 import {HttpService} from "../providers/HttpService";
 import {FileService} from "../providers/FileService";
@@ -34,7 +37,6 @@ import {GlobalData} from "../providers/GlobalData";
 import {IS_DEBUG, FUNDEBUG_API_KEY} from "../providers/Constants";
 import {Logger} from "../providers/Logger";
 import {ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave} from "./modal-transitions";
-import {Diagnostic} from "@ionic-native/diagnostic";
 import {CommonService} from "../service/CommonService";
 import {VersionService} from "../providers/VersionService";
 import {CalendarModule} from "ion2-calendar";
@@ -82,11 +84,13 @@ export class FunDebugErrorHandler implements ErrorHandler {
     Toast,
     File,
     FileTransfer,
+    FileOpener,
     InAppBrowser,
     ImagePicker,
     Network,
     AppMinimize,
     Diagnostic,
+    HTTP,
     JPush,
     CodePush,
     CallNumber,

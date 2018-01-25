@@ -127,15 +127,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "install": {
-        "source": {
-            "type": "git",
-            "url": "https://github.com/weelion/phonegap-plugin-install",
-            "subdir": "."
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-appminimize": {
         "source": {
             "type": "git",
@@ -235,6 +226,22 @@
             "id": "cordova-plugin-jcore"
         },
         "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-advanced-http": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-advanced-http"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-file-opener2": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-file-opener2"
+        },
+        "is_top_level": true,
         "variables": {}
     }
 }

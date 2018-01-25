@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {File} from "@ionic-native/file";
 import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
+import {FileOpener} from '@ionic-native/file-opener';
 import {AlertController} from "ionic-angular";
 import {Logger} from "./Logger";
 import {APP_VERSION_SERVE_URL, FILE_SERVE_URL} from "./Constants";
@@ -34,6 +35,7 @@ export class VersionService {
               public file: File,
               public httpService: HttpService,
               public fileService: FileService,
+              public fileOpener: FileOpener,
               public alertCtrl: AlertController,
               public logger: Logger) {
 
@@ -168,7 +170,8 @@ export class VersionService {
         //下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
           alert && alert.dismiss();
-          window['install'].install(apk.replace('file://', ''));
+          // window['install'].install(apk.replace('file://', ''));
+          this.fileOpener.open(apk,'application/vnd.android.package-archive');
         }, err => {
           this.updateProgress = -1;
           alert && alert.dismiss();
