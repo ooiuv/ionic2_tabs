@@ -191,12 +191,15 @@ export class HttpService {
   }
 
   private hideLoading() {
-    this.globalData.showLoading = true;
-    //延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
-    setTimeout(() => {
-      if (--this.count === 0) {//当正在请求数为0,关闭loading
-        this.nativeService.hideLoading();
-      }
-    }, 200);
+    if (this.globalData.showLoading) {
+      //延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
+      setTimeout(() => {
+        if (--this.count === 0) {//当正在请求数为0,关闭loading
+          this.nativeService.hideLoading();
+        }
+      }, 200);
+    } else {
+      this.globalData.showLoading = true;
+    }
   }
 }
