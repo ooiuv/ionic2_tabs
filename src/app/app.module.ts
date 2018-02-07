@@ -76,7 +76,6 @@ export class FunDebugErrorHandler implements ErrorHandler {
   bootstrap: [IonicApp],
   entryComponents: [MyApp],
   providers: [
-    {provide: LOCALE_ID, useValue: "zh-CN"},
     StatusBar,
     SplashScreen,
     AppVersion,
