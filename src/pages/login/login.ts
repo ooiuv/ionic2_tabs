@@ -15,6 +15,7 @@ import {UserInfo} from '../../model/UserInfo';
 })
 export class LoginPage {
   submitted: boolean = false;
+  canLeave: boolean = false;
   loginForm: any;
 
   constructor(public viewCtrl: ViewController,
@@ -39,7 +40,7 @@ export class LoginPage {
       this.globalData.token = token;
       this.storage.set('token', token);
       return this.commonService.getUserInfo();
-    }).subscribe((userInfo:UserInfo) => {
+    }).subscribe((userInfo: UserInfo) => {
       this.submitted = false;
       this.helper.loginSuccessHandle(userInfo);
       this.viewCtrl.dismiss();
@@ -48,30 +49,35 @@ export class LoginPage {
     });
   }
 
-  ionViewWillEnter() {
-    this.events.subscribe('android:backButtonAction', () => { //订阅安卓返回按钮事件
-      if (!this.globalData.user.id) { //如果没有登录,弹出是否确定退出软件
-        this.alertCtrl.create({
-          title: '确认退出软件？',
-          buttons: [{text: '取消'},
-            {
-              text: '确定',
-              handler: () => {
-                this.platform.exitApp();
-              }
-            }
-          ]
-        }).present();
-      }
-    })
+  // 如果未登录,阻止关闭登录页,提示退出软件
+  ionViewCanLeave(): boolean {
+    let isLogin = !!this.globalData.userId;
+    if (this.canLeave || isLogin) {
+      return true;
+    }
+    this.alertCtrl.create({
+      title: '确认退出软件？',
+      enableBackdropDismiss: false,
+      buttons: [{text: '取消'},
+        {
+          text: '确定',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    }).present();
+    return false;
   }
 
   toRegister() {
+    this.canLeave = true;
     let modal = this.modalCtrl.create(RegisterPage);
     modal.present();
   }
 
   findPassword() {
+    this.canLeave = true;
     let modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
   }
