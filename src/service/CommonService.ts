@@ -2,7 +2,7 @@
  * Created by yanxiaojun on 2017/2/16.
  */
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Rx";
 import {Response} from "@angular/http";
 import {HttpService} from "../providers/HttpService";
 import {Utils} from "../providers/Utils";

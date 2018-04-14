@@ -22,7 +22,7 @@ import {
   CODE_PUSH_DEPLOYMENT_KEY,
   IS_DEBUG
 } from "./Constants";
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Rx";
 import {Logger} from "./Logger";
 import {Diagnostic} from "@ionic-native/diagnostic";
 import {CodePush} from "@ionic-native/code-push";

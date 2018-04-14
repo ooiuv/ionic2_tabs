@@ -5,7 +5,7 @@ import {Injectable} from '@angular/core';
 import {
   Http, Response, Headers, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
 } from '@angular/http';
-import {Observable, TimeoutError} from "rxjs";
+import {Observable,TimeoutError} from "rxjs/Rx";
 import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
 import {NativeService} from "./NativeService";

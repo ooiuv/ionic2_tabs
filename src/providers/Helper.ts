@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
 import {Storage} from '@ionic/storage';
 import {NativeService} from "./NativeService";
 import {JPush} from "../../typings/modules/jpush/index";
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Rx";
 import {DEFAULT_AVATAR, IS_DEBUG} from "./Constants";
 import {FileService} from "./FileService";
 import {FileObj} from "../model/FileObj";

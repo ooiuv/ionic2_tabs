@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
 import {HttpService} from "./HttpService";
 import {FILE_SERVE_URL} from "./Constants";
 import {FileObj} from "../model/FileObj";
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Rx";
 import {NativeService} from "./NativeService";
 import {GlobalData} from "./GlobalData";
 import {Utils} from "./Utils";

@@ -1,6 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {IonicPage, ViewController, NavParams, Searchbar} from 'ionic-angular';
-import {Subject} from "rxjs";
+import {Subject} from "rxjs/Rx";
 import {NativeService} from "../../../providers/NativeService";
 import {Storage} from '@ionic/storage';
 declare var AMap;
