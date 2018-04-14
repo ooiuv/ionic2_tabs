@@ -3,13 +3,19 @@
  */
 import {Injectable} from '@angular/core';
 import {
-  Http, Response, Headers, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
+  Headers,
+  Http,
+  RequestMethod,
+  RequestOptions,
+  RequestOptionsArgs,
+  Response,
+  URLSearchParams
 } from '@angular/http';
 import {Observable, TimeoutError} from "rxjs/Rx";
 import {Utils} from "./Utils";
 import {GlobalData} from "./GlobalData";
 import {NativeService} from "./NativeService";
-import {APP_SERVE_URL, REQUEST_TIMEOUT, IS_DEBUG} from "./Constants";
+import {APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT} from "./Constants";
 import {Logger} from "./Logger";
 
 @Injectable()
@@ -60,10 +66,10 @@ export class HttpService {
   }
 
   /**
-   * 针对默认api添加处理,非默认api请直接调用ajax方法
+   * 一个app可能有多个后台接口服务(api),针对主api添加业务处理,非主api请调用request方法
    */
   public defaultRequest(url: string, options: RequestOptionsArgs): Observable<any> {
-    // 使用默认API地址:APP_SERVE_URL
+    // 使用默认API:APP_SERVE_URL
     url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url);
     // 添加请求头
     options.headers = options.headers || new Headers();
@@ -71,11 +77,13 @@ export class HttpService {
 
     return Observable.create(observer => {
       this.request(url, options).map((res: Response) => res.json()).subscribe(res => {
+        // 后台api返回统一数据,res.code===1表示业务处理成功,否则表示发生异常或业务处理失败
         if (res.code === 1) {
           observer.next(res.data);
         } else {
           IS_DEBUG && console.log('%c 请求处理失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-          if (res.code == 401) {//401 token无效或过期需要重新登录
+          // 401 token无效或过期需要重新登录
+          if (res.code == 401) {
             this.nativeService.showToast('密码已过期,请重新登录');
           } else {
             this.nativeService.alert(res.msg || '请求失败,请稍后再试!');
@@ -100,29 +108,6 @@ export class HttpService {
         IS_DEBUG && console.log('%c 请求发送失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
       });
     });
-  }
-
-  /**
-   * 处理请求成功事件
-   */
-  requestSuccessHandle(url: string, options: RequestOptionsArgs, res: Response) {
-    let json = res.json();
-    if (url.indexOf(APP_SERVE_URL) != -1) {
-      if (json.code != 1) {
-        IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-        if (json.code == 401) {//401 token无效或过期需要重新登录
-          this.nativeService.showToast('密码已过期,请重新登录');
-        } else {
-          this.nativeService.alert(json.msg || '请求失败,请稍后再试!');
-        }
-        return {success: false, data: json.data};
-      } else {
-        IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
-        return {success: true, data: json.data};
-      }
-    } else {
-      return {success: true, data: json};
-    }
   }
 
   /**
