@@ -35,19 +35,25 @@ export class MyApp {
     platform.ready().then(() => {
       this.nativeService.statusBarStyle();
       this.nativeService.splashScreenHide();
-      this.assertNetwork();//检测网络
-      this.helper.funDebugInit();//初始化fundebug
-      this.helper.alloyLeverInit();//本地"开发者工具"
-      this.helper.initJpush();//初始化极光推送
-      this.jpushOpenNotification();//处理打开推送消息事件
-      this.storage.get('token').then(token => { //从缓存中获取token
+      this.assertNetwork(); // 检测网络
+      this.helper.funDebugInit(); // 初始化fundebug
+      this.helper.alloyLeverInit(); // 本地"开发者工具"
+      this.helper.initJpush(); // 初始化极光推送
+      this.jPushOpenNotification(); // 处理打开推送消息事件
+      // 订阅重新登录事件
+      this.events.subscribe('user:reLogin', () => {
+        this.modalCtrl.create(LoginPage).present();
+      });
+      // 从缓存中获取token
+      this.storage.get('token').then(token => {
         if (token) {
           this.globalData.token = token;
-          this.commonService.getNewToken().mergeMap((newToken) => { //用旧token获取新token,旧token作为请求头
+          // 用旧token获取新token,旧token作为请求头
+          this.commonService.getNewToken().mergeMap((newToken) => {
             this.globalData.token = newToken;
             this.storage.set('token', newToken);
             return this.commonService.getUserInfo();
-          }).subscribe((userInfo:UserInfo) => {
+          }).subscribe((userInfo: UserInfo) => {
             this.helper.loginSuccessHandle(userInfo);
           });
         } else {
@@ -64,6 +70,7 @@ export class MyApp {
     });
   }
 
+  // 检测网络
   assertNetwork() {
     if (!this.nativeService.isConnecting()) {
       this.toastCtrl.create({
@@ -74,6 +81,7 @@ export class MyApp {
     }
   }
 
+  // 注册android返回按键事件
   registerBackButtonAction() {
     if (!this.nativeService.isAndroid()) {
       return;
@@ -112,7 +120,8 @@ export class MyApp {
     }
   }
 
-  jpushOpenNotification() {
+  // 极光推送
+  jPushOpenNotification() {
     //当点击极光推送消息跳转到指定页面
     this.events.subscribe('jpush.openNotification', content => {
       let tabs = this.nav.getActiveChildNav();
