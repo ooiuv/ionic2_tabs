@@ -33,7 +33,7 @@ export class FileService {
       return Observable.of({});
     }
     this.deleteFileCacheByIds([id]);
-    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id});
+    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id}, false);
   }
 
   /**
@@ -51,7 +51,7 @@ export class FileService {
       if (queryIds.length == 0) {
         return Observable.of(cacheData);
       }
-      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}).map(result => {
+      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}, false).map(result => {
         if (!result.success) {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
@@ -90,7 +90,7 @@ export class FileService {
     if (!fileObjList || fileObjList.length == 0) {
       return Observable.of([]);
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList).map(result => {
+    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList, false).map(result => {
       if (!result.success) {
         this.nativeService.alert(result.msg);
         return [];

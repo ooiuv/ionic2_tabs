@@ -57,19 +57,18 @@ export class VersionService {
 
         //从后台查询app最新版本信息
         let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
-        this.httpService.get(url).subscribe(res => {
+        this.httpService.get(url, null, false).subscribe(res => {
           this.isInit = false;//初始化完成
           if (res && res.code == 1 && res.data && res.data.lastVersion) {
             let data = res.data;
             this.lastVersionInfo = data.lastVersion;
             this.latestVersionNo = data.lastVersion.version;
-            for (let fileRelation of data.fileRelationList) {
-              if (fileRelation.type == 'apk') {
-                this.fileService.getFileInfoById(fileRelation.fileId).subscribe(res => {
-                  this.apkUrl = res.origPath;
-                })
-              }
-            }
+            // 查询android apk下载地址
+            (data.fileRelationList || []).filter(fr => fr.type === 'apk').forEach(fr => {
+              this.fileService.getFileInfoById(fr.fileId).subscribe(res => {
+                this.apkUrl = res.origPath;
+              })
+            });
           }
         }, err => {
           this.logger.log(err, '从版本升级服务获取版本信息失败', {url: url});
@@ -95,42 +94,44 @@ export class VersionService {
    * 是否需要升级
    */
   assertUpgrade() {
-    if (this.isMobile) {
-      if (this.isInit) {//初始化未完成,延迟5秒
-        setTimeout(() => {
-          this.assertUpgrade();
-        }, 5000);
-      } else {
-        //判断版本号是否相等,不相等则需要更新
-        if (this.latestVersionNo && (this.currentVersionNo != this.latestVersionNo)) {
-          let that = this;
-          if (this.lastVersionInfo.isForcedUpdate == 1) {//判断是否强制更新
-            this.alertCtrl.create({
-              title: '重要升级',
-              subTitle: '您必须升级后才能使用！',
-              enableBackdropDismiss: false,
-              buttons: [{
-                text: '确定', handler: () => {
-                  that.downloadApp();
-                }
-              }
-              ]
-            }).present();
-          } else {
-            this.alertCtrl.create({
-              title: '升级',
-              subTitle: '发现新版本,是否立即升级？',
-              enableBackdropDismiss: false,
-              buttons: [{text: '取消'}, {
-                text: '确定', handler: () => {
-                  that.downloadApp();
-                }
-              }]
-            }).present();
+    if (!this.isMobile) {
+      return;
+    }
+    if (this.isInit) {
+      setTimeout(() => {
+        this.assertUpgrade();
+      }, 5000);
+      return;
+    }
+    //判断版本号是否相等,不相等则需要更新
+    if (this.latestVersionNo && (this.currentVersionNo != this.latestVersionNo)) {
+      let that = this;
+      if (this.lastVersionInfo.isForcedUpdate == 1) { // 是否强制更新
+        this.alertCtrl.create({
+          title: '重要升级',
+          subTitle: '您必须升级后才能使用！',
+          enableBackdropDismiss: false,
+          buttons: [{
+            text: '确定', handler: () => {
+              that.downloadApp();
+            }
           }
-        }
+          ]
+        }).present();
+      } else {
+        this.alertCtrl.create({
+          title: '升级',
+          subTitle: '发现新版本,是否立即升级？',
+          enableBackdropDismiss: false,
+          buttons: [{text: '取消'}, {
+            text: '确定', handler: () => {
+              that.downloadApp();
+            }
+          }]
+        }).present();
       }
     }
+
   }
 
   /**
@@ -166,12 +167,11 @@ export class VersionService {
         }
         alert.present();
         const fileTransfer: FileTransferObject = this.transfer.create();
-        const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; //apk保存的目录
+        const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; // 下载apk保存的目录
         //下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
           alert && alert.dismiss();
-          // window['install'].install(apk.replace('file://', ''));
-          this.fileOpener.open(apk,'application/vnd.android.package-archive');
+          this.fileOpener.open(apk, 'application/vnd.android.package-archive');
         }, err => {
           this.updateProgress = -1;
           alert && alert.dismiss();
@@ -244,7 +244,7 @@ export class VersionService {
   getVersionList() {
     if (this.isMobile) {
       let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
-      return this.httpService.get(url).map(res => {
+      return this.httpService.get(url, null, false).map(res => {
         if (res && res.code == 1) {
           return res.data.versions || [];
         }

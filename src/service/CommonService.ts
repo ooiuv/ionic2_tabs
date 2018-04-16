@@ -81,7 +81,7 @@ export class CommonService {
         let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
         let appType = this.nativeService.isAndroid() ? 'android' : 'ios';
         let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${appName}/${appType}`);
-        this.httpService.get(url).subscribe(res => {
+        this.httpService.get(url,null, false).subscribe(res => {
           if (res && res.code == 1) {
             observer.next(res.data);//返回app最新版本信息
           }
