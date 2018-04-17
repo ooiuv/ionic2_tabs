@@ -3,21 +3,21 @@ import {TestService} from "./TestService";
 import {FileObj} from "../../model/FileObj";
 
 @Component({
-    selector: 'page-test',
-    templateUrl: 'test.html',
+  selector: 'page-test',
+  templateUrl: 'test.html',
 })
 export class TestPage {
 
-    fileObjList: FileObj[] = [];
+  fileObjList: FileObj[] = [];
 
-    constructor(public testService: TestService) {
+  constructor(public testService: TestService) {
 
-    }
+  }
 
-    getFileData() {
-        this.testService.getFileData().subscribe(res => {
-            this.fileObjList = res;
-        });
-    }
+  getFileData() {
+    this.testService.getFileData().subscribe(res => {
+      this.fileObjList = res;
+    });
+  }
 
 }

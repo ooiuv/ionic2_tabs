@@ -102,9 +102,9 @@ export class HttpService {
     this.showLoading();
     return Observable.create(observer => {
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
-        try{
+        try {
           observer.next(res.json());
-        }catch (e) {
+        } catch (e) {
           observer.next(res);
         }
         IS_DEBUG && console.log('%c 请求发送成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
