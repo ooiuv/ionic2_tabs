@@ -7,20 +7,20 @@
   url('../assets/img/tab/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-.ion-md-zhifubao:before{ content: "\e607"; }
-
-.ion-ios-zhifubao:before { content: "\e607"; }
-
-.ion-ios-zhifubao-outline:before { content: "\e785"; }
-
-
+// 字体图标
 .ion-md-qq:before{ content: "\e658"; }
-
 .ion-ios-qq:before { content: "\e658"; }
-
 .ion-ios-qq-outline:before { content: "\e617"; }
 
+// png图片
+.ion-md-png{ content: url("../assets/img/tab/apps.png"); }
+.ion-ios-png { content: url("../assets/img/tab/apps.png") }
+.ion-ios-png-outline { content: url("../assets/img/tab/apps-outline.png") }
 
+// svg
+.ion-md-svg{ content: url("../assets/img/tab/app.svg"); }
+.ion-ios-svg { content: url("../assets/img/tab/app.svg") }
+.ion-ios-svg-outline { content: url("../assets/img/tab/app-outline.svg") }
 
 
 
