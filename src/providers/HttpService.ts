@@ -78,7 +78,7 @@ export class HttpService {
     options.headers.append('Authorization', 'Bearer ' + this.globalData.token);
 
     return Observable.create(observer => {
-      this.request(url, options).map((res: Response) => res.json()).subscribe(res => {
+      this.request(url, options).subscribe(res => {
         // 后台api返回统一数据,res.code===1表示业务处理成功,否则表示发生异常或业务处理失败
         if (res.code === 1) {
           observer.next(res.data);
@@ -97,12 +97,16 @@ export class HttpService {
     });
   }
 
-  public request(url: string, options: RequestOptionsArgs): Observable<Response> {
+  public request(url: string, options: RequestOptionsArgs): Observable<any> {
     IS_DEBUG && console.log('%c 请求发送前 %c', 'color:blue', '', 'url', url, 'options', options);
     this.showLoading();
     return Observable.create(observer => {
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
-        observer.next(res);
+        try{
+          observer.next(res.json());
+        }catch (e) {
+          observer.next(res);
+        }
         IS_DEBUG && console.log('%c 请求发送成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
         this.hideLoading();
       }, err => {

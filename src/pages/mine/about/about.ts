@@ -18,6 +18,15 @@ export class AboutPage {
   constructor(private navCtrl: NavController,
               private versionService: VersionService,
               private nativeService: NativeService) {
+    this.loadVersionInfo();
+  }
+
+
+  ionViewDidEnter() {
+    AlloyLever.entry('#entry3')
+  }
+
+  loadVersionInfo(){
     if (this.nativeService.isMobile()) {
       this.currentVersionNo = this.versionService.getCurrentVersionNo();
       this.latestVersionNo = this.versionService.getLatestVersionNo();
@@ -27,12 +36,11 @@ export class AboutPage {
     }
   }
 
-  ionViewDidEnter() {
-    AlloyLever.entry('#entry3')
-  }
-
   checkNewVersion() {
     this.versionService.checkNewVersion();
+    setTimeout(() => {
+      this.loadVersionInfo();
+    }, 4000);
   }
 
   updateLog() {

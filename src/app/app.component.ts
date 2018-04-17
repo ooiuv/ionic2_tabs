@@ -60,13 +60,10 @@ export class MyApp {
           this.modalCtrl.create(LoginPage).present();
         }
       });
-      this.registerBackButtonAction();//注册android返回按键事件
-      this.versionService.init();//初始化版本信息
-      setTimeout(() => {
-        this.versionService.assertUpgrade();//检测app是否升级
-        this.nativeService.sync();//启动app检查热更新
-        Utils.sessionStorageClear();//清除数据缓存
-      }, 5000);
+      this.registerBackButtonAction(); // 注册android返回按键事件
+      this.versionService.checkVersion(); // 检查版本更新
+      this.nativeService.sync(); // 启动app检查热更新
+      Utils.sessionStorageClear();// 清除数据缓存
     });
   }
 

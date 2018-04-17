@@ -3,7 +3,6 @@
  */
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs/Rx";
-import {Response} from "@angular/http";
 import {HttpService} from "../providers/HttpService";
 import {Utils} from "../providers/Utils";
 import {NativeService} from "../providers/NativeService";
@@ -69,7 +68,7 @@ export class CommonService {
    * 更新文件缓存文件关系
    */
   fileRelationReplace(data) {
-    return this.httpService.post('/fileRelation/replace', data).map((res: Response) => res.json());
+    return this.httpService.post('/fileRelation/replace', data);
   }
 
   /**
@@ -102,14 +101,14 @@ export class CommonService {
    * 查询公告列表
    */
   findPublishList() {
-    return this.httpService.post('/sys/notice/findPublishList').map((res: Response) => res.json());
+    return this.httpService.post('/sys/notice/findPublishList');
   }
 
   /**
    * 查询公告详情
    */
   getPublishDetail(id) {
-    return this.httpService.get(`/sys/notice/getById/${id}`).map((res: Response) => res.json());
+    return this.httpService.get(`/sys/notice/getById/${id}`);
   }
 
 

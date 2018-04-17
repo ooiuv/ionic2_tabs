@@ -20,15 +20,11 @@ export class VersionService {
   lastVersionInfo;//从后台获取到的app最新版本信息
   versions;//app更新日志
 
-  isMobile = false;//是否移动端
-
   appDownloadPageUrl;//下载页访问地址
   apkUrl;//android apk地址
 
   //app更新进度.默认为0,在app升级过程中会改变
   updateProgress: number = -1;
-
-  isInit: boolean = true; //是否正在初始化
 
   constructor(public nativeService: NativeService,
               public transfer: FileTransfer,
@@ -41,70 +37,41 @@ export class VersionService {
 
   }
 
-  init() {
-    this.isMobile = this.nativeService.isMobile();
-    if (this.isMobile) {
-
-      this.nativeService.getVersionNumber().subscribe(currentVersionNo => {
-        this.currentVersionNo = currentVersionNo;
-      });
-
-      this.nativeService.getPackageName().subscribe(packageName => {
-        this.appName = packageName.substring(packageName.lastIndexOf('.') + 1);
-        this.appType = this.nativeService.isAndroid() ? 'android' : 'ios';
-
-        this.appDownloadPageUrl = FILE_SERVE_URL + '/static/download.html?name=' + this.appName;
-
-        //从后台查询app最新版本信息
-        let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
-        this.httpService.get(url, null, false).subscribe(res => {
-          this.isInit = false;//初始化完成
-          if (res && res.code == 1 && res.data && res.data.lastVersion) {
-            let data = res.data;
-            this.lastVersionInfo = data.lastVersion;
-            this.latestVersionNo = data.lastVersion.version;
-            // 查询android apk下载地址
-            (data.fileRelationList || []).filter(fr => fr.type === 'apk').forEach(fr => {
-              this.fileService.getFileInfoById(fr.fileId).subscribe(res => {
-                this.apkUrl = res.origPath;
-              })
-            });
-          }
-        }, err => {
-          this.logger.log(err, '从版本升级服务获取版本信息失败', {url: url});
-          this.isInit = false;//初始化完成
-        })
-      });
-    }
-  }
-
-  getCurrentVersionNo() {
-    return this.currentVersionNo;
-  }
-
-  getLatestVersionNo() {
-    return this.latestVersionNo;
-  }
-
-  getLastVersionInfo() {
-    return this.lastVersionInfo;
-  }
-
-  /**
-   * 是否需要升级
-   */
-  assertUpgrade() {
-    if (!this.isMobile) {
+  checkVersion(isManual: boolean = false) {
+    if (!this.nativeService.isMobile()) {
       return;
     }
-    if (this.isInit) {
-      setTimeout(() => {
-        this.assertUpgrade();
-      }, 5000);
-      return;
-    }
-    //判断版本号是否相等,不相等则需要更新
-    if (this.latestVersionNo && (this.currentVersionNo != this.latestVersionNo)) {
+    // 获得app当前版本号
+    this.nativeService.getVersionNumber().mergeMap(currentVersionNo => {
+      this.currentVersionNo = currentVersionNo;
+      // 获得app当前包名
+      return this.nativeService.getPackageName();
+    }).mergeMap(packageName => {
+      this.appName = packageName.substring(packageName.lastIndexOf('.') + 1);
+      this.appType = this.nativeService.isAndroid() ? 'android' : 'ios';
+      this.appDownloadPageUrl = FILE_SERVE_URL + '/static/download.html?name=' + this.appName;
+      let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
+      // 从后台查询app最新版本信息
+      return this.httpService.get(url, null, false);
+    }).subscribe(res => {
+      if (!res || res.code != 1) {
+        console.log('从版本管理服务中获取版本信息失败');
+        return;
+      }
+      if (res.code == 1 && res.data && !res.data.lastVersion) {
+        console.log('从版本管理服务中未找到最新版本信息');
+        return;
+      }
+      let data = res.data;
+      this.lastVersionInfo = data.lastVersion;
+      this.latestVersionNo = data.lastVersion.version;
+      this.setApkDownloadUrl(data);
+
+      if (this.latestVersionNo && (this.currentVersionNo == this.latestVersionNo)) {
+        isManual && this.nativeService.alert('已经是最新版本');
+        return;
+      }
+
       let that = this;
       if (this.lastVersionInfo.isForcedUpdate == 1) { // 是否强制更新
         this.alertCtrl.create({
@@ -130,8 +97,31 @@ export class VersionService {
           }]
         }).present();
       }
-    }
+    }, err => {
+      this.logger.log(err, '从版本管理服务中获取版本信息失败');
+    });
+  }
 
+  // 查询android apk下载地址
+  setApkDownloadUrl(data) {
+    (data.fileRelationList || []).filter(fr => fr.type === 'apk').forEach(fr => {
+      this.fileService.getFileInfoById(fr.fileId).subscribe(res => {
+        this.apkUrl = res.origPath
+      })
+    });
+
+  }
+
+  getCurrentVersionNo() {
+    return this.currentVersionNo;
+  }
+
+  getLatestVersionNo() {
+    return this.latestVersionNo;
+  }
+
+  getLastVersionInfo() {
+    return this.lastVersionInfo;
   }
 
   /**
@@ -217,11 +207,7 @@ export class VersionService {
    */
   checkNewVersion() {
     if (this.updateProgress == -1 || this.updateProgress == 100) {
-      if (this.currentVersionNo != this.latestVersionNo) {
-        this.assertUpgrade();
-      } else {
-        this.nativeService.alert('已经是最新版本');
-      }
+      this.checkVersion();
     } else {//正在更新
       let alert = this.alertCtrl.create({
         title: `下载进度：${this.updateProgress}%`,
@@ -242,16 +228,15 @@ export class VersionService {
    * 查询app更新日志
    */
   getVersionList() {
-    if (this.isMobile) {
-      let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
-      return this.httpService.get(url, null, false).map(res => {
-        if (res && res.code == 1) {
-          return res.data.versions || [];
-        }
-      })
-    } else {
+    if (!this.nativeService.isMobile()) {
       return Observable.of([]);
     }
+    let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
+    return this.httpService.get(url, null, false).map(res => {
+      if (res && res.code == 1) {
+        return res.data.versions || [];
+      }
+    })
   }
 
 }

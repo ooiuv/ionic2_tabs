@@ -4,11 +4,11 @@
 export const APP_SERVE_URL = 'http://172.16.19.137:9020/api/';//测试
 
 /*----------------------------------------文件服务器地址----------------------------------------*/
-export const FILE_SERVE_URL = 'http://172.16.19.86/kit_file_server/';//文件服务:测试环境
+export const FILE_SERVE_URL = 'http://172.16.19.136:9000/kit_file_server/';//文件服务:测试环境
 
 /*----------------------------------------app版本升级服务地址,查询app最新版本号,更新日志.----------------------------------------*/
-// export const APP_VERSION_SERVE_URL = 'http://172.16.19.86:8111/api/';//原测试环境
-export const APP_VERSION_SERVE_URL = 'http://172.16.19.86/version/api/';//新测试环境
+export const APP_VERSION_SERVE_URL = 'http://88.128.18.144:8082/api/';// 闫小军
+// export const APP_VERSION_SERVE_URL = 'http://172.16.19.86/version/api/';//新测试环境
 
 export const IS_DEBUG = true;//是否开发(调试)模式
 

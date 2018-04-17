@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Response} from "@angular/http";
 import {HttpService} from "../../providers/HttpService";
 import {FileService} from "../../providers/FileService";
 import {Utils} from "../../providers/Utils";
@@ -45,8 +44,7 @@ export class MineService {
    * 反馈详情
    */
   requirementDetail(id) {
-    return this.httpService.get(`/requirement/getDetailById/${id}`).map((res: Response) => {
-      let data = res.json();
+    return this.httpService.get(`/requirement/getDetailById/${id}`).map(data => {
       data.answerList = data.answerList.reverse();
       this.fileService.getFileInfoByIds(data.requirement.fileIdList).subscribe(fileList => {
         data.requirement.fileList = fileList;
