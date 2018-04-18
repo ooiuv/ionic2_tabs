@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NavController, NavParams, ModalController, IonicPage} from 'ionic-angular';
 import {SearchAddress} from "../search-address/search-address";
 import {Navigation} from "../navigation/navigation";
@@ -32,17 +32,7 @@ export class MapLocation {
   };
 
   @Input()
-  params = {
-    draggable: true,//标注是否可以拖拽;
-    click: false,//地图是否点击改变标注的位置
-    searchBar: true,//是否显示搜索框
-    navigation: true,//是否显示导航按钮
-    address: '',//主页面传过来的地址
-    position: {
-      lng: '',
-      lat: ''
-    }//主页面传过来的坐标
-  };
+  params = MapLocation.defaultParams;
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
