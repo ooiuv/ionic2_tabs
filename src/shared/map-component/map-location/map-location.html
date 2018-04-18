@@ -22,7 +22,7 @@
 <div *ngIf="mapIsComplete&&!isPositioning">
   <ion-icon name="radio-button-on" class="position-btn" tappable (click)="mapLocation()"></ion-icon>
 </div>
-<ion-searchbar *ngIf="params.address||params.searchBar"
+<ion-searchbar *ngIf="params.address||params.searchBar!==false"
   class="search"
   placeholder="搜索地址"
   [(ngModel)]="params.address"

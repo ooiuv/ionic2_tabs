@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NavController, NavParams, ModalController, IonicPage} from 'ionic-angular';
 import {SearchAddress} from "../search-address/search-address";
 import {Navigation} from "../navigation/navigation";
 import {NativeService} from "../../../providers/NativeService";
+
 declare var AMap;
 
 @IonicPage()
@@ -16,6 +17,20 @@ export class MapLocation {
   isPositioning: boolean = false;//是否正在定位
   marker: any;//标注
   showIonFab: boolean = false;//是否显示导航按钮
+
+  // 使用参考:src\pages\mine\work-map\work-map.ts
+  static defaultParams = {
+    draggable: true,//标注是否可以拖拽;
+    click: false,//地图是否点击改变标注的位置
+    searchBar: true,//是否显示搜索框
+    navigation: true,//是否显示导航按钮
+    address: '',//主页面传过来的地址
+    position: {
+      lng: '',
+      lat: ''
+    }//主页面传过来的坐标
+  };
+
   @Input()
   params = {
     draggable: true,//标注是否可以拖拽;
@@ -62,9 +77,10 @@ export class MapLocation {
         AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {//添加工具条和比例尺
           that.map.addControl(new AMap.ToolBar());
         });
-        if (that.params.position && that.params.position.lat && that.params.position.lng) { //判断主页面传过来的是坐标就直接描点标注
+        let existPosition = that.params.position && that.params.position.lat && that.params.position.lng;
+        if (existPosition) { //判断主页面传过来的是坐标就直接描点标注
           that.drawMarker(that.params.position);
-        } else if (!(that.params.position.lat && that.params.position.lng) && that.params.address) {
+        } else if (!(existPosition) && that.params.address) {
           //判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
           that.locationSearch();
         } else {
@@ -94,7 +110,7 @@ export class MapLocation {
 //跳转到地址查询搜索页面,并返回一个地址对象(经纬坐标+中文地址)
   locationSearch() {
     let that = this;
-    let locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address});
+    let locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address || ''});
     locationSearchModal.present();
     locationSearchModal.onDidDismiss(item => {
       if (item) {

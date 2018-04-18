@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {MapLocation} from "../../../shared/map-component/map-location/map-location";
 
 /**
  * Generated class for the WorkMapPage page.
@@ -13,6 +14,8 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'work-map.html',
 })
 export class WorkMapPage {
+
+  params = Object.assign({},MapLocation.defaultParams, {draggable: false});
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
