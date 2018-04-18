@@ -1,6 +1,6 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
-import {IonicPage, NavParams, ViewController} from "ionic-angular";
-import {NativeService} from "../../../providers/NativeService";
+import {Component, ViewChild, ElementRef} from '@angular/core';
+import {IonicPage, NavParams, ViewController} from 'ionic-angular';
+import {NativeService} from '../../../providers/NativeService';
 declare var AMap;
 /**
  * Generated class for the Navigation page.
@@ -26,8 +26,8 @@ export class Navigation {
   constructor(private viewCtrl: ViewController,
               private nativeService: NativeService,
               private navParams: NavParams) {
-    this.navigationType = this.navParams.get("navigationType");
-    this.endPoint = this.navParams.get("markerLocation");
+    this.navigationType = this.navParams.get('navigationType');
+    this.endPoint = this.navParams.get('markerLocation');
     this.map = window['HomeAMap'];
   }
 

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {IonicModule} from 'ionic-angular';
-import {TabsPage} from "./tabs";
+import {TabsPage} from './tabs';
 
 @NgModule({
   imports: [IonicModule],

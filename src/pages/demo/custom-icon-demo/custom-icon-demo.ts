@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {NativeService} from "../../../providers/NativeService";
+import {NativeService} from '../../../providers/NativeService';
 
 /*
   Generated class for the CustomIconDemo page.

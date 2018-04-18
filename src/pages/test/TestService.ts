@@ -1,9 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Response, Http} from "@angular/http";
-import {Observable} from "rxjs/Rx";
-import {TestObj} from "./TestObj";
-import {HttpService} from "../../providers/HttpService";
-import {FileObj} from "../../model/FileObj";
+import {Injectable} from '@angular/core';
+import {Response, Http} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import {TestObj} from './TestObj';
+import {HttpService} from '../../providers/HttpService';
+import {FileObj} from '../../model/FileObj';
 
 @Injectable()
 export class TestService {

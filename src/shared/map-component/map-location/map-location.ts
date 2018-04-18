@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {NavController, NavParams, ModalController, IonicPage} from 'ionic-angular';
-import {SearchAddress} from "../search-address/search-address";
-import {Navigation} from "../navigation/navigation";
-import {NativeService} from "../../../providers/NativeService";
+import {SearchAddress} from '../search-address/search-address';
+import {Navigation} from '../navigation/navigation';
+import {NativeService} from '../../../providers/NativeService';
 
 declare var AMap;
 
@@ -163,7 +163,7 @@ export class MapLocation {
     let that = this;
     let geocoder = new AMap.Geocoder({
       radius: 1000,
-      extensions: "all"
+      extensions: 'all'
     });
     geocoder.getAddress(position, function (status, result) {
       if (status === 'complete' && result.info === 'OK') {

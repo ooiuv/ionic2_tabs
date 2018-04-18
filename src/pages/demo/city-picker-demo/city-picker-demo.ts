@@ -1,7 +1,7 @@
-import {Component} from "@angular/core";
-import {NavController, NavParams} from "ionic-angular";
-import {NativeService} from "../../../providers/NativeService";
-import {DemoService} from "../DemoService";
+import {Component} from '@angular/core';
+import {NavController, NavParams} from 'ionic-angular';
+import {NativeService} from '../../../providers/NativeService';
+import {DemoService} from '../DemoService';
 
 /**
  * Generated class for the CityPickerDemoPage page.

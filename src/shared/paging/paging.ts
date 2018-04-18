@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import { IonicPage} from 'ionic-angular';
-import {PAGE_SIZE} from "../../providers/Constants";
+import {PAGE_SIZE} from '../../providers/Constants';
 
 /**
  * @name 自定义分页组件

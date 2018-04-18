@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {NativeService} from "../../../providers/NativeService";
-import {FileService} from "../../../providers/FileService";
+import {NativeService} from '../../../providers/NativeService';
+import {FileService} from '../../../providers/FileService';
 
 /**
  * Generated class for the FileCacheDemoPage page.

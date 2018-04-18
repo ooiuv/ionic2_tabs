@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener} from "@angular/core";
+import {Directive, ElementRef, HostListener} from '@angular/core';
 
 /**
  * Generated class for the AutosizeDirective directive.

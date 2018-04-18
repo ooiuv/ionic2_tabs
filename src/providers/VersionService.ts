@@ -1,30 +1,30 @@
-import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Rx";
-import {File} from "@ionic-native/file";
-import {FileTransfer, FileTransferObject} from "@ionic-native/file-transfer";
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
+import {File} from '@ionic-native/file';
+import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer';
 import {FileOpener} from '@ionic-native/file-opener';
-import {AlertController} from "ionic-angular";
-import {Logger} from "./Logger";
-import {APP_VERSION_SERVE_URL, FILE_SERVE_URL} from "./Constants";
-import {Utils} from "./Utils";
-import {HttpService} from "./HttpService";
-import {NativeService} from "./NativeService";
-import {FileService} from "./FileService";
+import {AlertController} from 'ionic-angular';
+import {Logger} from './Logger';
+import {APP_VERSION_SERVE_URL, FILE_SERVE_URL} from './Constants';
+import {Utils} from './Utils';
+import {HttpService} from './HttpService';
+import {NativeService} from './NativeService';
+import {FileService} from './FileService';
 
 @Injectable()
 export class VersionService {
-  appName;//如app id为com.kit.ionic2tabs,则appName为ionic2tabs
-  appType;//android 或 ios
-  currentVersionNo;//当前版本号
-  latestVersionNo;//最新版本号
-  lastVersionInfo;//从后台获取到的app最新版本信息
-  versions;//app更新日志
+  appName; //如app id为com.kit.ionic2tabs,则appName为ionic2tabs
+  appType; //android 或 ios
+  currentVersionNo; //当前版本号
+  latestVersionNo; //最新版本号
+  lastVersionInfo; //从后台获取到的app最新版本信息
+  versions; //app更新日志
 
-  appDownloadPageUrl;//下载页访问地址
-  apkUrl;//android apk地址
+  appDownloadPageUrl; //下载页访问地址
+  apkUrl; //android apk地址
 
   //app更新进度.默认为0,在app升级过程中会改变
-  updateProgress: number = -1;
+  updateProgress = -1;
 
   constructor(public nativeService: NativeService,
               public transfer: FileTransfer,
@@ -50,7 +50,7 @@ export class VersionService {
       this.appName = packageName.substring(packageName.lastIndexOf('.') + 1);
       this.appType = this.nativeService.isAndroid() ? 'android' : 'ios';
       this.appDownloadPageUrl = FILE_SERVE_URL + '/static/download.html?name=' + this.appName;
-      let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
+      const url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
       // 从后台查询app最新版本信息
       return this.httpService.get(url, null, false);
     }).subscribe(res => {
@@ -62,7 +62,7 @@ export class VersionService {
         console.log('从版本管理服务中未找到最新版本信息');
         return;
       }
-      let data = res.data;
+      const data = res.data;
       this.lastVersionInfo = data.lastVersion;
       this.latestVersionNo = data.lastVersion.version;
       this.setApkDownloadUrl(data);
@@ -72,7 +72,7 @@ export class VersionService {
         return;
       }
 
-      let that = this;
+      const that = this;
       if (this.lastVersionInfo.isForcedUpdate == 1) { // 是否强制更新
         this.alertCtrl.create({
           title: '重要升级',
@@ -137,8 +137,8 @@ export class VersionService {
         return;
       }
       this.nativeService.externalStoragePermissionsAuthorization().subscribe(() => {
-        let backgroundProcess = false;//是否后台下载
-        let alert;//显示下载进度
+        let backgroundProcess = false; //是否后台下载
+        let alert; //显示下载进度
         if (this.lastVersionInfo.isForcedUpdate == 1) {//如果是强制更新则没有后台下载按钮
           alert = this.alertCtrl.create({
             title: '下载进度：0%',
@@ -171,16 +171,16 @@ export class VersionService {
             subTitle: '本地升级失败',
             buttons: [{
               text: '确定', handler: () => {
-                this.nativeService.openUrlByBrowser(this.appDownloadPageUrl);//打开网页下载
+                this.nativeService.openUrlByBrowser(this.appDownloadPageUrl); //打开网页下载
               }
             }
             ]
           }).present();
         });
 
-        let timer = null;//由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
+        let timer = null; //由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
         fileTransfer.onProgress((event: ProgressEvent) => {
-          let progress = Math.floor(event.loaded / event.total * 100);//下载进度
+          const progress = Math.floor(event.loaded / event.total * 100); //下载进度
           this.updateProgress = progress;
           if (!timer) {
             //更新下载进度
@@ -189,7 +189,7 @@ export class VersionService {
                 alert && alert.dismiss();
               } else {
                 if (!backgroundProcess) {
-                  let title = document.getElementsByClassName('alert-title')[0];
+                  const title = document.getElementsByClassName('alert-title')[0];
                   title && (title.innerHTML = `下载进度：${progress}%`);
                 }
               }
@@ -209,12 +209,12 @@ export class VersionService {
     if (this.updateProgress == -1 || this.updateProgress == 100) {
       this.checkVersion();
     } else {//正在更新
-      let alert = this.alertCtrl.create({
+      const alert = this.alertCtrl.create({
         title: `下载进度：${this.updateProgress}%`,
         buttons: [{text: '后台下载'}]
       });
       alert.present();
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         alert.setTitle(`下载进度：${this.updateProgress}%`);
         if (this.updateProgress == 100) {
           clearInterval(interval);
@@ -231,7 +231,7 @@ export class VersionService {
     if (!this.nativeService.isMobile()) {
       return Observable.of([]);
     }
-    let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
+    const url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/findVersionList/${this.appName}/${this.appType}`);
     return this.httpService.get(url, null, false).map(res => {
       if (res && res.code == 1) {
         return res.data.versions || [];

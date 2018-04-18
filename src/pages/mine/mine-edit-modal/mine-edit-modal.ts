@@ -4,8 +4,8 @@ import {Storage} from '@ionic/storage';
 import {FormBuilder} from '@angular/forms';
 import {ViewController} from 'ionic-angular';
 import {NativeService} from '../../../providers/NativeService';
-import {Validators} from "../../../providers/Validators";
-import {GlobalData} from "../../../providers/GlobalData";
+import {Validators} from '../../../providers/Validators';
+import {GlobalData} from '../../../providers/GlobalData';
 
 @Component({
   selector: 'page-mine-edit-modal',

@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {Storage} from "@ionic/storage";
+import {Storage} from '@ionic/storage';
 import {AlertController, IonicPage, NavController} from 'ionic-angular';
-import {GlobalData} from "../../providers/GlobalData";
-import {FileService} from "../../providers/FileService";
-import {FileObj} from "../../model/FileObj";
-import {CommonService} from "../../service/CommonService";
-import {NativeService} from "../../providers/NativeService";
+import {GlobalData} from '../../providers/GlobalData';
+import {FileService} from '../../providers/FileService';
+import {FileObj} from '../../model/FileObj';
+import {CommonService} from '../../service/CommonService';
+import {NativeService} from '../../providers/NativeService';
 
 /**
  * Generated class for the FileCachePage page.

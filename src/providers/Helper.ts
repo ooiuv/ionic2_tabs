@@ -1,19 +1,19 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 import {Storage} from '@ionic/storage';
-import {NativeService} from "./NativeService";
-import {JPush} from "../../typings/modules/jpush/index";
-import {Observable} from "rxjs/Rx";
-import {DEFAULT_AVATAR, IS_DEBUG} from "./Constants";
-import {FileService} from "./FileService";
-import {FileObj} from "../model/FileObj";
-import {Utils} from "./Utils";
-import {Logger} from "./Logger";
-import {Events} from "ionic-angular";
-import {GlobalData} from "./GlobalData";
-import * as fundebug from "fundebug-javascript";
+import {NativeService} from './NativeService';
+import {JPush} from '../../typings/modules/jpush/index';
+import {Observable} from 'rxjs/Rx';
+import {DEFAULT_AVATAR, IS_DEBUG} from './Constants';
+import {FileService} from './FileService';
+import {FileObj} from '../model/FileObj';
+import {Utils} from './Utils';
+import {Logger} from './Logger';
+import {Events} from 'ionic-angular';
+import {GlobalData} from './GlobalData';
+import * as fundebug from 'fundebug-javascript';
 
 declare var AlloyLever;
 
@@ -57,7 +57,7 @@ export class Helper {
       otherReport: {              //需要上报的其他信息
         uin: 491862102
       },*/
-      entry: "#entry"         //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
+      entry: '#entry'         //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
   }
 
@@ -179,23 +179,23 @@ export class Helper {
       }
     });
     //点击通知进入应用程序时会触发的事件
-    document.addEventListener("jpush.openNotification", event => {
+    document.addEventListener('jpush.openNotification', event => {
       this.setIosIconBadgeNumber(0);
       let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
-      console.log("jpush.openNotification" + content);
+      console.log('jpush.openNotification' + content);
       this.events.publish('jpush.openNotification', content);
     }, false);
 
     //收到通知时会触发该事件
-    document.addEventListener("jpush.receiveNotification", event => {
+    document.addEventListener('jpush.receiveNotification', event => {
       let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
-      console.log("jpush.receiveNotification" + content);
+      console.log('jpush.receiveNotification' + content);
     }, false);
 
     //收到自定义消息时触发这个事件
-    document.addEventListener("jpush.receiveMessage", event => {
+    document.addEventListener('jpush.receiveMessage', event => {
       let message = this.nativeService.isIos() ? event['content'] : event['message'];
-      console.log("jpush.receiveMessage" + message);
+      console.log('jpush.receiveMessage' + message);
     }, false);
 
   }

@@ -1,4 +1,4 @@
-import {Animation, PageTransition} from "ionic-angular";
+import {Animation, PageTransition} from 'ionic-angular';
 
 export class ModalFromRightEnter extends PageTransition {
   public init() {

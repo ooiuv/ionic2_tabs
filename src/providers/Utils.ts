@@ -47,7 +47,7 @@ export class Utils {
    * @returns {string}
    */
   static dateFormat(date: Date, sFormat: String = 'yyyy-MM-dd'): string {
-    let time = {
+    const time = {
       Year: 0,
       TYear: '0',
       Month: 0,
@@ -67,17 +67,17 @@ export class Utils {
     time.Year = date.getFullYear();
     time.TYear = String(time.Year).substr(2);
     time.Month = date.getMonth() + 1;
-    time.TMonth = time.Month < 10 ? "0" + time.Month : String(time.Month);
+    time.TMonth = time.Month < 10 ? '0' + time.Month : String(time.Month);
     time.Day = date.getDate();
-    time.TDay = time.Day < 10 ? "0" + time.Day : String(time.Day);
+    time.TDay = time.Day < 10 ? '0' + time.Day : String(time.Day);
     time.Hour = date.getHours();
-    time.THour = time.Hour < 10 ? "0" + time.Hour : String(time.Hour);
+    time.THour = time.Hour < 10 ? '0' + time.Hour : String(time.Hour);
     time.hour = time.Hour < 13 ? time.Hour : time.Hour - 12;
-    time.Thour = time.hour < 10 ? "0" + time.hour : String(time.hour);
+    time.Thour = time.hour < 10 ? '0' + time.hour : String(time.hour);
     time.Minute = date.getMinutes();
-    time.TMinute = time.Minute < 10 ? "0" + time.Minute : String(time.Minute);
+    time.TMinute = time.Minute < 10 ? '0' + time.Minute : String(time.Minute);
     time.Second = date.getSeconds();
-    time.TSecond = time.Second < 10 ? "0" + time.Second : String(time.Second);
+    time.TSecond = time.Second < 10 ? '0' + time.Second : String(time.Second);
     time.Millisecond = date.getMilliseconds();
 
     return sFormat.replace(/yyyy/ig, String(time.Year))
@@ -139,7 +139,7 @@ export class Utils {
 
 
   static sessionStorageGetItem(key: string) {
-    let jsonString = sessionStorage.getItem(key);
+    const jsonString = sessionStorage.getItem(key);
     if (jsonString) {
       return JSON.parse(jsonString);
     }
@@ -169,8 +169,8 @@ export class Utils {
 
   /** 产生一个随机的32位长度字符串 */
   static uuid() {
-    let text = "";
-    let possible = "abcdef0123456789";
+    let text = '';
+    const possible = 'abcdef0123456789';
     for (let i = 0; i < 19; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }

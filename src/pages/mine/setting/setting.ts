@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {Storage} from "@ionic/storage";
+import {Storage} from '@ionic/storage';
 import {NavController, NavParams, ModalController} from 'ionic-angular';
-import {Utils} from "../../../providers/Utils";
-import {ChangePasswordPage} from "../change-password/change-password";
-import {NativeService} from "../../../providers/NativeService";
-import {GlobalData} from "../../../providers/GlobalData";
+import {Utils} from '../../../providers/Utils';
+import {ChangePasswordPage} from '../change-password/change-password';
+import {NativeService} from '../../../providers/NativeService';
+import {GlobalData} from '../../../providers/GlobalData';
 
 /**
  * Generated class for the SettingPage page.

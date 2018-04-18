@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
-import {FileObj} from "../../../model/FileObj";
-import {FileService} from "../../../providers/FileService";
-import {Validators} from "../../../providers/Validators";
-import {FormBuilder} from "@angular/forms";
-import {MineService} from "../MineService";
-import {AlertController, NavController} from "ionic-angular";
+import {FileObj} from '../../../model/FileObj';
+import {FileService} from '../../../providers/FileService';
+import {Validators} from '../../../providers/Validators';
+import {FormBuilder} from '@angular/forms';
+import {MineService} from '../MineService';
+import {AlertController, NavController} from 'ionic-angular';
 
 @Component({
   selector: 'page-feed-back',
@@ -34,10 +34,10 @@ export class FeedBackPage {
               private alertCtrl: AlertController,
               private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],// 第一个参数是默认值
+      title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]], // 第一个参数是默认值
       content: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(500)]],
-      type: ['1'],//1:BUG;2:需求；3：问题；
-      state: ['1'],//1:未回复；2:已回复；3:补充待回复;8：已关闭;9重新打开；
+      type: ['1'], //1:BUG;2:需求；3：问题；
+      state: ['1'], //1:未回复；2:已回复；3:补充待回复;8：已关闭;9重新打开；
       sourceId: [1]//1:现场作业app；2:精准营销app；3:web
     });
     this.form.valueChanges
@@ -65,8 +65,8 @@ export class FeedBackPage {
         {
           text: '确定', handler: () => {
           this.fileService.uploadMultiByFilePath(this.fileObjList).subscribe(fileList => {
-            let fileIdList = [];
-            for (let fileObj of fileList) {
+            const fileIdList = [];
+            for (const fileObj of fileList) {
               fileIdList.push(fileObj.id);
             }
             data.fileIdList = fileIdList;

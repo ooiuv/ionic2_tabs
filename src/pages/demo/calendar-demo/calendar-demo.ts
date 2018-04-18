@@ -1,6 +1,6 @@
-import {Component} from "@angular/core";
-import {NavController, NavParams, ModalController} from "ionic-angular";
-import {NativeService} from "../../../providers/NativeService";
+import {Component} from '@angular/core';
+import {NavController, NavParams, ModalController} from 'ionic-angular';
+import {NativeService} from '../../../providers/NativeService';
 import {CalendarModalOptions, CalendarModal} from 'ion2-calendar'
 
 /**

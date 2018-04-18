@@ -4,9 +4,9 @@ import {Storage} from '@ionic/storage';
 import {FormBuilder, Validators} from '@angular/forms';
 import {FindPasswordPage} from './find-password/find-password';
 import {RegisterPage} from './register/register';
-import {GlobalData} from "../../providers/GlobalData";
-import {CommonService} from "../../service/CommonService";
-import {Helper} from "../../providers/Helper";
+import {GlobalData} from '../../providers/GlobalData';
+import {CommonService} from '../../service/CommonService';
+import {Helper} from '../../providers/Helper';
 import {UserInfo} from '../../model/UserInfo';
 
 @Component({
@@ -85,21 +85,21 @@ export class LoginPage {
   try() {
     this.globalData.token = 'test';
     let userInfo = {
-      "id": 1,
-      "username": "admin",
-      "mobileNumber": "13800003333",
-      "email": "admin@test.net",
-      "realname": "张无忌",
-      "departmentId": 1,
-      "registerTime": "2017-11-24 08:46:54",
-      "avatarId": null,
-      "roles": [{
-        "id": 2,
-        "code": "app_admin",
-        "name": "app管理员",
-        "description": "",
-        "clientType": 2,
-        "resourceIds": null
+      'id': 1,
+      'username': 'admin',
+      'mobileNumber': '13800003333',
+      'email': 'admin@test.net',
+      'realname': '张无忌',
+      'departmentId': 1,
+      'registerTime': '2017-11-24 08:46:54',
+      'avatarId': null,
+      'roles': [{
+        'id': 2,
+        'code': 'app_admin',
+        'name': 'app管理员',
+        'description': '',
+        'clientType': 2,
+        'resourceIds': null
       }]
     };
     this.helper.loginSuccessHandle(userInfo);

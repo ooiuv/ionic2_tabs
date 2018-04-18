@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
-import {NativeService} from "../../../providers/NativeService";
-import {Position} from "../../../model/type";
+import {NativeService} from '../../../providers/NativeService';
+import {Position} from '../../../model/type';
 
 @Component({
   selector: 'page-native-demo',

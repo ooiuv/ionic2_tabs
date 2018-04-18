@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {HttpService} from "../../providers/HttpService";
-import {FileService} from "../../providers/FileService";
-import {Utils} from "../../providers/Utils";
+import {HttpService} from '../../providers/HttpService';
+import {FileService} from '../../providers/FileService';
+import {Utils} from '../../providers/Utils';
 
 @Injectable()
 export class MineService {
@@ -20,8 +20,8 @@ export class MineService {
    */
   updateUserPassword(oldPsw: string, newPsw: string) {
     return this.httpService.postFormData('/v1/update_password', {
-      "old_password": Utils.hex_md5(oldPsw),
-      "new_password": Utils.hex_md5(newPsw),
+      'old_password': Utils.hex_md5(oldPsw),
+      'new_password': Utils.hex_md5(newPsw),
     });
   }
 

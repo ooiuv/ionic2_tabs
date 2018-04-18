@@ -1,31 +1,31 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from "@angular/core";
-import {ToastController, LoadingController, Platform, Loading, AlertController} from "ionic-angular";
-import {StatusBar} from "@ionic-native/status-bar";
-import {SplashScreen} from "@ionic-native/splash-screen";
-import {AppVersion} from "@ionic-native/app-version";
-import {Camera, CameraOptions} from "@ionic-native/camera";
-import {Toast} from "@ionic-native/toast";
-import {File, FileEntry} from "@ionic-native/file";
-import {InAppBrowser} from "@ionic-native/in-app-browser";
-import {ImagePicker} from "@ionic-native/image-picker";
-import {Network} from "@ionic-native/network";
-import {AppMinimize} from "@ionic-native/app-minimize";
-import {CallNumber} from "@ionic-native/call-number";
-import {BarcodeScanner} from "@ionic-native/barcode-scanner";
-import {Position} from "../model/type";
+import {Injectable} from '@angular/core';
+import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {AppVersion} from '@ionic-native/app-version';
+import {Camera, CameraOptions} from '@ionic-native/camera';
+import {Toast} from '@ionic-native/toast';
+import {File, FileEntry} from '@ionic-native/file';
+import {InAppBrowser} from '@ionic-native/in-app-browser';
+import {ImagePicker} from '@ionic-native/image-picker';
+import {Network} from '@ionic-native/network';
+import {AppMinimize} from '@ionic-native/app-minimize';
+import {CallNumber} from '@ionic-native/call-number';
+import {BarcodeScanner} from '@ionic-native/barcode-scanner';
+import {Position} from '../model/type';
 import {
   IMAGE_SIZE,
   QUALITY_SIZE,
   CODE_PUSH_DEPLOYMENT_KEY,
   IS_DEBUG
-} from "./Constants";
-import {Observable} from "rxjs/Rx";
-import {Logger} from "./Logger";
-import {Diagnostic} from "@ionic-native/diagnostic";
-import {CodePush} from "@ionic-native/code-push";
+} from './Constants';
+import {Observable} from 'rxjs/Rx';
+import {Logger} from './Logger';
+import {Diagnostic} from '@ionic-native/diagnostic';
+import {CodePush} from '@ionic-native/code-push';
 
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -100,7 +100,7 @@ export class NativeService {
     if (this.isMobile()) {
       this.statusBar.overlaysWebView(false);
       this.statusBar.styleLightContent();
-      this.statusBar.backgroundColorByHexString('#488aff');//3261b3
+      this.statusBar.backgroundColorByHexString('#488aff'); //3261b3
     }
   }
 
@@ -213,7 +213,7 @@ export class NativeService {
    */
   showLoading(content: string = ''): void {
     if (!this.loading) {//如果loading已经存在则不再打开
-      let loading = this.loadingCtrl.create({
+      const loading = this.loadingCtrl.create({
         content: content
       });
       loading.present();
@@ -234,15 +234,15 @@ export class NativeService {
    * @param options
    */
   getPicture(options: CameraOptions = {}): Observable<string> {
-    let ops: CameraOptions = Object.assign({
-      sourceType: this.camera.PictureSourceType.CAMERA,//图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
-      destinationType: this.camera.DestinationType.DATA_URL,//默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
-      quality: QUALITY_SIZE,//图像质量，范围为0 - 100
-      allowEdit: false,//选择图片前是否允许编辑
+    const ops: CameraOptions = Object.assign({
+      sourceType: this.camera.PictureSourceType.CAMERA, //图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
+      destinationType: this.camera.DestinationType.DATA_URL, //默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
+      quality: QUALITY_SIZE, //图像质量，范围为0 - 100
+      allowEdit: false, //选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: IMAGE_SIZE,//缩放图像的宽度（像素）
-      targetHeight: IMAGE_SIZE,//缩放图像的高度（像素）
-      saveToPhotoAlbum: false,//是否保存到相册
+      targetWidth: IMAGE_SIZE, //缩放图像的宽度（像素）
+      targetHeight: IMAGE_SIZE, //缩放图像的高度（像素）
+      saveToPhotoAlbum: false, //是否保存到相册
       correctOrientation: true//设置摄像机拍摄的图像是否为正确的方向
     }, options);
     return Observable.create(observer => {
@@ -272,7 +272,7 @@ export class NativeService {
    * @param options
    */
   getPictureByCamera(options: CameraOptions = {}): Observable<string> {
-    let ops: CameraOptions = Object.assign({
+    const ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
@@ -284,7 +284,7 @@ export class NativeService {
    * @param options
    */
   getPictureByPhotoLibrary(options: CameraOptions = {}): Observable<string> {
-    let ops: CameraOptions = Object.assign({
+    const ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
@@ -296,21 +296,21 @@ export class NativeService {
    * @param options
    */
   getMultiplePicture(options = {}): Observable<any> {
-    let that = this;
-    let ops = Object.assign({
+    const that = this;
+    const ops = Object.assign({
       maximumImagesCount: 6,
-      width: IMAGE_SIZE,//缩放图像的宽度（像素）
-      height: IMAGE_SIZE,//缩放图像的高度（像素）
+      width: IMAGE_SIZE, //缩放图像的宽度（像素）
+      height: IMAGE_SIZE, //缩放图像的高度（像素）
       quality: QUALITY_SIZE//图像质量，范围为0 - 100
     }, options);
     return Observable.create(observer => {
       this.imagePicker.getPictures(ops).then(files => {
-        let destinationType = options['destinationType'] || 0;//0:base64字符串,1:图片url
+        const destinationType = options['destinationType'] || 0; //0:base64字符串,1:图片url
         if (destinationType === 1) {
           observer.next(files);
         } else {
-          let imgBase64s = [];//base64字符串数组
-          for (let fileUrl of files) {
+          const imgBase64s = []; //base64字符串数组
+          for (const fileUrl of files) {
             that.convertImgToBase64(fileUrl).subscribe(base64 => {
               imgBase64s.push(base64);
               if (imgBase64s.length === files.length) {
@@ -335,7 +335,7 @@ export class NativeService {
     return Observable.create(observer => {
       this.file.resolveLocalFilesystemUrl(path).then((fileEnter: FileEntry) => {
         fileEnter.file(file => {
-          let reader = new FileReader();
+          const reader = new FileReader();
           reader.onloadend = function (e) {
             observer.next(this.result);
           };
@@ -433,7 +433,7 @@ export class NativeService {
             observer.next(lastResult);
           } else {
             // 获取定位是异步,所以这里用定时,直到获取到结果
-            let timer = setInterval(() => {
+            const timer = setInterval(() => {
               if (lastResult) {
                 clearInterval(timer);
                 observer.next(lastResult);
@@ -505,7 +505,7 @@ export class NativeService {
 
   //检测app位置服务是否开启
   private assertLocationService = (() => {
-    let enabledLocationService = false;//手机是否开启位置服务
+    let enabledLocationService = false; //手机是否开启位置服务
     return () => {
       return Observable.create(observer => {
         if (enabledLocationService) {
@@ -598,7 +598,7 @@ export class NativeService {
         if (havePermission) {
           observer.next(true);
         } else {
-          let permissions = [this.diagnostic.permission.READ_EXTERNAL_STORAGE, this.diagnostic.permission.WRITE_EXTERNAL_STORAGE];
+          const permissions = [this.diagnostic.permission.READ_EXTERNAL_STORAGE, this.diagnostic.permission.WRITE_EXTERNAL_STORAGE];
           this.diagnostic.getPermissionsAuthorizationStatus(permissions).then(res => {
             if (res.READ_EXTERNAL_STORAGE == 'GRANTED' && res.WRITE_EXTERNAL_STORAGE == 'GRANTED') {
               havePermission = true;

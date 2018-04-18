@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
-import {MapLocation} from "../../../shared/map-component/map-location/map-location";
+import {MapLocation} from '../../../shared/map-component/map-location/map-location';
 
 /**
  * Generated class for the WorkMapPage page.

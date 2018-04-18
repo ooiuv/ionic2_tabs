@@ -3,9 +3,15 @@
     "no-duplicate-variable": true,
     "no-unused-variable": [
       true
+    ],
+    "quotemark": [
+      true,
+      "single"
     ]
   },
   "rulesDirectory": [
     "node_modules/tslint-eslint-rules/dist/rules"
   ]
 }
+// 自动修改
+// tslint --fix -c ./tslint.json 'src/**/*.ts'

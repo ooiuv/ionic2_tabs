@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {ViewController} from 'ionic-angular';
-import {FormBuilder} from "@angular/forms";
-import {Validators} from "../../../providers/Validators";
-import {NativeService} from "../../../providers/NativeService";
-import {MineService} from "../MineService";
+import {FormBuilder} from '@angular/forms';
+import {Validators} from '../../../providers/Validators';
+import {NativeService} from '../../../providers/NativeService';
+import {MineService} from '../MineService';
 
 /**
  * Generated class for the ChangePasswordPage page.

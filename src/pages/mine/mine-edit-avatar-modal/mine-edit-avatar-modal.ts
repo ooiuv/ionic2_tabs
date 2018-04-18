@@ -1,10 +1,10 @@
 import {Component} from '@angular/core';
 import {ViewController} from 'ionic-angular';
 import {NativeService} from '../../../providers/NativeService';
-import {FileService} from "../../../providers/FileService";
-import {FileObj} from "../../../model/FileObj";
-import {MineService} from "../MineService";
-import {GlobalData} from "../../../providers/GlobalData";
+import {FileService} from '../../../providers/FileService';
+import {FileObj} from '../../../model/FileObj';
+import {MineService} from '../MineService';
+import {GlobalData} from '../../../providers/GlobalData';
 
 declare var AlloyCrop;
 
@@ -14,7 +14,7 @@ declare var AlloyCrop;
 })
 export class MineEditAvatarModalPage {
   userInfo;
-  isChange: boolean = false;//头像是否改变标识
+  isChange = false; //头像是否改变标识
 
   constructor(private viewCtrl: ViewController,
               private fileService: FileService,
@@ -25,7 +25,7 @@ export class MineEditAvatarModalPage {
   }
 
   getPicture(type) {//1拍照,0从图库选择
-    let options = {
+    const options = {
       targetWidth: 400,
       targetHeight: 400,
       quality: 100
@@ -54,17 +54,17 @@ export class MineEditAvatarModalPage {
       },
       cancel: () => {
       },
-      ok_text: "确定", // optional parameters , the default value is ok
-      cancel_text: "取消" // optional parameters , the default value is cancel
+      ok_text: '确定', // optional parameters , the default value is ok
+      cancel_text: '取消' // optional parameters , the default value is cancel
     });
 
   }
 
   saveAvatar() {
     if (this.isChange) {
-      let fileObj = <FileObj>{'base64': this.userInfo.avatarPath};
+      const fileObj = <FileObj>{'base64': this.userInfo.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
-        let avatarId = fileObj.id, avatarPath = fileObj.origPath;
+        const avatarId = fileObj.id, avatarPath = fileObj.origPath;
         this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
           this.globalData.user.avatarId = avatarId;
           this.globalData.user.avatarPath = avatarPath;

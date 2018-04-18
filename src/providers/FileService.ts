@@ -1,15 +1,15 @@
 /**
  * Created by yanxiaojun617@163.com on 12-23.
  */
-import {Injectable} from "@angular/core";
-import {HttpService} from "./HttpService";
-import {FILE_SERVE_URL} from "./Constants";
-import {FileObj} from "../model/FileObj";
-import {Observable} from "rxjs/Rx";
-import {NativeService} from "./NativeService";
-import {GlobalData} from "./GlobalData";
-import {Utils} from "./Utils";
-import {Storage} from "@ionic/storage";
+import {Injectable} from '@angular/core';
+import {HttpService} from './HttpService';
+import {FILE_SERVE_URL} from './Constants';
+import {FileObj} from '../model/FileObj';
+import {Observable} from 'rxjs/Rx';
+import {NativeService} from './NativeService';
+import {GlobalData} from './GlobalData';
+import {Utils} from './Utils';
+import {Storage} from '@ionic/storage';
 
 /**
  * 上传图片到文件服务器
@@ -47,7 +47,7 @@ export class FileService {
       return Observable.of([]);
     }
     return this.getFileCacheByIds(ids).mergeMap(cacheData => {
-      let queryIds = FileService.getNotCacheIds(cacheData, ids);
+      const queryIds = FileService.getNotCacheIds(cacheData, ids);
       if (queryIds.length == 0) {
         return Observable.of(cacheData);
       }
@@ -56,7 +56,7 @@ export class FileService {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
         } else {
-          for (let fileObj of result.data) {
+          for (const fileObj of result.data) {
             fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
             fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
           }
@@ -95,7 +95,7 @@ export class FileService {
         this.nativeService.alert(result.msg);
         return [];
       } else {
-        for (let fileObj of result.data) {
+        for (const fileObj of result.data) {
           fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
           fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
         }
@@ -129,11 +129,11 @@ export class FileService {
     }
     //开启了缓存
     if (this.globalData.enabledFileCache) {
-      for (let fileObj of fileObjList) {
+      for (const fileObj of fileObjList) {
         //生成一个临时id,待真正上传到后台需要替换掉临时id
         fileObj.id = FileService.uuid();
       }
-      let cacheKey = 'file-cache-' + this.globalData.userId;
+      const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
         cacheData = cacheData ? cacheData.concat(fileObjList) : fileObjList;
         //缓存文件信息
@@ -143,8 +143,8 @@ export class FileService {
     } else {
       return Observable.create((observer) => {
         this.nativeService.showLoading();
-        let fileObjs = [];
-        for (let fileObj of fileObjList) {
+        const fileObjs = [];
+        for (const fileObj of fileObjList) {
           this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64 => {
             fileObjs.push({
               'base64': base64,
@@ -180,12 +180,12 @@ export class FileService {
   //根据ids从文件缓存中查询文件信息
   private getFileCacheByIds(ids: string[]): Observable<FileObj[]> {
     return Observable.create(observer => {
-      let result = [];
-      let cacheKey = 'file-cache-' + this.globalData.userId;
+      const result = [];
+      const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
         cacheData = cacheData ? cacheData : [];
-        for (let cache of cacheData) {
-          for (let id of ids) {
+        for (const cache of cacheData) {
+          for (const id of ids) {
             if (id == cache.id) {
               result.push(cache);
             }
@@ -198,10 +198,10 @@ export class FileService {
 
   //查询没有缓存的文件id数组
   private static getNotCacheIds(cacheData, ids) {
-    let result = [];
-    for (let id of ids) {
+    const result = [];
+    for (const id of ids) {
       let isExist = false;
-      for (let cache of cacheData) {
+      for (const cache of cacheData) {
         if (id == cache.id) {
           isExist = true;
         }
@@ -220,19 +220,19 @@ export class FileService {
 
   //获取uuid,前缀为'r_'代表缓存文件
   private static uuid(): string {
-    let uuid = Utils.uuid();
+    const uuid = Utils.uuid();
     return 'r_' + uuid.substring(2);
   }
 
 
   //根据文件id数组从缓存中删除文件
   deleteFileCacheByIds(ids) {
-    let cacheKey = 'file-cache-' + this.globalData.userId;
+    const cacheKey = 'file-cache-' + this.globalData.userId;
     this.storage.get(cacheKey).then(cacheData => {
-      let newCacheData = [];
-      for (let fileObj of cacheData) {
+      const newCacheData = [];
+      for (const fileObj of cacheData) {
         let isExist = false;
-        for (let id of ids) {
+        for (const id of ids) {
           if (fileObj.id == id) {
             isExist = true;
           }

@@ -2,12 +2,12 @@
  * Created by yanxiaojun on 2017/2/16.
  */
 import {Injectable} from '@angular/core';
-import {Observable} from "rxjs/Rx";
-import {HttpService} from "../providers/HttpService";
-import {Utils} from "../providers/Utils";
-import {NativeService} from "../providers/NativeService";
-import {APP_VERSION_SERVE_URL} from "../providers/Constants";
-import {Logger} from "../providers/Logger";
+import {Observable} from 'rxjs/Rx';
+import {HttpService} from '../providers/HttpService';
+import {Utils} from '../providers/Utils';
+import {NativeService} from '../providers/NativeService';
+import {APP_VERSION_SERVE_URL} from '../providers/Constants';
+import {Logger} from '../providers/Logger';
 
 /**
  *

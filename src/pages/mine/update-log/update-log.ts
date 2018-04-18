@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {VersionService} from "../../../providers/VersionService";
+import {VersionService} from '../../../providers/VersionService';
 
 @Component({
   selector: 'page-update-log',

@@ -6,17 +6,17 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class GlobalData {
 
-  private _userId: string;//用户id
-  private _username: string;//用户名
-  private _user;//用户详细信息
+  private _userId: string; //用户id
+  private _username: string; //用户名
+  private _user; //用户详细信息
 
-  private _token: string;//token
+  private _token: string; //token
 
   //设置http请求是否显示loading,注意:设置为true,接下来的请求会不显示loading,请求执行完成会自动设置为false
-  private _showLoading: boolean = true;
+  private _showLoading = true;
 
   //是否启用文件缓存
-  private _enabledFileCache: boolean = true;
+  private _enabledFileCache = true;
 
   get userId(): string {
     return this._userId;

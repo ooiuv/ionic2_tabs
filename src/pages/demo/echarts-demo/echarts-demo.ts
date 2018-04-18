@@ -1,7 +1,7 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import ECharts from 'echarts';
-import {NativeService} from "../../../providers/NativeService";
+import {NativeService} from '../../../providers/NativeService';
 
 @Component({
   selector: 'page-echarts-demo',
@@ -23,7 +23,7 @@ export class EchartsDemoPage {
     myChart.setOption({
       tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'vertical',

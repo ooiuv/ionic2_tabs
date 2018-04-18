@@ -11,13 +11,13 @@ import {
   Response,
   URLSearchParams
 } from '@angular/http';
-import {Observable, TimeoutError} from "rxjs/Rx";
-import {Utils} from "./Utils";
-import {GlobalData} from "./GlobalData";
-import {NativeService} from "./NativeService";
-import {APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT} from "./Constants";
-import {Logger} from "./Logger";
-import {Events} from "ionic-angular";
+import {Observable, TimeoutError} from 'rxjs/Rx';
+import {Utils} from './Utils';
+import {GlobalData} from './GlobalData';
+import {NativeService} from './NativeService';
+import {APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT} from './Constants';
+import {Logger} from './Logger';
+import {Events} from 'ionic-angular';
 
 @Injectable()
 export class HttpService {
@@ -30,7 +30,7 @@ export class HttpService {
   }
 
   public get(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       method: RequestMethod.Get,
       search: HttpService.buildURLSearchParams(paramMap)
     });
@@ -38,7 +38,7 @@ export class HttpService {
   }
 
   public post(url: string, body: any = {}, useDefaultApi: boolean = true): Observable<any> {
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       method: RequestMethod.Post,
       body: body,
       headers: new Headers({
@@ -49,7 +49,7 @@ export class HttpService {
   }
 
   public postFormData(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       method: RequestMethod.Post,
       body: HttpService.buildURLSearchParams(paramMap).toString(),
       headers: new Headers({
@@ -60,7 +60,7 @@ export class HttpService {
   }
 
   public delete(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
-    let options = new RequestOptions({
+    const options = new RequestOptions({
       method: RequestMethod.Delete,
       search: HttpService.buildURLSearchParams(paramMap)
     });
@@ -126,7 +126,7 @@ export class HttpService {
     } else if (err instanceof TimeoutError) {
       this.nativeService.alert('请求超时,请稍后再试!');
     } else {
-      let status = err.status;
+      const status = err.status;
       let msg = '请求发生异常';
       if (status === 0) {
         msg = '请求失败，请求响应出错';
@@ -148,11 +148,11 @@ export class HttpService {
    * 将对象转为查询参数
    */
   private static buildURLSearchParams(paramMap): URLSearchParams {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     if (!paramMap) {
       return params;
     }
-    for (let key in paramMap) {
+    for (const key in paramMap) {
       let val = paramMap[key];
       if (val instanceof Date) {
         val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss')
@@ -162,7 +162,7 @@ export class HttpService {
     return params;
   }
 
-  private count: number = 0; // 记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
+  private count = 0; // 记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
 
   private showLoading() {
     if (++this.count > 0) {//一旦有请求就弹出loading

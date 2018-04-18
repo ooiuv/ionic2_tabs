@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ModalController} from 'ionic-angular';
 import {MineEditModalPage} from '../mine-edit-modal/mine-edit-modal';
 import {MineEditAvatarModalPage} from '../mine-edit-avatar-modal/mine-edit-avatar-modal';
-import {GlobalData} from "../../../providers/GlobalData";
+import {GlobalData} from '../../../providers/GlobalData';
 
 @Component({
   selector: 'page-mine-edit',
@@ -21,7 +21,7 @@ export class MineEditPage {
   }
 
   openModal() {
-    let modal = this.modalCtrl.create(MineEditModalPage);
+    const modal = this.modalCtrl.create(MineEditModalPage);
     modal.present();
     modal.onDidDismiss(userInfo => {
       userInfo && (this.userInfo = userInfo)

@@ -1,10 +1,10 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {IonicPage, ActionSheetController, ModalController, AlertController} from 'ionic-angular';
-import {FileObj} from "../../model/FileObj";
-import {NativeService} from "../../providers/NativeService";
-import {PreviewPicturePage} from "../preview-picture/preview-picture";
-import {FileService} from "../../providers/FileService";
-import {GlobalData} from "../../providers/GlobalData";
+import {FileObj} from '../../model/FileObj';
+import {NativeService} from '../../providers/NativeService';
+import {PreviewPicturePage} from '../preview-picture/preview-picture';
+import {FileService} from '../../providers/FileService';
+import {GlobalData} from '../../providers/GlobalData';
 
 /**
  * Generated class for the SelectPicturePage page.
