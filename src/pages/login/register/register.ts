@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController, ViewController} from 'ionic-angular';
-import {FormBuilder, Validators} from '@angular/forms';
-import {LoginPage} from '../login';
+import { Component } from '@angular/core';
+import { NavController, ViewController } from 'ionic-angular';
+import { FormBuilder, Validators } from '@angular/forms';
+import { LoginPage } from '../login';
 
 @Component({
   selector: 'page-register',

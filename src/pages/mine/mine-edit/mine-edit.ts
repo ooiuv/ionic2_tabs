@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {ModalController} from 'ionic-angular';
-import {MineEditModalPage} from '../mine-edit-modal/mine-edit-modal';
-import {MineEditAvatarModalPage} from '../mine-edit-avatar-modal/mine-edit-avatar-modal';
-import {GlobalData} from '../../../providers/GlobalData';
+import { Component } from '@angular/core';
+import { ModalController } from 'ionic-angular';
+import { MineEditModalPage } from '../mine-edit-modal/mine-edit-modal';
+import { MineEditAvatarModalPage } from '../mine-edit-avatar-modal/mine-edit-avatar-modal';
+import { GlobalData } from '../../../providers/GlobalData';
 
 @Component({
   selector: 'page-mine-edit',

@@ -1,5 +1,5 @@
-import {NgModule} from '@angular/core';
-import {AutosizeDirective} from './autosize/autosize';
+import { NgModule } from '@angular/core';
+import { AutosizeDirective } from './autosize/autosize';
 @NgModule({
 	declarations: [AutosizeDirective],
 	imports: [],

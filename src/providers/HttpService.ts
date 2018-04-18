@@ -1,7 +1,7 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   Headers,
   Http,
@@ -11,13 +11,13 @@ import {
   Response,
   URLSearchParams
 } from '@angular/http';
-import {Observable, TimeoutError} from 'rxjs/Rx';
-import {Utils} from './Utils';
-import {GlobalData} from './GlobalData';
-import {NativeService} from './NativeService';
-import {APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT} from './Constants';
-import {Logger} from './Logger';
-import {Events} from 'ionic-angular';
+import { Observable, TimeoutError } from 'rxjs/Rx';
+import { Utils } from './Utils';
+import { GlobalData } from './GlobalData';
+import { NativeService } from './NativeService';
+import { APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT } from './Constants';
+import { Logger } from './Logger';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class HttpService {

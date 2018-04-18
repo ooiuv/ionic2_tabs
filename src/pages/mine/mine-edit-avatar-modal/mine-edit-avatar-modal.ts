@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {ViewController} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
-import {FileService} from '../../../providers/FileService';
-import {FileObj} from '../../../model/FileObj';
-import {MineService} from '../MineService';
-import {GlobalData} from '../../../providers/GlobalData';
+import { Component } from '@angular/core';
+import { ViewController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
+import { FileService } from '../../../providers/FileService';
+import { FileObj } from '../../../model/FileObj';
+import { MineService } from '../MineService';
+import { GlobalData } from '../../../providers/GlobalData';
 
 declare var AlloyCrop;
 
@@ -62,7 +62,7 @@ export class MineEditAvatarModalPage {
 
   saveAvatar() {
     if (this.isChange) {
-      const fileObj = <FileObj>{'base64': this.userInfo.avatarPath};
+      const fileObj = <FileObj> {'base64': this.userInfo.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
         const avatarId = fileObj.id, avatarPath = fileObj.origPath;
         this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表

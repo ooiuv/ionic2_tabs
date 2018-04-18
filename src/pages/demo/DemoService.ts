@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Response, Http} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Response, Http } from '@angular/http';
 
 @Injectable()
 export class DemoService {

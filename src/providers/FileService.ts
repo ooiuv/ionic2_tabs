@@ -1,15 +1,15 @@
 /**
  * Created by yanxiaojun617@163.com on 12-23.
  */
-import {Injectable} from '@angular/core';
-import {HttpService} from './HttpService';
-import {FILE_SERVE_URL} from './Constants';
-import {FileObj} from '../model/FileObj';
-import {Observable} from 'rxjs/Rx';
-import {NativeService} from './NativeService';
-import {GlobalData} from './GlobalData';
-import {Utils} from './Utils';
-import {Storage} from '@ionic/storage';
+import { Injectable } from '@angular/core';
+import { HttpService } from './HttpService';
+import { FILE_SERVE_URL } from './Constants';
+import { FileObj } from '../model/FileObj';
+import { Observable } from 'rxjs/Rx';
+import { NativeService } from './NativeService';
+import { GlobalData } from './GlobalData';
+import { Utils } from './Utils';
+import { Storage } from '@ionic/storage';
 
 /**
  * 上传图片到文件服务器

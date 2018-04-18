@@ -1,16 +1,16 @@
-import {Component, ViewChild} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events} from 'ionic-angular';
-import {NativeService} from '../providers/NativeService';
-import {TabsPage} from '../pages/tabs/tabs';
-import {LoginPage} from '../pages/login/login';
-import {Helper} from '../providers/Helper';
-import {GlobalData} from '../providers/GlobalData';
-import {Utils} from '../providers/Utils';
-import {CommonService} from '../service/CommonService';
-import {VersionService} from '../providers/VersionService';
-import {UserInfo} from '../model/UserInfo';
-import {AboutPage} from '../pages/mine/about/about';
+import { Component, ViewChild } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events } from 'ionic-angular';
+import { NativeService } from '../providers/NativeService';
+import { TabsPage } from '../pages/tabs/tabs';
+import { LoginPage } from '../pages/login/login';
+import { Helper } from '../providers/Helper';
+import { GlobalData } from '../providers/GlobalData';
+import { Utils } from '../providers/Utils';
+import { CommonService } from '../service/CommonService';
+import { VersionService } from '../providers/VersionService';
+import { UserInfo } from '../model/UserInfo';
+import { AboutPage } from '../pages/mine/about/about';
 
 @Component({
   templateUrl: 'app.html'
@@ -63,7 +63,7 @@ export class MyApp {
       this.registerBackButtonAction(); // 注册android返回按键事件
       this.versionService.checkVersion(); // 检查版本更新
       this.nativeService.sync(); // 启动app检查热更新
-      Utils.sessionStorageClear();// 清除数据缓存
+      Utils.sessionStorageClear(); // 清除数据缓存
     });
   }
 
@@ -96,11 +96,11 @@ export class MyApp {
         activePortal.dismiss();
         return;
       }
-      let tabs = this.nav.getActiveChildNav();//获取tabs导航,this.nav是总导航,tabs是子导航
-      let tab = tabs.getSelected();//获取选中的tab
-      let activeVC = tab.getActive();//通过当前选中的tab获取ViewController
-      let activeNav = activeVC.getNav();//通过当前视图的ViewController获取的NavController
-      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize();//this.showExit()
+      let tabs = this.nav.getActiveChildNav(); //获取tabs导航,this.nav是总导航,tabs是子导航
+      let tab = tabs.getSelected(); //获取选中的tab
+      let activeVC = tab.getActive(); //通过当前选中的tab获取ViewController
+      let activeNav = activeVC.getNav(); //通过当前视图的ViewController获取的NavController
+      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize(); //this.showExit()
     }, 1);
   }
 
@@ -129,11 +129,11 @@ export class MyApp {
       // }
       let activeNav = activeVC.getNav();
       activeNav.popToRoot({}).then(() => {//导航跳到最顶层
-        tabs.select(3);//选中第四个tab
-        let tab = tabs.getSelected();//获取选中的tab
-        let activeVC = tab.getActive();//通过当前选中的tab获取ViewController
-        let activeNav = activeVC.getNav();//通过当前视图的ViewController获取的NavController
-        activeNav.push(AboutPage);//跳转到指定页面
+        tabs.select(3); //选中第四个tab
+        let tab = tabs.getSelected(); //获取选中的tab
+        let activeVC = tab.getActive(); //通过当前选中的tab获取ViewController
+        let activeNav = activeVC.getNav(); //通过当前视图的ViewController获取的NavController
+        activeNav.push(AboutPage); //跳转到指定页面
       });
     });
   }

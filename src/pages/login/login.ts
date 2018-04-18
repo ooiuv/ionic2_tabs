@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {ModalController, ViewController, Platform, AlertController, Events} from 'ionic-angular';
-import {Storage} from '@ionic/storage';
-import {FormBuilder, Validators} from '@angular/forms';
-import {FindPasswordPage} from './find-password/find-password';
-import {RegisterPage} from './register/register';
-import {GlobalData} from '../../providers/GlobalData';
-import {CommonService} from '../../service/CommonService';
-import {Helper} from '../../providers/Helper';
-import {UserInfo} from '../../model/UserInfo';
+import { Component } from '@angular/core';
+import { ModalController, ViewController, Platform, AlertController, Events } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { FormBuilder, Validators } from '@angular/forms';
+import { FindPasswordPage } from './find-password/find-password';
+import { RegisterPage } from './register/register';
+import { GlobalData } from '../../providers/GlobalData';
+import { CommonService } from '../../service/CommonService';
+import { Helper } from '../../providers/Helper';
+import { UserInfo } from '../../model/UserInfo';
 
 @Component({
   selector: 'page-login',
@@ -29,7 +29,7 @@ export class LoginPage {
               public helper: Helper,
               public commonService: CommonService) {
     this.loginForm = this.formBuilder.group({
-      username: [this.globalData.username || 'admin', [Validators.required, Validators.minLength(2)]],// 第一个参数是默认值
+      username: [this.globalData.username || 'admin', [Validators.required, Validators.minLength(2)]], // 第一个参数是默认值
       password: ['123456', [Validators.required, Validators.minLength(4)]]
     });
   }

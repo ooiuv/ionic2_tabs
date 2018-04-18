@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {ViewController} from 'ionic-angular';
-import {FormBuilder} from '@angular/forms';
-import {Validators} from '../../../providers/Validators';
-import {NativeService} from '../../../providers/NativeService';
-import {MineService} from '../MineService';
+import { Component } from '@angular/core';
+import { ViewController } from 'ionic-angular';
+import { FormBuilder } from '@angular/forms';
+import { Validators } from '../../../providers/Validators';
+import { NativeService } from '../../../providers/NativeService';
+import { MineService } from '../MineService';
 
 /**
  * Generated class for the ChangePasswordPage page.
@@ -85,17 +85,17 @@ export class ChangePasswordPage {
 
   input(val) {
     let m = this.checkPass(val);
-    if(m>=3){
-      this.strength.high=true;
+    if (m >= 3) {
+      this.strength.high = true;
     }
-    if(m==2){
-      this.strength.high=false;
-      this.strength.middle=true;
+    if (m == 2) {
+      this.strength.high = false;
+      this.strength.middle = true;
     }
-    if(m<2){
-      this.strength.high=false;
-      this.strength.middle=false;
-      this.strength.low=true;
+    if (m < 2) {
+      this.strength.high = false;
+      this.strength.middle = false;
+      this.strength.low = true;
     }
   }
 

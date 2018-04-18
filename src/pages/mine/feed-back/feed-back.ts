@@ -1,10 +1,10 @@
-import {Component} from '@angular/core';
-import {FileObj} from '../../../model/FileObj';
-import {FileService} from '../../../providers/FileService';
-import {Validators} from '../../../providers/Validators';
-import {FormBuilder} from '@angular/forms';
-import {MineService} from '../MineService';
-import {AlertController, NavController} from 'ionic-angular';
+import { Component } from '@angular/core';
+import { FileObj } from '../../../model/FileObj';
+import { FileService } from '../../../providers/FileService';
+import { Validators } from '../../../providers/Validators';
+import { FormBuilder } from '@angular/forms';
+import { MineService } from '../MineService';
+import { AlertController, NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-feed-back',

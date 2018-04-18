@@ -1,10 +1,10 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {IonicPage, ActionSheetController, ModalController, AlertController} from 'ionic-angular';
-import {FileObj} from '../../model/FileObj';
-import {NativeService} from '../../providers/NativeService';
-import {PreviewPicturePage} from '../preview-picture/preview-picture';
-import {FileService} from '../../providers/FileService';
-import {GlobalData} from '../../providers/GlobalData';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { IonicPage, ActionSheetController, ModalController, AlertController } from 'ionic-angular';
+import { FileObj } from '../../model/FileObj';
+import { NativeService } from '../../providers/NativeService';
+import { PreviewPicturePage } from '../preview-picture/preview-picture';
+import { FileService } from '../../providers/FileService';
+import { GlobalData } from '../../providers/GlobalData';
 
 /**
  * Generated class for the SelectPicturePage page.
@@ -46,7 +46,7 @@ export class SelectPicturePage {
               maximumImagesCount: (that.max - that.fileObjList.length),
               destinationType: 1//期望返回的图片格式,1图片路径
             }).subscribe(imgs => {
-              for (let img of <string[]>imgs) {
+              for (let img of <string[]> imgs) {
                 that.getPictureSuccess(img);
               }
             });
@@ -101,7 +101,7 @@ export class SelectPicturePage {
   }
 
   private getPictureSuccess(img) {
-    let fileObj = <FileObj>{'origPath': img, 'thumbPath': img};
+    let fileObj = <FileObj> {'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);
   }

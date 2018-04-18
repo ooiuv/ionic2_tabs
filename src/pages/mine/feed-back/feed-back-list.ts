@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {MineService} from '../MineService';
-import {FeedBackPage} from './feed-back';
-import {FeedBackDetailPage} from './feed-back-detail';
-import {PAGE_SIZE} from '../../../providers/Constants';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { MineService } from '../MineService';
+import { FeedBackPage } from './feed-back';
+import { FeedBackDetailPage } from './feed-back-detail';
+import { PAGE_SIZE } from '../../../providers/Constants';
 
 /**
  * Generated class for the FeedBackListPage page.

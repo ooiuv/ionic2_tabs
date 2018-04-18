@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {MineService} from '../MineService';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { MineService } from '../MineService';
 
 /**
  * Generated class for the FeedBackDetailPage page.

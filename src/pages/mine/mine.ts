@@ -1,15 +1,15 @@
-import {Component} from '@angular/core';
-import {Platform, NavController, ModalController, AlertController, Events} from 'ionic-angular';
-import {MineEditPage} from './mine-edit/mine-edit';
-import {MineEditAvatarModalPage} from './mine-edit-avatar-modal/mine-edit-avatar-modal';
-import {AboutPage} from './about/about';
-import {LoginPage} from '../login/login';
-import {Helper} from '../../providers/Helper';
-import {WorkMapPage} from './work-map/work-map';
-import {SettingPage} from './setting/setting';
-import {NativeService} from '../../providers/NativeService';
-import {FileCachePage} from '../../shared/file-cache/file-cache';
-import {GlobalData} from '../../providers/GlobalData';
+import { Component } from '@angular/core';
+import { Platform, NavController, ModalController, AlertController, Events } from 'ionic-angular';
+import { MineEditPage } from './mine-edit/mine-edit';
+import { MineEditAvatarModalPage } from './mine-edit-avatar-modal/mine-edit-avatar-modal';
+import { AboutPage } from './about/about';
+import { LoginPage } from '../login/login';
+import { Helper } from '../../providers/Helper';
+import { WorkMapPage } from './work-map/work-map';
+import { SettingPage } from './setting/setting';
+import { NativeService } from '../../providers/NativeService';
+import { FileCachePage } from '../../shared/file-cache/file-cache';
+import { GlobalData } from '../../providers/GlobalData';
 
 @Component({
   selector: 'page-mine',

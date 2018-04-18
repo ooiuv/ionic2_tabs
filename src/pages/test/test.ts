@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {TestService} from './TestService';
-import {FileObj} from '../../model/FileObj';
+import { Component } from '@angular/core';
+import { TestService } from './TestService';
+import { FileObj } from '../../model/FileObj';
 
 @Component({
   selector: 'page-test',

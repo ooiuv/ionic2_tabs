@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
+import { NativeService } from '../../../providers/NativeService';
 
 /*
   Generated class for the CustomIconDemo page.
@@ -17,7 +17,7 @@ export class CustomIconDemoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private nativeService: NativeService) {}
 
 
-  details(url){
+  details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
 

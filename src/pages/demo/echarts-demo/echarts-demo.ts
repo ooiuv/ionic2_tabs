@@ -1,7 +1,7 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import ECharts from 'echarts';
-import {NativeService} from '../../../providers/NativeService';
+import { NativeService } from '../../../providers/NativeService';
 
 @Component({
   selector: 'page-echarts-demo',
@@ -18,7 +18,7 @@ export class EchartsDemoPage {
 
   initChart() {
     let element = this.chart.nativeElement;
-    element.style.width = (document.body.clientWidth - 16) + 'px';//设置容器宽度
+    element.style.width = (document.body.clientWidth - 16) + 'px'; //设置容器宽度
     let myChart = ECharts.init(element);
     myChart.setOption({
       tooltip: {

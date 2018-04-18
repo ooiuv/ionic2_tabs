@@ -1,15 +1,15 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {File} from '@ionic-native/file';
-import {FileTransfer, FileTransferObject} from '@ionic-native/file-transfer';
-import {FileOpener} from '@ionic-native/file-opener';
-import {AlertController} from 'ionic-angular';
-import {Logger} from './Logger';
-import {APP_VERSION_SERVE_URL, FILE_SERVE_URL} from './Constants';
-import {Utils} from './Utils';
-import {HttpService} from './HttpService';
-import {NativeService} from './NativeService';
-import {FileService} from './FileService';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import { File } from '@ionic-native/file';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileOpener } from '@ionic-native/file-opener';
+import { AlertController } from 'ionic-angular';
+import { Logger } from './Logger';
+import { APP_VERSION_SERVE_URL, FILE_SERVE_URL } from './Constants';
+import { Utils } from './Utils';
+import { HttpService } from './HttpService';
+import { NativeService } from './NativeService';
+import { FileService } from './FileService';
 
 @Injectable()
 export class VersionService {

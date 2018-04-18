@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {AlertController, IonicPage, NavController} from 'ionic-angular';
-import {GlobalData} from '../../providers/GlobalData';
-import {FileService} from '../../providers/FileService';
-import {FileObj} from '../../model/FileObj';
-import {CommonService} from '../../service/CommonService';
-import {NativeService} from '../../providers/NativeService';
+import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { AlertController, IonicPage, NavController } from 'ionic-angular';
+import { GlobalData } from '../../providers/GlobalData';
+import { FileService } from '../../providers/FileService';
+import { FileObj } from '../../model/FileObj';
+import { CommonService } from '../../service/CommonService';
+import { NativeService } from '../../providers/NativeService';
 
 /**
  * Generated class for the FileCachePage page.
@@ -20,10 +20,10 @@ import {NativeService} from '../../providers/NativeService';
   templateUrl: 'file-cache.html',
 })
 export class FileCachePage {
-  enabledFileCache: boolean = true;//app是否开启缓存
-  uploading: boolean = false;//是否正在上传
-  fileObjList: FileObj[] = [];//待上传的文件数组
-  uploadTotal: number = 0;//待上传的文件数量
+  enabledFileCache: boolean = true; //app是否开启缓存
+  uploading: boolean = false; //是否正在上传
+  fileObjList: FileObj[] = []; //待上传的文件数组
+  uploadTotal: number = 0; //待上传的文件数量
   progress;
 
   constructor(public navCtrl: NavController,
@@ -85,7 +85,7 @@ export class FileCachePage {
             this.nativeService.alert('上传完成');
             this.uploading = false;
           }
-          this.doUpload();//继续上传下一个文件
+          this.doUpload(); //继续上传下一个文件
         })
       })
     }

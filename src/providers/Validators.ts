@@ -1,8 +1,8 @@
 /**
  * Created by yanxiaojun617@163.com on 3-12.
  */
-import {Injectable} from '@angular/core';
-import {Validators as angularValidators, AbstractControl} from '@angular/forms';
+import { Injectable } from '@angular/core';
+import {Validators as angularValidators, AbstractControl } from '@angular/forms';
 
 @Injectable()
 export class Validators extends angularValidators {

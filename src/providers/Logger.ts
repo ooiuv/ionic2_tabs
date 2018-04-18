@@ -1,8 +1,8 @@
 /**
  * Created by yanxiaojun617@163.com on 07-25.
  */
-import {Injectable} from '@angular/core';
-import {GlobalData} from './GlobalData';
+import { Injectable } from '@angular/core';
+import { GlobalData } from './GlobalData';
 import * as fundebug from 'fundebug-javascript';
 
 /**

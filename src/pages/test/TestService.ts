@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {Response, Http} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {TestObj} from './TestObj';
-import {HttpService} from '../../providers/HttpService';
-import {FileObj} from '../../model/FileObj';
+import { Injectable } from '@angular/core';
+import { Response, Http } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { TestObj } from './TestObj';
+import { HttpService } from '../../providers/HttpService';
+import { FileObj } from '../../model/FileObj';
 
 @Injectable()
 export class TestService {
@@ -27,7 +27,7 @@ export class TestService {
       let result = res.json(), fileObjList: FileObj[] = [];
       if (result.success) {
         for (let fileObj of result.data) {
-          fileObjList.push(<FileObj>{'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
+          fileObjList.push(<FileObj> {'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
         }
       }
       return fileObjList;

@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {HttpService} from '../../../../providers/HttpService';
-import {NativeService} from '../../../../providers/NativeService';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { HttpService } from '../../../../providers/HttpService';
+import { NativeService } from '../../../../providers/NativeService';
 
 /**
  * Generated class for the CustomerListPage page.

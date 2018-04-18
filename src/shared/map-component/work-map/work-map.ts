@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {NavController, NavParams, ViewController} from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the WorkMapPage page.
@@ -13,7 +13,7 @@ import {NavController, NavParams, ViewController} from 'ionic-angular';
   templateUrl: 'work-map.html',
 })
 export class WorkMapPage {
-  toolbar:boolean=true;
+  toolbar: boolean= true;
   params = {
     draggable: true,
     click: false,
@@ -29,10 +29,10 @@ export class WorkMapPage {
               public viewCtrl: ViewController,
               public navParams: NavParams) {
     Object.assign(this.params, this.navParams.get('params'));
-    this.toolbar=this.navParams.get('toolbar')
+    this.toolbar = this.navParams.get('toolbar')
   }
 
-  dismiss(){
+  dismiss() {
     this.viewCtrl.dismiss();
   }
 }

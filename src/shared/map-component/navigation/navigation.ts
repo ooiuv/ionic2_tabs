@@ -1,6 +1,6 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {IonicPage, NavParams, ViewController} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
 declare var AMap;
 /**
  * Generated class for the Navigation page.
@@ -16,7 +16,7 @@ declare var AMap;
 export class Navigation {
 
   @ViewChild('panel') panel: ElementRef;
-  navigationType:number;
+  navigationType: number;
   navigationIsReady: boolean = false;
   walkNavigationIsReady: boolean = false;
   map;
@@ -60,7 +60,7 @@ export class Navigation {
         console.log(status);
         console.log(result);
       });
-    },()=>{
+    }, () => {
       this.nativeService.hideLoading();
     })
   }

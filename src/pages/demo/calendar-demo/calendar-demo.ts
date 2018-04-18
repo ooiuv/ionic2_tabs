@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams, ModalController} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
-import {CalendarModalOptions, CalendarModal} from 'ion2-calendar'
+import { Component } from '@angular/core';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
+import { CalendarModalOptions, CalendarModal } from 'ion2-calendar'
 
 /**
  * Generated class for the CalendarDemoPage page.
@@ -24,7 +24,7 @@ export class CalendarDemoPage {
 
   openCalendar() {
     let from = new Date();
-    from.setMonth(from.getMonth() - 6);//半年前
+    from.setMonth(from.getMonth() - 6); //半年前
     const options: CalendarModalOptions = {
       title: '',
       pickMode: 'range',

@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {FileObj} from '../../../model/FileObj';
-import {Response, Http} from '@angular/http';
-import {NativeService} from '../../../providers/NativeService';
-import {FileService} from '../../../providers/FileService';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { FileObj } from '../../../model/FileObj';
+import { Response, Http } from '@angular/http';
+import { NativeService } from '../../../providers/NativeService';
+import { FileService } from '../../../providers/FileService';
 
 @Component({
   selector: 'page-select-pic-demo',
@@ -21,7 +21,7 @@ export class SelectPicDemoPage {
     this.http.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
         for (let fileObj of res.data) {
-          this.fileObjList.push(<FileObj>{
+          this.fileObjList.push(<FileObj> {
             'thumbPath': fileObj.base64,
             'origPath': fileObj.base64,
             'base64': fileObj.base64
@@ -31,17 +31,17 @@ export class SelectPicDemoPage {
     });
   }
 
-  details(url){
+  details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
 
-  uploadMultiByBase64(){
+  uploadMultiByBase64() {
     this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(fileList => {
         this.nativeService.showToast('成功上传' + fileList.length + '张图片');
     });
   }
 
-  uploadMultiByFilePath(){
+  uploadMultiByFilePath() {
     this.fileService.uploadMultiByFilePath(this.filePaths).subscribe(fileList => {
       this.nativeService.showToast('成功上传' + fileList.length + '张图片');
     });

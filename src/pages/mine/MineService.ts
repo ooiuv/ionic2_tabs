@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {HttpService} from '../../providers/HttpService';
-import {FileService} from '../../providers/FileService';
-import {Utils} from '../../providers/Utils';
+import { Injectable } from '@angular/core';
+import { HttpService } from '../../providers/HttpService';
+import { FileService } from '../../providers/FileService';
+import { Utils } from '../../providers/Utils';
 
 @Injectable()
 export class MineService {

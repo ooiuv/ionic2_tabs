@@ -1,9 +1,9 @@
-import {Component, ViewChild} from '@angular/core';
-import {HomePage} from '../home/home';
-import {MinePage} from '../mine/mine';
-import {Tabs, Events} from 'ionic-angular';
-import {TestPage} from '../test/test';
-import {DemoPage} from '../demo/demo';
+import { Component, ViewChild } from '@angular/core';
+import { HomePage } from '../home/home';
+import { MinePage } from '../mine/mine';
+import { Tabs, Events } from 'ionic-angular';
+import { TestPage } from '../test/test';
+import { DemoPage } from '../demo/demo';
 
 @Component({
   templateUrl: 'tabs.html'

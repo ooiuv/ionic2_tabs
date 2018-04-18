@@ -1,31 +1,31 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from '@angular/core';
-import {ToastController, LoadingController, Platform, Loading, AlertController} from 'ionic-angular';
-import {StatusBar} from '@ionic-native/status-bar';
-import {SplashScreen} from '@ionic-native/splash-screen';
-import {AppVersion} from '@ionic-native/app-version';
-import {Camera, CameraOptions} from '@ionic-native/camera';
-import {Toast} from '@ionic-native/toast';
-import {File, FileEntry} from '@ionic-native/file';
-import {InAppBrowser} from '@ionic-native/in-app-browser';
-import {ImagePicker} from '@ionic-native/image-picker';
-import {Network} from '@ionic-native/network';
-import {AppMinimize} from '@ionic-native/app-minimize';
-import {CallNumber} from '@ionic-native/call-number';
-import {BarcodeScanner} from '@ionic-native/barcode-scanner';
-import {Position} from '../model/type';
+import { Injectable } from '@angular/core';
+import { ToastController, LoadingController, Platform, Loading, AlertController } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+import { AppVersion } from '@ionic-native/app-version';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Toast } from '@ionic-native/toast';
+import { File, FileEntry } from '@ionic-native/file';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Network } from '@ionic-native/network';
+import { AppMinimize } from '@ionic-native/app-minimize';
+import { CallNumber } from '@ionic-native/call-number';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Position } from '../model/type';
 import {
   IMAGE_SIZE,
   QUALITY_SIZE,
   CODE_PUSH_DEPLOYMENT_KEY,
   IS_DEBUG
 } from './Constants';
-import {Observable} from 'rxjs/Rx';
-import {Logger} from './Logger';
-import {Diagnostic} from '@ionic-native/diagnostic';
-import {CodePush} from '@ionic-native/code-push';
+import { Observable } from 'rxjs/Rx';
+import { Logger } from './Logger';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { CodePush } from '@ionic-native/code-push';
 
 declare var LocationPlugin;
 declare var AMapNavigation;

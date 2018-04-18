@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
-import {FileService} from '../../../providers/FileService';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
+import { FileService } from '../../../providers/FileService';
 
 /**
  * Generated class for the FileCacheDemoPage page.
@@ -26,14 +26,14 @@ export class FileCacheDemoPage {
     }
   }
 
-  save(){
-    if(this.fileObjList.length==0){
+  save() {
+    if (this.fileObjList.length == 0) {
       this.nativeService.alert('请选择照片');
       return;
     }
-    this.fileService.uploadMultiByFilePath(this.fileObjList).subscribe(res=>{
+    this.fileService.uploadMultiByFilePath(this.fileObjList).subscribe(res => {
       this.fileObjList = [];
-      this.nativeService.alert('文件已缓存','重启app在"我的-图片缓存"功能查看');
+      this.nativeService.alert('文件已缓存', '重启app在"我的-图片缓存"功能查看');
     });
   }
 

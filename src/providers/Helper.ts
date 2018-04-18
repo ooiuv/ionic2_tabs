@@ -1,18 +1,18 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {NativeService} from './NativeService';
-import {JPush} from '../../typings/modules/jpush/index';
-import {Observable} from 'rxjs/Rx';
-import {DEFAULT_AVATAR, IS_DEBUG} from './Constants';
-import {FileService} from './FileService';
-import {FileObj} from '../model/FileObj';
-import {Utils} from './Utils';
-import {Logger} from './Logger';
-import {Events} from 'ionic-angular';
-import {GlobalData} from './GlobalData';
+import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { NativeService } from './NativeService';
+import { JPush } from '../../typings/modules/jpush/index';
+import { Observable } from 'rxjs/Rx';
+import { DEFAULT_AVATAR, IS_DEBUG } from './Constants';
+import { FileService } from './FileService';
+import { FileObj } from '../model/FileObj';
+import { Utils } from './Utils';
+import { Logger } from './Logger';
+import { Events } from 'ionic-angular';
+import { GlobalData } from './GlobalData';
 import * as fundebug from 'fundebug-javascript';
 
 declare var AlloyLever;
@@ -88,7 +88,7 @@ export class Helper {
    * 登录成功处理
    */
   loginSuccessHandle(userInfo) {
-    Utils.sessionStorageClear();//清除数据缓存
+    Utils.sessionStorageClear(); //清除数据缓存
     this.globalData.user = userInfo;
     this.globalData.userId = userInfo.id;
     this.globalData.username = userInfo.username;
@@ -257,8 +257,8 @@ export class Helper {
   //设置ios应用角标数量
   setIosIconBadgeNumber(badgeNumber) {
     if (this.nativeService.isIos()) {
-      this.jPush.setBadge(badgeNumber);//上传badge值到jPush服务器
-      this.jPush.setApplicationIconBadgeNumber(badgeNumber);//设置应用badge值
+      this.jPush.setBadge(badgeNumber); //上传badge值到jPush服务器
+      this.jPush.setApplicationIconBadgeNumber(badgeNumber); //设置应用badge值
     }
   }
 

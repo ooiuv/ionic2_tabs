@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {NavController, NavParams, ModalController, IonicPage} from 'ionic-angular';
-import {SearchAddress} from '../search-address/search-address';
-import {Navigation} from '../navigation/navigation';
-import {NativeService} from '../../../providers/NativeService';
+import { Component, Input } from '@angular/core';
+import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
+import { SearchAddress } from '../search-address/search-address';
+import { Navigation } from '../navigation/navigation';
+import { NativeService } from '../../../providers/NativeService';
 
 declare var AMap;
 
@@ -12,19 +12,19 @@ declare var AMap;
   templateUrl: 'map-location.html',
 })
 export class MapLocation {
-  map: any;//地图对象
-  mapIsComplete: boolean = false;//地图是否加载完成
-  isPositioning: boolean = false;//是否正在定位
-  marker: any;//标注
-  showIonFab: boolean = false;//是否显示导航按钮
+  map: any; //地图对象
+  mapIsComplete: boolean = false; //地图是否加载完成
+  isPositioning: boolean = false; //是否正在定位
+  marker: any; //标注
+  showIonFab: boolean = false; //是否显示导航按钮
 
   // 使用参考:src\pages\mine\work-map\work-map.ts
   static defaultParams = {
-    draggable: true,//标注是否可以拖拽;
-    click: false,//地图是否点击改变标注的位置
-    searchBar: true,//是否显示搜索框
-    navigation: true,//是否显示导航按钮
-    address: '',//主页面传过来的地址
+    draggable: true, //标注是否可以拖拽;
+    click: false, //地图是否点击改变标注的位置
+    searchBar: true, //是否显示搜索框
+    navigation: true, //是否显示导航按钮
+    address: '', //主页面传过来的地址
     position: {
       lng: '',
       lat: ''
@@ -138,7 +138,7 @@ export class MapLocation {
 
     that.marker = new AMap.Marker({
       map: that.map,
-      draggable: that.params.draggable,//控制标注是否可以拖拽
+      draggable: that.params.draggable, //控制标注是否可以拖拽
       position: new AMap.LngLat(position.lng, position.lat),
     });
 

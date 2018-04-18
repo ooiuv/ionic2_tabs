@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
-import {UpdateLogPage} from '../update-log/update-log';
-import {FeedBackListPage} from '../feed-back/feed-back-list';
-import {VersionService} from '../../../providers/VersionService';
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
+import { UpdateLogPage } from '../update-log/update-log';
+import { FeedBackListPage } from '../feed-back/feed-back-list';
+import { VersionService } from '../../../providers/VersionService';
 declare var AlloyLever;
 
 @Component({
@@ -26,7 +26,7 @@ export class AboutPage {
     AlloyLever.entry('#entry3')
   }
 
-  loadVersionInfo(){
+  loadVersionInfo() {
     if (this.nativeService.isMobile()) {
       this.currentVersionNo = this.versionService.getCurrentVersionNo();
       this.latestVersionNo = this.versionService.getLatestVersionNo();

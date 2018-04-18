@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {NativeService} from '../../../../providers/NativeService';
-import {CommonService} from '../../../../service/CommonService';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { NativeService } from '../../../../providers/NativeService';
+import { CommonService } from '../../../../service/CommonService';
 
 /**
  * Generated class for the TaskPatrolPage page.

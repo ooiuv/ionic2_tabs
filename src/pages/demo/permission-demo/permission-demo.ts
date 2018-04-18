@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {CommonService} from '../../../service/CommonService';
-import {NativeService} from '../../../providers/NativeService';
-import {PatrolTaskPage} from './patrol-task/patrol-task';
-import {CustomerListPage} from './customer-list/customer-list';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { CommonService } from '../../../service/CommonService';
+import { NativeService } from '../../../providers/NativeService';
+import { PatrolTaskPage } from './patrol-task/patrol-task';
+import { CustomerListPage } from './customer-list/customer-list';
 
 /**
  * Generated class for the PermissionDemoPage page.
