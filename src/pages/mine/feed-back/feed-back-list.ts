@@ -21,7 +21,7 @@ export class FeedBackListPage {
   query = {
     page: 1,
     rows: PAGE_SIZE,
-    sourceId: 1//1:现场作业app；2:精准营销app；3:web
+    sourceId: 1 // 1:现场作业app；2:精准营销app；3:web
   };
   data = {
     total: 0,

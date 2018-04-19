@@ -127,16 +127,16 @@ export class FileService {
     if (fileObjList.length == 0) {
       return Observable.of([]);
     }
-    //开启了缓存
+    // 开启了缓存
     if (this.globalData.enabledFileCache) {
       for (const fileObj of fileObjList) {
-        //生成一个临时id,待真正上传到后台需要替换掉临时id
+        // 生成一个临时id,待真正上传到后台需要替换掉临时id
         fileObj.id = FileService.uuid();
       }
       const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
         cacheData = cacheData ? cacheData.concat(fileObjList) : fileObjList;
-        //缓存文件信息
+        // 缓存文件信息
         this.storage.set(cacheKey, cacheData);
       });
       return Observable.of(fileObjList);
@@ -177,7 +177,7 @@ export class FileService {
     })
   }
 
-  //根据ids从文件缓存中查询文件信息
+  // 根据ids从文件缓存中查询文件信息
   private getFileCacheByIds(ids: string[]): Observable<FileObj[]> {
     return Observable.create(observer => {
       const result = [];
@@ -196,7 +196,7 @@ export class FileService {
     });
   }
 
-  //查询没有缓存的文件id数组
+  // 查询没有缓存的文件id数组
   private static getNotCacheIds(cacheData, ids) {
     const result = [];
     for (const id of ids) {
@@ -213,19 +213,19 @@ export class FileService {
     return result;
   }
 
-  //根据文件后缀获取文件类型
+  // 根据文件后缀获取文件类型
   private static getFileType(path: string): string {
     return path.substring(path.lastIndexOf('.') + 1);
   }
 
-  //获取uuid,前缀为'r_'代表缓存文件
+  // 获取uuid,前缀为'r_'代表缓存文件
   private static uuid(): string {
     const uuid = Utils.uuid();
     return 'r_' + uuid.substring(2);
   }
 
 
-  //根据文件id数组从缓存中删除文件
+  // 根据文件id数组从缓存中删除文件
   deleteFileCacheByIds(ids) {
     const cacheKey = 'file-cache-' + this.globalData.userId;
     this.storage.get(cacheKey).then(cacheData => {

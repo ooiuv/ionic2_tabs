@@ -13,7 +13,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
   templateUrl: 'work-map.html',
 })
 export class WorkMapPage {
-  toolbar: boolean= true;
+  toolbar= true;
   params = {
     draggable: true,
     click: false,

@@ -46,18 +46,18 @@ export class Helper {
 
   /**
    * AlloyLever,一款本地"开发者工具"
-   * 文档:https://github.com/AlloyTeam/AlloyLever
+   * 文档:https:// github.com/AlloyTeam/AlloyLever
    */
   alloyLeverInit() {
     AlloyLever.config({
-      cdn: 'http://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  //vconsole的CDN地址
-      /*reportUrl: "//a.qq.com",  //错误上报地址
-      reportPrefix: 'qun',    //错误上报msg前缀，一般用于标识业务类型
-      reportKey: 'msg',        //错误上报msg前缀的key，用户上报系统接收存储msg
-      otherReport: {              //需要上报的其他信息
+      cdn: 'http://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  // vconsole的CDN地址
+      /*reportUrl: "// a.qq.com",  // 错误上报地址
+      reportPrefix: 'qun',    // 错误上报msg前缀，一般用于标识业务类型
+      reportKey: 'msg',        // 错误上报msg前缀的key，用户上报系统接收存储msg
+      otherReport: {              // 需要上报的其他信息
         uin: 491862102
       },*/
-      entry: '#entry'         //请点击这个DOM元素6次召唤vConsole。//你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
+      entry: '#entry'         // 请点击这个DOM元素6次召唤vConsole。// 你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
     })
   }
 
@@ -72,7 +72,7 @@ export class Helper {
       } else {
         this.fileService.getFileInfoById(avatarId).subscribe((res: FileObj) => {
           if (res.origPath) {
-            let avatarPath = res.origPath;
+            const avatarPath = res.origPath;
             observer.next(avatarPath);
           } else {
             observer.next(DEFAULT_AVATAR);
@@ -88,16 +88,16 @@ export class Helper {
    * 登录成功处理
    */
   loginSuccessHandle(userInfo) {
-    Utils.sessionStorageClear(); //清除数据缓存
+    Utils.sessionStorageClear(); // 清除数据缓存
     this.globalData.user = userInfo;
     this.globalData.userId = userInfo.id;
     this.globalData.username = userInfo.username;
-    this.storage.get('enabled-file-cache-' + userInfo.id).then(res => {//获取是否启用缓存文件
+    this.storage.get('enabled-file-cache-' + userInfo.id).then(res => {// 获取是否启用缓存文件
       if (res === false) {
         this.globalData.enabledFileCache = false;
       }
     });
-    this.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {//加载用户头像
+    this.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {// 加载用户头像
       userInfo.avatarPath = avatarPath;
       this.globalData.user.avatarPath = avatarPath;
     });
@@ -116,9 +116,9 @@ export class Helper {
     if (!ids || ids.length == 0) {
       return [];
     }
-    let newFileList = [];
-    for (let file of fileList) {
-      for (let id of ids) {
+    const newFileList = [];
+    for (const file of fileList) {
+      for (const id of ids) {
         if (file.id == id) {
           newFileList.push(file);
         }
@@ -136,9 +136,9 @@ export class Helper {
         observer.next([]);
         return;
       }
-      let fileIds = [];
-      let uploadFileList = [];
-      for (let fileObj of fileList) {
+      const fileIds = [];
+      const uploadFileList = [];
+      for (const fileObj of fileList) {
         if (fileObj.id) {
           fileIds.push(fileObj.id);
         } else {
@@ -149,7 +149,7 @@ export class Helper {
 
       this.globalData.showLoading = false;
       this.fileService.uploadMultiByFilePath(uploadFileList).subscribe(fileList => {
-        for (let fileObj of fileList) {
+        for (const fileObj of fileList) {
           fileIds.push(fileObj.id);
         }
         observer.next(fileIds);
@@ -178,23 +178,23 @@ export class Helper {
         console.log('jpush-系统设置中打开了应用推送');
       }
     });
-    //点击通知进入应用程序时会触发的事件
+    // 点击通知进入应用程序时会触发的事件
     document.addEventListener('jpush.openNotification', event => {
       this.setIosIconBadgeNumber(0);
-      let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
+      const content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
       console.log('jpush.openNotification' + content);
       this.events.publish('jpush.openNotification', content);
     }, false);
 
-    //收到通知时会触发该事件
+    // 收到通知时会触发该事件
     document.addEventListener('jpush.receiveNotification', event => {
-      let content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
+      const content = this.nativeService.isIos() ? event['aps'].alert : event['alert'];
       console.log('jpush.receiveNotification' + content);
     }, false);
 
-    //收到自定义消息时触发这个事件
+    // 收到自定义消息时触发这个事件
     document.addEventListener('jpush.receiveMessage', event => {
-      let message = this.nativeService.isIos() ? event['content'] : event['message'];
+      const message = this.nativeService.isIos() ? event['content'] : event['message'];
       console.log('jpush.receiveMessage' + message);
     }, false);
 
@@ -254,11 +254,11 @@ export class Helper {
     })
   }
 
-  //设置ios应用角标数量
+  // 设置ios应用角标数量
   setIosIconBadgeNumber(badgeNumber) {
     if (this.nativeService.isIos()) {
-      this.jPush.setBadge(badgeNumber); //上传badge值到jPush服务器
-      this.jPush.setApplicationIconBadgeNumber(badgeNumber); //设置应用badge值
+      this.jPush.setBadge(badgeNumber); // 上传badge值到jPush服务器
+      this.jPush.setApplicationIconBadgeNumber(badgeNumber); // 设置应用badge值
     }
   }
 

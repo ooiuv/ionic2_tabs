@@ -19,7 +19,7 @@ import { GlobalData } from '../../../providers/GlobalData';
 })
 export class SettingPage {
 
-  enabledFileCache: boolean = true; //app是否开启缓存
+  enabledFileCache = true; // app是否开启缓存
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -31,7 +31,7 @@ export class SettingPage {
   }
 
   clearCache() {
-    Utils.sessionStorageClear(); //清除数据缓存
+    Utils.sessionStorageClear(); // 清除数据缓存
     this.nativeService.showToast('缓存清除成功');
     this.navCtrl.pop();
   }
@@ -42,7 +42,7 @@ export class SettingPage {
   }
 
   changePassword() {
-    let modal = this.modalCtrl.create(ChangePasswordPage);
+    const modal = this.modalCtrl.create(ChangePasswordPage);
     modal.present();
     modal.onDidDismiss(data => {
     });

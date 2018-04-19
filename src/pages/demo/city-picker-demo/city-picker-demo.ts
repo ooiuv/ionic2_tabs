@@ -15,9 +15,9 @@ import { DemoService } from '../DemoService';
   templateUrl: 'city-picker-demo.html',
 })
 export class CityPickerDemoPage {
-  cityData: any[] = []; //城市数据
-  cityName: string = '广东省-广州市-天河区'; //初始化城市名
-  code: string; //城市编码
+  cityData: any[] = []; // 城市数据
+  cityName = '广东省-广州市-天河区'; // 初始化城市名
+  code: string; // 城市编码
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public nativeService: NativeService,
@@ -25,14 +25,14 @@ export class CityPickerDemoPage {
   }
 
   ionViewDidLoad() {
-    //获取城市数据
-    //实际开发中,城市数据应该从后台接口获取
+    // 获取城市数据
+    // 实际开发中,城市数据应该从后台接口获取
     this.demoService.geCityData().subscribe(res => {
       this.cityData = res;
     })
   }
 
-  //城市选择器被改变时触发的事件
+  // 城市选择器被改变时触发的事件
   cityChange(event) {
     this.code = event['region'].value
   }

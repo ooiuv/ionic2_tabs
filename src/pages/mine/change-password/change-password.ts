@@ -66,9 +66,9 @@ export class ChangePasswordPage {
   }
 
   onSubmit() {
-    let oldPsw = this.form.value.oldPsw;
-    let newPsw = this.form.value.newPsw;
-    let newPsw2 = this.form.value.newPsw2;
+    const oldPsw = this.form.value.oldPsw;
+    const newPsw = this.form.value.newPsw;
+    const newPsw2 = this.form.value.newPsw2;
     if (newPsw2 != newPsw) {
       this.nativeService.alert('新密码两次输入不一致');
       return;
@@ -84,7 +84,7 @@ export class ChangePasswordPage {
   }
 
   input(val) {
-    let m = this.checkPass(val);
+    const m = this.checkPass(val);
     if (m >= 3) {
       this.strength.high = true;
     }
@@ -107,22 +107,22 @@ export class ChangePasswordPage {
   private checkPass(pwd) {
     let m = 0;
     if (pwd.length <= 4) {
-      return m; //密码长度小于等于4
+      return m; // 密码长度小于等于4
     }
     if (/\d/.test(pwd)) {
-      m++; //纯数字密码
+      m++; // 纯数字密码
     }
     if (/[a-z]/.test(pwd)) {
-      m++; //密码包含小写字母
+      m++; // 密码包含小写字母
     }
     if (/[A-Z]/.test(pwd)) {
-      m++; //密码包含大写字母
+      m++; // 密码包含大写字母
     }
     if (/\W/.test(pwd)) {
-      m++; //密码包含特殊字符
+      m++; // 密码包含特殊字符
     }
     if (pwd.length > 15) {
-      m = 4;  //密码长度大于15
+      m = 4; // 密码长度大于15
     }
     return m;
   }

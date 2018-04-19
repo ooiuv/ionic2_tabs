@@ -71,23 +71,23 @@ export class HttpService {
    * 一个app可能有多个后台接口服务(api),针对主api添加业务处理,非主api请调用request方法
    */
   public defaultRequest(url: string, options: RequestOptionsArgs): Observable<any> {
-    // 使用默认API:APP_SERVE_URL
+    //  使用默认API:APP_SERVE_URL
     url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url);
-    // 添加请求头
+    //  添加请求头
     options.headers = options.headers || new Headers();
     options.headers.append('Authorization', 'Bearer ' + this.globalData.token);
 
     return Observable.create(observer => {
       this.request(url, options).subscribe(res => {
-        // 后台api返回统一数据,res.code===1表示业务处理成功,否则表示发生异常或业务处理失败
+        //  后台api返回统一数据,res.code===1表示业务处理成功,否则表示发生异常或业务处理失败
         if (res.code === 1) {
           observer.next(res.data);
         } else {
           IS_DEBUG && console.log('%c 请求处理失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-          // 401 token无效或过期需要重新登录
+          //  401 token无效或过期需要重新登录
           if (res.code == 401) {
             this.nativeService.showToast('密码已过期,请重新登录');
-            this.events.publish('user:reLogin'); // 跳转到登录页面
+            this.events.publish('user:reLogin'); //  跳转到登录页面
           } else {
             this.nativeService.alert(res.msg || '请求失败,请稍后再试!');
           }
@@ -162,19 +162,19 @@ export class HttpService {
     return params;
   }
 
-  private count = 0; // 记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
+  private count = 0; //  记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
 
   private showLoading() {
-    if (++this.count > 0) {//一旦有请求就弹出loading
+    if (++this.count > 0) {// 一旦有请求就弹出loading
       this.globalData.showLoading && this.nativeService.showLoading();
     }
   }
 
   private hideLoading() {
     if (this.globalData.showLoading) {
-      //延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
+      // 延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
       setTimeout(() => {
-        if (--this.count === 0) {//当正在请求数为0,关闭loading
+        if (--this.count === 0) {// 当正在请求数为0,关闭loading
           this.nativeService.hideLoading();
         }
       }, 200);

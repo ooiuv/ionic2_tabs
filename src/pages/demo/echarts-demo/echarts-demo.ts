@@ -17,9 +17,9 @@ export class EchartsDemoPage {
   }
 
   initChart() {
-    let element = this.chart.nativeElement;
+    const element = this.chart.nativeElement;
     element.style.width = (document.body.clientWidth - 16) + 'px'; //设置容器宽度
-    let myChart = ECharts.init(element);
+    const myChart = ECharts.init(element);
     myChart.setOption({
       tooltip: {
         trigger: 'item',

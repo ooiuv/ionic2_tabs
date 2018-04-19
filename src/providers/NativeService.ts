@@ -100,7 +100,7 @@ export class NativeService {
     if (this.isMobile()) {
       this.statusBar.overlaysWebView(false);
       this.statusBar.styleLightContent();
-      this.statusBar.backgroundColorByHexString('#488aff'); //3261b3
+      this.statusBar.backgroundColorByHexString('#488aff'); // 3261b3
     }
   }
 
@@ -212,7 +212,7 @@ export class NativeService {
    * @param content 显示的内容
    */
   showLoading(content: string = ''): void {
-    if (!this.loading) {//如果loading已经存在则不再打开
+    if (!this.loading) {// 如果loading已经存在则不再打开
       const loading = this.loadingCtrl.create({
         content: content
       });
@@ -235,15 +235,15 @@ export class NativeService {
    */
   getPicture(options: CameraOptions = {}): Observable<string> {
     const ops: CameraOptions = Object.assign({
-      sourceType: this.camera.PictureSourceType.CAMERA, //图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
-      destinationType: this.camera.DestinationType.DATA_URL, //默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
-      quality: QUALITY_SIZE, //图像质量，范围为0 - 100
-      allowEdit: false, //选择图片前是否允许编辑
+      sourceType: this.camera.PictureSourceType.CAMERA, // 图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
+      destinationType: this.camera.DestinationType.DATA_URL, // 默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
+      quality: QUALITY_SIZE, // 图像质量，范围为0 - 100
+      allowEdit: false, // 选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
-      targetWidth: IMAGE_SIZE, //缩放图像的宽度（像素）
-      targetHeight: IMAGE_SIZE, //缩放图像的高度（像素）
-      saveToPhotoAlbum: false, //是否保存到相册
-      correctOrientation: true//设置摄像机拍摄的图像是否为正确的方向
+      targetWidth: IMAGE_SIZE, // 缩放图像的宽度（像素）
+      targetHeight: IMAGE_SIZE, // 缩放图像的高度（像素）
+      saveToPhotoAlbum: false, // 是否保存到相册
+      correctOrientation: true// 设置摄像机拍摄的图像是否为正确的方向
     }, options);
     return Observable.create(observer => {
       this.camera.getPicture(ops).then((imgData: string) => {
@@ -274,7 +274,7 @@ export class NativeService {
   getPictureByCamera(options: CameraOptions = {}): Observable<string> {
     const ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
+      destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
     return this.getPicture(ops);
   };
@@ -286,7 +286,7 @@ export class NativeService {
   getPictureByPhotoLibrary(options: CameraOptions = {}): Observable<string> {
     const ops: CameraOptions = Object.assign({
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL//DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
+      destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
     return this.getPicture(ops);
   };
@@ -299,17 +299,17 @@ export class NativeService {
     const that = this;
     const ops = Object.assign({
       maximumImagesCount: 6,
-      width: IMAGE_SIZE, //缩放图像的宽度（像素）
-      height: IMAGE_SIZE, //缩放图像的高度（像素）
-      quality: QUALITY_SIZE//图像质量，范围为0 - 100
+      width: IMAGE_SIZE, // 缩放图像的宽度（像素）
+      height: IMAGE_SIZE, // 缩放图像的高度（像素）
+      quality: QUALITY_SIZE// 图像质量，范围为0 - 100
     }, options);
     return Observable.create(observer => {
       this.imagePicker.getPictures(ops).then(files => {
-        const destinationType = options['destinationType'] || 0; //0:base64字符串,1:图片url
+        const destinationType = options['destinationType'] || 0; // 0:base64字符串,1:图片url
         if (destinationType === 1) {
           observer.next(files);
         } else {
-          const imgBase64s = []; //base64字符串数组
+          const imgBase64s = []; // base64字符串数组
           for (const fileUrl of files) {
             that.convertImgToBase64(fileUrl).subscribe(base64 => {
               imgBase64s.push(base64);
@@ -423,16 +423,16 @@ export class NativeService {
    * 5秒内只会返回同一结果
    */
   getUserLocation = (() => {
-    let lastTime = null; // 缓存上次获取定位时间
-    let lastResult = null; // 缓存上次获取的结果
+    let lastTime = null; //  缓存上次获取定位时间
+    let lastResult = null; //  缓存上次获取的结果
     return () => {
       return Observable.create(observer => {
-        // 5秒内有获取过定位则不再重复获取
+        //  5秒内有获取过定位则不再重复获取
         if (lastTime && (new Date().getTime() - lastTime < 5000)) {
           if (lastResult) {
             observer.next(lastResult);
           } else {
-            // 获取定位是异步,所以这里用定时,直到获取到结果
+            //  获取定位是异步,所以这里用定时,直到获取到结果
             const timer = setInterval(() => {
               if (lastResult) {
                 clearInterval(timer);
@@ -441,10 +441,10 @@ export class NativeService {
             }, 1000);
           }
         } else {
-          lastTime = new Date().getTime(); // 准备获取定位时记录时间
-          lastResult = null; // 每次重新获取时,需清空上次结果,以免下次一获取在5秒内直接返回上次结果
+          lastTime = new Date().getTime(); //  准备获取定位时记录时间
+          lastResult = null; //  每次重新获取时,需清空上次结果,以免下次一获取在5秒内直接返回上次结果
           this.getLocation().subscribe(res => {
-            lastTime = new Date().getTime(); // 当获取成功,重置上次获取时间
+            lastTime = new Date().getTime(); //  当获取成功,重置上次获取时间
             lastResult = res;
             observer.next(res);
           }, () => {
@@ -461,12 +461,12 @@ export class NativeService {
   getLocation() {
     return Observable.create(observer => {
       if (this.isMobile()) {
-        // 检查app是否开始位置服务和定位权限.没有则会请求权限
+        //  检查app是否开始位置服务和定位权限.没有则会请求权限
         Observable.zip(this.assertLocationService(), this.assertLocationAuthorization()).subscribe(() => {
           LocationPlugin.getLocation(data => {
-            // android返回data形如:{"locationType":4,"latitude":23.119225,"longitude":113.350784,"hasAccuracy":true,"accuracy":29,"address":"广东省广州市天河区潭乐街靠近广电科技大厦","country":"中国","province":"广东省","city":"广州市","district":"天河区","street":"平云路","cityCode":"020","adCode":"440106","aoiName":"广电平云广场","speed":0,"bearing":0,"time":1515976535559}
-            // 其中locationType为定位来源.定位类型对照表: http://lbs.amap.com/api/android-location-sdk/guide/utilities/location-type/
-            // iOS只会返回data形如:{longitude: 113.35081420800906, latitude: 23.119172707345594}
+            //  android返回data形如:{"locationType":4,"latitude":23.119225,"longitude":113.350784,"hasAccuracy":true,"accuracy":29,"address":"广东省广州市天河区潭乐街靠近广电科技大厦","country":"中国","province":"广东省","city":"广州市","district":"天河区","street":"平云路","cityCode":"020","adCode":"440106","aoiName":"广电平云广场","speed":0,"bearing":0,"time":1515976535559}
+            //  其中locationType为定位来源.定位类型对照表: http://lbs.amap.com/api/android-location-sdk/guide/utilities/location-type/
+            //  iOS只会返回data形如:{longitude: 113.35081420800906, latitude: 23.119172707345594}
             console.log('定位信息', data);
             observer.next({'lng': data.longitude, 'lat': data.latitude});
           }, msg => {
@@ -503,9 +503,9 @@ export class NativeService {
     });
   }
 
-  //检测app位置服务是否开启
+  // 检测app位置服务是否开启
   private assertLocationService = (() => {
-    let enabledLocationService = false; //手机是否开启位置服务
+    let enabledLocationService = false; // 手机是否开启位置服务
     return () => {
       return Observable.create(observer => {
         if (enabledLocationService) {
@@ -540,7 +540,7 @@ export class NativeService {
     };
   })();
 
-  //检测app是否有定位权限,如果没有权限则会请求权限
+  // 检测app是否有定位权限,如果没有权限则会请求权限
   private assertLocationAuthorization = (() => {
     let locationAuthorization = false;
     return () => {
@@ -554,8 +554,8 @@ export class NativeService {
               observer.next(true);
             } else {
               locationAuthorization = false;
-              this.diagnostic.requestLocationAuthorization('always').then(res => {//请求定位权限
-                if (res == 'DENIED_ALWAYS') {//拒绝访问状态,必须手动开启
+              this.diagnostic.requestLocationAuthorization('always').then(res => {// 请求定位权限
+                if (res == 'DENIED_ALWAYS') {// 拒绝访问状态,必须手动开启
                   locationAuthorization = false;
                   this.alertCtrl.create({
                     title: '缺少定位权限',
@@ -605,7 +605,7 @@ export class NativeService {
               observer.next(true);
             } else {
               havePermission = false;
-              this.diagnostic.requestRuntimePermissions(permissions).then(res => {//请求权限
+              this.diagnostic.requestRuntimePermissions(permissions).then(res => {// 请求权限
                 if (res.READ_EXTERNAL_STORAGE == 'GRANTED' && res.WRITE_EXTERNAL_STORAGE == 'GRANTED') {
                   havePermission = true;
                   observer.next(true);

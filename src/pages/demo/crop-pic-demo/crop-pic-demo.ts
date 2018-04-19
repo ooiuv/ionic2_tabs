@@ -24,7 +24,7 @@ export class CropPicDemoPage {
   }
 
   crop() {
-    new AlloyCrop({//api:https://github.com/AlloyTeam/AlloyCrop
+    new AlloyCrop({ // api:https://github.com/AlloyTeam/AlloyCrop
       image_src: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4256109538,834002284&fm=26&gp=0.jpg',
       circle: true, // optional parameters , the default value is false
       width: 256, // crop width

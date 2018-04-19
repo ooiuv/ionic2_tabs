@@ -11,8 +11,8 @@ declare var AlloyLever;
   templateUrl: 'about.html'
 })
 export class AboutPage {
-  currentVersionNo: string = '0.0.1';
-  latestVersionNo: string = '0.0.1';
+  currentVersionNo = '0.0.1';
+  latestVersionNo = '0.0.1';
   lastVersionInfo: any = {};
 
   constructor(private navCtrl: NavController,

@@ -16,15 +16,15 @@ import { PAGE_SIZE } from '../../providers/Constants';
 export class PagingPage {
 
   @Input()
-  total: number; //共多少条数据
+  total: number; // 共多少条数据
 
   @Input()
-  pageSize: number= PAGE_SIZE; //每页大小,默认5条
+  pageSize: number= PAGE_SIZE; // 每页大小,默认5条
 
   @Input()
-  color: string= 'primary'; //主题颜色
+  color= 'primary'; // 主题颜色
 
-  @Input() pageNum: number= 1; //当前第几页,默认1
+  @Input() pageNum= 1; // 当前第几页,默认1
   @Output() pageNumChange = new EventEmitter<any>();
 
 

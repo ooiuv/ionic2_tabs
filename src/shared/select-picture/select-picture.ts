@@ -18,13 +18,13 @@ import { GlobalData } from '../../providers/GlobalData';
   templateUrl: 'select-picture.html',
 })
 export class SelectPicturePage {
-  @Input() max: number = 4;  //最多可选择多少张图片，默认为4张
+  @Input() max = 4; // 最多可选择多少张图片，默认为4张
 
-  @Input() allowAdd: boolean = true;  //是否允许新增
+  @Input() allowAdd = true; // 是否允许新增
 
-  @Input() allowDelete: boolean = true;  //是否允许删除
+  @Input() allowDelete = true; // 是否允许删除
 
-  @Input() fileObjList: FileObj[] = [];   //图片列表,与fileObjListChange形成双向数据绑定
+  @Input() fileObjList: FileObj[] = []; // 图片列表,与fileObjListChange形成双向数据绑定
   @Output() fileObjListChange = new EventEmitter<any>();
 
   constructor(private modalCtrl: ModalController,
@@ -35,18 +35,18 @@ export class SelectPicturePage {
               private nativeService: NativeService) {
   }
 
-  addPicture() {//新增照片
-    let that = this;
+  addPicture() {// 新增照片
+    const that = this;
     that.actionSheetCtrl.create({
       buttons: [
         {
           text: '从相册选择',
           handler: () => {
-            that.nativeService.getMultiplePicture({//从相册多选
+            that.nativeService.getMultiplePicture({// 从相册多选
               maximumImagesCount: (that.max - that.fileObjList.length),
-              destinationType: 1//期望返回的图片格式,1图片路径
+              destinationType: 1 // 期望返回的图片格式,1图片路径
             }).subscribe(imgs => {
-              for (let img of <string[]> imgs) {
+              for (const img of <string[]> imgs) {
                 that.getPictureSuccess(img);
               }
             });
@@ -56,7 +56,7 @@ export class SelectPicturePage {
           text: '拍照',
           handler: () => {
             that.nativeService.getPictureByCamera({
-              destinationType: 1//期望返回的图片格式,1图片路径
+              destinationType: 1 // 期望返回的图片格式,1图片路径
             }).subscribe(img => {
               that.getPictureSuccess(img);
             });
@@ -70,7 +70,7 @@ export class SelectPicturePage {
     }).present();
   }
 
-  deletePicture(i) {//删除照片
+  deletePicture(i) {// 删除照片
     if (!this.allowDelete) {
       return;
     }
@@ -80,8 +80,8 @@ export class SelectPicturePage {
         {
           text: '确定',
           handler: () => {
-            let delArr = this.fileObjList.splice(i, 1);
-            let delId = delArr[0].id;
+            const delArr = this.fileObjList.splice(i, 1);
+            const delId = delArr[0].id;
             if (delId) {
               this.globalData.showLoading = false;
               this.fileService.deleteById(delId);
@@ -92,16 +92,16 @@ export class SelectPicturePage {
     }).present();
   }
 
-  viewerPicture(index) {//照片预览
-    let picturePaths = [];
-    for (let fileObj of this.fileObjList) {
+  viewerPicture(index) { // 照片预览
+    const picturePaths = [];
+    for (const fileObj of this.fileObjList) {
       picturePaths.push(fileObj.origPath);
     }
     this.modalCtrl.create(PreviewPicturePage, {'initialSlide': index, 'picturePaths': picturePaths}).present();
   }
 
   private getPictureSuccess(img) {
-    let fileObj = <FileObj> {'origPath': img, 'thumbPath': img};
+    const fileObj = <FileObj> {'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);
   }

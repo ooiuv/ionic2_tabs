@@ -13,17 +13,17 @@ import { FileService } from './FileService';
 
 @Injectable()
 export class VersionService {
-  appName; //如app id为com.kit.ionic2tabs,则appName为ionic2tabs
-  appType; //android 或 ios
-  currentVersionNo; //当前版本号
-  latestVersionNo; //最新版本号
-  lastVersionInfo; //从后台获取到的app最新版本信息
-  versions; //app更新日志
+  appName; // 如app id为com.kit.ionic2tabs,则appName为ionic2tabs
+  appType; // android 或 ios
+  currentVersionNo; // 当前版本号
+  latestVersionNo; // 最新版本号
+  lastVersionInfo; // 从后台获取到的app最新版本信息
+  versions; // app更新日志
 
-  appDownloadPageUrl; //下载页访问地址
-  apkUrl; //android apk地址
+  appDownloadPageUrl; // 下载页访问地址
+  apkUrl; // android apk地址
 
-  //app更新进度.默认为0,在app升级过程中会改变
+  // app更新进度.默认为0,在app升级过程中会改变
   updateProgress = -1;
 
   constructor(public nativeService: NativeService,
@@ -128,18 +128,18 @@ export class VersionService {
    * 下载app
    */
   downloadApp() {
-    if (this.nativeService.isIos()) {//ios打开网页下载
+    if (this.nativeService.isIos()) {// ios打开网页下载
       this.nativeService.openUrlByBrowser(this.appDownloadPageUrl);
     }
-    if (this.nativeService.isAndroid()) {//android本地下载
+    if (this.nativeService.isAndroid()) {// android本地下载
       if (!this.apkUrl) {
         this.nativeService.alert('未找到android apk下载地址');
         return;
       }
       this.nativeService.externalStoragePermissionsAuthorization().subscribe(() => {
-        let backgroundProcess = false; //是否后台下载
-        let alert; //显示下载进度
-        if (this.lastVersionInfo.isForcedUpdate == 1) {//如果是强制更新则没有后台下载按钮
+        let backgroundProcess = false; // 是否后台下载
+        let alert; // 显示下载进度
+        if (this.lastVersionInfo.isForcedUpdate == 1) {// 如果是强制更新则没有后台下载按钮
           alert = this.alertCtrl.create({
             title: '下载进度：0%',
             enableBackdropDismiss: false
@@ -158,7 +158,7 @@ export class VersionService {
         alert.present();
         const fileTransfer: FileTransferObject = this.transfer.create();
         const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; // 下载apk保存的目录
-        //下载并安装apk
+        // 下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
           alert && alert.dismiss();
           this.fileOpener.open(apk, 'application/vnd.android.package-archive');
@@ -171,19 +171,19 @@ export class VersionService {
             subTitle: '本地升级失败',
             buttons: [{
               text: '确定', handler: () => {
-                this.nativeService.openUrlByBrowser(this.appDownloadPageUrl); //打开网页下载
+                this.nativeService.openUrlByBrowser(this.appDownloadPageUrl); // 打开网页下载
               }
             }
             ]
           }).present();
         });
 
-        let timer = null; //由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
+        let timer = null; // 由于onProgress事件调用非常频繁,所以使用setTimeout用于函数节流
         fileTransfer.onProgress((event: ProgressEvent) => {
-          const progress = Math.floor(event.loaded / event.total * 100); //下载进度
+          const progress = Math.floor(event.loaded / event.total * 100); // 下载进度
           this.updateProgress = progress;
           if (!timer) {
-            //更新下载进度
+            // 更新下载进度
             timer = setTimeout(() => {
               if (progress === 100) {
                 alert && alert.dismiss();
@@ -208,7 +208,7 @@ export class VersionService {
   checkNewVersion() {
     if (this.updateProgress == -1 || this.updateProgress == 100) {
       this.checkVersion();
-    } else {//正在更新
+    } else {// 正在更新`
       const alert = this.alertCtrl.create({
         title: `下载进度：${this.updateProgress}%`,
         buttons: [{text: '后台下载'}]

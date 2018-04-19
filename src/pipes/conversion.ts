@@ -19,8 +19,8 @@ export class Conversion {
    */
   transform(str: string = '', sTot: boolean = true) {
     let newStr = '';
-    for (let s of str) {
-      let index = (sTot ? Conversion.s() : Conversion.t()).indexOf(s);
+    for (const s of str) {
+      const index = (sTot ? Conversion.s() : Conversion.t()).indexOf(s);
       newStr += index == -1 ? s : (sTot ? Conversion.t() : Conversion.s()).charAt(index);
     }
     return newStr;

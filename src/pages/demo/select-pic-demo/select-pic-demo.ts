@@ -17,10 +17,10 @@ export class SelectPicDemoPage {
               private http: Http,
               private fileService: FileService,
               private nativeService: NativeService) {
-    //使用Http加载本地json文件,因为HttpService给url默认加了http://ip,加载本地文件不需要http://ip
+    // 使用Http加载本地json文件,因为HttpService给url默认加了http://ip,加载本地文件不需要http://ip
     this.http.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
-        for (let fileObj of res.data) {
+        for (const fileObj of res.data) {
           this.fileObjList.push(<FileObj> {
             'thumbPath': fileObj.base64,
             'origPath': fileObj.base64,

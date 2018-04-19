@@ -50,7 +50,7 @@ export class CommonService {
    */
   getResource(resourceType: number = 1) {
     const url = '/v1/public/resource';
-    let json = Utils.sessionStorageGetItem(url);
+    const json = Utils.sessionStorageGetItem(url);
     if (json) {
       return Observable.of(json.filter((item) => {
         return item.resourceType == resourceType;
@@ -76,13 +76,13 @@ export class CommonService {
    */
   getAppVersion() {
     return Observable.create(observer => {
-      this.nativeService.getPackageName().subscribe(packageName => {//获得app包名
-        let appName = packageName.substring(packageName.lastIndexOf('.') + 1);
-        let appType = this.nativeService.isAndroid() ? 'android' : 'ios';
-        let url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${appName}/${appType}`);
+      this.nativeService.getPackageName().subscribe(packageName => {// 获得app包名
+        const appName = packageName.substring(packageName.lastIndexOf('.') + 1);
+        const appType = this.nativeService.isAndroid() ? 'android' : 'ios';
+        const url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${appName}/${appType}`);
         this.httpService.get(url, null, false).subscribe(res => {
           if (res && res.code == 1) {
-            observer.next(res.data); //返回app最新版本信息
+            observer.next(res.data); // 返回app最新版本信息
           }
         }, err => {
           this.logger.log(err, '从版本升级服务获取版本信息失败', {

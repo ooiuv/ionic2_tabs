@@ -36,9 +36,9 @@ export class FeedBackPage {
     this.form = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]], // 第一个参数是默认值
       content: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(500)]],
-      type: ['1'], //1:BUG;2:需求；3：问题；
-      state: ['1'], //1:未回复；2:已回复；3:补充待回复;8：已关闭;9重新打开；
-      sourceId: [1]//1:现场作业app；2:精准营销app；3:web
+      type: ['1'], // 1:BUG;2:需求；3：问题；
+      state: ['1'], // 1:未回复；2:已回复；3:补充待回复;8：已关闭;9重新打开；
+      sourceId: [1]// 1:现场作业app；2:精准营销app；3:web
     });
     this.form.valueChanges
       .subscribe(data => {

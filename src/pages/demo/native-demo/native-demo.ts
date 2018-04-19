@@ -9,7 +9,7 @@ import { Position } from '../../../model/type';
 })
 export class NativeDemoPage {
   networkType = 'unknown';
-  currentVersionNo: string = '1.0.0';
+  currentVersionNo = '1.0.0';
   scanText = '';
   location = {};
   imgPath;
@@ -50,7 +50,7 @@ export class NativeDemoPage {
   getPictureByCamera() {
     if (this.nativeService.isMobile()) {
       this.nativeService.getPictureByCamera({
-        destinationType: 1//期望返回的图片格式,1图片路径
+        destinationType: 1 // 期望返回的图片格式,1图片路径
       }).subscribe(img => {
         this.imgPath = img;
       });
@@ -64,8 +64,8 @@ export class NativeDemoPage {
   }
 
   navigation() {
-    let startPoint: Position = {'lng': '113.350912', 'lat': '23.119495'};
-    let endPoint : Position = {'lng': '113.450912', 'lat': '23.219495'};
+    const startPoint: Position = {'lng': '113.350912', 'lat': '23.119495'};
+    const endPoint: Position = {'lng': '113.450912', 'lat': '23.219495'};
     this.nativeService.navigation(startPoint, endPoint).subscribe(res => {
       console.log(res);
     });

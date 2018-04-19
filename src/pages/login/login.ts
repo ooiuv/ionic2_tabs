@@ -14,8 +14,8 @@ import { UserInfo } from '../../model/UserInfo';
   templateUrl: 'login.html'
 })
 export class LoginPage {
-  submitted: boolean = false;
-  canLeave: boolean = false;
+  submitted = false;
+  canLeave = false;
   loginForm: any;
 
   constructor(public viewCtrl: ViewController,
@@ -51,7 +51,7 @@ export class LoginPage {
 
   // 如果未登录,阻止关闭登录页,提示退出软件
   ionViewCanLeave(): boolean {
-    let isLogin = !!this.globalData.userId;
+    const isLogin = !!this.globalData.userId;
     if (this.canLeave || isLogin) {
       return true;
     }
@@ -72,19 +72,19 @@ export class LoginPage {
 
   toRegister() {
     this.canLeave = true;
-    let modal = this.modalCtrl.create(RegisterPage);
+    const modal = this.modalCtrl.create(RegisterPage);
     modal.present();
   }
 
   findPassword() {
     this.canLeave = true;
-    let modal = this.modalCtrl.create(FindPasswordPage);
+    const modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
   }
 
   try() {
     this.globalData.token = 'test';
-    let userInfo = {
+    const userInfo = {
       'id': 1,
       'username': 'admin',
       'mobileNumber': '13800003333',

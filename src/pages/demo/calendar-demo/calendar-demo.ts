@@ -23,8 +23,8 @@ export class CalendarDemoPage {
   }
 
   openCalendar() {
-    let from = new Date();
-    from.setMonth(from.getMonth() - 6); //半年前
+    const from = new Date();
+    from.setMonth(from.getMonth() - 6); // 半年前
     const options: CalendarModalOptions = {
       title: '',
       pickMode: 'range',
@@ -39,7 +39,7 @@ export class CalendarDemoPage {
       // }
     };
 
-    let myCalendar = this.modalCtrl.create(CalendarModal, {
+    const myCalendar = this.modalCtrl.create(CalendarModal, {
       options: options
     });
 

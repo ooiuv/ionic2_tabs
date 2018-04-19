@@ -21,8 +21,8 @@ export class Logger {
     fundebug.notifyError(err,
       {
         metaData: {
-          action: action, //操作名称
-          other: other, //其他数据信息
+          action: action, // 操作名称
+          other: other, // 其他数据信息
           user: {id: this.globalData.userId, name: this.globalData.username}
         }
       });
@@ -33,8 +33,8 @@ export class Logger {
     fundebug.notifyHttpError(err,
       {
         metaData: {
-          action: msg, //操作名称
-          other: other, //其他数据信息
+          action: msg, // 操作名称
+          other: other, // 其他数据信息
           user: {id: this.globalData.userId, name: this.globalData.username}
         }
       });

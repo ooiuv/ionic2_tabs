@@ -1,21 +1,8 @@
 {
   "rules": {
-    "no-duplicate-variable": true,
-    "no-unused-variable": [
-      true
-    ],
-    "whitespace": [
+    "comment-format": [
       true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-module",
-      "check-separator",
-      "check-rest-spread",
-      "check-type",
-      "check-typecast",
-      "check-type-operator",
-      "check-preblock"
+      "check-space"
     ]
   },
   "rulesDirectory": [

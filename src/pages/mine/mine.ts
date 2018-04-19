@@ -47,7 +47,7 @@ export class MinePage {
         {
           text: '确定',
           handler: () => {
-            let modal = this.modalCtrl.create(LoginPage);
+            const modal = this.modalCtrl.create(LoginPage);
             modal.present();
             modal.onDidDismiss(userInfo => {
               if (userInfo) {
@@ -60,7 +60,7 @@ export class MinePage {
     }).present();
   }
 
-  //工作地图
+  // 工作地图
   map() {
     this.navCtrl.push(WorkMapPage);
   }

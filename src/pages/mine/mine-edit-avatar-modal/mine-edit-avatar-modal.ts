@@ -24,7 +24,7 @@ export class MineEditAvatarModalPage {
     this.userInfo = this.globalData.user;
   }
 
-  getPicture(type) {//1拍照,0从图库选择
+  getPicture(type) { // 1拍照,0从图库选择
     const options = {
       targetWidth: 400,
       targetHeight: 400,
@@ -42,7 +42,7 @@ export class MineEditAvatarModalPage {
   }
 
   private getPictureSuccess(imageBase64) {
-    new AlloyCrop({//api:https://github.com/AlloyTeam/AlloyCrop
+    new AlloyCrop({ // api:https://github.com/AlloyTeam/AlloyCrop
       image_src: imageBase64,
       circle: true, // optional parameters , the default value is false
       width: 256, // crop width
@@ -63,9 +63,9 @@ export class MineEditAvatarModalPage {
   saveAvatar() {
     if (this.isChange) {
       const fileObj = <FileObj> {'base64': this.userInfo.avatarPath};
-      this.fileService.uploadByBase64(fileObj).subscribe(fileObj => {// 上传头像图片到文件服务器
+      this.fileService.uploadByBase64(fileObj).subscribe(fileObj => { // 上传头像图片到文件服务器
         const avatarId = fileObj.id, avatarPath = fileObj.origPath;
-        this.mineService.updateUserAvatarId(avatarId).subscribe(res => {//保存avatar字段到用户表
+        this.mineService.updateUserAvatarId(avatarId).subscribe(res => { // 保存avatar字段到用户表
           this.globalData.user.avatarId = avatarId;
           this.globalData.user.avatarPath = avatarPath;
           this.viewCtrl.dismiss();

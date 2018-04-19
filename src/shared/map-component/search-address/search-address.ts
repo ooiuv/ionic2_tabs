@@ -20,7 +20,7 @@ export class SearchAddress {
   @ViewChild('searchBar') searchBar: Searchbar;
   address: any = '';
   items: any[] = [];
-  historyButton: boolean = false;
+  historyButton = false;
   placeSearch;
   searchTextStream: Subject<string> = new Subject<string>();
 
@@ -65,7 +65,7 @@ export class SearchAddress {
     this.storage.get('MapSearchHistory').then(items => {
       if (items) {
         let isExist = false;
-        for (let value of items) {
+        for (const value of items) {
           if (value.id === item.id) {
             isExist = true;
           }

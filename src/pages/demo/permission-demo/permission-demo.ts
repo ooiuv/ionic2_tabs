@@ -32,7 +32,7 @@ export class PermissionDemoPage {
     color: '#868fe7',
   }];
 
-  //当前登录用户拥有的菜单
+  // 当前登录用户拥有的菜单
   menu = [{
     code: 'app_menu_customer',
     name: '客户档案',
@@ -45,11 +45,11 @@ export class PermissionDemoPage {
               public navParams: NavParams,
               public nativeService: NativeService,
               public commonService: CommonService) {
-    let menu = [];
-    //从后台获取当前登录用户的菜单资源
+    const menu = [];
+    // 从后台获取当前登录用户的菜单资源
     this.commonService.getResource(1).subscribe(res => {
-      for (let item of res) {
-        for (let _menuRelation of this.menuRelation) {
+      for (const item of res) {
+        for (const _menuRelation of this.menuRelation) {
           if (item.code == _menuRelation.code) {
             menu.push(_menuRelation);
           }
