@@ -41,12 +41,12 @@ import { CommonService } from '../service/CommonService';
 import { VersionService } from '../providers/VersionService';
 import { CalendarModule } from 'ion2-calendar';
 
-//参考文档:https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
+// 参考文档:https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
 import * as fundebug from 'fundebug-javascript';
 
 fundebug.apikey = FUNDEBUG_API_KEY;
-fundebug.releasestage = IS_DEBUG ? 'development' : 'production'; //应用开发阶段，development:开发;production:生产
-fundebug.silent = !IS_DEBUG; //如果暂时不需要使用Fundebug，将silent属性设为true
+fundebug.releasestage = IS_DEBUG ? 'development' : 'production'; // 应用开发阶段，development:开发;production:生产
+fundebug.silent = !IS_DEBUG; // 如果暂时不需要使用Fundebug，将silent属性设为true
 
 export class FunDebugErrorHandler implements ErrorHandler {
   handleError(err: any): void {
@@ -61,7 +61,7 @@ export class FunDebugErrorHandler implements ErrorHandler {
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp, {
-      mode: 'ios', //android是'md'
+      mode: 'ios', // android是'md'
       backButtonText: ''
     }),
     IonicStorageModule.forRoot(),
