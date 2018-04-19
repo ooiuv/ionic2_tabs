@@ -14,7 +14,7 @@ declare var AlloyCrop;
 })
 export class MineEditAvatarModalPage {
   userInfo;
-  isChange = false; //头像是否改变标识
+  isChange = false; // 头像是否改变标识
 
   constructor(private viewCtrl: ViewController,
               private fileService: FileService,

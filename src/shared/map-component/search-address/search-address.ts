@@ -29,7 +29,7 @@ export class SearchAddress {
               private navParams: NavParams,
               private nativeService: NativeService, ) {
     this.address = this.navParams.get('address');
-    AMap.service('AMap.PlaceSearch', () => {//地点查询插件
+    AMap.service('AMap.PlaceSearch', () => { // 地点查询插件
       this.placeSearch = new AMap.PlaceSearch({
         pageSize: 10,
         pageIndex: 1,
