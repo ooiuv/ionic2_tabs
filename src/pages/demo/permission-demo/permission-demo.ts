@@ -61,14 +61,14 @@ export class PermissionDemoPage {
 
   navigation(code) {
     switch (code) {
-      case 'app_menu_patrol':
-        this.navCtrl.push(PatrolTaskPage);
-        break;
-      case 'app_menu_customer':
-        this.navCtrl.push(CustomerListPage);
-        break;
-      default :
-        this.nativeService.alert('未找到页面');
+    case 'app_menu_patrol':
+      this.navCtrl.push(PatrolTaskPage);
+      break;
+    case 'app_menu_customer':
+      this.navCtrl.push(CustomerListPage);
+      break;
+    default :
+      this.nativeService.alert('未找到页面');
     }
   }
 

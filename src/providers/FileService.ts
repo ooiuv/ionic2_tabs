@@ -33,7 +33,7 @@ export class FileService {
       return Observable.of({});
     }
     this.deleteFileCacheByIds([id]);
-    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id}, false);
+    return this.httpService.get(FILE_SERVE_URL + '/deleteById', { id: id }, false);
   }
 
   /**
@@ -43,15 +43,15 @@ export class FileService {
    * @returns {FileObj[]}
    */
   getFileInfoByIds(ids: string[]): Observable<FileObj[]> {
-    if (!ids || ids.length == 0) {
+    if (!ids || ids.length === 0) {
       return Observable.of([]);
     }
     return this.getFileCacheByIds(ids).mergeMap(cacheData => {
       const queryIds = FileService.getNotCacheIds(cacheData, ids);
-      if (queryIds.length == 0) {
+      if (queryIds.length === 0) {
         return Observable.of(cacheData);
       }
-      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}, false).map(result => {
+      return this.httpService.get(FILE_SERVE_URL + '/getByIds', { ids: queryIds }, false).map(result => {
         if (!result.success) {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
@@ -87,7 +87,7 @@ export class FileService {
    * @returns {FileObj[]}
    */
   uploadMultiByBase64(fileObjList: FileObj[]): Observable<FileObj[]> {
-    if (!fileObjList || fileObjList.length == 0) {
+    if (!fileObjList || fileObjList.length === 0) {
       return Observable.of([]);
     }
     return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList, false).map(result => {
@@ -124,7 +124,7 @@ export class FileService {
    * @returns {FileObj[]}
    */
   uploadMultiByFilePath(fileObjList: FileObj[]): Observable<FileObj[]> {
-    if (fileObjList.length == 0) {
+    if (fileObjList.length === 0) {
       return Observable.of([]);
     }
     // 开启了缓存

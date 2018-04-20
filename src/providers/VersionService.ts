@@ -90,7 +90,7 @@ export class VersionService {
           title: '升级',
           subTitle: '发现新版本,是否立即升级？',
           enableBackdropDismiss: false,
-          buttons: [{text: '取消'}, {
+          buttons: [{ text: '取消' }, {
             text: '确定', handler: () => {
               that.downloadApp();
             }
@@ -211,7 +211,7 @@ export class VersionService {
     } else {// 正在更新`
       const alert = this.alertCtrl.create({
         title: `下载进度：${this.updateProgress}%`,
-        buttons: [{text: '后台下载'}]
+        buttons: [{ text: '后台下载' }]
       });
       alert.present();
       const interval = setInterval(() => {

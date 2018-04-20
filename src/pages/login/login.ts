@@ -58,13 +58,13 @@ export class LoginPage {
     this.alertCtrl.create({
       title: '确认退出软件？',
       enableBackdropDismiss: false,
-      buttons: [{text: '取消'},
-        {
-          text: '确定',
-          handler: () => {
-            this.platform.exitApp();
-          }
+      buttons: [{ text: '取消' },
+      {
+        text: '确定',
+        handler: () => {
+          this.platform.exitApp();
         }
+      }
       ]
     }).present();
     return false;

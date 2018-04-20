@@ -94,7 +94,7 @@ export class FunDebugErrorHandler implements ErrorHandler {
     CodePush,
     CallNumber,
     BarcodeScanner,
-    {provide: ErrorHandler, useClass: FunDebugErrorHandler},
+    { provide: ErrorHandler, useClass: FunDebugErrorHandler },
     NativeService,
     HttpService,
     FileService,

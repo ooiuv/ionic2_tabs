@@ -33,7 +33,7 @@ export class Navigation {
 
   ngAfterContentInit() {
     this.nativeService.showLoading();
-    const options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
+    const options = { city: '广州市', panel: this.panel.nativeElement, map: this.map };
     if (this.navigationType == 1) {
       AMap.service('AMap.Driving', () => {
         this.doSearch(new AMap.Driving(options));

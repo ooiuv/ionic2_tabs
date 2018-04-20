@@ -47,16 +47,16 @@ export class MineEditModalPage {
     this.userForm.valueChanges
       .subscribe(data => {
         const verifyMessages = this.verifyMessages;
-        for (const field in verifyMessages) {
+        Object.keys(verifyMessages).forEach(field => {
           verifyMessages[field].errorMsg = '';
           const control = this.userForm.get(field);
           if (control && control.dirty && !control.valid) {
             const messages = verifyMessages[field];
-            for (const key in control.errors) {
+            Object.keys(control.errors).forEach(key => {
               messages[key] && (verifyMessages[field].errorMsg += messages[key] + ' ');
-            }
+            })
           }
-        }
+        })
       });
   }
 

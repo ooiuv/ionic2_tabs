@@ -12,9 +12,6 @@ declare let hex_md5;
 @Injectable()
 export class Utils {
 
-  constructor() {
-  }
-
   static isEmpty(value): boolean {
     return value == null || typeof value === 'string' && value.length === 0;
   }

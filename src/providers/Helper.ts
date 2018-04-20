@@ -113,7 +113,7 @@ export class Helper {
    * @param idList id数组
    */
   static findFileListById(fileList, ids) {
-    if (!ids || ids.length == 0) {
+    if (!ids || ids.length === 0) {
       return [];
     }
     const newFileList = [];
@@ -132,7 +132,7 @@ export class Helper {
    */
   uploadPictureByPath(fileList) {
     return Observable.create(observer => {
-      if (!fileList || fileList.length == 0) {
+      if (!fileList || fileList.length === 0) {
         observer.next([]);
         return;
       }
@@ -204,7 +204,7 @@ export class Helper {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.setAlias({sequence: 1, alias: this.globalData.userId}, (result) => {
+    this.jPush.setAlias({ sequence: 1, alias: this.globalData.userId }, (result) => {
       console.log('jpush-设置别名成功:');
       console.log(result);
     }, (error) => {
@@ -216,7 +216,7 @@ export class Helper {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.deleteAlias({sequence: 2}, (result) => {
+    this.jPush.deleteAlias({ sequence: 2 }, (result) => {
       console.log('jpush-删除别名成功');
       console.log(result);
     }, (error) => {
@@ -234,7 +234,7 @@ export class Helper {
     if (this.nativeService.isIos()) {
       tags.push('ios');
     }
-    this.jPush.setTags({sequence: 3, tags: tags}, (result) => {
+    this.jPush.setTags({ sequence: 3, tags: tags }, (result) => {
       console.log('jpush-设置标签成功');
       console.log(result);
     }, (error) => {
@@ -246,7 +246,7 @@ export class Helper {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.deleteTags({sequence: 4, tags: tags}, (result) => {
+    this.jPush.deleteTags({ sequence: 4, tags: tags }, (result) => {
       console.log('jpush-删除标签成功');
       console.log(result);
     }, (error) => {

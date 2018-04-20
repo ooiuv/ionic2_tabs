@@ -73,14 +73,14 @@ export class FileCachePage {
         this.enabledFileCache && (this.globalData.enabledFileCache = true);
         // 修改缓存文件关系为真实文件关系
         this.globalData.showLoading = false;
-        this.commonService.fileRelationReplace([{'realId': res.id, 'replaceId': res.parameter}]).subscribe(() => {
+        this.commonService.fileRelationReplace([{ 'realId': res.id, 'replaceId': res.parameter }]).subscribe(() => {
           // 更新上传进度
           const title = document.getElementsByClassName('js-upload')[0].getElementsByClassName('alert-title')[0];
           title && (title.innerHTML = this.uploadTotal - this.fileObjList.length + '/' + this.uploadTotal);
           this.fileObjList.shift();
           this.fileService.deleteFileCacheByIds([res.parameter]);
           // 上传完成
-          if (this.fileObjList.length == 0) {
+          if (this.fileObjList.length === 0) {
             this.progress.dismiss();
             this.nativeService.alert('上传完成');
             this.uploading = false;

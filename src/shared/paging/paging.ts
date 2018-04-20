@@ -27,10 +27,6 @@ export class PagingPage {
   @Input() pageNum= 1; // 当前第几页,默认1
   @Output() pageNumChange = new EventEmitter<any>();
 
-
-  constructor() {
-  }
-
   btnClick(pageNum) {
     this.pageNum = pageNum;
     this.pageNumChange.emit(pageNum);

@@ -205,7 +205,7 @@ export class NativeService {
         showCloseButton: false
       }).present();
     }
-  };
+  }
 
   /**
    * 统一调用此方法显示loading
@@ -219,7 +219,7 @@ export class NativeService {
       loading.present();
       this.loading = loading;
     }
-  };
+  }
 
   /**
    * 关闭loading
@@ -227,7 +227,7 @@ export class NativeService {
   hideLoading(): void {
     this.loading && this.loading.dismiss();
     this.loading = null;
-  };
+  }
 
   /**
    * 使用cordova-plugin-camera获取照片
@@ -265,7 +265,7 @@ export class NativeService {
         observer.error(false);
       });
     });
-  };
+  }
 
   /**
    * 通过拍照获取照片
@@ -277,7 +277,7 @@ export class NativeService {
       destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
     return this.getPicture(ops);
-  };
+  }
 
   /**
    * 通过图库获取照片
@@ -289,7 +289,7 @@ export class NativeService {
       destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
     }, options);
     return this.getPicture(ops);
-  };
+  }
 
   /**
    * 通过图库选择多图
@@ -325,7 +325,7 @@ export class NativeService {
         observer.error(false);
       });
     });
-  };
+  }
 
   /**
    * 根据图片绝对路径转化为base64字符串
@@ -468,19 +468,19 @@ export class NativeService {
             //  其中locationType为定位来源.定位类型对照表: http://lbs.amap.com/api/android-location-sdk/guide/utilities/location-type/
             //  iOS只会返回data形如:{longitude: 113.35081420800906, latitude: 23.119172707345594}
             console.log('定位信息', data);
-            observer.next({'lng': data.longitude, 'lat': data.latitude});
+            observer.next({ 'lng': data.longitude, 'lat': data.latitude });
           }, msg => {
             if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {
               this.alertCtrl.create({
                 title: '缺少定位权限',
                 subTitle: '请在手机设置或app权限管理中开启',
-                buttons: [{text: '取消'},
-                  {
-                    text: '去开启',
-                    handler: () => {
-                      this.diagnostic.switchToSettings();
-                    }
+                buttons: [{ text: '取消' },
+                {
+                  text: '去开启',
+                  handler: () => {
+                    this.diagnostic.switchToSettings();
                   }
+                }
                 ]
               }).present();
             } else if (msg.indexOf('WIFI信息不足') != -1) {
@@ -498,7 +498,7 @@ export class NativeService {
         })
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
-        observer.next({'lng': 113.350912, 'lat': 23.119495});
+        observer.next({ 'lng': 113.350912, 'lat': 23.119495 });
       }
     });
   }
@@ -520,13 +520,13 @@ export class NativeService {
               this.alertCtrl.create({
                 title: '您未开启位置服务',
                 subTitle: '正在获取位置信息',
-                buttons: [{text: '取消'},
-                  {
-                    text: '去开启',
-                    handler: () => {
-                      this.diagnostic.switchToLocationSettings();
-                    }
+                buttons: [{ text: '取消' },
+                {
+                  text: '去开启',
+                  handler: () => {
+                    this.diagnostic.switchToLocationSettings();
                   }
+                }
                 ]
               }).present();
               observer.error(false);
@@ -560,13 +560,13 @@ export class NativeService {
                   this.alertCtrl.create({
                     title: '缺少定位权限',
                     subTitle: '请在手机设置或app权限管理中开启',
-                    buttons: [{text: '取消'},
-                      {
-                        text: '去开启',
-                        handler: () => {
-                          this.diagnostic.switchToSettings();
-                        }
+                    buttons: [{ text: '取消' },
+                    {
+                      text: '去开启',
+                      handler: () => {
+                        this.diagnostic.switchToSettings();
                       }
+                    }
                     ]
                   }).present();
                   observer.error(false);
@@ -614,13 +614,13 @@ export class NativeService {
                   this.alertCtrl.create({
                     title: '缺少读取存储权限',
                     subTitle: '请在手机设置或app权限管理中开启',
-                    buttons: [{text: '取消'},
-                      {
-                        text: '去开启',
-                        handler: () => {
-                          this.diagnostic.switchToSettings();
-                        }
+                    buttons: [{ text: '取消' },
+                    {
+                      text: '去开启',
+                      handler: () => {
+                        this.diagnostic.switchToSettings();
                       }
+                    }
                     ]
                   }).present();
                   observer.error(false);

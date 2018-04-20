@@ -53,6 +53,7 @@ export class MineEditAvatarModalPage {
         this.userInfo.avatarPath = base64;
       },
       cancel: () => {
+        console.log('AlloyCrop cancel');
       },
       ok_text: '确定', // optional parameters , the default value is ok
       cancel_text: '取消' // optional parameters , the default value is cancel
@@ -64,7 +65,8 @@ export class MineEditAvatarModalPage {
     if (this.isChange) {
       const fileObj = <FileObj> {'base64': this.userInfo.avatarPath};
       this.fileService.uploadByBase64(fileObj).subscribe(fileObj => { // 上传头像图片到文件服务器
-        const avatarId = fileObj.id, avatarPath = fileObj.origPath;
+        const avatarId = fileObj.id;
+        const avatarPath = fileObj.origPath;
         this.mineService.updateUserAvatarId(avatarId).subscribe(res => { // 保存avatar字段到用户表
           this.globalData.user.avatarId = avatarId;
           this.globalData.user.avatarPath = avatarPath;

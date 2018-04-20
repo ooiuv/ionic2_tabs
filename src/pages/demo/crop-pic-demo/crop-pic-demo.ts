@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { NativeService } from '../../../providers/NativeService';
+
 declare var AlloyCrop;
+
 /**
  * Generated class for the CropPicDemoPage page.
  *
@@ -34,6 +36,7 @@ export class CropPicDemoPage {
         this.cropSrc = base64;
       },
       cancel: () => {
+        console.log('AlloyCrop cancel');
       },
       ok_text: '确定', // optional parameters , the default value is ok
       cancel_text: '取消' // optional parameters , the default value is cancel

@@ -44,8 +44,6 @@ export class SettingPage {
   changePassword() {
     const modal = this.modalCtrl.create(ChangePasswordPage);
     modal.present();
-    modal.onDidDismiss(data => {
-    });
   }
 
 

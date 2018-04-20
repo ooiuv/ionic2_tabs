@@ -59,7 +59,7 @@ export class FeedBackListPage {
   }
 
   detail(id) {
-    this.navCtrl.push(FeedBackDetailPage, {id: id});
+    this.navCtrl.push(FeedBackDetailPage, { id: id });
   }
 
 }

@@ -100,7 +100,7 @@ export class MapLocation {
 // 跳转到地址查询搜索页面,并返回一个地址对象(经纬坐标+中文地址)
   locationSearch() {
     const that = this;
-    const locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address || ''});
+    const locationSearchModal = that.modalCtrl.create(SearchAddress, { address: that.params.address || '' });
     locationSearchModal.present();
     locationSearchModal.onDidDismiss(item => {
       if (item) {
@@ -186,7 +186,7 @@ export class MapLocation {
     }
     const modal = this.modalCtrl.create(Navigation, {
       'navigationType': navigationType,
-      'markerLocation': {'lng': markerPosition.lng, 'lat': markerPosition.lat}
+      'markerLocation': { 'lng': markerPosition.lng, 'lat': markerPosition.lat }
     });
     modal.present();
   }

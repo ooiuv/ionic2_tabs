@@ -56,7 +56,7 @@ export class CommonService {
         return item.resourceType == resourceType;
       }));
     }
-    return this.httpService.post(url, {clientType: 2}).map((res) => {
+    return this.httpService.post(url, { clientType: 2 }).map((res) => {
       Utils.sessionStorageSetItem(url, res);
       return res.filter((item) => {
         return item.resourceType == resourceType;

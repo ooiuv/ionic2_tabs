@@ -43,16 +43,16 @@ export class FeedBackPage {
     this.form.valueChanges
       .subscribe(data => {
         const verifyMessages = this.verifyMessages;
-        for (const field in verifyMessages) {
+        Object.keys(verifyMessages).forEach(field => {
           verifyMessages[field].errorMsg = '';
           const control = this.form.get(field);
           if (control && control.dirty && !control.valid) {
             const messages = verifyMessages[field];
-            for (const key in control.errors) {
+            Object.keys(control.errors).forEach(key => {
               messages[key] && (verifyMessages[field].errorMsg += messages[key] + ' ');
-            }
+            })
           }
-        }
+        })
       });
   }
 
@@ -61,9 +61,8 @@ export class FeedBackPage {
     this.alertCtrl.create({
       title: '确定提交？',
       subTitle: '提交后将不能修改',
-      buttons: [{text: '取消'},
-        {
-          text: '确定', handler: () => {
+      buttons: [{text: '取消'}, {
+        text: '确定', handler: () => {
           this.fileService.uploadMultiByFilePath(this.fileObjList).subscribe(fileList => {
             const fileIdList = [];
             for (const fileObj of fileList) {
@@ -75,7 +74,7 @@ export class FeedBackPage {
             })
           });
         }
-        }
+      }
       ]
     }).present();
 

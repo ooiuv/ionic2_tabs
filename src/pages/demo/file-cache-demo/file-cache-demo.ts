@@ -27,7 +27,7 @@ export class FileCacheDemoPage {
   }
 
   save() {
-    if (this.fileObjList.length == 0) {
+    if (this.fileObjList.length === 0) {
       this.nativeService.alert('请选择照片');
       return;
     }

@@ -37,7 +37,7 @@ export class SelectPicDemoPage {
 
   uploadMultiByBase64() {
     this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(fileList => {
-        this.nativeService.showToast('成功上传' + fileList.length + '张图片');
+      this.nativeService.showToast('成功上传' + fileList.length + '张图片');
     });
   }
 

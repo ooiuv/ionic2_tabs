@@ -121,7 +121,6 @@ export class MyApp {
   jPushOpenNotification() {
     // 当点击极光推送消息跳转到指定页面
     this.events.subscribe('jpush.openNotification', content => {
-      console.log(content);
       const tabs = this.nav.getActiveChildNav();
       const tab = tabs.getSelected();
       const activeVC = tab.getActive();
@@ -131,10 +130,10 @@ export class MyApp {
       const activeNav = activeVC.getNav();
       activeNav.popToRoot({}).then(() => {// 导航跳到最顶层
         tabs.select(3); // 选中第四个tab
-        const tab = tabs.getSelected(); // 获取选中的tab
-        const activeVC = tab.getActive(); // 通过当前选中的tab获取ViewController
-        const activeNav = activeVC.getNav(); // 通过当前视图的ViewController获取的NavController
-        activeNav.push(AboutPage); // 跳转到指定页面
+        const t = tabs.getSelected(); // 获取选中的tab
+        const v = t.getActive(); // 通过当前选中的tab获取ViewController
+        const n = v.getNav(); // 通过当前视图的ViewController获取的NavController
+        n.push(AboutPage); // 跳转到指定页面
       });
     });
   }

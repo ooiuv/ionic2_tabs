@@ -64,8 +64,8 @@ export class NativeDemoPage {
   }
 
   navigation() {
-    const startPoint: Position = {'lng': '113.350912', 'lat': '23.119495'};
-    const endPoint: Position = {'lng': '113.450912', 'lat': '23.219495'};
+    const startPoint: Position = { 'lng': '113.350912', 'lat': '23.119495' };
+    const endPoint: Position = { 'lng': '113.450912', 'lat': '23.219495' };
     this.nativeService.navigation(startPoint, endPoint).subscribe(res => {
       console.log(res);
     });

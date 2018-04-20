@@ -152,13 +152,13 @@ export class HttpService {
     if (!paramMap) {
       return params;
     }
-    for (const key in paramMap) {
+    Object.keys(paramMap).forEach(key => {
       let val = paramMap[key];
       if (val instanceof Date) {
         val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss')
       }
       params.set(key, val);
-    }
+    });
     return params;
   }
 
