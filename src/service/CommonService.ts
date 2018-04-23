@@ -48,7 +48,7 @@ export class CommonService {
    * 查询登录用户所拥有的资源
    * resourceType: 资源类型1:菜单,2:url,3:按钮
    */
-  getResource(resourceType: number = 1) {
+  getResource(resourceType = 1) {
     const url = '/v1/public/resource';
     const json = Utils.sessionStorageGetItem(url);
     if (json) {

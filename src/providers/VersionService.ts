@@ -37,7 +37,7 @@ export class VersionService {
 
   }
 
-  checkVersion(isManual: boolean = false) {
+  checkVersion(isManual = false) {
     if (!this.nativeService.isMobile()) {
       return;
     }

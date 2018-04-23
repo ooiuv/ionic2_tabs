@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, ViewController, NavParams, Searchbar } from 'ionic-angular';
+import { IonicPage, NavParams, Searchbar, ViewController } from 'ionic-angular';
 import { Subject } from 'rxjs/Rx';
 import { NativeService } from '../../../providers/NativeService';
 import { Storage } from '@ionic/storage';
@@ -27,7 +27,7 @@ export class SearchAddress {
   constructor(private storage: Storage,
               public viewCtrl: ViewController,
               private navParams: NavParams,
-              private nativeService: NativeService,) {
+              private nativeService: NativeService) {
     this.address = this.navParams.get('address');
     AMap.service('AMap.PlaceSearch', () => { // 地点查询插件
       this.placeSearch = new AMap.PlaceSearch({
@@ -98,7 +98,7 @@ export class SearchAddress {
             this.nativeService.showToast('地图查询失败,稍后再试.')
           }
         });
-      }else {
+      } else {
         this.storage.get('MapSearchHistory').then(items => {
           this.items = (items || []).reverse();
           this.historyButton = true;

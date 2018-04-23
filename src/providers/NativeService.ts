@@ -1,8 +1,8 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
+import { Network } from '@ionic-native/network';
 import { Injectable } from '@angular/core';
-import { ToastController, LoadingController, Platform, Loading, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AppVersion } from '@ionic-native/app-version';
@@ -11,16 +11,16 @@ import { Toast } from '@ionic-native/toast';
 import { File, FileEntry } from '@ionic-native/file';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ImagePicker } from '@ionic-native/image-picker';
-import { Network } from '@ionic-native/network';
+import { AlertController, Loading, LoadingController, Platform, ToastController } from 'ionic-angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { CallNumber } from '@ionic-native/call-number';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Position } from '../model/type';
 import {
-  IMAGE_SIZE,
-  QUALITY_SIZE,
   CODE_PUSH_DEPLOYMENT_KEY,
-  IS_DEBUG
+  IMAGE_SIZE,
+  IS_DEBUG,
+  QUALITY_SIZE
 } from './Constants';
 import { Observable } from 'rxjs/Rx';
 import { Logger } from './Logger';
@@ -170,7 +170,7 @@ export class NativeService {
    */
   alert = (() => {
     let isExist = false;
-    return (title: string, subTitle: string = '', message: string = '', callBackFun = null): void => {
+    return (title: string, subTitle = '', message = '', callBackFun = null): void => {
       if (!isExist) {
         isExist = true;
         this.alertCtrl.create({
@@ -194,7 +194,7 @@ export class NativeService {
    * @param message 信息内容
    * @param duration 显示时长
    */
-  showToast(message: string = '操作完成', duration: number = 2000): void {
+  showToast(message = '操作完成', duration = 2000): void {
     if (this.isMobile()) {
       this.toast.show(message, String(duration), 'center').subscribe();
     } else {
@@ -211,7 +211,7 @@ export class NativeService {
    * 统一调用此方法显示loading
    * @param content 显示的内容
    */
-  showLoading(content: string = ''): void {
+  showLoading(content = ''): void {
     if (!this.loading) {// 如果loading已经存在则不再打开
       const loading = this.loadingCtrl.create({
         content: content
@@ -397,9 +397,9 @@ export class NativeService {
    * 拨打电话
    * @param number
    */
-  callNumber(number: string): void {
-    this.cn.callNumber(number, true)
-      .then(() => console.log('成功拨打电话:' + number))
+  callNumber(num: string): void {
+    this.cn.callNumber(num, true)
+      .then(() => console.log('成功拨打电话:' + num))
       .catch(err => this.logger.log(err, '拨打电话失败'));
   }
 

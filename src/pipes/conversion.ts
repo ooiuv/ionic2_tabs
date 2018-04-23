@@ -17,7 +17,7 @@ export class Conversion {
    * @param sTot 默认true简转繁 false繁转简
    * @returns {string}
    */
-  transform(str: string = '', sTot: boolean = true) {
+  transform(str = '', sTot = true) {
     let newStr = '';
     for (const s of str) {
       const index = (sTot ? Conversion.s() : Conversion.t()).indexOf(s);

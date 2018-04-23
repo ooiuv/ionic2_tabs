@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, ViewController, Platform, AlertController, Events } from 'ionic-angular';
+import { AlertController, Events, ModalController, Platform, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FindPasswordPage } from './find-password/find-password';

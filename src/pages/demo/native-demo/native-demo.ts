@@ -35,8 +35,8 @@ export class NativeDemoPage {
     }
   }
 
-  callNumber(number) {
-    this.nativeService.isMobile() && this.nativeService.callNumber(number);
+  callNumber(num) {
+    this.nativeService.isMobile() && this.nativeService.callNumber(num);
   }
 
   scan() {

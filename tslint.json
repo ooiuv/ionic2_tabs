@@ -1,4 +1,5 @@
 {
+  "extends": "tslint-ionic-rules",
   "rules": {
     //
     //
@@ -35,7 +36,7 @@
     "cyclomatic-complexity": [true, 20], // 禁止函数的循环复杂度超过 20，https://en.wikipedia.org/wiki/Cyclomatic_complexity
     "curly": true, // 所有控制语句必须使用大括号
     "switch-default": true, // switch 语句必须有 default
-//    "triple-equals": [true, "allow-null-check","allow-undefined-check"], // 必须使用 === 或者 !== 与null,undefined比较除外
+    "triple-equals": false,//[true, "allow-null-check","allow-undefined-check"], // 必须使用 === 或者 !== 与null,undefined比较除外
     "forin": true, // 使用for in语句时，强制进行hasOwnProperty检查 https://palantir.github.io/tslint/rules/forin/
     "no-arg": true, // 禁止使用 caller 或 callee
     "no-eval": true, // 不允许使用eval
@@ -112,7 +113,12 @@
   ]
 }
 
-// 所有规则: https://github.com/buzinas/tslint-eslint-rules
+// https://github.com/palantir/tslint   https://palantir.github.io/tslint/usage/cli/
+// https://github.com/buzinas/tslint-eslint-rules
+// https://github.com/ionic-team/tslint-ionic-rules/blob/master/tslint.js
+
+// 参考
 // https://github.com/AlloyTeam/eslint-config-alloy/blob/master/index.js
-// 自动修复
+
+// 自动修复命令
 // tslint --fix -c ./tslint.json 'src/**/*.ts'

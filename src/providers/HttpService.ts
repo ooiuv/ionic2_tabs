@@ -29,7 +29,7 @@ export class HttpService {
               public nativeService: NativeService) {
   }
 
-  public get(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
+  public get(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Get,
       search: HttpService.buildURLSearchParams(paramMap)
@@ -37,7 +37,7 @@ export class HttpService {
     return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
   }
 
-  public post(url: string, body: any = {}, useDefaultApi: boolean = true): Observable<any> {
+  public post(url: string, body: any = {}, useDefaultApi = true): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,
       body: body,
@@ -48,7 +48,7 @@ export class HttpService {
     return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
   }
 
-  public postFormData(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
+  public postFormData(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,
       body: HttpService.buildURLSearchParams(paramMap).toString(),
@@ -59,7 +59,7 @@ export class HttpService {
     return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
   }
 
-  public delete(url: string, paramMap: any = null, useDefaultApi: boolean = true): Observable<any> {
+  public delete(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Delete,
       search: HttpService.buildURLSearchParams(paramMap)

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { ModalController, NavController, NavParams } from 'ionic-angular';
 import { NativeService } from '../../../providers/NativeService';
-import { CalendarModalOptions, CalendarModal } from 'ion2-calendar'
+import { CalendarModal, CalendarModalOptions } from 'ion2-calendar'
 
 /**
  * Generated class for the CalendarDemoPage page.

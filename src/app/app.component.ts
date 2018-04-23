@@ -1,10 +1,10 @@
+import { Helper } from '../providers/Helper';
 import { Component, ViewChild } from '@angular/core';
-import { Storage } from '@ionic/storage';
-import { Platform, IonicApp, Nav, ModalController, Keyboard, ToastController, Events } from 'ionic-angular';
+import { Events, IonicApp, Keyboard, ModalController, Nav, Platform, ToastController } from 'ionic-angular';
 import { NativeService } from '../providers/NativeService';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
-import { Helper } from '../providers/Helper';
+import { Storage } from '@ionic/storage';
 import { GlobalData } from '../providers/GlobalData';
 import { Utils } from '../providers/Utils';
 import { CommonService } from '../service/CommonService';

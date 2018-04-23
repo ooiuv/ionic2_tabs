@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavController, NavParams, ModalController, IonicPage } from 'ionic-angular';
+import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
 import { SearchAddress } from '../search-address/search-address';
 import { Navigation } from '../navigation/navigation';
 import { NativeService } from '../../../providers/NativeService';
@@ -122,7 +122,7 @@ export class MapLocation {
   }
 
 // 描点标注
-  private drawMarker(position, addressName: string = '') {
+  private drawMarker(position, addressName = '') {
     const that = this;
     that.params.position = position;
     that.map.clearMap();

@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { IonicPage, ActionSheetController, ModalController, AlertController } from 'ionic-angular';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ActionSheetController, AlertController, IonicPage, ModalController } from 'ionic-angular';
 import { FileObj } from '../../model/FileObj';
 import { NativeService } from '../../providers/NativeService';
 import { PreviewPicturePage } from '../preview-picture/preview-picture';

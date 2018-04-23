@@ -126,7 +126,7 @@ export class Utils {
    * @param url
    * @returns {string}
    */
-  static formatUrl(url: string = ''): string {
+  static formatUrl(url = ''): string {
     let index = 0;
     if (url.startsWith('http')) {
       index = 7

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FileObj } from '../../../model/FileObj';
-import { Response, Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { NativeService } from '../../../providers/NativeService';
 import { FileService } from '../../../providers/FileService';
 
