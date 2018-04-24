@@ -76,7 +76,8 @@
 //    "eofline": true, // 文件最后一行必须有一个空行
     "ter-func-call-spacing": [true], // 调用函数的小括号禁止有空格
     "ter-indent": [true, 2], // 以2个空格缩进
-//    "ter-max-len": [true, 140], // 限制一行代码最大长度
+//    "linebreak-style": [true, "LF"], //  限制换行符为 LF 或 CRLF https://blog.csdn.net/echo_follow_heart/article/details/48314523
+    //    "ter-max-len": [true, 140], // 限制一行代码最大长度
 //    "max-file-line-count": [true, 300], // 限制每个文件的最大行数
     "new-parens": true, // new 后面的类必须有小括号
 //    "ter-newline-after-var": [true, "always"], // 变量声明后需不需要空一行
@@ -88,7 +89,7 @@
     "one-variable-per-declaration": [true, "ignore-for-loop"], // 禁止变量申明时用逗号一次申明多个,如let a = 1, b = 2;除非循环
 //    "object-literal-key-quotes": [true, "always"], // 对象字面量的键名禁止用引号括起来
     "quotemark": [true, "single"], // 字符串使用单引号,包括变量声明,import导入.
-    "semicolon": ["always"], // 每句结尾强制使用分号
+    "semicolon": ["always"], // 禁止出现多余的分号
 //    "sort-imports": [true], // import 必须按规则排序
     "space-in-parens": [true, "never"], // 小括号内的首尾禁止有空格
     "comment-format": [true, "check-space"], // 单行注释双斜杠(//)后面必须紧跟空格

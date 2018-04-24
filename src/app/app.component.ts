@@ -17,8 +17,6 @@ import { AboutPage } from '../pages/mine/about/about';
 })
 export class MyApp {
   @ViewChild('myNav') nav: Nav;
-  rootPage = TabsPage;
-  backButtonPressed = false;
 
   constructor(private platform: Platform,
               private keyboard: Keyboard,
@@ -33,8 +31,7 @@ export class MyApp {
               private versionService: VersionService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
-      this.nativeService.statusBarStyle();
-      this.nativeService.splashScreenHide();
+      this.nativeService.statusBarStyle(); // 设置状态栏颜色
       this.assertNetwork(); // 检测网络
       this.helper.funDebugInit(); // 初始化fundebug
       this.helper.alloyLeverInit(); // 本地"开发者工具"
@@ -47,9 +44,10 @@ export class MyApp {
       // 从缓存中获取token
       this.storage.get('token').then(token => {
         if (token) {
+          this.nav.setRoot(TabsPage); // 设置首页
           this.globalData.token = token;
           // 用旧token获取新token,旧token作为请求头
-          this.commonService.getNewToken().mergeMap((newToken) => {
+          this.commonService.getNewToken().mergeMap(newToken => {
             this.globalData.token = newToken;
             this.storage.set('token', newToken);
             return this.commonService.getUserInfo();
@@ -57,8 +55,9 @@ export class MyApp {
             this.helper.loginSuccessHandle(userInfo);
           });
         } else {
-          this.modalCtrl.create(LoginPage).present();
+          this.nav.setRoot(LoginPage); // 设置首页
         }
+        this.nativeService.splashScreenHide(); // 隐藏启动页
       });
       this.registerBackButtonAction(); // 注册android返回按键事件
       this.versionService.checkVersion(); // 检查版本更新
@@ -96,45 +95,38 @@ export class MyApp {
         activePortal.dismiss();
         return;
       }
-      const tabs = this.nav.getActiveChildNav(); // 获取tabs导航,this.nav是总导航,tabs是子导航
-      const tab = tabs.getSelected(); // 获取选中的tab
+      const childNav = this.nav.getActiveChildNav(); // 获取tabs导航,this.nav是总导航,tabs是子导航
+      if (!childNav) {
+        this.nativeService.minimize();
+        return;
+      }
+      const tab = childNav.getSelected(); // 获取选中的tab
       const activeVC = tab.getActive(); // 通过当前选中的tab获取ViewController
       const activeNav = activeVC.getNav(); // 通过当前视图的ViewController获取的NavController
-      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize(); // this.showExit()
+      return activeNav.canGoBack() ? activeNav.pop() : this.nativeService.minimize();
     }, 1);
-  }
-
-  // 双击退出提示框
-  showExit() {
-    if (this.backButtonPressed) { // 当触发标志为true时，即2秒内双击返回按键则退出APP
-      this.platform.exitApp();
-    } else {
-      this.nativeService.showToast('再按一次退出应用');
-      this.backButtonPressed = true;
-      setTimeout(() => { // 2秒内没有再次点击返回则将触发标志标记为false
-        this.backButtonPressed = false;
-      }, 2000)
-    }
   }
 
   // 极光推送
   jPushOpenNotification() {
     // 当点击极光推送消息跳转到指定页面
     this.events.subscribe('jpush.openNotification', content => {
-      const tabs = this.nav.getActiveChildNav();
-      const tab = tabs.getSelected();
-      const activeVC = tab.getActive();
-      // if (activeVC.component == AboutPage) {//如果当前所在页面就是将要跳转到的页面则不处理
-      //   return;
-      // }
-      const activeNav = activeVC.getNav();
-      activeNav.popToRoot({}).then(() => {// 导航跳到最顶层
-        tabs.select(3); // 选中第四个tab
-        const t = tabs.getSelected(); // 获取选中的tab
-        const v = t.getActive(); // 通过当前选中的tab获取ViewController
-        const n = v.getNav(); // 通过当前视图的ViewController获取的NavController
-        n.push(AboutPage); // 跳转到指定页面
-      });
+      const childNav = this.nav.getActiveChildNav();
+      if (childNav) {
+        const tab = childNav.getSelected();
+        const activeVC = tab.getActive();
+        // if (activeVC.component == AboutPage) {//如果当前所在页面就是将要跳转到的页面则不处理
+        //   return;
+        // }
+        const activeNav = activeVC.getNav();
+        activeNav.popToRoot({}).then(() => { // 导航跳到最顶层
+          childNav.select(3); // 选中第四个tab
+          const t = childNav.getSelected(); // 获取选中的tab
+          const v = t.getActive(); // 通过当前选中的tab获取ViewController
+          const n = v.getNav(); // 通过当前视图的ViewController获取的NavController
+          n.push(AboutPage); // 跳转到指定页面
+        });
+      }
     });
   }
 

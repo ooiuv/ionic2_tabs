@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, Events, ModalController, Platform, ViewController } from 'ionic-angular';
+import { AlertController, Events, ModalController, NavController, Platform, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FindPasswordPage } from './find-password/find-password';
@@ -8,6 +8,7 @@ import { GlobalData } from '../../providers/GlobalData';
 import { CommonService } from '../../service/CommonService';
 import { Helper } from '../../providers/Helper';
 import { UserInfo } from '../../model/UserInfo';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-login',
@@ -18,7 +19,8 @@ export class LoginPage {
   canLeave = false;
   loginForm: any;
 
-  constructor(public viewCtrl: ViewController,
+  constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public formBuilder: FormBuilder,
               public storage: Storage,
               public events: Events,
@@ -43,31 +45,14 @@ export class LoginPage {
     }).subscribe((userInfo: UserInfo) => {
       this.submitted = false;
       this.helper.loginSuccessHandle(userInfo);
-      this.viewCtrl.dismiss();
+      if (this.viewCtrl.isOverlay) {
+        this.viewCtrl.dismiss();
+      } else {
+        this.navCtrl.setRoot(TabsPage); // 重新设置首页
+      }
     }, () => {
       this.submitted = false;
     });
-  }
-
-  // 如果未登录,阻止关闭登录页,提示退出软件
-  ionViewCanLeave(): boolean {
-    const isLogin = !!this.globalData.userId;
-    if (this.canLeave || isLogin) {
-      return true;
-    }
-    this.alertCtrl.create({
-      title: '确认退出软件？',
-      enableBackdropDismiss: false,
-      buttons: [{ text: '取消' },
-      {
-        text: '确定',
-        handler: () => {
-          this.platform.exitApp();
-        }
-      }
-      ]
-    }).present();
-    return false;
   }
 
   toRegister() {
@@ -103,6 +88,10 @@ export class LoginPage {
       }]
     };
     this.helper.loginSuccessHandle(userInfo);
-    this.viewCtrl.dismiss();
+    if (this.viewCtrl.isOverlay) {
+      this.viewCtrl.dismiss();
+    } else {
+      this.navCtrl.setRoot(TabsPage); // 重新设置首页
+    }
   }
 }
