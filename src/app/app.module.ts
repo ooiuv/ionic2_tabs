@@ -39,6 +39,7 @@ import { Logger } from '../providers/Logger';
 import { ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLeave } from './modal-transitions';
 import { CommonService } from '../service/CommonService';
 import { VersionService } from '../providers/VersionService';
+import { Validators } from '../providers/Validators';
 import { CalendarModule } from 'ion2-calendar';
 
 // 参考文档:https://docs.fundebug.com/notifier/javascript/framework/ionic2.html
@@ -103,7 +104,8 @@ export class FunDebugErrorHandler implements ErrorHandler {
     GlobalData,
     Logger,
     CommonService,
-    VersionService
+    VersionService,
+    Validators
   ]
 })
 export class AppModule {

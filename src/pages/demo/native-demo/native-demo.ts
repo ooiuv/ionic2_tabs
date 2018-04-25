@@ -24,14 +24,14 @@ export class NativeDemoPage {
   }
 
   getNetworkType() {
-    this.networkType = this.nativeService.getNetworkType()
+    this.networkType = this.nativeService.getNetworkType();
   }
 
   getVersionNumber() {
     if (this.nativeService.isMobile()) {
       this.nativeService.getVersionNumber().subscribe(res => {
         this.currentVersionNo = res;
-      })
+      });
     }
   }
 

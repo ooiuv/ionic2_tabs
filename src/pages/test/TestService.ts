@@ -28,7 +28,7 @@ export class TestService {
       const fileObjList: FileObj[] = [];
       if (result.success) {
         for (const fileObj of result.data) {
-          fileObjList.push(<FileObj> { 'thumbPath': fileObj.base64, 'origPath': fileObj.base64 });
+          fileObjList.push({'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
         }
       }
       return fileObjList;

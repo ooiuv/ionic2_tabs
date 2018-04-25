@@ -74,7 +74,7 @@ export class NativeService {
         deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.ios.Production;
       }
       this.codePush.sync({
-        deploymentKey: deploymentKey
+        deploymentKey
       }).subscribe(syncStatus => {
         if (syncStatus == 0) {
           console.log('[CodePush]:app已经是最新版本;syncStatus:' + syncStatus);
@@ -132,7 +132,7 @@ export class NativeService {
    * 调用最小化app插件
    */
   minimize(): void {
-    this.appMinimize.minimize()
+    this.appMinimize.minimize();
   }
 
   /**
@@ -174,9 +174,10 @@ export class NativeService {
       if (!isExist) {
         isExist = true;
         this.alertCtrl.create({
-          title: title,
-          subTitle: subTitle,
-          message: message,
+          title,
+          subTitle,
+          message,
+          cssClass: 'alert-zIndex-highest',
           buttons: [{
             text: '确定', handler: () => {
               isExist = false;
@@ -199,8 +200,8 @@ export class NativeService {
       this.toast.show(message, String(duration), 'center').subscribe();
     } else {
       this.toastCtrl.create({
-        message: message,
-        duration: duration,
+        message,
+        duration,
         position: 'middle',
         showCloseButton: false
       }).present();
@@ -214,7 +215,7 @@ export class NativeService {
   showLoading(content = ''): void {
     if (!this.loading) {// 如果loading已经存在则不再打开
       const loading = this.loadingCtrl.create({
-        content: content
+        content
       });
       loading.present();
       this.loading = loading;
@@ -234,7 +235,7 @@ export class NativeService {
    * @param options
    */
   getPicture(options: CameraOptions = {}): Observable<string> {
-    const ops: CameraOptions = Object.assign({
+    const ops: CameraOptions = {
       sourceType: this.camera.PictureSourceType.CAMERA, // 图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
       destinationType: this.camera.DestinationType.DATA_URL, // 默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
       quality: QUALITY_SIZE, // 图像质量，范围为0 - 100
@@ -243,8 +244,8 @@ export class NativeService {
       targetWidth: IMAGE_SIZE, // 缩放图像的宽度（像素）
       targetHeight: IMAGE_SIZE, // 缩放图像的高度（像素）
       saveToPhotoAlbum: false, // 是否保存到相册
-      correctOrientation: true// 设置摄像机拍摄的图像是否为正确的方向
-    }, options);
+      correctOrientation: true, ...options
+    };
     return Observable.create(observer => {
       this.camera.getPicture(ops).then((imgData: string) => {
         if (ops.destinationType === this.camera.DestinationType.DATA_URL) {
@@ -255,13 +256,12 @@ export class NativeService {
       }).catch(err => {
         if (err == 20) {
           this.alert('没有权限,请在设置中开启权限');
-          return;
+        } else if (String(err).indexOf('cancel') != -1) {
+          console.log('用户点击了取消按钮');
+        } else {
+          this.logger.log(err, '使用cordova-plugin-camera获取照片失败');
+          this.alert('获取照片失败');
         }
-        if (String(err).indexOf('cancel') != -1) {
-          return;
-        }
-        this.logger.log(err, '使用cordova-plugin-camera获取照片失败');
-        this.alert('获取照片失败');
         observer.error(false);
       });
     });
@@ -272,10 +272,10 @@ export class NativeService {
    * @param options
    */
   getPictureByCamera(options: CameraOptions = {}): Observable<string> {
-    const ops: CameraOptions = Object.assign({
+    const ops: CameraOptions = {
       sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
-    }, options);
+      destinationType: this.camera.DestinationType.DATA_URL, ...options
+    };
     return this.getPicture(ops);
   }
 
@@ -284,10 +284,10 @@ export class NativeService {
    * @param options
    */
   getPictureByPhotoLibrary(options: CameraOptions = {}): Observable<string> {
-    const ops: CameraOptions = Object.assign({
+    const ops: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL// DATA_URL: 0 base64字符串, FILE_URI: 1图片路径
-    }, options);
+      destinationType: this.camera.DestinationType.DATA_URL, ...options
+    };
     return this.getPicture(ops);
   }
 
@@ -297,12 +297,12 @@ export class NativeService {
    */
   getMultiplePicture(options = {}): Observable<any> {
     const that = this;
-    const ops = Object.assign({
+    const ops = {
       maximumImagesCount: 6,
       width: IMAGE_SIZE, // 缩放图像的宽度（像素）
       height: IMAGE_SIZE, // 缩放图像的高度（像素）
-      quality: QUALITY_SIZE// 图像质量，范围为0 - 100
-    }, options);
+      quality: QUALITY_SIZE, ...options
+    };
     return Observable.create(observer => {
       this.imagePicker.getPictures(ops).then(files => {
         const destinationType = options['destinationType'] || 0; // 0:base64字符串,1:图片url
@@ -316,7 +316,7 @@ export class NativeService {
               if (imgBase64s.length === files.length) {
                 observer.next(imgBase64s);
               }
-            })
+            });
           }
         }
       }).catch(err => {
@@ -468,25 +468,25 @@ export class NativeService {
             //  其中locationType为定位来源.定位类型对照表: http://lbs.amap.com/api/android-location-sdk/guide/utilities/location-type/
             //  iOS只会返回data形如:{longitude: 113.35081420800906, latitude: 23.119172707345594}
             console.log('定位信息', data);
-            observer.next({ 'lng': data.longitude, 'lat': data.latitude });
+            observer.next({'lng': data.longitude, 'lat': data.latitude});
           }, msg => {
             if (msg.indexOf('缺少定位权限') != -1 || (this.isIos() && msg.indexOf('定位失败') != -1)) {
               this.alertCtrl.create({
                 title: '缺少定位权限',
                 subTitle: '请在手机设置或app权限管理中开启',
-                buttons: [{ text: '取消' },
-                {
-                  text: '去开启',
-                  handler: () => {
-                    this.diagnostic.switchToSettings();
+                buttons: [{text: '取消'},
+                  {
+                    text: '去开启',
+                    handler: () => {
+                      this.diagnostic.switchToSettings();
+                    }
                   }
-                }
                 ]
               }).present();
             } else if (msg.indexOf('WIFI信息不足') != -1) {
-              alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据')
+              alert('定位失败,请确保连上WIFI或者关掉WIFI只开流量数据');
             } else if (msg.indexOf('网络连接异常') != -1) {
-              alert('网络连接异常,请检查您的网络是否畅通')
+              alert('网络连接异常,请检查您的网络是否畅通');
             } else {
               alert('获取位置错误,错误消息:' + msg);
               this.logger.log(msg, '获取位置失败');
@@ -495,10 +495,10 @@ export class NativeService {
           });
         }, err => {
           observer.error(err);
-        })
+        });
       } else {
         console.log('非手机环境,即测试环境返回固定坐标');
-        observer.next({ 'lng': 113.350912, 'lat': 23.119495 });
+        observer.next({'lng': 113.350912, 'lat': 23.119495});
       }
     });
   }
@@ -520,13 +520,13 @@ export class NativeService {
               this.alertCtrl.create({
                 title: '您未开启位置服务',
                 subTitle: '正在获取位置信息',
-                buttons: [{ text: '取消' },
-                {
-                  text: '去开启',
-                  handler: () => {
-                    this.diagnostic.switchToLocationSettings();
+                buttons: [{text: '取消'},
+                  {
+                    text: '去开启',
+                    handler: () => {
+                      this.diagnostic.switchToLocationSettings();
+                    }
                   }
-                }
                 ]
               }).present();
               observer.error(false);
@@ -560,13 +560,13 @@ export class NativeService {
                   this.alertCtrl.create({
                     title: '缺少定位权限',
                     subTitle: '请在手机设置或app权限管理中开启',
-                    buttons: [{ text: '取消' },
-                    {
-                      text: '去开启',
-                      handler: () => {
-                        this.diagnostic.switchToSettings();
+                    buttons: [{text: '取消'},
+                      {
+                        text: '去开启',
+                        handler: () => {
+                          this.diagnostic.switchToSettings();
+                        }
                       }
-                    }
                     ]
                   }).present();
                   observer.error(false);
@@ -614,13 +614,13 @@ export class NativeService {
                   this.alertCtrl.create({
                     title: '缺少读取存储权限',
                     subTitle: '请在手机设置或app权限管理中开启',
-                    buttons: [{ text: '取消' },
-                    {
-                      text: '去开启',
-                      handler: () => {
-                        this.diagnostic.switchToSettings();
+                    buttons: [{text: '取消'},
+                      {
+                        text: '去开启',
+                        handler: () => {
+                          this.diagnostic.switchToSettings();
+                        }
                       }
-                    }
                     ]
                   }).present();
                   observer.error(false);

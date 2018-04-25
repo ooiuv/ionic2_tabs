@@ -15,7 +15,7 @@ import { MapLocation } from '../../../shared/map-component/map-location/map-loca
 })
 export class WorkMapPage {
 
-  params = Object.assign({}, MapLocation.defaultParams, { draggable: false });
+  params = {...MapLocation.defaultParams,  draggable: false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

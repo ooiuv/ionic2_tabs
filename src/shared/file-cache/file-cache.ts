@@ -86,8 +86,8 @@ export class FileCachePage {
             this.uploading = false;
           }
           this.doUpload(); // 继续上传下一个文件
-        })
-      })
+        });
+      });
     }
   }
 

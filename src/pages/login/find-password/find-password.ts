@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { Validators } from '../../../providers/Validators';
 import { LoginPage } from '../login';
 
 @Component({
@@ -14,14 +15,14 @@ export class FindPasswordPage {
               private viewCtrl: ViewController,
               private formBuilder: FormBuilder) {
     this.findPasswordForm = this.formBuilder.group({
-      phone: ['', [Validators.required, Validators.minLength(11), Validators.pattern('1[0-9]{10}')]],
-      verificationCode: ['', [Validators.required, Validators.minLength(6), Validators.pattern('[0-9]{6}')]],
+      phone: ['', [Validators.required, Validators.phone]],
+      verificationCode: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   confirm() {
-    this.navCtrl.setRoot(LoginPage)
+    this.navCtrl.setRoot(LoginPage);
   }
 
   dismiss() {

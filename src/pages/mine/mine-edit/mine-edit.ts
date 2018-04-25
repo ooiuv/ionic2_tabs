@@ -24,7 +24,7 @@ export class MineEditPage {
     const modal = this.modalCtrl.create(MineEditModalPage);
     modal.present();
     modal.onDidDismiss(userInfo => {
-      userInfo && (this.userInfo = userInfo)
+      userInfo && (this.userInfo = userInfo);
     });
   }
 

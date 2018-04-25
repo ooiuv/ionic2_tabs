@@ -33,7 +33,7 @@ export class FileService {
       return Observable.of({});
     }
     this.deleteFileCacheByIds([id]);
-    return this.httpService.get(FILE_SERVE_URL + '/deleteById', { id: id }, false);
+    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id}, false);
   }
 
   /**
@@ -51,7 +51,7 @@ export class FileService {
       if (queryIds.length === 0) {
         return Observable.of(cacheData);
       }
-      return this.httpService.get(FILE_SERVE_URL + '/getByIds', { ids: queryIds }, false).map(result => {
+      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}, false).map(result => {
         if (!result.success) {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
@@ -78,7 +78,7 @@ export class FileService {
     }
     return this.getFileInfoByIds([id]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
   /**
@@ -115,7 +115,7 @@ export class FileService {
     }
     return this.uploadMultiByBase64([fileObj]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
   /**
@@ -135,9 +135,8 @@ export class FileService {
       }
       const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
-        cacheData = cacheData ? cacheData.concat(fileObjList) : fileObjList;
         // 缓存文件信息
-        this.storage.set(cacheKey, cacheData);
+        this.storage.set(cacheKey, cacheData ? cacheData.concat(fileObjList) : fileObjList);
       });
       return Observable.of(fileObjList);
     } else {
@@ -155,9 +154,9 @@ export class FileService {
               this.uploadMultiByBase64(fileObjs).subscribe(res => {
                 observer.next(res);
                 this.nativeService.hideLoading();
-              })
+              });
             }
-          })
+          });
         }
       });
     }
@@ -174,7 +173,7 @@ export class FileService {
     }
     return this.uploadMultiByFilePath([fileObj]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
   // 根据ids从文件缓存中查询文件信息
@@ -183,8 +182,7 @@ export class FileService {
       const result = [];
       const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
-        cacheData = cacheData ? cacheData : [];
-        for (const cache of cacheData) {
+        for (const cache of (cacheData || [])) {
           for (const id of ids) {
             if (id == cache.id) {
               result.push(cache);

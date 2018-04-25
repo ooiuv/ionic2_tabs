@@ -62,9 +62,9 @@ export class MapLocation {
         })
       });
 
-      that.map.on('complete', function () {
+      that.map.on('complete', () => {
         that.mapIsComplete = true;
-        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {// 添加工具条和比例尺
+        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], () => {// 添加工具条和比例尺
           that.map.addControl(new AMap.ToolBar());
         });
         const existPosition = that.params.position && that.params.position.lat && that.params.position.lng;
@@ -80,7 +80,7 @@ export class MapLocation {
 
         // 判断是否可以点击地图改变标注位置
         if (that.params.click) {
-          that.map.on('click', function (e) {
+          that.map.on('click', (e) => {
             const position = {
               lng: e.lnglat.getLng(),
               lat: e.lnglat.getLat()
@@ -93,20 +93,20 @@ export class MapLocation {
       window['HomeAMap'] = this.map;
     } catch (err) {
       that.mapIsComplete = false;
-      that.nativeService.showToast('地图加载失败,请检查网络或稍后再试.')
+      that.nativeService.showToast('地图加载失败,请检查网络或稍后再试.');
     }
   }
 
 // 跳转到地址查询搜索页面,并返回一个地址对象(经纬坐标+中文地址)
   locationSearch() {
     const that = this;
-    const locationSearchModal = that.modalCtrl.create(SearchAddress, { address: that.params.address || '' });
+    const locationSearchModal = that.modalCtrl.create(SearchAddress, {address: that.params.address || ''});
     locationSearchModal.present();
     locationSearchModal.onDidDismiss(item => {
       if (item) {
         this.drawMarker(item.location, item.name);
       }
-    })
+    });
   }
 
 // 定位当前地址
@@ -148,7 +148,7 @@ export class MapLocation {
     }
 
     // 拖拽标注
-    that.marker.on('dragend', function (e) {
+    that.marker.on('dragend', (e) => {
       const position = {
         lng: e.lnglat.getLng(),
         lat: e.lnglat.getLat()
@@ -165,7 +165,7 @@ export class MapLocation {
       radius: 1000,
       extensions: 'all'
     });
-    geocoder.getAddress(position, function (status, result) {
+    geocoder.getAddress(position, (status, result) => {
       if (status === 'complete' && result.info === 'OK') {
         // 获得了有效的地址信息:
         const addressComponent = result.regeocode.addressComponent;
@@ -186,7 +186,7 @@ export class MapLocation {
     }
     const modal = this.modalCtrl.create(Navigation, {
       'navigationType': navigationType,
-      'markerLocation': { 'lng': markerPosition.lng, 'lat': markerPosition.lat }
+      'markerLocation': {'lng': markerPosition.lng, 'lat': markerPosition.lat}
     });
     modal.present();
   }

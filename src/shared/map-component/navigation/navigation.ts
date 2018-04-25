@@ -62,7 +62,7 @@ export class Navigation {
       });
     }, () => {
       this.nativeService.hideLoading();
-    })
+    });
   }
 
   doNavigation(type) { // 0实时导航,1模拟导航

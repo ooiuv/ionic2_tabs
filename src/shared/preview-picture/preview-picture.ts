@@ -30,7 +30,7 @@ export class PreviewPicturePage {
       onClick: () => {
         this.dismiss();
       }
-    })
+    });
   }
 
   dismiss() {

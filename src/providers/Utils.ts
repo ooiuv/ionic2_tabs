@@ -93,16 +93,16 @@ export class Utils {
       .replace(/m/g, String(time.Minute))
       .replace(/ss/ig, time.TSecond)
       .replace(/s/ig, String(time.Second))
-      .replace(/fff/ig, String(time.Millisecond))
+      .replace(/fff/ig, String(time.Millisecond));
   }
 
   /**
    * 每次调用sequence加1
    * @type {()=>number}
    */
-  static getSequence = (function () {
+  static getSequence = (() => {
     let sequence = 1;
-    return function () {
+    return () => {
       return ++sequence;
     };
   })();
@@ -129,7 +129,7 @@ export class Utils {
   static formatUrl(url = ''): string {
     let index = 0;
     if (url.startsWith('http')) {
-      index = 7
+      index = 7;
     }
     return url.substring(0, index) + url.substring(index).replace(/\/\/*/g, '/');
   }

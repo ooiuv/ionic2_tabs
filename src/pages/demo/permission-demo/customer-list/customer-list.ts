@@ -21,8 +21,8 @@ export class CustomerListPage {
 
   click() {
     this.httpService.get('/v1/user/view/id/1').subscribe(res => {
-      this.nativeService.alert('请求成功', '', JSON.stringify(res))
-    })
+      this.nativeService.alert('请求成功', '', JSON.stringify(res));
+    });
   }
 
 }

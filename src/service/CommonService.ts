@@ -86,14 +86,14 @@ export class CommonService {
           }
         }, err => {
           this.logger.log(err, '从版本升级服务获取版本信息失败', {
-            url: url
+            url
           });
           observer.error(false);
-        })
+        });
       }, err => {
         this.logger.log(err, '获取包名失败');
         observer.error(false);
-      })
+      });
     });
   }
 

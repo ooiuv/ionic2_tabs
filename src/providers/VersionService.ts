@@ -106,8 +106,8 @@ export class VersionService {
   setApkDownloadUrl(data) {
     (data.fileRelationList || []).filter(fr => fr.type === 'apk').forEach(fr => {
       this.fileService.getFileInfoById(fr.fileId).subscribe(res => {
-        this.apkUrl = res.origPath
-      })
+        this.apkUrl = res.origPath;
+      });
     });
 
   }
@@ -198,7 +198,7 @@ export class VersionService {
             }, 1000);
           }
         });
-      })
+      });
     }
   }
 
@@ -236,7 +236,7 @@ export class VersionService {
       if (res && res.code == 1) {
         return res.data.versions || [];
       }
-    })
+    });
   }
 
 }

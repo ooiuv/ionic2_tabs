@@ -29,12 +29,12 @@ export class CityPickerDemoPage {
     // 实际开发中,城市数据应该从后台接口获取
     this.demoService.geCityData().subscribe(res => {
       this.cityData = res;
-    })
+    });
   }
 
   // 城市选择器被改变时触发的事件
   cityChange(event) {
-    this.code = event['region'].value
+    this.code = event['region'].value;
   }
 
   details(url) {

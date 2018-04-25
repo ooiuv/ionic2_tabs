@@ -23,7 +23,7 @@ export class AboutPage {
 
 
   ionViewDidEnter() {
-    AlloyLever.entry('#entry3')
+    AlloyLever.entry('#entry3');
   }
 
   loadVersionInfo() {

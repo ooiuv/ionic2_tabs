@@ -25,7 +25,7 @@ export class PatrolTaskPage {
     // 从后台获取当前登录用户的按钮权限
     this.commonService.getResource(3).subscribe(res => {
       this.buttonCodes = res.map(item => item.code);
-    })
+    });
   }
 
   click() {

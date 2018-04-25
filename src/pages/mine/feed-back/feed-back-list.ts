@@ -38,7 +38,7 @@ export class FeedBackListPage {
         state: 1,
         createTime: new Date(),
       }]
-    }
+    };
     // this.requirementPersonList();
   }
 
@@ -46,7 +46,7 @@ export class FeedBackListPage {
   requirementPersonList() {
     this.mineService.requirementPersonList(this.query).subscribe(res => {
       this.data = res;
-    })
+    });
   }
 
   doSearch(pageNum) {
@@ -59,7 +59,7 @@ export class FeedBackListPage {
   }
 
   detail(id) {
-    this.navCtrl.push(FeedBackDetailPage, { id: id });
+    this.navCtrl.push(FeedBackDetailPage, { id });
   }
 
 }

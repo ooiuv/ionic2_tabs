@@ -46,7 +46,7 @@ export class SelectPicturePage {
               maximumImagesCount: (that.max - that.fileObjList.length),
               destinationType: 1 // 期望返回的图片格式,1图片路径
             }).subscribe(imgs => {
-              for (const img of <string[]> imgs) {
+              for (const img of imgs as string[]) {
                 that.getPictureSuccess(img);
               }
             });
@@ -76,18 +76,18 @@ export class SelectPicturePage {
     }
     this.alertCtrl.create({
       title: '确认删除？',
-      buttons: [{ text: '取消' },
-      {
-        text: '确定',
-        handler: () => {
-          const delArr = this.fileObjList.splice(i, 1);
-          const delId = delArr[0].id;
-          if (delId) {
-            this.globalData.showLoading = false;
-            this.fileService.deleteById(delId);
+      buttons: [{text: '取消'},
+        {
+          text: '确定',
+          handler: () => {
+            const delArr = this.fileObjList.splice(i, 1);
+            const delId = delArr[0].id;
+            if (delId) {
+              this.globalData.showLoading = false;
+              this.fileService.deleteById(delId);
+            }
           }
         }
-      }
       ]
     }).present();
   }
@@ -97,11 +97,11 @@ export class SelectPicturePage {
     for (const fileObj of this.fileObjList) {
       picturePaths.push(fileObj.origPath);
     }
-    this.modalCtrl.create(PreviewPicturePage, { 'initialSlide': index, 'picturePaths': picturePaths }).present();
+    this.modalCtrl.create(PreviewPicturePage, {'initialSlide': index, 'picturePaths': picturePaths}).present();
   }
 
   private getPictureSuccess(img) {
-    const fileObj = <FileObj> { 'origPath': img, 'thumbPath': img };
+    const fileObj = {'origPath': img, 'thumbPath': img};
     this.fileObjList.push(fileObj);
     this.fileObjListChange.emit(this.fileObjList);
   }

@@ -21,7 +21,7 @@ export class SelectPicDemoPage {
     this.http.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
         for (const fileObj of res.data) {
-          this.fileObjList.push(<FileObj> {
+          this.fileObjList.push({
             'thumbPath': fileObj.base64,
             'origPath': fileObj.base64,
             'base64': fileObj.base64

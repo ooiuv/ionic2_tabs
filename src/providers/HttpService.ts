@@ -40,7 +40,7 @@ export class HttpService {
   public post(url: string, body: any = {}, useDefaultApi = true): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,
-      body: body,
+      body,
       headers: new Headers({
         'Content-Type': 'application/json; charset=UTF-8'
       })
@@ -72,7 +72,7 @@ export class HttpService {
    */
   public defaultRequest(url: string, options: RequestOptionsArgs): Observable<any> {
     //  使用默认API:APP_SERVE_URL
-    url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url);
+    url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url); // tslint:disable-line
     //  添加请求头
     options.headers = options.headers || new Headers();
     options.headers.append('Authorization', 'Bearer ' + this.globalData.token);
@@ -91,7 +91,7 @@ export class HttpService {
           } else {
             this.nativeService.alert(res.msg || '请求失败,请稍后再试!');
           }
-          observer.error(res.data)
+          observer.error(res.data);
         }
       });
     });
@@ -137,8 +137,8 @@ export class HttpService {
       }
       this.nativeService.alert(msg);
       this.logger.httpLog(err, msg, {
-        url: url,
-        status: status
+        url,
+        status
       });
     }
     return err;
@@ -155,7 +155,7 @@ export class HttpService {
     Object.keys(paramMap).forEach(key => {
       let val = paramMap[key];
       if (val instanceof Date) {
-        val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss')
+        val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss');
       }
       params.set(key, val);
     });

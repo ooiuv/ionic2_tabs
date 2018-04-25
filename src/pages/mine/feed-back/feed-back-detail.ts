@@ -24,7 +24,7 @@ export class FeedBackDetailPage {
     const id = this.navParams.get('id');
     this.mineService.requirementDetail(id).subscribe(res => {
       this.detail = res;
-    })
+    });
   }
 
 }

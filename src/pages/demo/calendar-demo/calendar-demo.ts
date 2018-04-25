@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalController, NavController, NavParams } from 'ionic-angular';
 import { NativeService } from '../../../providers/NativeService';
-import { CalendarModal, CalendarModalOptions } from 'ion2-calendar'
+import { CalendarModal, CalendarModalOptions } from 'ion2-calendar';
 
 /**
  * Generated class for the CalendarDemoPage page.
@@ -40,7 +40,7 @@ export class CalendarDemoPage {
     };
 
     const myCalendar = this.modalCtrl.create(CalendarModal, {
-      options: options
+      options
     });
 
 

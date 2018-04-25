@@ -54,9 +54,9 @@ export class MineEditModalPage {
             const messages = verifyMessages[field];
             Object.keys(control.errors).forEach(key => {
               messages[key] && (verifyMessages[field].errorMsg += messages[key] + ' ');
-            })
+            });
           }
-        })
+        });
       });
   }
 

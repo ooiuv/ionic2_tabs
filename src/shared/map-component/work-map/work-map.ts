@@ -29,7 +29,7 @@ export class WorkMapPage {
               public viewCtrl: ViewController,
               public navParams: NavParams) {
     Object.assign(this.params, this.navParams.get('params'));
-    this.toolbar = this.navParams.get('toolbar')
+    this.toolbar = this.navParams.get('toolbar');
   }
 
   dismiss() {

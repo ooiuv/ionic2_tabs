@@ -29,7 +29,7 @@ export class MinePage {
     this.userInfo = this.globalData.user;
     this.events.subscribe('user:login', userInfo => {
       this.userInfo = userInfo;
-    })
+    });
   }
 
   edit() {

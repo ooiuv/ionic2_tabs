@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ViewController } from 'ionic-angular';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { Validators } from '../../../providers/Validators';
 import { LoginPage } from '../login';
 
 @Component({
@@ -14,15 +15,15 @@ export class RegisterPage {
               private viewCtrl: ViewController,
               private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.pattern('[(\u4e00-\u9fa5)0-9a-zA-Z\_\s@]+')]],
-      verificationCode: ['', [Validators.required, Validators.minLength(6), Validators.pattern('1[0-9]{6}')]],
-      phone: ['', [Validators.required, Validators.pattern('1[0-9]{10}')]],
+      username: ['', [Validators.required, Validators.legallyNamed]],
+      verificationCode: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.phone]],
       password: ['', [Validators.required]]
-    })
+    });
   }
 
   confirm() {
-    this.navCtrl.setRoot(LoginPage)
+    this.navCtrl.setRoot(LoginPage);
   }
 
   dismiss() {

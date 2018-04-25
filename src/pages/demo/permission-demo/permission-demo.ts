@@ -56,7 +56,7 @@ export class PermissionDemoPage {
         }
       }
       this.menu = this.menu.concat(menu);
-    })
+    });
   }
 
   navigation(code) {

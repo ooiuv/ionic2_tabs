@@ -40,7 +40,7 @@ export class Helper {
     if (this.nativeService.isMobile()) {
       this.nativeService.getVersionNumber().subscribe(version => {
         fundebug.appversion = version;
-      })
+      });
     }
   }
 
@@ -58,7 +58,7 @@ export class Helper {
         uin: 491862102
       },*/
       entry: '#entry'         // 请点击这个DOM元素6次召唤vConsole。// 你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
-    })
+    });
   }
 
   /**
@@ -79,7 +79,7 @@ export class Helper {
           }
         }, () => {
           observer.next(DEFAULT_AVATAR);
-        })
+        });
       }
     });
   }
@@ -155,7 +155,7 @@ export class Helper {
         observer.next(fileIds);
       });
 
-    })
+    });
   }
 
   /**
@@ -234,24 +234,24 @@ export class Helper {
     if (this.nativeService.isIos()) {
       tags.push('ios');
     }
-    this.jPush.setTags({ sequence: 3, tags: tags }, (result) => {
+    this.jPush.setTags({ sequence: 3, tags }, (result) => {
       console.log('jpush-设置标签成功');
       console.log(result);
     }, (error) => {
       console.log('jpush-设置标签失败:' + error.code);
-    })
+    });
   }
 
   deleteTags(tags: Array<string> = []) {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.deleteTags({ sequence: 4, tags: tags }, (result) => {
+    this.jPush.deleteTags({ sequence: 4, tags }, (result) => {
       console.log('jpush-删除标签成功');
       console.log(result);
     }, (error) => {
       console.log('jpush-删除标签失败:' + error.code);
-    })
+    });
   }
 
   // 设置ios应用角标数量

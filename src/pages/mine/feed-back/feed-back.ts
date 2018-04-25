@@ -50,9 +50,9 @@ export class FeedBackPage {
             const messages = verifyMessages[field];
             Object.keys(control.errors).forEach(key => {
               messages[key] && (verifyMessages[field].errorMsg += messages[key] + ' ');
-            })
+            });
           }
-        })
+        });
       });
   }
 
@@ -71,7 +71,7 @@ export class FeedBackPage {
             data.fileIdList = fileIdList;
             this.mineService.requirementSave(data).subscribe(res => {
               this.navCtrl.pop();
-            })
+            });
           });
         }
       }
