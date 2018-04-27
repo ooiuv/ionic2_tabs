@@ -34,7 +34,7 @@ public class LocationPlugin extends CordovaPlugin {
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationOption = null;
     private Context context;
-    private CallbackContext callbackContext = null;
+      private CallbackContext callbackContext = null;
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
