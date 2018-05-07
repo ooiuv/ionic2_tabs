@@ -6,7 +6,6 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { Storage } from '@ionic/storage';
 import { GlobalData } from '../providers/GlobalData';
-import { Utils } from '../providers/Utils';
 import { CommonService } from '../service/CommonService';
 import { VersionService } from '../providers/VersionService';
 import { UserInfo } from '../model/UserInfo';
