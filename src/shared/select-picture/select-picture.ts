@@ -77,9 +77,9 @@ export class SelectPicturePage {
     this.alertCtrl.create({
       title: '确认删除？',
       buttons: [{text: '取消'},
-        {
-          text: '确定',
-          handler: () => {
+      {
+        text: '确定',
+        handler: () => {
             const delArr = this.fileObjList.splice(i, 1);
             const delId = delArr[0].id;
             if (delId) {
@@ -87,7 +87,7 @@ export class SelectPicturePage {
               this.fileService.deleteById(delId);
             }
           }
-        }
+      }
       ]
     }).present();
   }

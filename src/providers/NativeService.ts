@@ -142,7 +142,6 @@ export class NativeService {
     this.inAppBrowser.create(url, '_system');
   }
 
-
   /**
    * 是否真机环境
    */
