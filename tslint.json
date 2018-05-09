@@ -8,10 +8,11 @@
     "member-ordering":false,
     "no-this-assignment": [true, {"allowed-names": ["^self$","^that$"], "allow-destructuring": true}],
     "no-unused-expression": [true, "allow-fast-null-checks", "allow-new"],
-    "comment-format": [true, "check-space"] // 单行注释以空格开头
+    "comment-space": true // 自定义的rule，单行注释必须以空格开头,可以自动修复
   },
   "rulesDirectory": [
-    "node_modules/tslint-eslint-rules/dist/rules"
+    "node_modules/tslint-eslint-rules/dist/rules",
+    "custom-tslint-rules/dist"
   ]
 }
 
