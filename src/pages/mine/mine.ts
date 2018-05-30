@@ -41,23 +41,13 @@ export class MinePage {
   }
 
   loginOut() {
-    this.alertCtrl.create({
-      title: '确认重新登录？',
-      buttons: [{ text: '取消' },
-      {
-        text: '确定',
-        handler: () => {
-          const modal = this.modalCtrl.create(LoginPage);
-          modal.present();
-          modal.onDidDismiss(userInfo => {
-            if (userInfo) {
-              this.userInfo = userInfo;
-            }
-          });
-        }
+    const modal = this.modalCtrl.create(LoginPage);
+    modal.present();
+    modal.onDidDismiss(userInfo => {
+      if (userInfo) {
+        this.userInfo = userInfo;
       }
-      ]
-    }).present();
+    });
   }
 
   // 工作地图
@@ -72,13 +62,13 @@ export class MinePage {
   exitSoftware() {
     this.alertCtrl.create({
       title: '确认退出软件？',
-      buttons: [{ text: '取消' },
-      {
-        text: '确定',
-        handler: () => {
-          this.platform.exitApp();
+      buttons: [{text: '取消'},
+        {
+          text: '确定',
+          handler: () => {
+            this.platform.exitApp();
+          }
         }
-      }
       ]
     }).present();
   }

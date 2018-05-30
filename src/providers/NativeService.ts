@@ -100,6 +100,7 @@ export class NativeService {
     if (this.isMobile()) {
       this.statusBar.overlaysWebView(false);
       this.statusBar.styleLightContent();
+      // this.statusBar.styleDefault(); // 使用黑色字体
       this.statusBar.backgroundColorByHexString('#488aff'); // 3261b3
     }
   }
@@ -236,7 +237,7 @@ export class NativeService {
   getPicture(options: CameraOptions = {}): Observable<string> {
     const ops: CameraOptions = {
       sourceType: this.camera.PictureSourceType.CAMERA, // 图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
-      destinationType: this.camera.DestinationType.DATA_URL, // 默认返回base64字符串,DATA_URL:base64   FILE_URI:图片路径
+      destinationType: this.camera.DestinationType.FILE_URI, // 默认返回图片路径：DATA_URL:base64字符串，FILE_URI:图片路径
       quality: QUALITY_SIZE, // 图像质量，范围为0 - 100
       allowEdit: false, // 选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
@@ -264,30 +265,6 @@ export class NativeService {
         observer.error(false);
       });
     });
-  }
-
-  /**
-   * 通过拍照获取照片
-   * @param options
-   */
-  getPictureByCamera(options: CameraOptions = {}): Observable<string> {
-    const ops: CameraOptions = {
-      sourceType: this.camera.PictureSourceType.CAMERA,
-      destinationType: this.camera.DestinationType.DATA_URL, ...options
-    };
-    return this.getPicture(ops);
-  }
-
-  /**
-   * 通过图库获取照片
-   * @param options
-   */
-  getPictureByPhotoLibrary(options: CameraOptions = {}): Observable<string> {
-    const ops: CameraOptions = {
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.DATA_URL, ...options
-    };
-    return this.getPicture(ops);
   }
 
   /**

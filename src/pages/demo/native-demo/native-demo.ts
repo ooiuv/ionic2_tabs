@@ -49,9 +49,7 @@ export class NativeDemoPage {
 
   getPictureByCamera() {
     if (this.nativeService.isMobile()) {
-      this.nativeService.getPictureByCamera({
-        destinationType: 1 // 期望返回的图片格式,1图片路径
-      }).subscribe(img => {
+      this.nativeService.getPicture().subscribe(img => {
         this.imgPath = img;
       });
     }

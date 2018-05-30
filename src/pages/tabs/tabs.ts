@@ -16,6 +16,10 @@ export class TabsPage {
   mineRoot: any = MinePage;
 
   constructor(public events: Events) {
+    this.events.subscribe('selectTab', () => {
+      this.tabs.select(1);
+      debugger;
+    });
   }
 
 }

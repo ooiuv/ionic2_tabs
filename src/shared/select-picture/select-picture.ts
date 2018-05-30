@@ -55,9 +55,7 @@ export class SelectPicturePage {
         {
           text: '拍照',
           handler: () => {
-            that.nativeService.getPictureByCamera({
-              destinationType: 1 // 期望返回的图片格式,1图片路径
-            }).subscribe(img => {
+            that.nativeService.getPicture().subscribe(img => {
               that.getPictureSuccess(img);
             });
           }

@@ -22,7 +22,6 @@ export class FileService {
               private globalData: GlobalData) {
   }
 
-
   /**
    * 根据文件id删除文件信息
    * @param id
@@ -66,7 +65,6 @@ export class FileService {
     });
   }
 
-
   /**
    * 根据文件id获取文件信息
    * @param id
@@ -90,17 +88,19 @@ export class FileService {
     if (!fileObjList || fileObjList.length === 0) {
       return Observable.of([]);
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList, false).map(result => {
-      if (!result.success) {
-        this.nativeService.alert(result.msg);
-        return [];
-      } else {
-        for (const fileObj of result.data) {
-          fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
-          fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+    return Observable.create(observer => {
+      this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList, false).subscribe(result => {
+        if (!result.success) {
+          this.nativeService.alert(result.msg);
+          observer.error();
+        } else {
+          for (const fileObj of result.data) {
+            fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+            fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+          }
+          observer.next(result.data);
         }
-        return result.data;
-      }
+      });
     });
   }
 
@@ -221,7 +221,6 @@ export class FileService {
     const uuid = Utils.uuid();
     return 'r_' + uuid.substring(2);
   }
-
 
   // 根据文件id数组从缓存中删除文件
   deleteFileCacheByIds(ids) {
