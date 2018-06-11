@@ -16,7 +16,6 @@ import { TabsPage } from '../tabs/tabs';
 })
 export class LoginPage {
   submitted = false;
-  canLeave = false;
   loginForm: any;
 
   constructor(public navCtrl: NavController,
@@ -56,13 +55,11 @@ export class LoginPage {
   }
 
   toRegister() {
-    this.canLeave = true;
     const modal = this.modalCtrl.create(RegisterPage);
     modal.present();
   }
 
   findPassword() {
-    this.canLeave = true;
     const modal = this.modalCtrl.create(FindPasswordPage);
     modal.present();
   }
