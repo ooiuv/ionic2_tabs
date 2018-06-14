@@ -4,7 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NativeService } from './NativeService';
-import { JPush } from '../../typings/modules/jpush/index';
+import { JPush } from '@jiguang-ionic/jpush';
 import { Observable } from 'rxjs/Rx';
 import { DEFAULT_AVATAR, IS_DEBUG } from './Constants';
 import { FileService } from './FileService';
@@ -170,6 +170,11 @@ export class Helper {
     this.jPushAddEventListener();
   }
 
+  getRegistrationID(): Promise<any> {
+    return this.jPush.getRegistrationID();
+  }
+
+  // 详细文档 https://github.com/jpush/jpush-phonegap-plugin/blob/master/doc/Common_detail_api.md
   private jPushAddEventListener() {
     this.jPush.getUserNotificationSettings().then(result => {
       if (result == 0) {
@@ -200,28 +205,29 @@ export class Helper {
 
   }
 
+  /* tslint:disable */
   setAlias() {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.setAlias({ sequence: 1, alias: this.globalData.userId }, (result) => {
+    this.jPush.setAlias({sequence: 1, alias: this.globalData.userId}).then(result => {
       console.log('jpush-设置别名成功:');
       console.log(result);
-    }, (error) => {
-      console.log('jpush-设置别名失败:' + error.code);
-    });
+    }, error => {
+      console.log('jpush-设置别名失败:', error);
+    })
   }
 
   deleteAlias() {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.deleteAlias({ sequence: 2 }, (result) => {
-      console.log('jpush-删除别名成功');
+    this.jPush.deleteAlias({sequence: 2}).then(result => {
+      console.log('jpush-删除别名成功:');
       console.log(result);
-    }, (error) => {
-      console.log('jpush-设删除别名失败:' + error.code);
-    });
+    }, error => {
+      console.log('jpush-设删除别名失败:', error);
+    })
   }
 
   setTags(tags: Array<string> = []) {
@@ -234,24 +240,24 @@ export class Helper {
     if (this.nativeService.isIos()) {
       tags.push('ios');
     }
-    this.jPush.setTags({ sequence: 3, tags }, (result) => {
-      console.log('jpush-设置标签成功');
+    this.jPush.setTags({sequence: 3, tags}).then(result => {
+      console.log('jpush-设置标签成功:');
       console.log(result);
-    }, (error) => {
-      console.log('jpush-设置标签失败:' + error.code);
-    });
+    }, error => {
+      console.log('jpush-设置标签失败:', error);
+    })
   }
 
   deleteTags(tags: Array<string> = []) {
     if (!this.nativeService.isMobile()) {
       return;
     }
-    this.jPush.deleteTags({ sequence: 4, tags }, (result) => {
-      console.log('jpush-删除标签成功');
+    this.jPush.deleteTags({sequence: 4, tags}).then(result => {
+      console.log('jpush-删除标签成功:');
       console.log(result);
-    }, (error) => {
-      console.log('jpush-删除标签失败:' + error.code);
-    });
+    }, error => {
+      console.log('jpush-删除标签失败:', error);
+    })
   }
 
   // 设置ios应用角标数量
@@ -262,4 +268,5 @@ export class Helper {
     }
   }
 
+  /* tslint:enable */
 }

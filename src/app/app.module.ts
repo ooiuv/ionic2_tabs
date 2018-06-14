@@ -1,4 +1,4 @@
-import { JPush } from '../../typings/modules/jpush/index';
+import { JPush } from '@jiguang-ionic/jpush';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Config, IonicApp, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';

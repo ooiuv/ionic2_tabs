@@ -30,11 +30,9 @@ export class MyApp {
               private versionService: VersionService,
               private nativeService: NativeService) {
     platform.ready().then(() => {
-      this.nativeService.statusBarStyle(); // 设置状态栏颜色
       this.assertNetwork(); // 检测网络
       this.storage.get('token').then(token => { // 从缓存中获取token
         if (token) {
-          this.nav.setRoot(TabsPage); // 设置首页为tabs页
           this.globalData.token = token;
           // 用旧token获取新token,旧token作为请求头
           this.commonService.getNewToken().mergeMap(newToken => {
@@ -43,12 +41,14 @@ export class MyApp {
             return this.commonService.getUserInfo();
           }).subscribe((userInfo: UserInfo) => {
             this.helper.loginSuccessHandle(userInfo);
+            this.nav.setRoot(TabsPage); // 设置首页为tabs页
           }, () => {
             this.nav.setRoot(LoginPage); // 设置首页为login页
           });
         } else {
           this.nav.setRoot(LoginPage); // 设置首页为login页
         }
+        this.nativeService.statusBarStyle(); // 设置状态栏颜色
         this.nativeService.splashScreenHide(); // 隐藏启动页
         this.helper.funDebugInit(); // 初始化fundebug
         this.helper.alloyLeverInit(); // 本地"开发者工具"

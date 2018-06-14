@@ -93,6 +93,8 @@ export class HttpService {
           }
           observer.error(res.data);
         }
+      }, err => {
+        observer.error(err);
       });
     });
   }
@@ -110,9 +112,9 @@ export class HttpService {
         IS_DEBUG && console.log('%c 请求发送成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
         this.hideLoading();
       }, err => {
-        observer.error(this.requestFailedHandle(url, options, err));
         this.hideLoading();
         IS_DEBUG && console.log('%c 请求发送失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
+        observer.error(this.requestFailedHandle(url, err));
       });
     });
   }
@@ -120,7 +122,7 @@ export class HttpService {
   /**
    * 处理请求失败事件
    */
-  private requestFailedHandle(url: string, options: RequestOptionsArgs, err: Response) {
+  private requestFailedHandle(url: string, err: Response) {
     if (!this.nativeService.isConnecting()) {
       this.nativeService.alert('请连接网络');
     } else if (err instanceof TimeoutError) {

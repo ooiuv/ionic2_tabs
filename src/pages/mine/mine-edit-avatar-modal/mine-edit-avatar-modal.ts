@@ -4,7 +4,6 @@ import { NativeService } from '../../../providers/NativeService';
 import { FileService } from '../../../providers/FileService';
 import { MineService } from '../MineService';
 import { GlobalData } from '../../../providers/GlobalData';
-import { QUALITY_SIZE } from '../../../providers/Constants';
 import { Camera } from '@ionic-native/camera';
 
 declare var AlloyCrop;
@@ -84,11 +83,11 @@ export class MineEditAvatarModalPage {
       this.globalData.user.avatarId = avatarId;
       this.globalData.user.avatarPath = avatarPath;
       this.viewCtrl.dismiss();
-      /*this.mineService.updateUserAvatarId(avatarId).subscribe(res => { // 保存avatar字段到用户表
+      this.mineService.updateUserAvatarId(avatarId).subscribe(res => { // 保存avatar字段到用户表
         this.globalData.user.avatarId = avatarId;
         this.globalData.user.avatarPath = avatarPath;
         this.viewCtrl.dismiss();
-      });*/
+      });
     });
   }
 

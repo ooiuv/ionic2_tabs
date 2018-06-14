@@ -3,7 +3,6 @@ import { NavController } from 'ionic-angular';
 import { NativeDemoPage } from './native-demo/native-demo';
 import { PaginationDemoPage } from './pagination-demo/pagination-demo';
 import { CustomIconDemoPage } from './custom-icon-demo/custom-icon-demo';
-import { ChartjsDemoPage } from './chartjs-demo/chartjs-demo';
 import { SelectPicDemoPage } from './select-pic-demo/select-pic-demo';
 import { CustomPipeDemo } from './custom-pipe-demo/custom-pipe-demo';
 import { TransitionDemoPage } from './transition-demo/transition-demo';
@@ -44,10 +43,6 @@ export class DemoPage {
 
   pipes() {
     this.navCtrl.push(CustomPipeDemo);
-  }
-
-  chartjs() {
-    this.navCtrl.push(ChartjsDemoPage);
   }
 
   echarts() {
