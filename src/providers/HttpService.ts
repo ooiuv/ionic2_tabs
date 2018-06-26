@@ -87,7 +87,6 @@ export class HttpService {
           //  401 token无效或过期需要重新登录
           if (res.code == 401) {
             this.nativeService.showToast('密码已过期,请重新登录');
-            this.events.publish('user:reLogin'); //  跳转到登录页面
           } else {
             this.nativeService.alert(res.msg || '请求失败,请稍后再试!');
           }
