@@ -4,7 +4,7 @@ import { FileService } from '../../providers/FileService';
 import { Utils } from '../../providers/Utils';
 
 @Injectable()
-export class MineService {
+  export class MineService {
   constructor(public httpService: HttpService, private fileService: FileService) {
   }
 

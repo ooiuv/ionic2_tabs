@@ -35,4 +35,11 @@ export class TestService {
     });
   }
 
+  map_result_post() {
+    return this.httpService.post('/v1/demo/map_result_post');
+  }
+
+  map_result_post2() {
+    return this.httpService.post('/v1/demo/map_result_post2');
+  }
 }

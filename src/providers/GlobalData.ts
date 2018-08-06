@@ -57,6 +57,7 @@ export class GlobalData {
   set showLoading(value: boolean) {
     this._showLoading = value;
   }
+
   get enabledFileCache(): boolean {
     return this._enabledFileCache;
   }

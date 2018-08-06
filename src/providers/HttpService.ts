@@ -79,19 +79,7 @@ export class HttpService {
 
     return Observable.create(observer => {
       this.request(url, options).subscribe(res => {
-        //  后台api返回统一数据,res.code===1表示业务处理成功,否则表示发生异常或业务处理失败
-        if (res.code === 1) {
-          observer.next(res.data);
-        } else {
-          IS_DEBUG && console.log('%c 请求处理失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-          //  401 token无效或过期需要重新登录
-          if (res.code == 401) {
-            this.nativeService.showToast('密码已过期,请重新登录');
-          } else {
-            this.nativeService.alert(res.msg || '请求失败,请稍后再试!');
-          }
-          observer.error(res.data);
-        }
+        observer.next(res.data);
       }, err => {
         observer.error(err);
       });
@@ -122,15 +110,26 @@ export class HttpService {
    * 处理请求失败事件
    */
   private requestFailedHandle(url: string, err: Response) {
+    const status = err.status;
+    let msg = '请求发生异常，请联系管理员';
+    // 与后台约定，状态码为400即为业务异常
+    if (status === 400) {
+      let errData = err.json();
+      //  401 token无效或过期需要重新登录
+      if (errData.code == 401) {
+        this.nativeService.showToast('密码已过期,请重新登录');
+      } else {
+        this.nativeService.alert(errData.msg || msg);
+      }
+      return errData;
+    }
     if (!this.nativeService.isConnecting()) {
       this.nativeService.alert('请连接网络');
     } else if (err instanceof TimeoutError) {
       this.nativeService.alert('请求超时,请稍后再试!');
     } else {
-      const status = err.status;
-      let msg = '请求发生异常';
       if (status === 0) {
-        msg = '请求失败，请求响应出错';
+        msg = '请求失败，可能后台服务未启用';
       } else if (status === 404) {
         msg = '请求失败，未找到请求地址';
       } else if (status === 500) {
@@ -166,19 +165,16 @@ export class HttpService {
   private count = 0; //  记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
 
   private showLoading() {
-    if (++this.count > 0) {// 一旦有请求就弹出loading
-      this.globalData.showLoading && this.nativeService.showLoading();
+    if (this.globalData.showLoading) {
+      ++this.count > 0 && this.nativeService.showLoading(); // 一旦有请求就弹出loading
     }
   }
 
   private hideLoading() {
     if (this.globalData.showLoading) {
-      // 延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
-      setTimeout(() => {
         if (--this.count === 0) {// 当正在请求数为0,关闭loading
           this.nativeService.hideLoading();
         }
-      }, 200);
     } else {
       this.globalData.showLoading = true;
     }

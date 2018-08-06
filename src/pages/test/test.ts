@@ -20,4 +20,11 @@ export class TestPage {
     });
   }
 
+  request() {
+    this.testService.map_result_post().subscribe(res => {
+      this.testService.map_result_post2().subscribe(res => {
+      });
+    });
+  }
+
 }
