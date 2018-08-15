@@ -16,7 +16,7 @@ declare var AlloyCrop;
   templateUrl: 'crop-pic-demo.html',
 })
 export class CropPicDemoPage {
-  cropSrc = 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4256109538,834002284&fm=26&gp=0.jpg';
+  cropSrc = './assets/img/avatar.png';
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private nativeService: NativeService) {
   }
@@ -27,7 +27,7 @@ export class CropPicDemoPage {
 
   crop() {
     new AlloyCrop({ // api:https://github.com/AlloyTeam/AlloyCrop
-      image_src: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=4256109538,834002284&fm=26&gp=0.jpg',
+      image_src: './assets/img/avatar.png',
       circle: true, // optional parameters , the default value is false
       width: 256, // crop width
       height: 256, // crop height

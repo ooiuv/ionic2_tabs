@@ -213,13 +213,14 @@ export class NativeService {
    * @param content 显示的内容
    */
   showLoading(content = ''): void {
-    if (!this.loading) {// 如果loading已经存在则不再打开
-      const loading = this.loadingCtrl.create({
-        content
-      });
-      loading.present();
-      this.loading = loading;
+    if (this.loading) {// 如果loading已经存在则不再打开
+      return;
     }
+    const loading = this.loadingCtrl.create({
+      content
+    });
+    loading.present();
+    this.loading = loading;
   }
 
   /**
