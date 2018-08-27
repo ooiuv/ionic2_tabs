@@ -17,7 +17,6 @@ import { GlobalData } from './GlobalData';
 import { NativeService } from './NativeService';
 import { APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT } from './Constants';
 import { Logger } from './Logger';
-import { Events } from 'ionic-angular';
 
 @Injectable()
 export class HttpService {
@@ -25,7 +24,6 @@ export class HttpService {
   constructor(public http: Http,
               public globalData: GlobalData,
               public logger: Logger,
-              private events: Events,
               public nativeService: NativeService) {
   }
 

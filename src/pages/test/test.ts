@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TestService } from './TestService';
 import { FileObj } from '../../model/FileObj';
+import { NativeService } from '../../providers/NativeService';
 
 @Component({
   selector: 'page-test',
@@ -10,7 +11,7 @@ export class TestPage {
 
   fileObjList: FileObj[] = [];
 
-  constructor(public testService: TestService) {
+  constructor(public testService: TestService, public nativeService: NativeService) {
 
   }
 
@@ -21,10 +22,11 @@ export class TestPage {
   }
 
   request() {
-    this.testService.map_result_post().subscribe(res => {
+    this.nativeService.showLoading('打断点');
+    /*this.testService.map_result_post().subscribe(res => {
       this.testService.map_result_post2().subscribe(res => {
       });
-    });
+    });*/
   }
 
 }

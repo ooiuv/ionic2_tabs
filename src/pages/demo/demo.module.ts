@@ -5,8 +5,6 @@ import { PaginationDemoPage } from './pagination-demo/pagination-demo';
 import { CustomIconDemoPage } from './custom-icon-demo/custom-icon-demo';
 import { EchartsDemoPage } from './echarts-demo/echarts-demo';
 import { SelectPicDemoPage } from './select-pic-demo/select-pic-demo';
-import { CustomPipeDemo } from './custom-pipe-demo/custom-pipe-demo';
-import { Conversion } from '../../pipes/conversion';
 import { PagingPageModule } from '../../shared/paging/paging.module';
 import { SelectPicturePageModule } from '../../shared/select-picture/select-picture.module';
 import { ModalScalePageModule } from './transition-demo/modal-scale/modal-scale.module';
@@ -28,8 +26,8 @@ import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 
 @NgModule({
   imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule],
-  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, Conversion, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage],
-  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CustomPipeDemo, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })

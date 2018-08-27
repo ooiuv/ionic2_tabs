@@ -24,7 +24,7 @@ ionic serve
 cordova platform add android
 ionic cordova build android  
 ```
-* [其他说明文档](http://www.jianshu.com/p/1c6e5fe9e255)
+* [本项目更详细说明文档](http://www.jianshu.com/p/1c6e5fe9e255)：http://www.jianshu.com/p/1c6e5fe9e255
 
 # app开发指引
 * [环境配置](http://www.jianshu.com/p/1f1205602ce0)
