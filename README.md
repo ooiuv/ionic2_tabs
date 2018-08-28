@@ -1,5 +1,5 @@
 
-* [在线预览](http://yanxiaojun.me/ionic2_tabs/dist/index.html)
+* [在线demo预览](http://114.55.231.32/yanxiaojun617/ionic2_tabs/)
 * 扫一扫下载app
 * ![app下载](http://en168.net/kit_file_server//file/version-admin/20171218/959c0969c414445693d2c55ed71ca344.jpg)
 
