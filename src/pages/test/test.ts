@@ -21,12 +21,4 @@ export class TestPage {
     });
   }
 
-  request() {
-    this.nativeService.showLoading('打断点');
-    /*this.testService.map_result_post().subscribe(res => {
-      this.testService.map_result_post2().subscribe(res => {
-      });
-    });*/
-  }
-
 }

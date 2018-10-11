@@ -59,10 +59,10 @@ export class MineEditAvatarModalPage {
   private getPictureSuccess(fileUrl) {
     new AlloyCrop({ // api:https://github.com/AlloyTeam/AlloyCrop
       image_src: fileUrl,
-      circle: false, // optional parameters , the default value is false
+      circle: true, // optional parameters , the default value is false
       width: 256, // crop width
       height: 256, // crop height
-      output: 1,
+      output: 1, // output resolution --> 400*200
       ok: (base64) => {
         this.saveAvatar(base64);
       },

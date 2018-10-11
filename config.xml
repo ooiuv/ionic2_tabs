@@ -124,5 +124,4 @@
     </plugin>
     <plugin name="cordova-plugin-advanced-http" spec="~1.9.1" />
     <plugin name="cordova-plugin-file-opener2" spec="~2.0.19" />
-    <engine name="android" spec="~6.1.2" />
 </widget>

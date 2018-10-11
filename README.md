@@ -1,7 +1,7 @@
 
 * [在线demo预览](http://114.55.231.32/yanxiaojun617/ionic2_tabs/)
 * 扫一扫下载app
-* ![app下载](http://en168.net/kit_file_server//file/version-admin/20171218/959c0969c414445693d2c55ed71ca344.jpg)
+* ![app下载](https://www.yanxiaojun617.com/fileService/file/version-admin/20181008/ee0107a550b2421f92f2720aed1e8a6c.jpg)
 
 # 如何运行
 * 使用[git](https://git-scm.com/downloads)命令检出项目

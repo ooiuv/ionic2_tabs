@@ -33,7 +33,7 @@ export class FileCacheDemoPage {
     }
     this.fileService.uploadMultiByFilePath(this.fileObjList).subscribe(res => {
       this.fileObjList = [];
-      this.nativeService.alert('文件已缓存', '重启app在"我的-图片缓存"功能查看');
+      this.nativeService.alert('文件已缓存', '点击返回在"我的-图片缓存"功能查看');
     });
   }
 
