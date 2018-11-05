@@ -13,6 +13,7 @@ import { EchartsDemoPage } from './echarts-demo/echarts-demo';
 import { PermissionDemoPage } from './permission-demo/permission-demo';
 import { QrcodeDemoPage } from './qrcode-demo/qrcode-demo';
 import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
+import { FormDemoPage } from './form-demo/form-demo';
 
 @Component({
   selector: 'page-contact',
@@ -30,6 +31,10 @@ export class DemoPage {
 
   native() {
     this.navCtrl.push(NativeDemoPage);
+  }
+
+  form() {
+    this.navCtrl.push(FormDemoPage);
   }
 
   pagination() {
