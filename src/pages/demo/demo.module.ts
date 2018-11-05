@@ -24,10 +24,10 @@ import { CustomerListPage } from './permission-demo/customer-list/customer-list'
 import { QrcodeDemoPage } from './qrcode-demo/qrcode-demo';
 import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 import { FormDemoPage } from './form-demo/form-demo';
-import { ContenteditableModule } from 'ng-contenteditable';
+import { DirectivesModule } from '../../directives/directives.module';
 
 @NgModule({
-  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, ContenteditableModule],
+  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule],
   declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage],
   entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage],
   providers: [DemoService],

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController, NavParams } from 'ionic-angular';
+import { AlertController, NavController } from 'ionic-angular';
 import { Utils } from '../../../providers/Utils';
 import { NativeService } from '../../../providers/NativeService';
 
@@ -52,16 +52,11 @@ export class FormDemoPage {
 
   onSubmit() {
     console.log(this.model);
-    this.alertCtrl.create({
-      title: '提交成功',
-      message: '在控制台打印了表单数据',
-      buttons: [{text: '确定'}
-      ]
-    }).present();
+    this.nativeService.alert('提交成功', '在控制台打印了表单数据');
   }
 
   reset() {
-    this.model = Object.assign({}, this.defaultValue);
+    this.model = JSON.parse(JSON.stringify(this.defaultValue));
   }
 
   setData() {
@@ -84,9 +79,6 @@ export class FormDemoPage {
       tooth: 1,
       introduction: '注意：使用div模拟textarea从而实现根据内容多少自动改变文本域高度。https://github.com/KostyaTretyak/ng-contenteditable'
     };
-  }
-
-  change(phone) {
   }
 
   hobbyCheckboxClick(value) {
@@ -115,17 +107,9 @@ export class FormDemoPage {
     if (!contact.relation && !contact.name && !contact.phone) {
       doRemove();
     } else {
-      this.alertCtrl.create({
-        message: '已填写内容，确认移除？',
-        buttons: [{text: '取消'},
-          {
-            text: '确定',
-            handler: () => {
-              doRemove();
-            }
-          }
-        ]
-      }).present();
+      this.nativeService.alert(null, null, '已填写内容，确认移除？', () => {
+        doRemove();
+      });
     }
   }
 

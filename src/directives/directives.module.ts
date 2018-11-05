@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { AutosizeDirective } from './autosize/autosize';
+import { ContenteditableDirective } from './contenteditable/contenteditable';
 @NgModule({
-  declarations: [AutosizeDirective],
+  declarations: [ContenteditableDirective],
   imports: [],
-  exports: [AutosizeDirective]
+  exports: [ContenteditableDirective]
 })
 export class DirectivesModule {}

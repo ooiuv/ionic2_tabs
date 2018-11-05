@@ -20,7 +20,7 @@
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-textarea autosize formControlName="content" placeholder="请填写反馈内容"></ion-textarea>
+      <ion-textarea formControlName="content" placeholder="请填写反馈内容"></ion-textarea>
     </ion-item>
     <div *ngIf="verifyMessages.content.errorMsg" class="validation-failed">{{verifyMessages.content.errorMsg}}</div>
     <ion-item>
