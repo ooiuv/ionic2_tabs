@@ -20,8 +20,6 @@ export const IMAGE_SIZE = 1024; // 拍照/从相册选择照片压缩大小
 export const QUALITY_SIZE = 94; // 图像压缩质量，范围为0 - 100
 export const REQUEST_TIMEOUT = 20000; // 请求超时时间,单位为毫秒
 
-export const FUNDEBUG_API_KEY = '1b2d6aca0444d09d2ce2635f15587281054590d96b65ccaa15b5cd0a1d4c3ae1'; // 去https://fundebug.com/申请key
-
 // code push 部署key
 export const CODE_PUSH_DEPLOYMENT_KEY = {
   'android': {

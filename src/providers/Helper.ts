@@ -13,7 +13,6 @@ import { Utils } from './Utils';
 import { Logger } from './Logger';
 import { Events } from 'ionic-angular';
 import { GlobalData } from './GlobalData';
-import * as fundebug from 'fundebug-javascript';
 
 declare var AlloyLever;
 
@@ -31,17 +30,6 @@ export class Helper {
               private storage: Storage,
               private events: Events,
               private globalData: GlobalData) {
-  }
-
-  /**
-   * 设置日志监控app的版本号
-   */
-  funDebugInit() {
-    if (this.nativeService.isMobile()) {
-      this.nativeService.getVersionNumber().subscribe(version => {
-        fundebug.appversion = version;
-      });
-    }
   }
 
   /**

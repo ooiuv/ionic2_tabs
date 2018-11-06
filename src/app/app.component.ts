@@ -50,7 +50,6 @@ export class MyApp {
         }
         this.nativeService.statusBarStyle(); // 设置状态栏颜色
         this.nativeService.splashScreenHide(); // 隐藏启动页
-        this.helper.funDebugInit(); // 初始化fundebug
         this.helper.alloyLeverInit(); // 本地"开发者工具"
         this.helper.initJpush(); // 初始化极光推送
         this.versionService.checkVersion(); // 检查版本更新
