@@ -12,7 +12,7 @@ export const FILE_SERVE_URL = 'https://yanxiaojun617.com/fileService/'; // 闫�
 export const APP_VERSION_SERVE_URL = 'https://yanxiaojun617.com/version/api/'; // 闫小军
 // export const APP_VERSION_SERVE_URL = 'http://172.16.19.136:9001/api/'; // 测试环境
 
-export const IS_DEBUG = true; // 是否开发(调试)模式
+export const IS_DEBUG = false; // 是否开发(调试)模式
 
 export const DEFAULT_AVATAR = './assets/img/avatar.png'; // 用户默认头像
 export const PAGE_SIZE = 5; // 默认分页大小
