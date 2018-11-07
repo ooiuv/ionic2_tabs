@@ -60,19 +60,7 @@ export class NativeService {
    */
   sync() {
     if (this.isMobile()) {
-      let deploymentKey = '';
-      if (this.isAndroid() && IS_DEBUG) {
-        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.android.Staging;
-      }
-      if (this.isAndroid() && !IS_DEBUG) {
-        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.android.Production;
-      }
-      if (this.isIos() && IS_DEBUG) {
-        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.ios.Staging;
-      }
-      if (this.isIos() && !IS_DEBUG) {
-        deploymentKey = CODE_PUSH_DEPLOYMENT_KEY.ios.Production;
-      }
+      const deploymentKey = this.isAndroid() ? CODE_PUSH_DEPLOYMENT_KEY.android : CODE_PUSH_DEPLOYMENT_KEY.ios;
       this.codePush.sync({
         deploymentKey
       }).subscribe(syncStatus => {

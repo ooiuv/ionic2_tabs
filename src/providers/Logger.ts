@@ -2,16 +2,13 @@
  * Created by yanxiaojun617@163.com on 07-25.
  */
 import { Injectable } from '@angular/core';
-import { GlobalData } from './GlobalData';
 
 /**
- * Utils类存放和业务无关的公共方法
+ * 添加日志打印、日志上报功能
  * @description
  */
 @Injectable()
 export class Logger {
-  constructor(private globalData: GlobalData) {
-  }
 
   log(err: any, action: string, other = null): void {
     console.log('Logger.log：action-' + action);
