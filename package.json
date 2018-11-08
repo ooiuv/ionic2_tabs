@@ -13,10 +13,8 @@
     "build:prod": "node scripts/setup-env.js prod && ionic-app-scripts build --prod",
     "build:browser": "ionic-app-scripts build --prod --engine browser"
   },
-  "config": {
-    "ionic_webpack": "./scripts/set.js"
-  },
   "dependencies": {
+    "@angular/animations": "4.4.4",
     "@angular/common": "4.4.4",
     "@angular/compiler": "4.4.4",
     "@angular/compiler-cli": "4.4.4",

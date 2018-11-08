@@ -56,10 +56,39 @@ export class CommonService {
         return item.resourceType == resourceType;
       }));
     }
-    return this.httpService.post(url, { clientType: 2 }).map((res) => {
+    return this.httpService.post(url, {clientType: 2}).map((res) => {
       Utils.sessionStorageSetItem(url, res);
       return res.filter((item) => {
         return item.resourceType == resourceType;
+      });
+    });
+  }
+
+  resource(resourceType = 1) {
+    const url = '/v1/public/resource';
+    return this.httpService.post(url, {clientType: 2}).map((res) => {
+      return res.filter((item) => {
+        return item.resourceType == resourceType;
+      });
+    });
+  }
+
+  resource_cache(resourceType = 1) {
+    const url = '/v1/public/resource';
+    const cacheKey = url + resourceType;
+    const json = Utils.sessionStorageGetItem(cacheKey);
+    debugger;
+    if (json) {
+      return Observable.of(json);
+    }
+    return Observable.create(observer => {
+      this.resource(resourceType).subscribe(res => {
+        debugger;
+        Utils.sessionStorageSetItem(cacheKey, res);
+        observer.next(res);
+      }, err => {
+        debugger;
+        observer.error(err);
       });
     });
   }

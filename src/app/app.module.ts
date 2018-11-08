@@ -40,11 +40,13 @@ import { CommonService } from '../service/CommonService';
 import { VersionService } from '../providers/VersionService';
 import { Validators } from '../providers/Validators';
 import { CalendarModule } from 'ion2-calendar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [MyApp],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpModule,
     IonicModule.forRoot(MyApp, {
       mode: 'ios', // android是'md'
@@ -80,7 +82,7 @@ import { CalendarModule } from 'ion2-calendar';
     CodePush,
     CallNumber,
     BarcodeScanner,
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeService,
     HttpService,
     FileService,

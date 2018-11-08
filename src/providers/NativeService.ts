@@ -19,7 +19,6 @@ import { Position } from '../model/type';
 import {
   CODE_PUSH_DEPLOYMENT_KEY,
   IMAGE_SIZE,
-  IS_DEBUG,
   QUALITY_SIZE
 } from './Constants';
 import { Observable } from 'rxjs/Rx';

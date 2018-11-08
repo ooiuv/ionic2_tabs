@@ -14,6 +14,7 @@ import { PermissionDemoPage } from './permission-demo/permission-demo';
 import { QrcodeDemoPage } from './qrcode-demo/qrcode-demo';
 import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 import { FormDemoPage } from './form-demo/form-demo';
+import { TransitionDialogDemoPage } from './transition-dialog-demo/transition-dialog-demo';
 
 @Component({
   selector: 'page-contact',
@@ -59,6 +60,10 @@ export class DemoPage {
 
   pageTransition() {
     this.navCtrl.push(TransitionDemoPage);
+  }
+
+  dialogTransition() {
+    this.navCtrl.push(TransitionDialogDemoPage);
   }
 
   cityPicker() {

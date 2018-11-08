@@ -25,11 +25,13 @@ import { QrcodeDemoPage } from './qrcode-demo/qrcode-demo';
 import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 import { FormDemoPage } from './form-demo/form-demo';
 import { DirectivesModule } from '../../directives/directives.module';
+import { ModalDialogPageModule } from '../../shared/modal-dialog/modal-dialog.module';
+import { TransitionDialogDemoPage } from './transition-dialog-demo/transition-dialog-demo';
 
 @NgModule({
-  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule],
-  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage],
-  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage],
+  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule, ModalDialogPageModule],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })
