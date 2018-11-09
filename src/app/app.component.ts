@@ -34,7 +34,7 @@ export class MyApp {
       this.storage.get('token').then(token => { // 从缓存中获取token
         if (token) {
           this.globalData.token = token;
-          // 用旧token获取新token,旧token作为请求头
+          // 旧token作为请求头参数，用旧token获取新token
           this.commonService.getNewToken().mergeMap(newToken => {
             this.globalData.token = newToken;
             this.storage.set('token', newToken);

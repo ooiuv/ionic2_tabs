@@ -58,6 +58,7 @@ export class Helper {
       if (!avatarId) {
         observer.next(DEFAULT_AVATAR);
       } else {
+        this.globalData.showLoading = false;
         this.fileService.getFileInfoById(avatarId).subscribe((res: FileObj) => {
           if (res.origPath) {
             const avatarPath = res.origPath;

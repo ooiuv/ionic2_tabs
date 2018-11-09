@@ -10,6 +10,7 @@ import { Utils } from './Utils';
 import { HttpService } from './HttpService';
 import { NativeService } from './NativeService';
 import { FileService } from './FileService';
+import { GlobalData } from './GlobalData';
 
 @Injectable()
 export class VersionService {
@@ -33,7 +34,8 @@ export class VersionService {
               public fileService: FileService,
               public fileOpener: FileOpener,
               public alertCtrl: AlertController,
-              public logger: Logger) {
+              public logger: Logger,
+              public globalData: GlobalData) {
 
   }
 
@@ -52,6 +54,7 @@ export class VersionService {
       this.appDownloadPageUrl = FILE_SERVE_URL + '/static/download.html?name=' + this.appName;
       const url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
       // 从后台查询app最新版本信息
+      this.globalData.showLoading = false;
       return this.httpService.get(url, null, false);
     }).subscribe(res => {
       if (!res || res.code != 1) {
@@ -74,23 +77,15 @@ export class VersionService {
 
       const that = this;
       if (this.lastVersionInfo.isForcedUpdate == 1) { // 是否强制更新
-        this.alertCtrl.create({
-          title: '重要升级',
-          subTitle: '您必须升级后才能使用！',
-          enableBackdropDismiss: false,
-          buttons: [{
-            text: '确定', handler: () => {
-              that.downloadApp();
-            }
-          }
-          ]
-        }).present();
+        this.nativeService.alert('重要升级', '您必须升级后才能使用！', null, () => {
+          that.downloadApp();
+        });
       } else {
         this.alertCtrl.create({
           title: '升级',
           subTitle: '发现新版本,是否立即升级？',
           enableBackdropDismiss: false,
-          buttons: [{ text: '取消' }, {
+          buttons: [{text: '取消'}, {
             text: '确定', handler: () => {
               that.downloadApp();
             }
@@ -105,11 +100,11 @@ export class VersionService {
   // 查询android apk下载地址
   setApkDownloadUrl(data) {
     (data.fileRelationList || []).filter(fr => fr.type === 'apk').forEach(fr => {
+      this.globalData.showLoading = false;
       this.fileService.getFileInfoById(fr.fileId).subscribe(res => {
         this.apkUrl = res.origPath;
       });
     });
-
   }
 
   getCurrentVersionNo() {
@@ -157,7 +152,7 @@ export class VersionService {
         }
         alert.present();
         const fileTransfer: FileTransferObject = this.transfer.create();
-        const apk = this.file.externalRootDirectory + 'download/' + `android_${Utils.getSequence()}.apk`; // 下载apk保存的目录
+        const apk = this.file.externalDataDirectory + 'download/' + this.appName + `_${Utils.dateFormat(new Date(), 'yyyyMMdd_hhmmss')}.apk`; // 下载apk保存的目录
         // 下载并安装apk
         fileTransfer.download(this.apkUrl, apk).then(() => {
           alert && alert.dismiss();
@@ -207,11 +202,11 @@ export class VersionService {
    */
   checkNewVersion() {
     if (this.updateProgress == -1 || this.updateProgress == 100) {
-      this.checkVersion();
+      this.checkVersion(true);
     } else {// 正在更新`
       const alert = this.alertCtrl.create({
         title: `下载进度：${this.updateProgress}%`,
-        buttons: [{ text: '后台下载' }]
+        buttons: [{text: '后台下载'}]
       });
       alert.present();
       const interval = setInterval(() => {
