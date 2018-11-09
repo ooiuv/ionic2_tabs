@@ -11,25 +11,21 @@
   <button ion-button (click)="show()">button1</button>
   <button ion-button (click)="open()">button2</button>
 
-  <div *ngIf="isShow">
-    <page-modal-dialog [isShow]="isShow">
-      <div padding text-center>
-        <h1>模态框（Modal）标题</h1>
-        <p>在这里添加一些文本</p>
-        <p>在这里添加一些文本</p>
-        <button ion-button (click)="show()">知道啦</button>
-      </div>
-    </page-modal-dialog>
-  </div>
+  <page-modal-dialog [isShow]="isShow">
+    <div padding text-center>
+      <h1>模态框（Modal）标题</h1>
+      <p>在这里添加一些文本</p>
+      <p>在这里添加一些文本</p>
+      <button ion-button (click)="show()">知道啦</button>
+    </div>
+  </page-modal-dialog>
 
-  <div *ngIf="isOpen">
-    <page-modal-dialog [isShow]="isOpen">
-      <div class="my-dialog">
-        <img src="./assets/img/ok.gif" alt="">
-        <p>您太棒啦!</p>
-        <span class="close" tappable (click)="open()">✕</span>
-      </div>
-    </page-modal-dialog>
-  </div>
+  <page-modal-dialog [isShow]="isOpen">
+    <div class="my-dialog">
+      <img src="./assets/img/ok.gif" alt="">
+      <p>您太棒啦!</p>
+      <span class="close" tappable (click)="open()">✕</span>
+    </div>
+  </page-modal-dialog>
 
 </ion-content>
