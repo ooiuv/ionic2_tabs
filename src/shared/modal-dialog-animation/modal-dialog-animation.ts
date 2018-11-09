@@ -4,13 +4,13 @@ import { animate, style, transition, trigger } from '@angular/animations';
 
 @IonicPage()
 @Component({
-  selector: 'page-modal-dialog',
-  templateUrl: 'modal-dialog.html',
+  selector: 'page-modal-dialog-animation',
+  templateUrl: 'modal-dialog-animation.html',
   animations: [
     // 离场动画
     trigger('leaveAnimation', [
       transition(':leave', [
-        animate(300, style({ opacity: 0 }))
+        animate(300, style({opacity: 0}))
       ])
     ]),
     // 进场动画1
@@ -29,7 +29,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
     ])
   ]
 })
-export class ModalDialogPage {
+export class ModalDialogAnimationPage {
 
   @Input() isShow = false;
 
