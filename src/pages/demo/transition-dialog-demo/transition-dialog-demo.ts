@@ -9,12 +9,4 @@ export class TransitionDialogDemoPage {
   isShow = false;
   isOpen = false;
 
-  show() {
-    this.isShow = !this.isShow;
-  }
-
-  open() {
-    this.isOpen = !this.isOpen;
-  }
-
 }
