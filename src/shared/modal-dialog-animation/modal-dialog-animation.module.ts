@@ -9,5 +9,7 @@ import { ModalDialogAnimationPage } from './modal-dialog-animation';
   imports: [
     IonicPageModule.forChild(ModalDialogAnimationPage),
   ],
+  exports: [ModalDialogAnimationPage]
 })
-export class ModalDialogAnimationPageModule {}
+export class ModalDialogAnimationPageModule {
+}
