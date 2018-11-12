@@ -1,6 +1,6 @@
 
-* [在线demo预览](http://114.55.231.32/yanxiaojun617/ionic2_tabs/)
-* 扫一扫下载app
+* [在线预览](https://yanxiaojun617.com/ionic2_tabs/)：https://yanxiaojun617.com/ionic2_tabs/
+* 扫码下载
 * ![app下载](https://www.yanxiaojun617.com/fileService/file/version-admin/20181008/ee0107a550b2421f92f2720aed1e8a6c.jpg)
 
 # 如何运行
