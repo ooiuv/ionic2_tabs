@@ -57,10 +57,9 @@ page-form-demo {
         overflow: auto;
         outline: none;
       }
-      .form-textarea-placeholder {
+      .form-textarea-placeholder:before {
+        content: '说你想说的...';
         position: absolute;
-        margin-top: -19px;
-        z-index: -1;
         color: #999;
         text-overflow: clip;
       }

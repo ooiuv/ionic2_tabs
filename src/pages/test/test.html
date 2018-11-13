@@ -18,7 +18,11 @@
     <ion-item>
       <ion-label required>用户名</ion-label>
       <ion-input type="text" name="test" [(ngModel)]="test"
-                 [ngClass]="{'test-placeholder': !test}"></ion-input>
+                 [ngClass]="{'test-placeholder': !test}" [ngStyle]="{'z-index': isAndroid?'-1':'auto'}"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label required>用户名</ion-label>
+      <ion-input type="text" name="t1" [(ngModel)]="test" placeholder="请输入用户名（必填）"></ion-input>
     </ion-item>
   </ion-list>
 </ion-content>

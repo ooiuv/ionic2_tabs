@@ -126,8 +126,8 @@
       <ion-item>
         <ion-label>个人简介</ion-label>
         <div item-content class="form-item-content">
-          <div class="form-textarea" contenteditable="true" name="introduction" [(ngModel)]="model.introduction"></div>
-          <div class="form-textarea-placeholder" [hidden]="model.introduction">说你想说的...</div>
+          <div class="form-textarea" contenteditable="true" [ngClass]="{'form-textarea-placeholder': !model.introduction}"
+               [style.z-index]="isIos?'auto':'-1'" name="introduction" [(ngModel)]="model.introduction"></div>
         </div>
       </ion-item>
 

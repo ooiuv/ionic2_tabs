@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { Utils } from '../../../providers/Utils';
 import { NativeService } from '../../../providers/NativeService';
 
@@ -8,8 +8,10 @@ import { NativeService } from '../../../providers/NativeService';
   templateUrl: 'form-demo.html',
 })
 export class FormDemoPage {
+  isIos;
 
-  constructor(public navCtrl: NavController, public nativeService: NativeService, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public nativeService: NativeService) {
+    this.isIos = this.nativeService.isIos();
   }
 
   today = Utils.dateFormat(new Date());
