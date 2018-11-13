@@ -56,12 +56,14 @@ page-form-demo {
         max-height: 100px; /* 自定义最大高度，超出会显示滚动条 */
         overflow: auto;
         outline: none;
+        -webkit-user-select: text;
       }
       .form-textarea-placeholder:before {
         content: '说你想说的...';
         position: absolute;
         color: #999;
         text-overflow: clip;
+        z-index: -1;
       }
       .form-number-step {
         input {
