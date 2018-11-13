@@ -5,13 +5,12 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { FileOpener } from '@ionic-native/file-opener';
 import { AlertController } from 'ionic-angular';
 import { Logger } from './Logger';
-import { APP_VERSION_SERVE_URL, FILE_SERVE_URL } from './Constants';
+import { APP_VERSION_SERVE_URL, APP_DOWNLOAD_PAGE_URL } from './Constants';
 import { Utils } from './Utils';
 import { HttpService } from './HttpService';
 import { NativeService } from './NativeService';
 import { FileService } from './FileService';
 import { GlobalData } from './GlobalData';
-import { APP_DOWNLOAD_PAGE_URL } from './Constants-prod';
 
 @Injectable()
 export class VersionService {
