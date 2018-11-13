@@ -7,6 +7,9 @@ export const FILE_SERVE_URL = 'https://yanxiaojun617.com/fileService/'; // 闫�
 /*----------------------------------------app版本升级服务地址,查询app最新版本号,更新日志.----------------------------------------*/
 export const APP_VERSION_SERVE_URL = 'https://yanxiaojun617.com/version/api/'; // 闫小军
 
+/*----------------------------------------app下载地址.----------------------------------------*/
+export const APP_DOWNLOAD_PAGE_URL = 'https://yanxiaojun617.com/version/admin/#/download?name=ionic2tabs';
+
 export const IS_DEBUG = false; // 是否开发(调试)模式
 
 // code push 部署prod key
