@@ -11,6 +11,9 @@ export const FILE_SERVE_URL = 'https://yanxiaojun617.com/fileService/'; // 闫�
 export const APP_VERSION_SERVE_URL = 'https://yanxiaojun617.com/version/api/'; // 闫小军
 // export const APP_VERSION_SERVE_URL = 'http://172.16.19.136:9001/api/'; // 测试环境
 
+/*----------------------------------------app下载地址.----------------------------------------*/
+export const APP_DOWNLOAD_PAGE_URL = 'https://yanxiaojun617.com/version/admin/#/download?name=ionic2tabs';
+
 export const IS_DEBUG = true; // 是否开发(调试)模式
 
 // code push 部署dev key

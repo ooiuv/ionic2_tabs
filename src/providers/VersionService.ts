@@ -11,6 +11,7 @@ import { HttpService } from './HttpService';
 import { NativeService } from './NativeService';
 import { FileService } from './FileService';
 import { GlobalData } from './GlobalData';
+import { APP_DOWNLOAD_PAGE_URL } from './Constants-prod';
 
 @Injectable()
 export class VersionService {
@@ -21,7 +22,6 @@ export class VersionService {
   lastVersionInfo; // 从后台获取到的app最新版本信息
   versions; // app更新日志
 
-  appDownloadPageUrl; // 下载页访问地址
   apkUrl; // android apk地址
 
   // app更新进度.默认为0,在app升级过程中会改变
@@ -51,7 +51,6 @@ export class VersionService {
     }).mergeMap(packageName => {
       this.appName = packageName.substring(packageName.lastIndexOf('.') + 1);
       this.appType = this.nativeService.isAndroid() ? 'android' : 'ios';
-      this.appDownloadPageUrl = FILE_SERVE_URL + '/static/download.html?name=' + this.appName;
       const url = Utils.formatUrl(`${APP_VERSION_SERVE_URL}/v1/apply/getDownloadPageByEName/${this.appName}/${this.appType}`);
       // 从后台查询app最新版本信息
       this.globalData.showLoading = false;
@@ -124,7 +123,7 @@ export class VersionService {
    */
   downloadApp() {
     if (this.nativeService.isIos()) {// ios打开网页下载
-      this.nativeService.openUrlByBrowser(this.appDownloadPageUrl);
+      this.nativeService.openUrlByBrowser(APP_DOWNLOAD_PAGE_URL);
     }
     if (this.nativeService.isAndroid()) {// android本地下载
       if (!this.apkUrl) {
@@ -166,7 +165,7 @@ export class VersionService {
             subTitle: '本地升级失败',
             buttons: [{
               text: '确定', handler: () => {
-                this.nativeService.openUrlByBrowser(this.appDownloadPageUrl); // 打开网页下载
+                this.nativeService.openUrlByBrowser(APP_DOWNLOAD_PAGE_URL); // 打开网页下载
               }
             }
             ]
