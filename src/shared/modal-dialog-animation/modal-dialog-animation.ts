@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { animate, style, transition, trigger } from '@angular/animations';
+import 'web-animations-js/web-animations.min';
 
 @IonicPage()
 @Component({
