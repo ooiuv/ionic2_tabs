@@ -1,10 +1,24 @@
 <ion-header>
-    <ion-navbar>
-        <ion-title>test</ion-title>
-    </ion-navbar>
+  <ion-navbar>
+    <ion-title>test</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <button ion-button block (click)="getFileData()">请求照片</button>
-    <page-select-picture [max]="6" [(fileObjList)]="fileObjList"></page-select-picture>
+  <button ion-button block (click)="getFileData()">请求照片</button>
+  <page-select-picture [max]="6" [(fileObjList)]="fileObjList"></page-select-picture>
+
+  <ion-list>
+
+    <ion-item>
+      <ion-label required>用户名</ion-label>
+      <ion-input type="text" name="username" placeholder="请输入用户名（必填）" required pattern="[A-Za-z0-9]{4,20}"
+                 autocomplete="off"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label required>用户名</ion-label>
+      <ion-input type="text" name="test" [(ngModel)]="test"
+                 [ngClass]="{'test-placeholder': !test}"></ion-input>
+    </ion-item>
+  </ion-list>
 </ion-content>

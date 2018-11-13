@@ -12,14 +12,14 @@
   <div padding>
     <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
       <ion-item>
-        <ion-input type="text" formControlName="username" placeholder="用户名" clearInput></ion-input>
+        <ion-input type="text" formControlName="username" placeholder="用户名" clearInput autocomplete="off"></ion-input>
       </ion-item>
       <div *ngIf="!loginForm.controls.username.valid && loginForm.controls.username.touched" class="validation-failed">
         请输入正确用户名
       </div>
 
       <ion-item>
-        <ion-input type="password" formControlName="password" placeholder="密码" clearInput></ion-input>
+        <ion-input type="password" formControlName="password" placeholder="密码" clearInput autocomplete="off"></ion-input>
       </ion-item>
       <div *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.touched" class="validation-failed">
         请输入密码

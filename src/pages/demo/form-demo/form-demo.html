@@ -11,7 +11,7 @@
       <ion-item>
         <ion-label required>用户名</ion-label>
         <ion-input type="text" name="username" placeholder="请输入用户名（必填）" [(ngModel)]="model.username" #username="ngModel"
-                   required pattern="[A-Za-z0-9]{4,20}"></ion-input>
+                   required pattern="[A-Za-z0-9]{4,20}" autocomplete="off"></ion-input>
       </ion-item>
       <div *ngIf="username.invalid && username.dirty" class="form-invalid-tip">
         <div class="error-msg" *ngIf="username.errors.required">用户名是必填项</div>
@@ -22,7 +22,7 @@
         <ion-label required>密码</ion-label>
         <ion-input type="password" name="password" placeholder="请输入密码（必填）"
                    [(ngModel)]="model.password"
-                   #password="ngModel" required pattern=".{6,20}"></ion-input>
+                   #password="ngModel" required pattern=".{6,20}" autocomplete="off"></ion-input>
       </ion-item>
       <div *ngIf="password.invalid && password.dirty" class="form-invalid-tip">
         <div class="error-msg" *ngIf="password.errors.required">密码是必填项</div>

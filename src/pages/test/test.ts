@@ -10,7 +10,7 @@ import { NativeService } from '../../providers/NativeService';
 export class TestPage {
 
   fileObjList: FileObj[] = [];
-
+  test = 'text';
   constructor(public testService: TestService, public nativeService: NativeService) {
 
   }

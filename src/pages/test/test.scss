@@ -1,5 +1,13 @@
 page-test {
-
+  .test-placeholder:before {
+    content: '请输入姓名';
+    position: absolute;
+    margin-top: 11px;
+    margin-left: 16px;
+    color: #999;
+    text-overflow: clip;
+    z-index: -1;
+  }
 }
 
 
