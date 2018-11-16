@@ -1,13 +1,15 @@
-
 @font-face {font-family: "Ionicons";
   src: url('../assets/img/tab/iconfont.eot'); /* IE9*/
   src: url('../assets/img/tab/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('../assets/img/tab/iconfont.woff') format('woff'), /* chrome, firefox */
+  url('data:application/x-font-woff;charset=utf-8;base64,d09GRgABAAAAAAnUAAsAAAAADeQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADMAAABCsP6z7U9TLzIAAAE8AAAARAAAAFY8fUl3Y21hcAAAAYAAAABrAAABss+wnfJnbHlmAAAB7AAABdoAAAd0VIMY4GhlYWQAAAfIAAAALgAAADYTSFiTaGhlYQAAB/gAAAAcAAAAJAfeA4ZobXR4AAAIFAAAAA4AAAAUFAAAAGxvY2EAAAgkAAAADAAAAAwDpgUIbWF4cAAACDAAAAAfAAAAIAEWAXxuYW1lAAAIUAAAAUUAAAJtPlT+fXBvc3QAAAmYAAAAOQAAAFaHAz0HeJxjYGRgYOBikGPQYWB0cfMJYeBgYGGAAJAMY05meiJQDMoDyrGAaQ4gZoOIAgCKIwNPAHicY2BkYWCcwMDKwMHUyXSGgYGhH0IzvmYwYuRgYGBiYGVmwAoC0lxTGByesT9vZW7438AQw9zA0AAUZgTJAQDnqwxweJztkdsNgCAMRU8BHzH+u4RDMIZD+OUOrFrH0EL5cAgvOU3vDaFJAQYgGruRQC6EqtNSaXlkaXkim1+YCQSddNPjLs8D375L7J6f+mowbzNk5Nfaau4u1e05rd8c2xh6OPUX7uIQX08oGQMAeJxVVVtsHOUVnvNfZ+e6l7nsdfYyeMZrb3a9txkcwxoH50YcQoMJaXFDqNOUUuQGUVQUcelTEYiAoEgVPEErIREUKVLz0OLKrtOXVirvvCAhHhIpPPKAIsVO//EmAqSZ85//zPnPnHO+78xISJJu/x2/i49LXaknSRNtCKOAt4EHTFyuAZw5seW4DWYzx3WiuO9BPIJwEPgjiJ0o7OK3sg8RVkfOdcu67qA6Iw9liXOw5tH7aec59hvP856lz3XEzqvBAYdcX16Fwx301YqirHyFOodhdTlz7hl0qDXdpfMAru+7APO0O906hJ45l5EkKcnxX/hVPJKWpE8liTZCkSULwiS5IAyiOFETm1BFUkkJcTAUmgeubdke2BbjThU84AbyZ7rCQRxNdhC6wsfpC98o6CSFzYOw9Ge6wtSBsWk4SNbofhifs6ritW4ijeRynbh759iuyfXGYfqJgj7JZf17LdWWrVG4/xTHPd8zso0sM5lO82pBowygjPFfX3npY6zqmCqK63KDmSq1Khp39MkQ0yP/Tpm9ejrdmsWoGeSzTpWymmbrRCH5kqYqJkYKVxDg99bOvYMJyC7oVNZKqsVSFKWKZp0QL58rBm1El6J7YoPqhFipOczKNgbkVAgPJ7y2HracPAFVL5/uW3U95SgNN5d+6SOE/3Je1nS5lFds2UhPhE/XDRWBm7Gb2XSrUJ9e1awSQ1DJmlVdzroPVJsz2YKy2prKGUYKmzxnEKoaGfnZdxB6ey3rKMy0tYIi63Vr6rijiAZkJwNvVMjJaiPt5ikp2RwhwiQucP8H/i8+LP1ael76nfQlHIPT8FvBUgHKXRDdaB4iAZHfMGGmy3xhHyMvMPcFcMljwY2uP+w70SCYTuBsMNf2G8xy4v547ddFrIRAjI9ZnoDp9KJ4IogShgiidHOBFEZS7EhJZOY3OihhoQgdDwTgiVcCe70RDKI5GIo8dtdB1HMq0O85FvO5LVbXMUG8rAo/rKEnkkyeMRMY/t6UlMVt/0dFmSLLO0yNkmr6ve+rqoCoxoPublWCxnXBR3M8GSLl3QHu98ZURUJLpkXkAA0RX4Tv3aVwaKBdzygZpQC/XPfp9sbGNhXy7AmiqilMyLGfX7pGyLVLQhYLMHvslVL6Hsap8epnYJrwGS/JsA66Dut/AsMAMMximj4cH/0ZoOn9R896vUsDTjWNbX93wl2b2FtqHm9f2Nq5TSnA1hYA9RuqxZlsDN/vPPLHI9Oolj/Snjlk6LaKdnZ4Os3fvMJNk1/RPe1vstheeZGaVEm5aj5z8RE3T76+ePFrIuTjDyuEaCaASZ44s36T0pvrT51EKc4IffSJyzcovXH58g1SLCLZ7/yT5gqaS1Kp165CSkZbNEOvAgd56wPEgSPIa5prEkqX4qlFpwyTC7q6tohZ+8N7DUYRTdF6g97c+Y8s7wlxZyadnZgrc+If7TYncWNC5lOLtULUSL83eHFh8xYddxSawHRZQxCMWylkdKZVnT4QVhY0TlET5DJbSDq4wMoyNFmZV7o2Livq/GxtSeaH99pnqhjz1FzuDZVnjX0dtvPN3R7SndtbD5yPLEzk6knndVNZrszU8jmecnlm0sWidUUwKtpe0Ug2p1d0KGKmm5P2ZOFUq/Vkb9xAIX0KaTUjoyn8B9E+0cQmUJnKgAKy2z0hh2c7BHLFp1l5ypnkqVi07hBiHB0USkzTLJ+fzlGMSwpLO+Wp6gEZzlNkrdRljKg8+P1o/eb2u6w/1xFTL74WfDb+MwTdKQqdvpZhWLrzD7iKN/E+SZX2SVIsPvViXnandqI3Qn44jIf+0Ld9Oxb3mPh3eO/B7m9h7Hx3jvgXqLd/6QLFLzz2kxj+B/maAp98/vkvNzffh/swycqcf7BvtKbSB5//VbtzEH07Wj83HoGNbVK57fXZiPJVjuZ+uudkG81Cc2WliUa1TKaXyeI9GOIHF5eKObewiF9Y/gXQW5sbAvNbG8tHJOn/uMo39gAAeJxjYGRgYABij/xAj3h+m68M3CwMIHBDpMsNQf/fwcLAHATkcjAwgUQB8wIIkwAAeJxjYGRgYG7438AQw8IAAkCSkQEVsAIARwsCbnicY2FgYGBBwwABBAAVAAAAAAAAAFIBTgNUA7p4nGNgZGBgYGUsYGBnAAEmIOYCQgaG/2A+AwAUfAGUAHicZY9NTsMwEIVf+gekEqqoYIfkBWIBKP0Rq25YVGr3XXTfpk6bKokjx63UA3AejsAJOALcgDvwSCebNpbH37x5Y08A3OAHHo7fLfeRPVwyO3INF7gXrlN/EG6QX4SbaONVuEX9TdjHM6bCbXRheYPXuGL2hHdhDx18CNdwjU/hOvUv4Qb5W7iJO/wKt9Dx6sI+5l5XuI1HL/bHVi+cXqnlQcWhySKTOb+CmV7vkoWt0uqca1vEJlODoF9JU51pW91T7NdD5yIVWZOqCas6SYzKrdnq0AUb5/JRrxeJHoQm5Vhj/rbGAo5xBYUlDowxQhhkiMro6DtVZvSvsUPCXntWPc3ndFsU1P9zhQEC9M9cU7qy0nk6T4E9XxtSdXQrbsuelDSRXs1JErJCXta2VELqATZlV44RelzRiT8oZ0j/AAlabsgAAAB4nGNgYoAALgbsgJWRiZGZkYWRlZGNgamwkKuwUDe/tCQnMy+VH0rD+BxVGZlppUmJ+QwMAD+PDsQAAAA=') format('woff'),
   url('../assets/img/tab/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
   url('../assets/img/tab/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
 }
 
-// 字体图标
+// 自定义字体图标
+.ion-md-zhifubao:before{ content: "\e607"; }
+.ion-ios-zhifubao:before { content: "\e607"; }
+.ion-ios-zhifubao-outline:before { content: "\e785"; }
 .ion-md-qq:before{ content: "\e658"; }
 .ion-ios-qq:before { content: "\e658"; }
 .ion-ios-qq-outline:before { content: "\e617"; }
@@ -18,9 +20,9 @@
 .ion-ios-png-outline { content: url("../assets/img/tab/apps-outline.png") }
 
 // svg
-.ion-md-svg{ content: url("../assets/img/tab/app.svg"); }
-.ion-ios-svg { content: url("../assets/img/tab/app.svg") }
-.ion-ios-svg-outline { content: url("../assets/img/tab/app-outline.svg") }
+.ion-md-svg{ content: url("../assets/img/tab/apps.svg"); }
+.ion-ios-svg { content: url("../assets/img/tab/apps.svg") }
+.ion-ios-svg-outline { content: url("../assets/img/tab/apps-outline.svg") }
 
 
 
