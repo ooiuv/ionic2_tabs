@@ -22,7 +22,6 @@ import { AppMinimize } from '@ionic-native/app-minimize';
 import { BrowserModule } from '@angular/platform-browser';
 import { CodePush } from '@ionic-native/code-push';
 import { CallNumber } from '@ionic-native/call-number';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { HTTP } from '@ionic-native/http';
 import { NativeService } from '../providers/NativeService';
@@ -41,6 +40,7 @@ import { VersionService } from '../providers/VersionService';
 import { Validators } from '../providers/Validators';
 import { CalendarModule } from 'ion2-calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QRScanner } from '@ionic-native/qr-scanner';
 
 @NgModule({
   declarations: [MyApp],
@@ -81,7 +81,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     JPush,
     CodePush,
     CallNumber,
-    BarcodeScanner,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeService,
     HttpService,
@@ -92,7 +91,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     Logger,
     CommonService,
     VersionService,
-    Validators
+    Validators,
+    QRScanner
   ]
 })
 export class AppModule {

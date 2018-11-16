@@ -75,6 +75,8 @@ export class SearchAddress {
         if (!isExist) {
           items.push(item);
         }
+      } else {
+        items = [item]; // tslint:disable-line
       }
       this.storage.set('MapSearchHistory', [items]);
     });

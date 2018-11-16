@@ -15,6 +15,7 @@ import { QrcodeDemoPage } from './qrcode-demo/qrcode-demo';
 import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 import { FormDemoPage } from './form-demo/form-demo';
 import { TransitionDialogDemoPage } from './transition-dialog-demo/transition-dialog-demo';
+import { QrscannerDemoPage } from './qrscanner-demo/qrscanner-demo';
 
 @Component({
   selector: 'page-contact',
@@ -80,6 +81,10 @@ export class DemoPage {
 
   qrCode() {
     this.navCtrl.push(QrcodeDemoPage);
+  }
+
+  scan() {
+    this.navCtrl.push(QrscannerDemoPage);
   }
 
   alloylever() {

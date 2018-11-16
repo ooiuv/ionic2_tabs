@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { Events, NavController } from 'ionic-angular';
 import { NativeService } from '../../../providers/NativeService';
 import { Position } from '../../../model/type';
 
@@ -14,7 +14,7 @@ export class NativeDemoPage {
   location = {};
   imgPath;
 
-  constructor(public navCtrl: NavController, public nativeService: NativeService) {
+  constructor(public navCtrl: NavController, public nativeService: NativeService, private changeDetector: ChangeDetectorRef, private events: Events) {
   }
 
   ionViewWillEnter() {
@@ -40,11 +40,12 @@ export class NativeDemoPage {
   }
 
   scan() {
-    if (this.nativeService.isMobile()) {
-      this.nativeService.scan().subscribe(res => {
-        this.scanText = res;
+    this.navCtrl.push('QrscannerPage').then(() => {
+      this.events.subscribe('qrscanner:result', text => {
+        this.scanText = text;
+        alert('扫描结果：' + text);
       });
-    }
+    });
   }
 
   getPictureByCamera() {
@@ -58,12 +59,13 @@ export class NativeDemoPage {
   getUserLocation() {
     this.nativeService.getUserLocation().subscribe(res => {
       this.location = res;
+      this.changeDetector.detectChanges();
     });
   }
 
   navigation() {
-    const startPoint: Position = { 'lng': '113.350912', 'lat': '23.119495' };
-    const endPoint: Position = { 'lng': '113.450912', 'lat': '23.219495' };
+    const startPoint: Position = {'lng': '113.350912', 'lat': '23.119495'};
+    const endPoint: Position = {'lng': '113.450912', 'lat': '23.219495'};
     this.nativeService.navigation(startPoint, endPoint).subscribe(res => {
       console.log(res);
     });

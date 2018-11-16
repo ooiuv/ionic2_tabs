@@ -14,7 +14,6 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { AlertController, Loading, LoadingController, Platform, ToastController } from 'ionic-angular';
 import { AppMinimize } from '@ionic-native/app-minimize';
 import { CallNumber } from '@ionic-native/call-number';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Position } from '../model/type';
 import {
   CODE_PUSH_DEPLOYMENT_KEY,
@@ -47,7 +46,6 @@ export class NativeService {
               private network: Network,
               private appMinimize: AppMinimize,
               private cn: CallNumber,
-              private barcodeScanner: BarcodeScanner,
               private loadingCtrl: LoadingController,
               public logger: Logger,
               private diagnostic: Diagnostic,
@@ -365,21 +363,6 @@ export class NativeService {
     this.cn.callNumber(num, true)
       .then(() => console.log('成功拨打电话:' + num))
       .catch(err => this.logger.log(err, '拨打电话失败'));
-  }
-
-  /**
-   * 扫描二维码
-   * @returns {any}
-   */
-  scan() {
-    return Observable.create(observer => {
-      this.barcodeScanner.scan().then((barcodeData) => {
-        observer.next(barcodeData.text);
-      }).catch(err => {
-        this.logger.log(err, '扫描二维码失败');
-        observer.error(false);
-      });
-    });
   }
 
   /**
