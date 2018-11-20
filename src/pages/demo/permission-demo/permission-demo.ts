@@ -47,7 +47,7 @@ export class PermissionDemoPage {
               public commonService: CommonService) {
     const menu = [];
     // 从后台获取当前登录用户的菜单资源
-    this.commonService.resource_cache(1).subscribe(res => {
+    this.commonService.getResource(1).subscribe(res => {
       for (const item of res) {
         for (const _menuRelation of this.menuRelation) {
           if (item.code == _menuRelation.code) {
@@ -68,7 +68,7 @@ export class PermissionDemoPage {
       this.navCtrl.push(CustomerListPage);
       break;
     default :
-      this.nativeService.alert('未找到页面');
+      this.nativeService.alert('开发中');
     }
   }
 

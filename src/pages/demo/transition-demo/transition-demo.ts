@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
 import { ModalScalePage } from './modal-scale/modal-scale';
 import { ModalFromRightPage } from './modal-from-right/modal-from-right';
+import { NativeService } from '../../../providers/NativeService';
 
 /**
  * Generated class for the TransitionDemoPage page.
@@ -16,7 +17,7 @@ import { ModalFromRightPage } from './modal-from-right/modal-from-right';
 })
 export class TransitionDemoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController, private nativeService: NativeService) {
   }
 
   scaleModalScalePage() {
@@ -31,5 +32,9 @@ export class TransitionDemoPage {
       enterAnimation: 'modal-from-right-enter',
       leaveAnimation: 'modal-from-right-leave'
     }).present();
+  }
+
+  details(url) {
+    this.nativeService.openUrlByBrowser(url);
   }
 }

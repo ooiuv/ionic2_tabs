@@ -14,9 +14,9 @@ import { Logger } from '../providers/Logger';
  */
 @Injectable()
 export class CommonService {
+
   constructor(public httpService: HttpService, public nativeService: NativeService, public logger: Logger) {
   }
-
 
   /**
    * 登录获取token
@@ -36,7 +36,6 @@ export class CommonService {
     return this.httpService.get('/v1/public/user/self');
   }
 
-
   /**
    * 获取新token
    */
@@ -50,45 +49,9 @@ export class CommonService {
    */
   getResource(resourceType = 1) {
     const url = '/v1/public/resource';
-    const json = Utils.sessionStorageGetItem(url);
-    if (json) {
-      return Observable.of(json.filter((item) => {
-        return item.resourceType == resourceType;
-      }));
-    }
-    return this.httpService.post(url, {clientType: 2}).map((res) => {
-      Utils.sessionStorageSetItem(url, res);
+    return this.httpService.post(url, {clientType: 2}, true, true).map((res) => {
       return res.filter((item) => {
         return item.resourceType == resourceType;
-      });
-    });
-  }
-
-  resource(resourceType = 1) {
-    const url = '/v1/public/resource';
-    return this.httpService.post(url, {clientType: 2}).map((res) => {
-      return res.filter((item) => {
-        return item.resourceType == resourceType;
-      });
-    });
-  }
-
-  resource_cache(resourceType = 1) {
-    const url = '/v1/public/resource';
-    const cacheKey = url + resourceType;
-    const json = Utils.sessionStorageGetItem(cacheKey);
-    debugger;
-    if (json) {
-      return Observable.of(json);
-    }
-    return Observable.create(observer => {
-      this.resource(resourceType).subscribe(res => {
-        debugger;
-        Utils.sessionStorageSetItem(cacheKey, res);
-        observer.next(res);
-      }, err => {
-        debugger;
-        observer.error(err);
       });
     });
   }
@@ -139,6 +102,5 @@ export class CommonService {
   getPublishDetail(id) {
     return this.httpService.get(`/sys/notice/getById/${id}`);
   }
-
 
 }

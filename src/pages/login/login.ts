@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, Events, ModalController, NavController, Platform, ViewController } from 'ionic-angular';
+import { Events, ModalController, NavController, Platform, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FindPasswordPage } from './find-password/find-password';
@@ -26,7 +26,6 @@ export class LoginPage {
               public globalData: GlobalData,
               public modalCtrl: ModalController,
               public platform: Platform,
-              public alertCtrl: AlertController,
               public helper: Helper,
               public commonService: CommonService) {
     this.loginForm = this.formBuilder.group({

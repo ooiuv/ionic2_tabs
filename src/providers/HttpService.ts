@@ -21,21 +21,22 @@ import { Logger } from './Logger';
 @Injectable()
 export class HttpService {
 
+
   constructor(public http: Http,
               public globalData: GlobalData,
               public logger: Logger,
               public nativeService: NativeService) {
   }
 
-  public get(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
+  public get(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Get,
       search: HttpService.buildURLSearchParams(paramMap)
     });
-    return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public post(url: string, body: any = {}, useDefaultApi = true): Observable<any> {
+  public post(url: string, body: any = {}, useDefaultApi = true, needCache: boolean = false): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,
       body,
@@ -43,10 +44,10 @@ export class HttpService {
         'Content-Type': 'application/json; charset=UTF-8'
       })
     });
-    return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public postFormData(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
+  public postFormData(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,
       body: HttpService.buildURLSearchParams(paramMap).toString(),
@@ -54,21 +55,21 @@ export class HttpService {
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
     });
-    return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public delete(url: string, paramMap: any = null, useDefaultApi = true): Observable<any> {
+  public delete(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Delete,
       search: HttpService.buildURLSearchParams(paramMap)
     });
-    return useDefaultApi ? this.defaultRequest(url, options) : this.request(url, options);
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
   /**
-   * 一个app可能有多个后台接口服务(api),针对主api添加业务处理,非主api请调用request方法
+   * 一个app可能有多个后台接口服务(api),针对主api添加业务处理,非主api请直接调用request方法
    */
-  public defaultRequest(url: string, options: RequestOptionsArgs): Observable<any> {
+  public defaultRequest(url: string, options: RequestOptionsArgs, needCache: boolean = false): Observable<any> {
     //  使用默认API:APP_SERVE_URL
     url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url); // tslint:disable-line
     //  添加请求头
@@ -76,24 +77,36 @@ export class HttpService {
     options.headers.append('Authorization', 'Bearer ' + this.globalData.token);
 
     return Observable.create(observer => {
-      this.request(url, options).subscribe(res => {
-        observer.next(res.data);
+      this.request(url, options, needCache).subscribe(res => {
+        observer.next(res.data); // data是主api约定返回的数据
       }, err => {
         observer.error(err);
       });
     });
   }
 
-  public request(url: string, options: RequestOptionsArgs): Observable<any> {
-    IS_DEBUG && console.log('%c 请求发送前 %c', 'color:blue', '', 'url', url, 'options', options);
-    this.showLoading();
+  public request(url: string, options: RequestOptionsArgs, needCache: boolean = false): Observable<any> {
     return Observable.create(observer => {
-      this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
-        try {
-          observer.next(res.json());
-        } catch (e) {
-          observer.next(res);
+      // 如果需要缓存，尝试从sessionStorage中回去数据
+      const cacheKey = needCache && HttpService.getCacheKey(url, options);
+      if (needCache) {
+        const cacheResult = Utils.sessionStorageGetItem(cacheKey);
+        if (cacheResult) {
+          observer.next(cacheResult);
+          return;
         }
+      }
+      IS_DEBUG && console.log('%c 请求发送前 %c', 'color:blue', '', 'url', url, 'options', options);
+      this.showLoading();
+      this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
+        let result = null;
+        try {
+          result = res.json();
+        } catch (e) {
+          result = res;
+        }
+        needCache && Utils.sessionStorageSetItem(cacheKey, result); // 如果需要缓存，保存数据到sessionStorage中
+        observer.next(result);
         IS_DEBUG && console.log('%c 请求发送成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
         this.hideLoading();
       }, err => {
@@ -158,6 +171,16 @@ export class HttpService {
       params.set(key, val);
     });
     return params;
+  }
+
+  /**
+   * url+参数，组成缓存的key
+   */
+  private static getCacheKey(url: string, options: RequestOptionsArgs) {
+    const strParams = JSON.stringify(options.params);
+    const strSearch = JSON.stringify(options.search); // tslint:disable-line
+    const strBody = JSON.stringify(options.body);
+    return url + strParams + strSearch + strBody;
   }
 
   private count = 0; //  记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
