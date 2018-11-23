@@ -95,7 +95,7 @@ export class MyApp {
       }
       const childNav = this.nav.getActiveChildNav(); // 获取tabs导航,this.nav是总导航,tabs是子导航
       if (!childNav) {
-        this.nativeService.minimize();
+        this.nav.canGoBack() ? this.nav.pop() : this.nativeService.minimize();
         return;
       }
       const tab = childNav.getSelected(); // 获取选中的tab

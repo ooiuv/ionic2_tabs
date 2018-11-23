@@ -96,7 +96,7 @@ export class HttpService {
           return;
         }
       }
-      IS_DEBUG && console.log('%c 请求发送前 %c', 'color:blue', '', 'url', url, 'options', options);
+      HttpService.requestLog('请求前','#3880ff','url:', url, 'options:', options);
       this.showLoading();
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
         let result = null;
@@ -107,11 +107,11 @@ export class HttpService {
         }
         needCache && Utils.sessionStorageSetItem(cacheKey, result); // 如果需要缓存，保存数据到sessionStorage中
         observer.next(result);
-        IS_DEBUG && console.log('%c 请求发送成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
+        HttpService.requestLog('请求成功','#10dc60','url:', url, 'options:', options, 'res:', res);
         this.hideLoading();
       }, err => {
         this.hideLoading();
-        IS_DEBUG && console.log('%c 请求发送失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
+        HttpService.requestLog('请求失败','#f04141','url:', url, 'options:', options, 'err:', err);
         observer.error(this.requestFailedHandle(url, err));
       });
     });
@@ -181,6 +181,10 @@ export class HttpService {
     const strSearch = JSON.stringify(options.search); // tslint:disable-line
     const strBody = JSON.stringify(options.body);
     return url + strParams + strSearch + strBody;
+  }
+
+  private static requestLog(text, color, ...detail) {
+    IS_DEBUG && console.log(`%c${text}`, `background-color: ${color}; color:white; padding: 2px 5px; border-radius: 2px`, ...detail);
   }
 
   private count = 0; //  记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
