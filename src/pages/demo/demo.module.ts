@@ -29,11 +29,12 @@ import { TransitionDialogDemoPage } from './transition-dialog-demo/transition-di
 import { ModalDialogAnimationPageModule } from '../../shared/modal-dialog-animation/modal-dialog-animation.module';
 import { QrscannerDemoPage } from './qrscanner-demo/qrscanner-demo';
 import { QrscannerPageModule } from '../../shared/qrscanner/qrscanner.module';
+import { FormValidationDemoPage } from './form-validation-demo/form-validation-demo';
 
 @NgModule({
   imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule, ModalDialogAnimationPageModule, QrscannerPageModule],
-  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage],
-  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })

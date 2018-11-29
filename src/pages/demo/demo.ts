@@ -16,6 +16,7 @@ import { AllowleverDemoPage } from './allowlever-demo/allowlever-demo';
 import { FormDemoPage } from './form-demo/form-demo';
 import { TransitionDialogDemoPage } from './transition-dialog-demo/transition-dialog-demo';
 import { QrscannerDemoPage } from './qrscanner-demo/qrscanner-demo';
+import { FormValidationDemoPage } from './form-validation-demo/form-validation-demo';
 
 @Component({
   selector: 'page-contact',
@@ -37,6 +38,10 @@ export class DemoPage {
 
   form() {
     this.navCtrl.push(FormDemoPage);
+  }
+
+  formValidation() {
+    this.navCtrl.push(FormValidationDemoPage);
   }
 
   pagination() {

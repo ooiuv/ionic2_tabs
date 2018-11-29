@@ -96,7 +96,7 @@ export class HttpService {
           return;
         }
       }
-      HttpService.requestLog('请求前','#3880ff','url:', url, 'options:', options);
+      HttpService.requestLog('请求前', '#3880ff', 'url:', url, 'options:', options);
       this.showLoading();
       this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
         let result = null;
@@ -107,11 +107,11 @@ export class HttpService {
         }
         needCache && Utils.sessionStorageSetItem(cacheKey, result); // 如果需要缓存，保存数据到sessionStorage中
         observer.next(result);
-        HttpService.requestLog('请求成功','#10dc60','url:', url, 'options:', options, 'res:', res);
+        HttpService.requestLog('请求成功', '#10dc60', 'url:', url, 'options:', options, 'res:', res);
         this.hideLoading();
       }, err => {
         this.hideLoading();
-        HttpService.requestLog('请求失败','#f04141','url:', url, 'options:', options, 'err:', err);
+        HttpService.requestLog('请求失败', '#f04141', 'url:', url, 'options:', options, 'err:', err);
         observer.error(this.requestFailedHandle(url, err));
       });
     });
