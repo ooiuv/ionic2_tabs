@@ -13,7 +13,7 @@ export class FormValidationDemoPage {
   model = {
     username: 'username',
     loginName: 'loginName',
-    testName: 'test',
+    testName: '',
     callNum: '18688498342',
     password: '12345678',
     password2: '12345678'

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Utils } from '../../../providers/Utils';
 import { NativeService } from '../../../providers/NativeService';
+import { FormValidationDemoPage } from '../form-validation-demo/form-validation-demo';
 
 @Component({
   selector: 'page-form-demo',
@@ -118,5 +119,10 @@ export class FormDemoPage {
   details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
+
+  formValidation() {
+    this.navCtrl.push(FormValidationDemoPage);
+  }
+
 
 }

@@ -113,7 +113,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-label class="too-long">您掉了几颗牙</ion-label>
+        <ion-label class="too-long">太长了换行显示</ion-label>
         <div item-content class="form-item-content">
           <div class="form-number-step">
             <ion-icon name="remove" tappable (click)="(model.tooth>0)&&(model.tooth=model.tooth-1)"></ion-icon>
@@ -159,6 +159,7 @@
       <button type="reset" ion-button outline (click)="reset();ngForm.reset()">清空</button>
       <button type="button" ion-button outline (click)="setData()">设置数据</button>
       <button type="submit" ion-button [disabled]="!ngForm.form.valid">提交</button>
+      <button type="button" ion-button outline (click)="formValidation()">复杂的表单验证demo</button>
     </div>
     <div padding>
       <button ion-button block (click)="details('https://www.jianshu.com/p/2f068c1d46bf')">查看详情</button>
