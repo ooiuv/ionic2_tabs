@@ -1,13 +1,13 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>表单验证demo</ion-title>
+    <ion-title>复杂表单验证demo</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
   <form (ngSubmit)="onSubmit()" #ngForm="ngForm" class="ngForm">
-    <h5 padding-left>普通的表单验证：</h5>
+    <div class="title">普通的表单验证：</div>
     <ion-list>
       <ion-item>
         <ion-label required>用户名</ion-label>
@@ -20,7 +20,7 @@
       </div>
     </ion-list>
 
-    <h5 padding-left>自定义指令，公用常用正则表达式：</h5>
+    <div class="title">自定义指令，公用常用正则表达式：</div>
     <ion-list>
       <ion-item>
         <ion-label required>用户名</ion-label>
@@ -44,7 +44,7 @@
       </div>
     </ion-list>
 
-    <h5 padding-left>自定义指令异步验证，从后台查询判断用户名是否存在：</h5>
+    <div class="title">异步验证，从后台查询判断用户名是否存在：</div>
     <ion-list>
       <ion-item>
         <ion-label required class="too-long">输入test查看效果</ion-label>
@@ -61,7 +61,7 @@
       </div>
     </ion-list>
 
-    <h5 padding-left>自定义指令多字段交叉验证，验证两次密码输入是否一致：</h5>
+    <div class="title">多字段交叉验证，验证两次密码输入是否一致：</div>
     <form #testForm="ngForm" validator-password-identical>
       <ion-list>
         <ion-item>

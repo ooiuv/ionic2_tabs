@@ -1,7 +1,17 @@
 page-form-validation-demo {
-  h5 {
-    color: #999;
+  ion-content {
+    .scroll-content {
+      background: #eee;
+    }
+    .title {
+      color: #666;
+      padding: 10px;
+    }
+    .list-ios{
+      margin-bottom: 16px;
+    }
   }
+
   .ngForm {
     $label-width: 62px;
     $danger-color: #f53d3d;

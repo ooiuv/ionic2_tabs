@@ -5,14 +5,14 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "clean": "ionic-app-scripts clean",
-    "lint": "ionic-app-scripts lint",
+    "clean": "ionic clean",
+    "lint": "ionic lint",
     "fix": "tslint --fix 'src/**/*.ts'",
-    "serve": "node scripts/setup-env.js dev && ionic-app-scripts serve",
-    "build": "node scripts/setup-env.js dev && ionic-app-scripts build",
-    "build:prod": "node scripts/setup-env.js prod && ionic-app-scripts build --prod",
+    "serve": "node scripts/setup-env.js dev && ionic serve",
+    "build": "node scripts/setup-env.js dev && ionic build",
+    "build:prod": "node scripts/setup-env.js prod && ionic build --prod",
     "build:prod:android": "node scripts/setup-env.js prod && ionic cordova build android --prod --release",
-    "build:browser": "ionic-app-scripts build --prod --engine browser"
+    "build:prod:browser": "node scripts/setup-env.js prod && ionic build --prod --engine browser"
   },
   "dependencies": {
     "@angular/animations": "4.4.4",

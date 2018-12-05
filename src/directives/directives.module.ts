@@ -4,12 +4,14 @@ import { ValidatorUsernameExistDirective } from './validator-username-exist/vali
 import { ValidatorRegularDirective } from './validator-regular/validator-regular';
 import { ValidatorPasswordIdenticalDirective } from './validator-password-identical/validator-password-identical';
 @NgModule({
-  declarations: [ContenteditableDirective,
+  declarations: [
+    ContenteditableDirective,
     ValidatorUsernameExistDirective,
     ValidatorRegularDirective,
     ValidatorPasswordIdenticalDirective],
   imports: [],
-  exports: [ContenteditableDirective,
+  exports: [
+    ContenteditableDirective,
     ValidatorUsernameExistDirective,
     ValidatorRegularDirective,
     ValidatorPasswordIdenticalDirective]
