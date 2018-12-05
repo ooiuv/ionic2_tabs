@@ -1,6 +1,6 @@
 /*----------------------------------------后台Api地址----------------------------------------*/
-export const APP_SERVE_URL = 'http://88.128.19.209:7772/api/'; // 闫小军
-// export const APP_SERVE_URL = 'https://yanxiaojun617.com/invoice/api/'; // 闫小军
+// export const APP_SERVE_URL = 'http://88.128.19.209:7772/api/'; // 闫小军
+export const APP_SERVE_URL = 'https://yanxiaojun617.com/invoice/api/'; // 闫小军
 // export const APP_SERVE_URL = 'http://172.16.19.137:9020/api/'; // 测试
 
 /*----------------------------------------文件服务器地址----------------------------------------*/

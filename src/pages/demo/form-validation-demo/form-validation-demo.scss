@@ -28,7 +28,7 @@ page-form-validation-demo {
       padding: 1px 16px;
       color: $danger-color;
       line-height: 18px;
-      > .error-msg:before {
+      > div:before {
         content: '!';
         display: inline-block;
         text-align: center;

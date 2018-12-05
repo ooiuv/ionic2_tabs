@@ -15,8 +15,8 @@
                    required pattern="[A-Za-z0-9]{4,20}" autocomplete="off"></ion-input>
       </ion-item>
       <div *ngIf="username.invalid && username.dirty" class="form-invalid-tip">
-        <div class="error-msg" *ngIf="username.errors.required">用户名是必填项</div>
-        <div class="error-msg" *ngIf="username.errors.pattern">用户名只能是4到20位长度的英文或数字</div>
+        <div *ngIf="username.errors.required">用户名是必填项</div>
+        <div *ngIf="username.errors.pattern">用户名只能是4到20位长度的英文或数字</div>
       </div>
     </ion-list>
 
@@ -29,9 +29,9 @@
                    validator-regular="legallyNamed"></ion-input>
       </ion-item>
       <div *ngIf="loginName.invalid && loginName.dirty" class="form-invalid-tip">
-        <div class="error-msg" *ngIf="loginName.errors.required">用户名是必填项</div>
-        <div class="error-msg" *ngIf="loginName.errors.minlength">用户名至少4个字符</div>
-        <div class="error-msg" *ngIf="loginName.errors.legallyNamed">用户名不能包含特殊字符</div>
+        <div *ngIf="loginName.errors.required">用户名是必填项</div>
+        <div *ngIf="loginName.errors.minlength">用户名至少4个字符</div>
+        <div *ngIf="loginName.errors.legallyNamed">用户名不能包含特殊字符</div>
       </div>
       <ion-item>
         <ion-label required>手机号码</ion-label>
@@ -39,8 +39,8 @@
                    required validator-regular="phone"></ion-input>
       </ion-item>
       <div *ngIf="callNum.invalid && callNum.dirty" class="form-invalid-tip">
-        <div class="error-msg" *ngIf="callNum.errors.required">手机号码是必填项</div>
-        <div class="error-msg" *ngIf="callNum.errors.phone">手机号码不合法</div>
+        <div *ngIf="callNum.errors.required">手机号码是必填项</div>
+        <div *ngIf="callNum.errors.phone">手机号码不合法</div>
       </div>
     </ion-list>
 
@@ -54,10 +54,10 @@
         <ion-spinner item-end *ngIf="testName.pending"></ion-spinner>
       </ion-item>
       <div *ngIf="testName.invalid && testName.dirty" class="form-invalid-tip">
-        <div class="error-msg" *ngIf="testName.errors.required">用户名是必填项</div>
-        <div class="error-msg" *ngIf="testName.errors.minlength">用户名至少4个字符</div>
-        <div class="error-msg" *ngIf="testName.errors.legallyNamed">用户名不能包含特殊字符</div>
-        <div class="error-msg" *ngIf="testName.errors.exist">用户名已经存在</div>
+        <div *ngIf="testName.errors.required">用户名是必填项</div>
+        <div *ngIf="testName.errors.minlength">用户名至少4个字符</div>
+        <div *ngIf="testName.errors.legallyNamed">用户名不能包含特殊字符</div>
+        <div *ngIf="testName.errors.exist">用户名已经存在</div>
       </div>
     </ion-list>
 
@@ -70,8 +70,8 @@
                      [(ngModel)]="model.password" #password="ngModel" required pattern=".{6,20}"></ion-input>
         </ion-item>
         <div *ngIf="password.invalid && password.dirty" class="form-invalid-tip">
-          <div class="error-msg" *ngIf="password.errors.required">密码是必填项</div>
-          <div class="error-msg" *ngIf="password.errors.pattern">密码长度为6到20位</div>
+          <div *ngIf="password.errors.required">密码是必填项</div>
+          <div *ngIf="password.errors.pattern">密码长度为6到20位</div>
         </div>
         <ion-item>
           <ion-label class="too-long">再次输入密码</ion-label>
@@ -79,7 +79,7 @@
                      [(ngModel)]="model.password2" #password2="ngModel"></ion-input>
         </ion-item>
         <div *ngIf="password2.dirty" class="form-invalid-tip">
-          <div class="error-msg" *ngIf="testForm.errors?.passwordInvalid">两次密码输入不一致</div>
+          <div *ngIf="testForm.errors?.passwordInvalid">两次密码输入不一致</div>
         </div>
       </ion-list>
     </form>
