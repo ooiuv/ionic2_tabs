@@ -34,7 +34,7 @@ export class Helper {
 
   /**
    * AlloyLever,一款本地"开发者工具"
-   * 文档:https:// github.com/AlloyTeam/AlloyLever
+   * 文档: https://github.com/AlloyTeam/AlloyLever
    */
   alloyLeverInit() {
     AlloyLever.config({
