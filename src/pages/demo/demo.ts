@@ -5,7 +5,6 @@ import { PaginationDemoPage } from './pagination-demo/pagination-demo';
 import { CustomIconDemoPage } from './custom-icon-demo/custom-icon-demo';
 import { SelectPicDemoPage } from './select-pic-demo/select-pic-demo';
 import { TransitionDemoPage } from './transition-demo/transition-demo';
-import { CropPicDemoPage } from './crop-pic-demo/crop-pic-demo';
 import { CityPickerDemoPage } from './city-picker-demo/city-picker-demo';
 import { CalendarDemoPage } from './calendar-demo/calendar-demo';
 import { FileCacheDemoPage } from './file-cache-demo/file-cache-demo';
@@ -58,10 +57,6 @@ export class DemoPage {
 
   selectPic() {
     this.navCtrl.push(SelectPicDemoPage);
-  }
-
-  cropPic() {
-    this.navCtrl.push(CropPicDemoPage);
   }
 
   pageTransition() {

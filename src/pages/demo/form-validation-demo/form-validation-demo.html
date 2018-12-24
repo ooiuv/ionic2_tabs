@@ -31,7 +31,7 @@
       <div *ngIf="loginName.invalid && loginName.dirty" class="form-invalid-tip">
         <div *ngIf="loginName.errors.required">用户名是必填项</div>
         <div *ngIf="loginName.errors.minlength">用户名至少4个字符</div>
-        <div *ngIf="loginName.errors.legallyNamed">用户名不能包含特殊字符</div>
+        <div *ngIf="loginName.errors.legallyNamed">不能包含中文或特殊字符</div>
       </div>
       <ion-item>
         <ion-label required>手机号码</ion-label>

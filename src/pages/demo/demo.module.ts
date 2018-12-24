@@ -10,7 +10,6 @@ import { SelectPicturePageModule } from '../../shared/select-picture/select-pict
 import { ModalScalePageModule } from './transition-demo/modal-scale/modal-scale.module';
 import { ModalFromRightPageModule } from './transition-demo/modal-from-right/modal-from-right.module';
 import { TransitionDemoPageModule } from './transition-demo/transition-demo.module';
-import { CropPicDemoPage } from './crop-pic-demo/crop-pic-demo';
 import { CityPickerDemoPage } from './city-picker-demo/city-picker-demo';
 import { CityPickerModule } from 'ionic2-city-picker';
 import { DemoService } from './DemoService';
@@ -33,8 +32,8 @@ import { FormValidationDemoPage } from './form-validation-demo/form-validation-d
 
 @NgModule({
   imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule, ModalDialogAnimationPageModule, QrscannerPageModule],
-  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
-  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CropPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
+  declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
+  entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
   providers: [DemoService],
   exports: [IonicModule]
 })

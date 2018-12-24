@@ -6,8 +6,6 @@ import { MineService } from '../MineService';
 import { GlobalData } from '../../../providers/GlobalData';
 import { Camera } from '@ionic-native/camera';
 
-declare var AlloyCrop;
-
 @Component({
   selector: 'page-mine-edit-avatar-modal',
   templateUrl: 'mine-edit-avatar-modal.html'
@@ -28,7 +26,9 @@ export class MineEditAvatarModalPage {
     if (type == 0) { // 从相册选一张
       let options = {
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        destinationType: this.camera.DestinationType.FILE_URI
+        destinationType: this.camera.DestinationType.FILE_URI,
+        targetWidth: 400,
+        targetHeight: 400
       };
       this.nativeService.getPicture(options).subscribe(fileUrl => {
         this.getPictureSuccess(fileUrl);
@@ -37,7 +37,10 @@ export class MineEditAvatarModalPage {
     if (type == 1) { // 拍一张照片
       let options = {
         sourceType: this.camera.PictureSourceType.CAMERA,
-        destinationType: this.camera.DestinationType.FILE_URI
+        destinationType: this.camera.DestinationType.FILE_URI,
+        allowEdit: true,
+        targetWidth: 400,
+        targetHeight: 400
       };
       this.nativeService.getPicture(options).subscribe(fileUrl => {
         this.getPictureSuccess(fileUrl);
@@ -47,6 +50,7 @@ export class MineEditAvatarModalPage {
       let options: any = {
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
         destinationType: this.camera.DestinationType.DATA_URL,
+        allowEdit: true,
         targetWidth: 400,
         targetHeight: 400
       };
@@ -57,22 +61,9 @@ export class MineEditAvatarModalPage {
   }
 
   private getPictureSuccess(fileUrl) {
-    new AlloyCrop({ // api:https://github.com/AlloyTeam/AlloyCrop
-      image_src: fileUrl,
-      circle: true, // optional parameters , the default value is false
-      width: 256, // crop width
-      height: 256, // crop height
-      output: 1, // output resolution --> 400*200
-      ok: (base64) => {
-        this.saveAvatar(base64);
-      },
-      cancel: () => {
-        console.log('AlloyCrop cancel');
-      },
-      ok_text: '确定', // optional parameters , the default value is ok
-      cancel_text: '取消' // optional parameters , the default value is cancel
+    this.nativeService.convertImgToBase64(fileUrl).subscribe(base64 => {
+      this.saveAvatar(base64);
     });
-
   }
 
   saveAvatar(base64) {
