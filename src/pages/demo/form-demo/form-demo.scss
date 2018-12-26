@@ -8,11 +8,12 @@ page-form-demo {
     }
     ion-label {
       min-width: $label-width;
-      &[required]:after, &.required:after {
+      &[required]:before, &.required:before {
         position: absolute; /* 使用绝对定位让*不占用位置 */
         color: $danger-color;
         content: '*';
-        padding: 0 2px;
+        margin-left: -8px;
+        margin-top: 3px;
       }
       &.too-long { /* label内容超过$label-width自动换行 */
         text-overflow: inherit;

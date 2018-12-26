@@ -18,3 +18,16 @@
 .alert-zIndex-highest {
   z-index: 100100 !important;
 }
+
+/* 增加可点击范围 */
+.add-tap-range::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  bottom: -10px;
+  left: -10px;
+  right: -10px;
+}
+
+/*主题颜色变量*/
+$color-primary: color($colors, primary);
