@@ -2,11 +2,11 @@ import { JPush } from '@jiguang-ionic/jpush';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { Config, IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { MyApp } from './app.component';
-import { TabModule } from '../pages/tabs/tab.module';
-import { LoginModule } from '../pages/login/login.module';
-import { HomeModule } from '../pages/home/home.module';
-import { MineModule } from '../pages/mine/mine.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpModule } from '@angular/http';
+import { CalendarModule } from 'ion2-calendar';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AppVersion } from '@ionic-native/app-version';
@@ -19,18 +19,23 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Network } from '@ionic-native/network';
 import { AppMinimize } from '@ionic-native/app-minimize';
-import { BrowserModule } from '@angular/platform-browser';
 import { CodePush } from '@ionic-native/code-push';
 import { CallNumber } from '@ionic-native/call-number';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { HTTP } from '@ionic-native/http';
+import { QRScanner } from '@ionic-native/qr-scanner';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
+import { MyApp } from './app.component';
+import { TabModule } from '../pages/tabs/tab.module';
+import { LoginModule } from '../pages/login/login.module';
+import { HomeModule } from '../pages/home/home.module';
+import { MineModule } from '../pages/mine/mine.module';
 import { NativeService } from '../providers/NativeService';
 import { HttpService } from '../providers/HttpService';
 import { FileService } from '../providers/FileService';
 import { Helper } from '../providers/Helper';
 import { Utils } from '../providers/Utils';
 import { TestModule } from '../pages/test/test.module';
-import { HttpModule } from '@angular/http';
 import { DemoModule } from '../pages/demo/demo.module';
 import { GlobalData } from '../providers/GlobalData';
 import { Logger } from '../providers/Logger';
@@ -38,9 +43,7 @@ import { ModalFromRightEnter, ModalFromRightLeave, ModalScaleEnter, ModalScaleLe
 import { CommonService } from '../service/CommonService';
 import { VersionService } from '../providers/VersionService';
 import { Validators } from '../providers/Validators';
-import { CalendarModule } from 'ion2-calendar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { QRScanner } from '@ionic-native/qr-scanner';
+
 
 @NgModule({
   declarations: [MyApp],
@@ -77,10 +80,12 @@ import { QRScanner } from '@ionic-native/qr-scanner';
     Network,
     AppMinimize,
     Diagnostic,
-    HTTP,
     JPush,
     CodePush,
     CallNumber,
+    QRScanner,
+    SocialSharing,
+
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     NativeService,
     HttpService,
@@ -91,8 +96,7 @@ import { QRScanner } from '@ionic-native/qr-scanner';
     Logger,
     CommonService,
     VersionService,
-    Validators,
-    QRScanner
+    Validators
   ]
 })
 export class AppModule {

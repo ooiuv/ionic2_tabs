@@ -24,6 +24,7 @@ import { Observable } from 'rxjs/Rx';
 import { Logger } from './Logger';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { CodePush } from '@ionic-native/code-push';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 declare var LocationPlugin;
 declare var AMapNavigation;
@@ -49,7 +50,8 @@ export class NativeService {
               private loadingCtrl: LoadingController,
               public logger: Logger,
               private diagnostic: Diagnostic,
-              private codePush: CodePush) {
+              private codePush: CodePush,
+              private socialSharing: SocialSharing) {
   }
 
   /**
@@ -363,6 +365,21 @@ export class NativeService {
     this.cn.callNumber(num, true)
       .then(() => console.log('成功拨打电话:' + num))
       .catch(err => this.logger.log(err, '拨打电话失败'));
+  }
+
+
+  /**
+   * 调用系统分享功能  https://ionicframework.com/docs/native/social-sharing/
+   * 注意：同时只能分享一种类型
+   * @param message 分享文本
+   * @param file 分享文件，如图片
+   */
+  share(message: string = null, file: string | string[] = null) {
+    if (!this.isMobile()) {
+      this.alert('请使用真机调试');
+      return;
+    }
+    this.socialSharing.share(message, null, file);
   }
 
   /**

@@ -95,4 +95,8 @@ export class DemoPage {
     this.navCtrl.push(AllowleverDemoPage);
   }
 
+  share() {
+    this.navCtrl.push('ShareDemoPage');
+  }
+
 }
