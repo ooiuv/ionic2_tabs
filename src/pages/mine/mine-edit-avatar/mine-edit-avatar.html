@@ -1,0 +1,15 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>我的头像</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding text-center>
+  <img [src]="globalData.avatarPath">
+  <div padding>
+    <button ion-button block (click)="edit()">修改头像</button>
+  </div>
+</ion-content>

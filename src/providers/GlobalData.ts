@@ -2,12 +2,15 @@
  * Created by yanxiaojun on 2017/4/13.
  */
 import { Injectable } from '@angular/core';
+import { DEFAULT_AVATAR } from './Constants';
 
 @Injectable()
 export class GlobalData {
 
   private _userId: string; // 用户id
   private _username: string; // 用户名
+  private _realname: string; // 真实姓名
+  private _avatarPath = DEFAULT_AVATAR; // 用户头像路径
   private _user; // 用户详细信息
 
   private _token: string; // token
@@ -32,6 +35,22 @@ export class GlobalData {
 
   set username(value: string) {
     this._username = value;
+  }
+
+  get realname(): string {
+    return this._realname;
+  }
+
+  set realname(value: string) {
+    this._realname = value;
+  }
+
+  get avatarPath(): string {
+    return this._avatarPath;
+  }
+
+  set avatarPath(value: string) {
+    this._avatarPath = value;
   }
 
   get user() {
@@ -65,5 +84,4 @@ export class GlobalData {
   set enabledFileCache(value: boolean) {
     this._enabledFileCache = value;
   }
-
 }

@@ -1,18 +1,22 @@
 page-search-address {
-    .searchbar-ios-cancel {
-      color: #fff;
-      background: #fff;
-    }
-    .address {
-      background-color: #1c9e43;
-      color: #fff;
-      font-size: 12px;
-      padding: 1px;
-      margin-right: 3px;
-    }
+  .toolbar-background-ios {
+    background: #fff;
+    border-color: #ebebeb !important;
+  }
+  .searchbar-ios-cancel {
+    color: #fff;
+    background: #fff;
+  }
+  .address {
+    background-color: #1c9e43;
+    color: #fff;
+    font-size: 12px;
+    padding: 1px;
+    margin-right: 3px;
+  }
   .toolbar-ios ion-title {
-    padding-left: 50px;
-    padding-right: 0;
+    padding-left: 0;
+    padding-right: 50px;
   }
 
 }

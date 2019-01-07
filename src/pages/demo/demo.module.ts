@@ -29,9 +29,10 @@ import { ModalDialogAnimationPageModule } from '../../shared/modal-dialog-animat
 import { QrscannerDemoPage } from './qrscanner-demo/qrscanner-demo';
 import { QrscannerPageModule } from '../../shared/qrscanner/qrscanner.module';
 import { FormValidationDemoPage } from './form-validation-demo/form-validation-demo';
+import { CropImagePageModule } from '../../shared/crop-image/crop-image.module';
 
 @NgModule({
-  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule, ModalDialogAnimationPageModule, QrscannerPageModule],
+  imports: [IonicModule, PagingPageModule, SelectPicturePageModule, TransitionDemoPageModule, ModalScalePageModule, ModalFromRightPageModule, CityPickerModule, CalendarModule, DirectivesModule, ModalDialogAnimationPageModule, QrscannerPageModule, CropImagePageModule],
   declarations: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
   entryComponents: [DemoPage, PermissionDemoPage, PatrolTaskPage, CustomerListPage, PaginationDemoPage, CustomIconDemoPage, EchartsDemoPage, SelectPicDemoPage, CityPickerDemoPage, CalendarDemoPage, NativeDemoPage, FileCacheDemoPage, QrcodeDemoPage, AllowleverDemoPage, FormDemoPage, TransitionDialogDemoPage, QrscannerDemoPage, FormValidationDemoPage],
   providers: [DemoService],

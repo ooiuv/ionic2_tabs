@@ -13,7 +13,7 @@ export class AllowleverDemoPage {
   }
 
   ionViewDidEnter() {
-    AlloyLever.entry('#entry2');
+    AlloyLever.entry('#entry');
   }
 
   details(url) {

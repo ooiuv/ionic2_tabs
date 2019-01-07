@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the WorkMapPage page.
@@ -7,7 +7,7 @@ import { NavController, NavParams, ViewController } from 'ionic-angular';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-
+@IonicPage()
 @Component({
   selector: 'page-work-map',
   templateUrl: 'work-map.html',
@@ -32,7 +32,4 @@ export class WorkMapPage {
     this.toolbar = this.navParams.get('toolbar');
   }
 
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
 }

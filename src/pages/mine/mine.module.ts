@@ -3,7 +3,6 @@ import { IonicModule } from 'ionic-angular';
 import { MinePage } from './mine';
 import { MineEditPage } from './mine-edit/mine-edit';
 import { MineEditModalPage } from './mine-edit-modal/mine-edit-modal';
-import { MineEditAvatarModalPage } from './mine-edit-avatar-modal/mine-edit-avatar-modal';
 import { FeedBackPage } from './feed-back/feed-back';
 import { AboutPage } from './about/about';
 import { UpdateLogPage } from './update-log/update-log';
@@ -18,12 +17,13 @@ import { FeedBackListPage } from './feed-back/feed-back-list';
 import { PagingPageModule } from '../../shared/paging/paging.module';
 import { FeedBackDetailPage } from './feed-back/feed-back-detail';
 import { FileCachePageModule } from '../../shared/file-cache/file-cache.module';
+import { MineEditAvatarPage } from './mine-edit-avatar/mine-edit-avatar';
 
 
 @NgModule({
   imports: [IonicModule, SelectPicturePageModule, MapLocationModule, DirectivesModule, PagingPageModule, FileCachePageModule],
-  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
-  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarModalPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
+  declarations: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
+  entryComponents: [MinePage, MineEditPage, MineEditModalPage, MineEditAvatarPage, FeedBackPage, AboutPage, UpdateLogPage, WorkMapPage, SettingPage, ChangePasswordPage, FeedBackListPage, FeedBackDetailPage],
   providers: [MineService],
   exports: [IonicModule]
 })

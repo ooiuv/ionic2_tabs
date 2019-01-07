@@ -59,6 +59,10 @@ export class DemoPage {
     this.navCtrl.push(SelectPicDemoPage);
   }
 
+  cropImage() {
+    this.navCtrl.push('CropImageDemoPage');
+  }
+
   pageTransition() {
     this.navCtrl.push(TransitionDemoPage);
   }

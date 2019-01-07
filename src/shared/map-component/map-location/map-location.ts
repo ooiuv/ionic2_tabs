@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
+import { Component, Input, ViewChild } from '@angular/core';
+import { FabContainer, IonicPage, ModalController, NavController, NavParams } from 'ionic-angular';
 import { SearchAddress } from '../search-address/search-address';
 import { Navigation } from '../navigation/navigation';
 import { NativeService } from '../../../providers/NativeService';
@@ -33,6 +33,7 @@ export class MapLocation {
 
   @Input()
   params = MapLocation.defaultParams;
+  @ViewChild('fab') fab: FabContainer;
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
@@ -47,6 +48,9 @@ export class MapLocation {
         this.loadMap();
       }
     }, 3000);
+    setTimeout(() => {
+      this.fab && this.fab.toggleList();
+    }, 1000);
   }
 
   // 加载地图
@@ -55,7 +59,7 @@ export class MapLocation {
     try {
       that.map = new AMap.Map('map-share', {
         view: new AMap.View2D({// 创建地图二维视口
-          zoom: 16, // 设置地图缩放级别
+          zoom: 17, // 设置地图缩放级别
           rotateEnable: true,
           showBuildingBlock: true,
           baseRender: 'd'
@@ -69,7 +73,7 @@ export class MapLocation {
         });
         const existPosition = that.params.position && that.params.position.lat && that.params.position.lng;
         if (existPosition) { // 判断主页面传过来的是坐标就直接描点标注
-          that.drawMarker(that.params.position);
+          that.drawMarker(that.params.position, that.params.address);
         } else if (!(existPosition) && that.params.address) {
           // 判断主页面传过来的是地址就跳转到地址搜索地址页面,返回确定的地址
           that.locationSearch();
@@ -125,7 +129,7 @@ export class MapLocation {
   private drawMarker(position, addressName = '') {
     const that = this;
     that.params.position = position;
-    that.map.clearMap();
+    that.map.clearMap();  // 删除地图上所有的覆盖物
 
     // 配置需要显示搜索框就根据传进来的position参数给搜索框赋值
     if (that.params.searchBar) {

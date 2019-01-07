@@ -14,8 +14,6 @@ import { Logger } from './Logger';
 import { Events } from 'ionic-angular';
 import { GlobalData } from './GlobalData';
 
-declare var AlloyLever;
-
 /**
  * Helper类存放和业务有关的公共方法
  * @description
@@ -30,23 +28,6 @@ export class Helper {
               private storage: Storage,
               private events: Events,
               private globalData: GlobalData) {
-  }
-
-  /**
-   * AlloyLever,一款本地"开发者工具"
-   * 文档: https://github.com/AlloyTeam/AlloyLever
-   */
-  alloyLeverInit() {
-    AlloyLever.config({
-      cdn: 'https://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',  // vconsole的CDN地址
-      /*reportUrl: "// a.qq.com",  // 错误上报地址
-      reportPrefix: 'qun',    // 错误上报msg前缀，一般用于标识业务类型
-      reportKey: 'msg',        // 错误上报msg前缀的key，用户上报系统接收存储msg
-      otherReport: {              // 需要上报的其他信息
-        uin: 491862102
-      },*/
-      entry: '#entry'         // 请点击这个DOM元素6次召唤vConsole。// 你可以通过AlloyLever.entry('#entry2')设置多个机关入口召唤神龙
-    });
   }
 
   /**
@@ -81,14 +62,14 @@ export class Helper {
     this.globalData.user = userInfo;
     this.globalData.userId = userInfo.id;
     this.globalData.username = userInfo.username;
-    this.storage.get('enabled-file-cache-' + userInfo.id).then(res => {// 获取是否启用缓存文件
+    this.globalData.realname = userInfo.realname;
+    this.storage.get('enabled-file-cache-' + userInfo.id).then(res => { // 获取是否启用缓存文件
       if (res === false) {
         this.globalData.enabledFileCache = false;
       }
     });
-    this.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => {// 加载用户头像
-      userInfo.avatarPath = avatarPath;
-      this.globalData.user.avatarPath = avatarPath;
+    this.loadAvatarPath(userInfo.avatarId).subscribe(avatarPath => { // 加载用户头像
+      this.globalData.avatarPath = avatarPath;
     });
     this.setTags();
     this.setAlias();
