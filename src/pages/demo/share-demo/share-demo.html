@@ -27,7 +27,8 @@
     <br>
     <button ion-button (click)="shareDom()" [disabled]="shareing">分享Dom</button>
     <br>
-    <br>
-    <br>
+    <div padding>
+      <button ion-button block (click)="nativeService.openUrlByBrowser('https://www.jianshu.com/p/02501234adfd')">查看详情</button>
+    </div>
   </div>
 </ion-content>

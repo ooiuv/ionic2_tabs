@@ -1,15 +1,7 @@
 import { Component } from '@angular/core';
 import { Events, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { NativeService } from '../../../providers/NativeService';
-
 declare var AlloyCrop;
-
-/**
- * Generated class for the CropImageDemoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -46,15 +38,16 @@ export class CropImageDemoPage {
     });
   }
 
-  details(url) {
-    this.nativeService.openUrlByBrowser(url);
-  }
-
   crop2() {
     this.navCtrl.push('CropImagePage', {imageSrc: this.originalSrc}).then(() => {
       this.events.subscribe('crop-image:result', imgBase64Str => {
         this.newSrc = imgBase64Str;
       });
     });
+  }
+
+
+  details(url) {
+    this.nativeService.openUrlByBrowser(url);
   }
 }

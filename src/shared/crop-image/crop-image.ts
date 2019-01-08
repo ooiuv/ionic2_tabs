@@ -44,8 +44,7 @@ export class CropImagePage {
   }
 
   // 中文文档参考：https://blog.csdn.net/weixin_38023551/article/details/78792400
-  // 官网：http://fengyuanchen.github.io/cropper/
-  // github：https://github.com/fengyuanchen/cropper
+  // 官网github：https://github.com/fengyuanchen/cropper
   ionViewDidEnter() {
     let option = {
       autoCropArea: 0.5, // 初始裁剪区占图片大小

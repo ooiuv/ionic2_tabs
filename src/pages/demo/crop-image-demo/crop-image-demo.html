@@ -17,5 +17,7 @@
   <button ion-button (click)="crop2()">裁剪方式2</button>
   <h1>裁剪后</h1>
   <img *ngIf="newSrc" [src]="newSrc">
-  <button ion-button block (click)="details('https://github.com/AlloyTeam/AlloyCrop')">API</button>
+  <div padding>
+    <button ion-button block (click)="nativeService.openUrlByBrowser('https://www.jianshu.com/p/d3dfe150c9e1')">查看详情</button>
+  </div>
 </ion-content>
