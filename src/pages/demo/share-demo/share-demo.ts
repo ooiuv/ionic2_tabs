@@ -18,7 +18,7 @@ export class ShareDemoPage {
   }
 
   shareText() {
-    this.nativeService.share(this.text);
+    this.nativeService.share('哈哈');
   }
 
   shareImageUrl() {

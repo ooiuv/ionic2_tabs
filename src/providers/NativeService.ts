@@ -367,7 +367,6 @@ export class NativeService {
       .catch(err => this.logger.log(err, '拨打电话失败'));
   }
 
-
   /**
    * 调用系统分享功能  https://ionicframework.com/docs/native/social-sharing/
    * 注意：同时只能分享一种类型

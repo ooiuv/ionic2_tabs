@@ -7,7 +7,7 @@ declare let Cropper;
 /**
  * 图片裁剪
  * @example
-    this.navCtrl.push('CropImagePage', {imageSrc: this.originalSrc}).then(() => {
+ this.navCtrl.push('CropImagePage', {imageSrc: this.originalSrc}).then(() => {
       this.events.subscribe('crop-image:result', imgBase64Str => {
         this.newSrc = imgBase64Str;
       });
@@ -55,10 +55,12 @@ export class CropImagePage {
       viewMode: 1, // 图片移动范围，0无限制，1图片必须包裁剪区
       dragMode: 'move', // move设置裁剪区只可移动
       toggleDragModeOnDblclick: false,
-      cropBoxResizable: true
+      cropBoxResizable: true,
+      ready: () => {
+        this.visibility = 'visible';
+      }
     };
     this.cropper = new Cropper(this.image.nativeElement, option);
-    this.visibility = 'visible'
   }
 
   save() {
