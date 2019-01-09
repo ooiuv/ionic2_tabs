@@ -6,7 +6,7 @@ import { NativeService } from '../../providers/NativeService';
 /**
  * 扫描二维码
  * @example
-      this.navCtrl.push('QrscannerPage').then(() => {
+ this.navCtrl.push('QrscannerPage').then(() => {
         this.events.subscribe('qrscanner:result', text => {
           alert('扫描结果：' + text);
         });
@@ -33,30 +33,28 @@ export class QrscannerPage {
       this.nativeService.alert('请使用真机调试');
       return;
     }
-    this.qrScanner.prepare()
-      .then((status: QRScannerStatus) => {
-        if (status.authorized) { // 判断是否有摄像头权限
-          let scanSub = this.qrScanner.scan().subscribe((text: string) => {
-            this.events.publish('qrscanner:result', text);
-            scanSub.unsubscribe();
-            this.navCtrl.pop();
-          });
-          // 打开摄像头
-          this.qrScanner.show();
-        } else if (status.denied) {
-          this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
-            this.qrScanner.openSettings();
-          });
-        } else {
-          this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
-            this.qrScanner.openSettings();
-          });
-        }
-      })
-      .catch((e: any) => console.log('Error is', e));
+    this.qrScanner.prepare().then((status: QRScannerStatus) => {
+      if (status.authorized) { // 判断是否有摄像头权限
+        let scanSub = this.qrScanner.scan().subscribe((text: string) => {
+          this.events.publish('qrscanner:result', text);
+          scanSub.unsubscribe();
+          this.navCtrl.pop();
+        });
+        // 打开摄像头
+        this.qrScanner.show();
+      } else if (status.denied) {
+        this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
+          this.qrScanner.openSettings();
+        });
+      } else {
+        this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
+          this.qrScanner.openSettings();
+        });
+      }
+    }).catch((e: any) => console.log('调用二维码扫描插件失败', e));
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     (window.document.querySelector('ion-app') as HTMLElement).classList.add('cameraView'); // tslint:disable-line
     this.isShow = true; // 显示背景
   }
@@ -68,11 +66,13 @@ export class QrscannerPage {
     this.events.unsubscribe('qrscanner:result'); // 退出页面取消所有订阅，进入页面前需订阅
   }
 
+  // 开关手电筒
   toggleLight() {
     this.light ? this.qrScanner.disableLight() : this.qrScanner.enableLight();
     this.light = !this.light;
   }
 
+  // 取消扫描
   close() {
     this.navCtrl.pop();
   }
