@@ -1,24 +1,20 @@
 /*----------------------------------------后台Api地址----------------------------------------*/
-// export const APP_SERVE_URL = 'http://88.128.19.209:7772/api/'; // 闫小军
 export const APP_SERVE_URL = 'https://yanxiaojun617.com/invoice/api/'; // 闫小军
-// export const APP_SERVE_URL = 'http://172.16.19.137:9020/api/'; // 测试
 
 /*----------------------------------------文件服务器地址----------------------------------------*/
-// export const FILE_SERVE_URL = 'http://172.16.19.136:9000/kit_file_server/'; // 文件服务:测试环境
 export const FILE_SERVE_URL = 'https://yanxiaojun617.com/fileService/'; // 闫小军
 
 /*----------------------------------------app版本升级服务地址,查询app最新版本号,更新日志.----------------------------------------*/
 export const APP_VERSION_SERVE_URL = 'https://yanxiaojun617.com/version/api/'; // 闫小军
-// export const APP_VERSION_SERVE_URL = 'http://172.16.19.136:9001/api/'; // 测试环境
 
 /*----------------------------------------app下载地址.----------------------------------------*/
 export const APP_DOWNLOAD_PAGE_URL = 'https://yanxiaojun617.com/version/admin/#/download?name=ionic2tabs';
 
-export const IS_DEBUG = true; // 是否开发(调试)模式
+export const IS_DEBUG = false; // 是否开发(调试)模式
 
-// code push 部署dev key
+// code push 部署prod key
 export const CODE_PUSH_DEPLOYMENT_KEY = {
-  'android': 'WY29_Zyq_hg0eB3TSTGaKRSKPE6k26690215-d954-4697-a879-90e0c4612b59',
+  'android': 'i0LgJRugiIfjVYTgmXs9go45Xc7g26690215-d954-4697-a879-90e0c4612b59',
   'ios': 'SRoxClVMoed8SgwIRxeVCPWx26Fk26690215-d954-4697-a879-90e0c4612b59'
 };
 

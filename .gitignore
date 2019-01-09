@@ -35,4 +35,4 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 
 
-Constants.ts
+src/providers/Constants.ts
