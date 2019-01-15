@@ -224,8 +224,8 @@ export class NativeService {
    */
   getPicture(options: CameraOptions = {}): Observable<string> {
     const ops: CameraOptions = {
-      sourceType: this.camera.PictureSourceType.CAMERA, // 图片来源,CAMERA:拍照,PHOTOLIBRARY:相册
-      destinationType: this.camera.DestinationType.FILE_URI, // 默认返回图片路径：DATA_URL:base64字符串，FILE_URI:图片路径
+      sourceType: this.camera.PictureSourceType.CAMERA, // 图片来源,CAMERA:1,拍照,PHOTOLIBRARY:2,相册
+      destinationType: this.camera.DestinationType.FILE_URI, // 默认返回图片路径：DATA_URL:0,base64字符串，FILE_URI:1,图片路径
       quality: QUALITY_SIZE, // 图像质量，范围为0 - 100
       allowEdit: false, // 选择图片前是否允许编辑
       encodingType: this.camera.EncodingType.JPEG,
@@ -259,7 +259,7 @@ export class NativeService {
    * 通过图库选择多图
    * @param options
    */
-  getMultiplePicture(options = {}): Observable<any> {
+  getMultiplePicture(options: CameraOptions = {}): Observable<any> {
     const that = this;
     const ops = {
       maximumImagesCount: 6,
@@ -269,8 +269,7 @@ export class NativeService {
     };
     return Observable.create(observer => {
       this.imagePicker.getPictures(ops).then(files => {
-        const destinationType = options['destinationType'] || 0; // 0:base64字符串,1:图片url
-        if (destinationType === 1) {
+        if (options.destinationType && options.destinationType === 1) { // 0:base64字符串,1:图片url
           observer.next(files);
         } else {
           const imgBase64s = []; // base64字符串数组
@@ -292,23 +291,26 @@ export class NativeService {
   }
 
   /**
-   * 根据图片绝对路径转化为base64字符串
-   * @param path 绝对路径
+   * 根据图片路径把图片转化为base64字符串
+   * @param path 图片路径，可以是file://  或 http://   或 相对路径
+   * @param width 转换后的图片宽度，默认为原图宽度
+   * @param height 转换后的图片高度，默认为原图高度
+   * @param outputFormat 一般为 'image/jpeg' 'image/png'
    */
-  convertImgToBase64(path: string): Observable<string> {
+  convertImgToBase64(path: string, width = null, height = null, outputFormat = 'image/jpeg'): Observable<string> {
     return Observable.create(observer => {
-      this.file.resolveLocalFilesystemUrl(path).then((fileEnter: FileEntry) => {
-        fileEnter.file(file => {
-          const reader = new FileReader();
-          reader.onloadend = function (e) {
-            observer.next(this.result);
-          };
-          reader.readAsDataURL(file);
-        });
-      }).catch(err => {
-        this.logger.log(err, '根据图片绝对路径转化为base64字符串失败');
-        observer.error(false);
-      });
+      let img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function () {
+        let canvas = document.createElement('canvas');
+        canvas.width = width || img.width;
+        canvas.height = height || img.height;
+        let context = canvas.getContext('2d');
+        context.drawImage(img, 0, 0, width, height);
+        let imgBase64 = canvas.toDataURL(outputFormat);
+        observer.next(imgBase64);
+      };
+      img.src = path;
     });
   }
 
