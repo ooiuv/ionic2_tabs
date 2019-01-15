@@ -8,7 +8,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AppVersion } from '@ionic-native/app-version';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Toast } from '@ionic-native/toast';
-import { File, FileEntry } from '@ionic-native/file';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { AlertController, Loading, LoadingController, Platform, ToastController } from 'ionic-angular';
@@ -41,7 +40,6 @@ export class NativeService {
               private appVersion: AppVersion,
               private camera: Camera,
               private toast: Toast,
-              private file: File,
               private inAppBrowser: InAppBrowser,
               private imagePicker: ImagePicker,
               private network: Network,
@@ -259,7 +257,7 @@ export class NativeService {
    * 通过图库选择多图
    * @param options
    */
-  getMultiplePicture(options: CameraOptions = {}): Observable<any> {
+  getMultiplePicture(options: CameraOptions | any = {}): Observable<any> {
     const that = this;
     const ops = {
       maximumImagesCount: 6,
@@ -301,7 +299,7 @@ export class NativeService {
     return Observable.create(observer => {
       let img = new Image();
       img.crossOrigin = 'anonymous';
-      img.onload = function () {
+      img.onload = () => {
         let canvas = document.createElement('canvas');
         canvas.width = width || img.width;
         canvas.height = height || img.height;

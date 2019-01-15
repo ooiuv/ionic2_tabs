@@ -11,47 +11,4 @@ page-form-validation-demo {
       margin-bottom: 16px;
     }
   }
-
-  .ngForm {
-    $label-width: 62px;
-    $danger-color: #f53d3d;
-    ion-item {
-      font-size: 1.5rem;
-    }
-    ion-label {
-      min-width: $label-width;
-      &[required]:after, &.required:after {
-        position: absolute; /* 使用绝对定位让*不占用位置 */
-        color: $danger-color;
-        content: '*';
-        padding: 0 2px;
-      }
-      &.too-long { /* label内容超过$label-width自动换行 */
-        text-overflow: inherit;
-        white-space: normal;
-        margin: 1px 8px 1px 0;
-        width: $label-width;
-      }
-    }
-
-    .form-invalid-tip {
-      padding: 1px 16px;
-      color: $danger-color;
-      line-height: 18px;
-      > div:before {
-        content: '!';
-        display: inline-block;
-        text-align: center;
-        font-size: 14px;
-        color: #fff;
-        width: 17px;
-        height: 16px;
-        background: $danger-color;
-        border-radius: 50%;
-        margin-right: 2px;
-      }
-    }
-
-  }
-
 }
