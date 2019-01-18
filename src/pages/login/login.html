@@ -1,15 +1,12 @@
 <ion-header>
-  <div style="min-height: 30px;">
-    <button ion-button color="dark" clear icon-only *ngIf="globalData.user&&globalData.user.id" (click)="viewCtrl.dismiss()">
-      <ion-icon name="ios-close"></ion-icon>
-    </button>
-  </div>
-  <div text-center style="font-size: 20px">登 录</div>
+  <ion-navbar>
+    <ion-title>ionic2tabs</ion-title>
+  </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-  <div padding>
+  <div padding-horizontal padding-top>
     <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
       <ion-item>
         <ion-input type="text" formControlName="username" placeholder="用户名" clearInput autocomplete="off"></ion-input>
@@ -25,7 +22,7 @@
         请输入密码
       </div>
 
-      <div padding>
+      <div  padding-horizontal padding-top>
         <button ion-button block type="submit" [disabled]="!loginForm.valid||submitted">登 录</button>
       </div>
     </form>
@@ -33,10 +30,10 @@
   <ion-grid>
     <ion-row>
       <ion-col text-center tappable (click)="findPassword()">
-        <button ion-button small clear color="dark">找回密码</button>
+        <button ion-button small clear>忘记密码</button>
       </ion-col>
       <ion-col text-center tappable (click)="toRegister()">
-        <button ion-button small clear color="dark">注　册</button>
+        <button ion-button small clear>注　册</button>
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -12,7 +12,7 @@ import { Utils } from '../../providers/Utils';
    * 更新用户头像Id
    */
   updateUserAvatarId(avatarId: string) {
-    return this.httpService.post(`/v1/user/avatar/${avatarId}`);
+    return this.httpService.post(`/v1/user/view/avatar/${avatarId}`);
   }
 
   /**

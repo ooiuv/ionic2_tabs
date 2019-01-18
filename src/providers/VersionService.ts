@@ -75,7 +75,7 @@ export class VersionService {
 
       const that = this;
       if (this.lastVersionInfo.isForcedUpdate == 1) { // 是否强制更新
-        this.nativeService.alert('重要升级', '您必须升级后才能使用！', null, () => {
+        this.nativeService.alert('重要升级', '您必须升级后才能使用！', () => {
           that.downloadApp();
         });
       } else {

@@ -110,7 +110,7 @@ export class FormDemoPage {
     if (!contact.relation && !contact.name && !contact.phone) {
       doRemove();
     } else {
-      this.nativeService.alert(null, null, '已填写内容，确认移除？', () => {
+      this.nativeService.alert(null, '已填写内容，确认移除？', () => {
         doRemove();
       });
     }

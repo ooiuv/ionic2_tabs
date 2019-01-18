@@ -43,6 +43,10 @@ export class CommonService {
     return this.httpService.post('/v1/refresh_token');
   }
 
+  updateUser(data) {
+    return this.httpService.put('/v1/user/op', data);
+  }
+
   /**
    * 查询登录用户所拥有的资源
    * resourceType: 资源类型1:菜单,2:url,3:按钮

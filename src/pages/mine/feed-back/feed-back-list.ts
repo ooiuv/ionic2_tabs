@@ -30,13 +30,19 @@ export class FeedBackListPage {
 
   constructor(public navCtrl: NavController, private mineService: MineService) {
     this.data = {
-      total: 1,
+      total: 2,
       rows: [{
         id: 1,
         title: '测试1',
         content: '哈哈哈,这是写死的.',
         state: 1,
-        createTime: new Date(),
+        createTime: new Date()
+      }, {
+        id: 2,
+        title: '测试2',
+        content: '这是写死的.',
+        state: 1,
+        createTime: new Date()
       }]
     };
     // this.requirementPersonList();
@@ -59,7 +65,7 @@ export class FeedBackListPage {
   }
 
   detail(id) {
-    this.navCtrl.push(FeedBackDetailPage, { id });
+    this.navCtrl.push(FeedBackDetailPage, {id});
   }
 
 }

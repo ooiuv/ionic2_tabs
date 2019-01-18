@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Events, ModalController, NavController, Platform, ViewController } from 'ionic-angular';
+import { Events, NavController, Platform, ViewController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { FormBuilder, Validators } from '@angular/forms';
-import { FindPasswordPage } from './find-password/find-password';
-import { RegisterPage } from './register/register';
 import { GlobalData } from '../../providers/GlobalData';
 import { CommonService } from '../../service/CommonService';
 import { Helper } from '../../providers/Helper';
@@ -24,7 +22,6 @@ export class LoginPage {
               public storage: Storage,
               public events: Events,
               public globalData: GlobalData,
-              public modalCtrl: ModalController,
               public platform: Platform,
               public helper: Helper,
               public commonService: CommonService) {
@@ -43,24 +40,20 @@ export class LoginPage {
     }).subscribe((userInfo: UserInfo) => {
       this.submitted = false;
       this.helper.loginSuccessHandle(userInfo);
-      if (this.viewCtrl.isOverlay) {
-        this.viewCtrl.dismiss();
-      } else {
-        this.navCtrl.setRoot(TabsPage); // 重新设置首页
-      }
+      // 登录页从其他页面进入，需要获取最顶层的导航，然后setRoot
+      let topNavCtrl = (this.navCtrl.parent && this.navCtrl.parent.parent) || this.navCtrl.parent || this.navCtrl;
+      topNavCtrl.setRoot(TabsPage); // 重新设置首页
     }, () => {
       this.submitted = false;
     });
   }
 
   toRegister() {
-    const modal = this.modalCtrl.create(RegisterPage);
-    modal.present();
+    this.navCtrl.push('RegisterPage');
   }
 
   findPassword() {
-    const modal = this.modalCtrl.create(FindPasswordPage);
-    modal.present();
+    this.navCtrl.push('FindPasswordPage');
   }
 
 }

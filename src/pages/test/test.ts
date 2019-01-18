@@ -25,4 +25,5 @@ export class TestPage {
   formDemo() {
     this.navCtrl.push(FormDemoPage);
   }
+
 }

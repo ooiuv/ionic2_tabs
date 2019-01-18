@@ -47,6 +47,17 @@ export class HttpService {
     return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
+  public put(url: string, body: any = {}, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
+      method: RequestMethod.Put,
+      body,
+      headers: new Headers({
+        'Content-Type': 'application/json; charset=UTF-8'
+      })
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
+  }
+
   public postFormData(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
     const options = new RequestOptions({
       method: RequestMethod.Post,

@@ -33,6 +33,7 @@
         <div *ngIf="loginName.errors.minlength">用户名至少4个字符</div>
         <div *ngIf="loginName.errors.legallyNamed">不能包含中文或特殊字符</div>
       </div>
+
       <ion-item>
         <ion-label required>手机号码</ion-label>
         <ion-input type="number" name="callNum" placeholder="请输入用户名（必填）" [(ngModel)]="model.callNum" #callNum="ngModel"

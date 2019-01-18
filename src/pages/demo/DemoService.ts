@@ -25,7 +25,7 @@ export class DemoService {
       }
     });*/
     this.globalData.showLoading = false;
-    const url = '/v1/user/view/getUserNumber';
+    const url = '/v1/user/view/username_number';
     const paramMap = {username: value};
     return this.httpService.postFormData(url, paramMap).map(userNumber => {
       return userNumber === 0 ? null : {'exist': value};

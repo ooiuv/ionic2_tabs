@@ -1,29 +1,31 @@
 import { Component } from '@angular/core';
-import { NavController, ViewController } from 'ionic-angular';
-import { FormBuilder } from '@angular/forms';
-import { Validators } from '../../../providers/Validators';
-import { LoginPage } from '../login';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
 
+@IonicPage()
 @Component({
   selector: 'page-register',
-  templateUrl: 'register.html'
+  templateUrl: 'register.html',
 })
 export class RegisterPage {
-  registerForm: any;
 
-  constructor(private navCtrl: NavController,
-              private viewCtrl: ViewController,
-              private formBuilder: FormBuilder) {
-    this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.legallyNamed]],
-      verificationCode: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.phone]],
-      password: ['', [Validators.required]]
-    });
+  constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
+              public navParams: NavParams,
+              public nativeService: NativeService) {
   }
 
-  confirm() {
-    this.navCtrl.setRoot(LoginPage);
+  model = {
+    realname: '张三',
+    username: 'test',
+    password: '123456',
+    newPassword: '123456'
+  };
+
+  formSubmit() {
+    this.nativeService.alert('注册失败', '未找到注册接口', () => {
+      this.dismiss();
+    });
   }
 
   dismiss() {

@@ -43,11 +43,11 @@ export class QrscannerPage {
         // 打开摄像头
         this.qrScanner.show();
       } else if (status.denied) {
-        this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
+        this.nativeService.alert('没有权限', '没有摄像头权限，请前往设置中开启', () => {
           this.qrScanner.openSettings();
         });
       } else {
-        this.nativeService.alert('没有权限', null, '没有摄像头权限，请前往设置中开启', () => {
+        this.nativeService.alert('没有权限', '没有摄像头权限，请前往设置中开启', () => {
           this.qrScanner.openSettings();
         });
       }

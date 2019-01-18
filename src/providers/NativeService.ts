@@ -155,12 +155,11 @@ export class NativeService {
    */
   alert = (() => {
     let isExist = false;
-    return (title: string, subTitle = '', message = '', callBackFun = null): void => {
+    return (title: string, message = '', callBackFun = null): void => {
       if (!isExist) {
         isExist = true;
         this.alertCtrl.create({
           title,
-          subTitle,
           message,
           cssClass: 'alert-zIndex-highest',
           buttons: [{

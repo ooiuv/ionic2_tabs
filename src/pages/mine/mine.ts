@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { MineEditPage } from './mine-edit/mine-edit';
 import { AboutPage } from './about/about';
 import { LoginPage } from '../login/login';
-import { AlertController, ModalController, NavController, Platform } from 'ionic-angular';
+import { AlertController, NavController, Platform } from 'ionic-angular';
 import { SettingPage } from './setting/setting';
 import { NativeService } from '../../providers/NativeService';
 import { FileCachePage } from '../../shared/file-cache/file-cache';
@@ -19,7 +19,6 @@ export class MinePage {
   constructor(public navCtrl: NavController,
               public platform: Platform,
               public helper: Helper,
-              public modalCtrl: ModalController,
               public nativeService: NativeService,
               public globalData: GlobalData,
               public alertCtrl: AlertController) {
@@ -34,7 +33,7 @@ export class MinePage {
   }
 
   login() {
-    this.modalCtrl.create(LoginPage).present();
+    this.navCtrl.push(LoginPage);
   }
 
   // 工作地图
