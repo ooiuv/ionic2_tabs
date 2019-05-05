@@ -23,11 +23,16 @@ tmp/
 temp/
 hooks/
 platforms/
+www/
 
 plugins/android.json
 plugins/ios.json
 $RECYCLE.BIN/
+package-lock.json
 
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
+
+
+src/providers/Constants.ts

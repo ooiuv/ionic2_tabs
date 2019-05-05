@@ -1,50 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      注册
-    </ion-title>
-    <ion-buttons>
-      <button ion-button (click)="dismiss()">关闭</button>
-    </ion-buttons>
-  </ion-toolbar>
+  <ion-navbar>
+    <ion-title>注册新用户</ion-title>
+  </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="registerForm" (ngSubmit)="(confirm())">
+  <form (ngSubmit)="formSubmit()" #ngForm="ngForm" class="myForm" validator-password-identical>
     <ion-list>
       <ion-item>
-        <ion-label>用户名</ion-label>
-        <ion-input type="text" formControlName="username"></ion-input>
+        <ion-label required>真实姓名</ion-label>
+        <ion-input type="text" name="realname" placeholder="请输入真实姓名（必填）" [(ngModel)]="model.realname"
+                   #realname="ngModel" required minlength="2" maxlength="4" validator-regular="chinese"></ion-input>
       </ion-item>
-      <span padding-left *ngIf="!registerForm.controls.username.valid && registerForm.controls.username.touched"
-            color="danger">
-          请输入用户名
-        </span>
+      <div *ngIf="realname.invalid && realname.dirty" class="form-invalid-tip">
+        <div *ngIf="realname.errors.required">姓名是必填项</div>
+        <div *ngIf="realname.errors.minlength">姓名至少2位字符</div>
+        <div *ngIf="realname.errors.chinese">姓名必须是中文字符</div>
+      </div>
       <ion-item>
-        <ion-label>手机号</ion-label>
-        <ion-input type="tel" formControlName="phone"></ion-input>
+        <ion-label required>用户名</ion-label>
+        <ion-input type="text" name="username" placeholder="请输入用户名（必填）" autocomplete="off" [(ngModel)]="model.username"
+                   #username="ngModel" required minlength="4" maxlength="20" validator-regular="legallyNamed"
+                   validator-username-exist></ion-input>
+        <ion-spinner item-end *ngIf="username.pending"></ion-spinner>
       </ion-item>
-      <span padding-left *ngIf="!registerForm.controls.phone.valid && registerForm.controls.phone.touched"
-            color="danger">
-          请输入电话
-        </span>
+      <div *ngIf="username.invalid && username.dirty" class="form-invalid-tip">
+        <div *ngIf="username.errors.required">用户名是必填项</div>
+        <div *ngIf="username.errors.minlength">用户名至少4个字符</div>
+        <div *ngIf="username.errors.legallyNamed">用户名不能包含特殊字符</div>
+      </div>
+      <div *ngIf="username?.errors?.exist" class="form-invalid-tip">用户名已经存在</div>
+      <div class="username-tip"> 注：用户名作为您的登录帐号，注册后不可以修改</div>
       <ion-item>
-        <ion-label>验证码</ion-label>
-        <ion-input type="number" formControlName="verificationCode"></ion-input>
+        <ion-label required>密码</ion-label>
+        <ion-input type="password" name="password" autocomplete="off" placeholder="请输入密码（必填）"
+                   [(ngModel)]="model.password" #password="ngModel" required pattern=".{6,20}"></ion-input>
       </ion-item>
-      <span padding-left
-            *ngIf="!registerForm.controls.verificationCode.valid&& registerForm.controls.verificationCode.touched"
-            color="danger">请输入验证码</span>
+      <div *ngIf="password.invalid && password.dirty" class="form-invalid-tip">
+        <div *ngIf="password.errors.required">密码是必填项</div>
+        <div *ngIf="password.errors.pattern">密码长度为6到20位</div>
+      </div>
       <ion-item>
-        <ion-label>密　码</ion-label>
-        <ion-input type="password" formControlName="password"></ion-input>
+        <ion-label required class="too-long">再次输入密码</ion-label>
+        <ion-input type="password" name="newPassword" autocomplete="off" placeholder="请再次输入密码（必填）"
+                   [(ngModel)]="model.newPassword" #newPassword="ngModel"></ion-input>
       </ion-item>
-      <span padding-left *ngIf="!registerForm.controls.password.valid && registerForm.controls.phone.password"
-            color="danger">请输入密码</span>
+      <div *ngIf="newPassword.dirty" class="form-invalid-tip">
+        <div *ngIf="ngForm.errors?.passwordInvalid">两次密码输入不一致</div>
+      </div>
     </ion-list>
-    <div padding-horizontal>
-      <button ion-button block type="submit" [disabled]="!registerForm.valid">登　录</button>
+    <div margin-horizontal>
+      <button type="submit" ion-button block [disabled]="!ngForm.form.valid">确定注册</button>
     </div>
-    <button class="verification" ion-button small color="secondary" *ngIf="registerForm.controls.phone.valid">获取验证码</button>
   </form>
 </ion-content>

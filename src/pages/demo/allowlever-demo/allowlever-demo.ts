@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {NativeService} from '../../../providers/NativeService';
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
 declare var AlloyLever;
 
 @Component({
@@ -13,10 +13,10 @@ export class AllowleverDemoPage {
   }
 
   ionViewDidEnter() {
-    AlloyLever.entry('#entry2')
+    AlloyLever.entry('#entry');
   }
 
-  details(url){
+  details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
 

@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {NativeService} from "../../../providers/NativeService";
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
 
 /*
  Generated class for the PaginationDemo page.
@@ -18,7 +18,7 @@ export class PaginationDemoPage {
   }
 
 
-  details(url){
+  details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
 

@@ -1,7 +1,7 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import ECharts from 'echarts';
-import {NativeService} from "../../../providers/NativeService";
+import { NativeService } from '../../../providers/NativeService';
 
 @Component({
   selector: 'page-echarts-demo',
@@ -17,13 +17,13 @@ export class EchartsDemoPage {
   }
 
   initChart() {
-    let element = this.chart.nativeElement;
-    element.style.width = (document.body.clientWidth - 16) + 'px';//设置容器宽度
-    let myChart = ECharts.init(element);
+    const element = this.chart.nativeElement;
+    element.style.width = (document.body.clientWidth - 16) + 'px'; // 设置容器宽度
+    const myChart = ECharts.init(element);
     myChart.setOption({
       tooltip: {
         trigger: 'item',
-        formatter: "{a} <br/>{b}: {c} ({d}%)"
+        formatter: '{a} <br/>{b}: {c} ({d}%)'
       },
       legend: {
         orient: 'vertical',
@@ -55,11 +55,11 @@ export class EchartsDemoPage {
             }
           },
           data: [
-            {value: 335, name: '直接访问'},
-            {value: 310, name: '邮件营销'},
-            {value: 234, name: '联盟广告'},
-            {value: 135, name: '视频广告'},
-            {value: 1548, name: '搜索引擎'}
+            { value: 335, name: '直接访问' },
+            { value: 310, name: '邮件营销' },
+            { value: 234, name: '联盟广告' },
+            { value: 135, name: '视频广告' },
+            { value: 1548, name: '搜索引擎' }
           ]
         }
       ]

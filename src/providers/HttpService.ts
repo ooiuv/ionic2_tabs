@@ -1,19 +1,26 @@
 /**
  * Created by yanxiaojun617@163.com on 12-27.
  */
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  Http, Response, Headers, RequestOptions, URLSearchParams, RequestOptionsArgs, RequestMethod
+  Headers,
+  Http,
+  RequestMethod,
+  RequestOptions,
+  RequestOptionsArgs,
+  Response,
+  URLSearchParams
 } from '@angular/http';
-import {Observable, TimeoutError} from "rxjs";
-import {Utils} from "./Utils";
-import {GlobalData} from "./GlobalData";
-import {NativeService} from "./NativeService";
-import {APP_SERVE_URL, REQUEST_TIMEOUT, IS_DEBUG} from "./Constants";
-import {Logger} from "./Logger";
+import { Observable, TimeoutError } from 'rxjs/Rx';
+import { Utils } from './Utils';
+import { GlobalData } from './GlobalData';
+import { NativeService } from './NativeService';
+import { APP_SERVE_URL, IS_DEBUG, REQUEST_TIMEOUT } from './Constants';
+import { Logger } from './Logger';
 
 @Injectable()
 export class HttpService {
+
 
   constructor(public http: Http,
               public globalData: GlobalData,
@@ -21,115 +28,130 @@ export class HttpService {
               public nativeService: NativeService) {
   }
 
-  count: number = 0;//记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
-
-  public request(url: string, options: RequestOptionsArgs): Observable<Response> {
-    url = this.formatUrlDefaultApi(url);
-    if (url.indexOf(APP_SERVE_URL) != -1) {
-      options = this.addAuthorizationHeader(options);
-    }
-    IS_DEBUG && console.log('%c 请求前 %c', 'color:blue', '', 'url', url, 'options', options);
-    this.showLoading();
-    return Observable.create(observer => {
-      this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
-        let result = this.requestSuccessHandle(url, options, res);
-        result.success ? observer.next(result.data) : observer.error(result.data);
-      }, err => {
-        observer.error(this.requestFailedHandle(url, options, err));
-      });
-    });
-  }
-
-
-  public get(url: string, paramMap: any = null): Observable<any> {
-    return this.request(url, new RequestOptions({
+  public get(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
       method: RequestMethod.Get,
       search: HttpService.buildURLSearchParams(paramMap)
-    }));
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public post(url: string, body: any = {}): Observable<any> {
-    return this.request(url, new RequestOptions({
+  public post(url: string, body: any = {}, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
       method: RequestMethod.Post,
-      body: body,
+      body,
       headers: new Headers({
         'Content-Type': 'application/json; charset=UTF-8'
       })
-    }));
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public postFormData(url: string, paramMap: any = null): Observable<any> {
-    return this.request(url, new RequestOptions({
+  public put(url: string, body: any = {}, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
+      method: RequestMethod.Put,
+      body,
+      headers: new Headers({
+        'Content-Type': 'application/json; charset=UTF-8'
+      })
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
+  }
+
+  public postFormData(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
       method: RequestMethod.Post,
       body: HttpService.buildURLSearchParams(paramMap).toString(),
       headers: new Headers({
         'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
       })
-    }));
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
 
-  public put(url: string, body: any = {}): Observable<any> {
-    return this.request(url, new RequestOptions({
-      method: RequestMethod.Put,
-      body: body
-    }));
-  }
-
-  public delete(url: string, paramMap: any = null): Observable<any> {
-    return this.request(url, new RequestOptions({
+  public delete(url: string, paramMap: any = null, useDefaultApi = true, needCache: boolean = false): Observable<any> {
+    const options = new RequestOptions({
       method: RequestMethod.Delete,
-      search: HttpService.buildURLSearchParams(paramMap).toString()
-    }));
+      search: HttpService.buildURLSearchParams(paramMap)
+    });
+    return useDefaultApi ? this.defaultRequest(url, options, needCache) : this.request(url, options, needCache);
   }
-
-  public patch(url: string, body: any = {}): Observable<any> {
-    return this.request(url, new RequestOptions({
-      method: RequestMethod.Patch,
-      body: body
-    }));
-  }
-
 
   /**
-   * 处理请求成功事件
+   * 一个app可能有多个后台接口服务(api),针对主api添加业务处理,非主api请直接调用request方法
    */
-  requestSuccessHandle(url: string, options: RequestOptionsArgs, res: Response) {
-    this.hideLoading();
-    let json = res.json();
-    if (url.indexOf(APP_SERVE_URL) != -1) {
-      if (json.code != 1) {
-        IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', res);
-        if (json.code == 401) {//401 token无效或过期需要重新登录
-          this.nativeService.showToast('密码已过期,请重新登录');
-        } else {
-          this.nativeService.alert(json.msg || '请求失败,请稍后再试!');
-        }
-        return {success: false, data: json.data};
-      } else {
-        IS_DEBUG && console.log('%c 请求成功 %c', 'color:green', '', 'url', url, 'options', options, 'res', res);
-        return {success: true, data: json.data};
-      }
-    } else {
-      return {success: true, data: json};
-    }
+  public defaultRequest(url: string, options: RequestOptionsArgs, needCache: boolean = false): Observable<any> {
+    //  使用默认API:APP_SERVE_URL
+    url = Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url); // tslint:disable-line
+    //  添加请求头
+    options.headers = options.headers || new Headers();
+    options.headers.append('Authorization', 'Bearer ' + this.globalData.token);
+
+    return Observable.create(observer => {
+      this.request(url, options, needCache).subscribe(res => {
+        observer.next(res.data); // data是主api约定返回的数据
+      }, err => {
+        observer.error(err);
+      });
+    });
   }
 
+  public request(url: string, options: RequestOptionsArgs, needCache: boolean = false): Observable<any> {
+    return Observable.create(observer => {
+      // 如果需要缓存，尝试从sessionStorage中回去数据
+      const cacheKey = needCache && HttpService.getCacheKey(url, options);
+      if (needCache) {
+        const cacheResult = Utils.sessionStorageGetItem(cacheKey);
+        if (cacheResult) {
+          observer.next(cacheResult);
+          return;
+        }
+      }
+      HttpService.requestLog('请求前', '#3880ff', 'url:', url, 'options:', options);
+      this.showLoading();
+      this.http.request(url, options).timeout(REQUEST_TIMEOUT).subscribe(res => {
+        let result = null;
+        try {
+          result = res.json();
+        } catch (e) {
+          result = res;
+        }
+        needCache && Utils.sessionStorageSetItem(cacheKey, result); // 如果需要缓存，保存数据到sessionStorage中
+        observer.next(result);
+        HttpService.requestLog('请求成功', '#10dc60', 'url:', url, 'options:', options, 'res:', res);
+        this.hideLoading();
+      }, err => {
+        this.hideLoading();
+        HttpService.requestLog('请求失败', '#f04141', 'url:', url, 'options:', options, 'err:', err);
+        observer.error(this.requestFailedHandle(url, err));
+      });
+    });
+  }
 
   /**
    * 处理请求失败事件
    */
-  private requestFailedHandle(url: string, options: RequestOptionsArgs, err: Response) {
-    IS_DEBUG && console.log('%c 请求失败 %c', 'color:red', '', 'url', url, 'options', options, 'err', err);
-    this.hideLoading();
+  private requestFailedHandle(url: string, err: Response) {
+    const status = err.status;
+    let msg = '请求发生异常，请联系管理员';
+    // 与后台约定，状态码为400即为业务异常
+    if (status === 400) {
+      let errData = err.json();
+      //  401 token无效或过期需要重新登录
+      if (errData.code == 401) {
+        this.nativeService.showToast('密码已过期,请重新登录');
+      } else {
+        this.nativeService.alert(errData.msg || msg);
+      }
+      return errData;
+    }
     if (!this.nativeService.isConnecting()) {
       this.nativeService.alert('请连接网络');
     } else if (err instanceof TimeoutError) {
       this.nativeService.alert('请求超时,请稍后再试!');
     } else {
-      let status = err.status;
-      let msg = '请求发生异常';
       if (status === 0) {
-        msg = '请求失败，请求响应出错';
+        msg = '请求失败，可能后台服务未启用';
       } else if (status === 404) {
         msg = '请求失败，未找到请求地址';
       } else if (status === 500) {
@@ -137,8 +159,8 @@ export class HttpService {
       }
       this.nativeService.alert(msg);
       this.logger.httpLog(err, msg, {
-        url: url,
-        status: status
+        url,
+        status
       });
     }
     return err;
@@ -148,55 +170,43 @@ export class HttpService {
    * 将对象转为查询参数
    */
   private static buildURLSearchParams(paramMap): URLSearchParams {
-    let params = new URLSearchParams();
+    const params = new URLSearchParams();
     if (!paramMap) {
       return params;
     }
-    for (let key in paramMap) {
+    Object.keys(paramMap).forEach(key => {
       let val = paramMap[key];
       if (val instanceof Date) {
-        val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss')
+        val = Utils.dateFormat(val, 'yyyy-MM-dd hh:mm:ss');
       }
       params.set(key, val);
-    }
+    });
     return params;
   }
 
   /**
-   * 格式化url使用默认API地址:APP_SERVE_URL
+   * url+参数，组成缓存的key
    */
-  private formatUrlDefaultApi(url: string = ''): string {
-    return Utils.formatUrl(url.startsWith('http') ? url : APP_SERVE_URL + url)
+  private static getCacheKey(url: string, options: RequestOptionsArgs) {
+    const strParams = JSON.stringify(options.params);
+    const strSearch = JSON.stringify(options.search); // tslint:disable-line
+    const strBody = JSON.stringify(options.body);
+    return url + strParams + strSearch + strBody;
   }
 
-  /**
-   * 给请求头添加权限认证token
-   */
-  private addAuthorizationHeader(options: RequestOptionsArgs): RequestOptionsArgs {
-    let token = this.globalData.token;
-    if (options.headers) {
-      options.headers.append('Authorization', 'Bearer ' + token);
-    } else {
-      options.headers = new Headers({
-        'Authorization': 'Bearer ' + token
-      });
-    }
-    return options;
+  private static requestLog(text, color, ...detail) {
+    IS_DEBUG && console.log(`%c${text}`, `background-color: ${color}; color:white; padding: 2px 5px; border-radius: 2px`, ...detail);
   }
+
+  private count = 0; //  记录未完成的请求数量,当请求数为0关闭loading,当不为0显示loading
 
   private showLoading() {
-    if (++this.count > 0) {//一旦有请求就弹出loading
-      this.globalData.showLoading && this.nativeService.showLoading();
-    }
+    ++this.count;
+    this.globalData.showLoading && this.nativeService.showLoading();
   }
 
   private hideLoading() {
-    this.globalData.showLoading = true;
-    //延迟处理可以避免嵌套请求关闭了第一个loading,突然后弹出第二个loading情况(结合nativeService.showLoading())
-    setTimeout(() => {
-      if (--this.count === 0) {//当正在请求数为0,关闭loading
-        this.nativeService.hideLoading();
-      }
-    }, 200);
+    --this.count === 0 && this.globalData.showLoading && this.nativeService.hideLoading();
+    this.globalData.showLoading = true; // 请求完成重置globalData.showLoading状态
   }
 }

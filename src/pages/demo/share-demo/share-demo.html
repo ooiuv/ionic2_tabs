@@ -1,0 +1,34 @@
+<!--
+  Generated template for the ShareDemoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>分享demo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="code-wrap">
+    <input type="text" [(ngModel)]="text" style="width: 220px">
+    <button ion-button (click)="shareText()">分享文本</button>
+    <br>
+    <br>
+    <br>
+    <button ion-button (click)="shareImageUrl()">分享图片url</button>
+    <button ion-button (click)="shareImageBase64()">分享图片base64</button>
+    <br>
+    <br>
+    <br>
+    <button ion-button (click)="shareDom()" [disabled]="shareing">分享Dom</button>
+    <br>
+    <div padding>
+      <button ion-button block (click)="nativeService.openUrlByBrowser('https://www.jianshu.com/p/02501234adfd')">查看详情</button>
+    </div>
+  </div>
+</ion-content>

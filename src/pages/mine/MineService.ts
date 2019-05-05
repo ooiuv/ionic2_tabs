@@ -1,12 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Response} from "@angular/http";
-import 'rxjs/add/operator/map';
-import {HttpService} from "../../providers/HttpService";
-import {FileService} from "../../providers/FileService";
-import {Utils} from "../../providers/Utils";
+import { Injectable } from '@angular/core';
+import { HttpService } from '../../providers/HttpService';
+import { FileService } from '../../providers/FileService';
+import { Utils } from '../../providers/Utils';
 
 @Injectable()
-export class MineService {
+  export class MineService {
   constructor(public httpService: HttpService, private fileService: FileService) {
   }
 
@@ -14,7 +12,7 @@ export class MineService {
    * 更新用户头像Id
    */
   updateUserAvatarId(avatarId: string) {
-    return this.httpService.post(`/user/avatar/${avatarId}`);
+    return this.httpService.post(`/v1/user/view/avatar/${avatarId}`);
   }
 
   /**
@@ -22,8 +20,8 @@ export class MineService {
    */
   updateUserPassword(oldPsw: string, newPsw: string) {
     return this.httpService.postFormData('/v1/update_password', {
-      "old_password": Utils.hex_md5(oldPsw),
-      "new_password": Utils.hex_md5(newPsw),
+      'old_password': Utils.hex_md5(oldPsw),
+      'new_password': Utils.hex_md5(newPsw),
     });
   }
 
@@ -46,8 +44,7 @@ export class MineService {
    * 反馈详情
    */
   requirementDetail(id) {
-    return this.httpService.get(`/requirement/getDetailById/${id}`).map((res: Response) => {
-      let data = res.json();
+    return this.httpService.get(`/requirement/getDetailById/${id}`).map(data => {
       data.answerList = data.answerList.reverse();
       this.fileService.getFileInfoByIds(data.requirement.fileIdList).subscribe(fileList => {
         data.requirement.fileList = fileList;

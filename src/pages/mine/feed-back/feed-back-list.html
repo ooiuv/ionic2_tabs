@@ -9,7 +9,6 @@
     <ion-title>我的反馈</ion-title>
     <ion-buttons end>
       <button ion-button (click)="add()">
-        <ion-icon name="add"></ion-icon>
         新增
       </button>
     </ion-buttons>
@@ -17,7 +16,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <div *ngFor="let item of data.rows">
     <ion-item detail-push tappable (click)="detail(item.id)">
       <div><span class="my-label">标题：</span>{{item.title}}</div>

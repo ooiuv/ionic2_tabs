@@ -1,10 +1,9 @@
-import {Injectable} from "@angular/core";
-import {Response, Http} from "@angular/http";
-import "rxjs/add/operator/map";
-import {Observable} from "rxjs";
-import {TestObj} from "./TestObj";
-import {HttpService} from "../../providers/HttpService";
-import {FileObj} from "../../model/FileObj";
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
+import { TestObj } from './TestObj';
+import { HttpService } from '../../providers/HttpService';
+import { FileObj } from '../../model/FileObj';
 
 @Injectable()
 export class TestService {
@@ -25,14 +24,22 @@ export class TestService {
 
   getFileData(): Observable<FileObj[]> {
     return this.http.get('./assets/data/fileData.json').map((res: Response) => {
-      let result = res.json(), fileObjList: FileObj[] = [];
+      const result = res.json();
+      const fileObjList: FileObj[] = [];
       if (result.success) {
-        for (let fileObj of result.data) {
-          fileObjList.push(<FileObj>{'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
+        for (const fileObj of result.data) {
+          fileObjList.push({'thumbPath': fileObj.base64, 'origPath': fileObj.base64});
         }
       }
       return fileObjList;
     });
   }
 
+  map_result_post() {
+    return this.httpService.post('/v1/demo/map_result_post');
+  }
+
+  map_result_post2() {
+    return this.httpService.post('/v1/demo/map_result_post2');
+  }
 }

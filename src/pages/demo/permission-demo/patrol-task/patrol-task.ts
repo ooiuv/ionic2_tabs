@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {NativeService} from "../../../../providers/NativeService";
-import {CommonService} from "../../../../service/CommonService";
+import { Component } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { NativeService } from '../../../../providers/NativeService';
+import { CommonService } from '../../../../service/CommonService';
 
 /**
  * Generated class for the TaskPatrolPage page.
@@ -15,17 +15,17 @@ import {CommonService} from "../../../../service/CommonService";
 })
 export class PatrolTaskPage {
 
-  //登录用户按钮权限code集合
+  // 登录用户按钮权限code集合
   buttonCodes = [];
 
   constructor(public navCtrl: NavController,
               public nativeService: NativeService,
               public commonService: CommonService,
               public navParams: NavParams) {
-    //从后台获取当前登录用户的按钮权限
+    // 从后台获取当前登录用户的按钮权限
     this.commonService.getResource(3).subscribe(res => {
       this.buttonCodes = res.map(item => item.code);
-    })
+    });
   }
 
   click() {

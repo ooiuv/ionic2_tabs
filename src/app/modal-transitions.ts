@@ -1,4 +1,4 @@
-import {Animation, PageTransition} from "ionic-angular";
+import { Animation, PageTransition } from 'ionic-angular';
 
 export class ModalFromRightEnter extends PageTransition {
   public init() {
@@ -6,14 +6,14 @@ export class ModalFromRightEnter extends PageTransition {
     const ele = this.enteringView.pageRef().nativeElement;
 
     const backdrop = new Animation(this.plt, ele.querySelector('ion-backdrop'));
-    backdrop.beforeStyles({'z-index': 0, 'opacity': 0.3, 'visibility': 'visible'});
+    backdrop.beforeStyles({ 'z-index': 0, 'opacity': 0.3, 'visibility': 'visible' });
 
     const wrapper = new Animation(this.plt, ele.querySelector('.modal-wrapper'));
     wrapper.beforeStyles({ 'opacity': 1 });
     wrapper.fromTo('transform', 'translateX(100%)', 'translateX(20%)');
 
     const contentWrapper = new Animation(this.plt, ele.querySelector('ion-content.content'));
-    contentWrapper.beforeStyles({'width': '80%'});
+    contentWrapper.beforeStyles({ 'width': '80%' });
 
     this
       .element(this.enteringView.pageRef())
@@ -31,7 +31,7 @@ export class ModalFromRightLeave extends PageTransition {
     super.init();
     const ele = this.leavingView.pageRef().nativeElement;
     const backdrop = new Animation(this.plt, ele.querySelector('ion-backdrop'));
-    backdrop.beforeStyles({'visibility': 'hidden'});
+    backdrop.beforeStyles({ 'visibility': 'hidden' });
 
     const wrapper = new Animation(this.plt, ele.querySelector('.modal-wrapper'));
     wrapper.fromTo('transform', 'translateX(20%)', 'translateX(100%)');

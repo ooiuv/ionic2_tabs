@@ -15,7 +15,7 @@
 })(this, function() {
     var AlloyLever = {}
     AlloyLever.settings = {
-        cdn:'http://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',
+        cdn:'https://s.url.cn/qqun/qun/qqweb/m/qun/confession/js/vconsole.min.js',
         reportUrl: null,
         reportPrefix: '',
         reportKey: 'msg',

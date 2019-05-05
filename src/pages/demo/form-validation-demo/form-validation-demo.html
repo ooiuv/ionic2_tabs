@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>复杂表单验证demo</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <form (ngSubmit)="onSubmit()" #ngForm="ngForm" class="myForm">
+    <div class="title">普通的表单验证：</div>
+    <ion-list>
+      <ion-item>
+        <ion-label required>用户名</ion-label>
+        <ion-input type="text" name="username" placeholder="请输入用户名（必填）" [(ngModel)]="model.username" #username="ngModel"
+                   required pattern="[A-Za-z0-9]{4,20}" autocomplete="off"></ion-input>
+      </ion-item>
+      <div *ngIf="username.invalid && username.dirty" class="form-invalid-tip">
+        <div *ngIf="username.errors.required">用户名是必填项</div>
+        <div *ngIf="username.errors.pattern">用户名只能是4到20位长度的英文或数字</div>
+      </div>
+    </ion-list>
+
+    <div class="title">自定义指令，公用常用正则表达式：</div>
+    <ion-list>
+      <ion-item>
+        <ion-label required>用户名</ion-label>
+        <ion-input type="text" name="loginName" placeholder="请输入用户名（必填）" autocomplete="off"
+                   [(ngModel)]="model.loginName" #loginName="ngModel" required minlength="4" maxlength="20"
+                   validator-regular="legallyNamed"></ion-input>
+      </ion-item>
+      <div *ngIf="loginName.invalid && loginName.dirty" class="form-invalid-tip">
+        <div *ngIf="loginName.errors.required">用户名是必填项</div>
+        <div *ngIf="loginName.errors.minlength">用户名至少4个字符</div>
+        <div *ngIf="loginName.errors.legallyNamed">不能包含中文或特殊字符</div>
+      </div>
+
+      <ion-item>
+        <ion-label required>手机号码</ion-label>
+        <ion-input type="number" name="callNum" placeholder="请输入用户名（必填）" [(ngModel)]="model.callNum" #callNum="ngModel"
+                   required validator-regular="phone"></ion-input>
+      </ion-item>
+      <div *ngIf="callNum.invalid && callNum.dirty" class="form-invalid-tip">
+        <div *ngIf="callNum.errors.required">手机号码是必填项</div>
+        <div *ngIf="callNum.errors.phone">手机号码不合法</div>
+      </div>
+    </ion-list>
+
+    <div class="title">异步验证，从后台查询判断用户名是否存在：</div>
+    <ion-list>
+      <ion-item>
+        <ion-label required class="too-long">输入test查看效果</ion-label>
+        <ion-input type="text" name="testName" placeholder="请输入用户名（必填）" autocomplete="off" [(ngModel)]="model.testName"
+                   #testName="ngModel" required minlength="4" maxlength="20" validator-regular="legallyNamed"
+                   validator-username-exist></ion-input>
+        <ion-spinner item-end *ngIf="testName.pending"></ion-spinner>
+      </ion-item>
+      <div *ngIf="testName.invalid && testName.dirty" class="form-invalid-tip">
+        <div *ngIf="testName.errors.required">用户名是必填项</div>
+        <div *ngIf="testName.errors.minlength">用户名至少4个字符</div>
+        <div *ngIf="testName.errors.legallyNamed">用户名不能包含特殊字符</div>
+        <div *ngIf="testName.errors.exist">用户名已经存在</div>
+      </div>
+    </ion-list>
+
+    <div class="title">多字段交叉验证，验证两次密码输入是否一致：</div>
+    <form #testForm="ngForm" validator-password-identical>
+      <ion-list>
+        <ion-item>
+          <ion-label required>密码</ion-label>
+          <ion-input type="password" name="password" autocomplete="off" placeholder="请输入密码（必填）"
+                     [(ngModel)]="model.password" #password="ngModel" required pattern=".{6,20}"></ion-input>
+        </ion-item>
+        <div *ngIf="password.invalid && password.dirty" class="form-invalid-tip">
+          <div *ngIf="password.errors.required">密码是必填项</div>
+          <div *ngIf="password.errors.pattern">密码长度为6到20位</div>
+        </div>
+        <ion-item>
+          <ion-label class="too-long">再次输入密码</ion-label>
+          <ion-input type="password" name="password2" autocomplete="off" placeholder="请输入密码（必填）"
+                     [(ngModel)]="model.password2" #password2="ngModel"></ion-input>
+        </ion-item>
+        <div *ngIf="password2.dirty" class="form-invalid-tip">
+          <div *ngIf="testForm.errors?.passwordInvalid">两次密码输入不一致</div>
+        </div>
+      </ion-list>
+    </form>
+
+  </form>
+</ion-content>

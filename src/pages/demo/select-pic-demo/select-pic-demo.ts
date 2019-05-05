@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {FileObj} from "../../../model/FileObj";
-import {Response, Http} from "@angular/http";
-import {NativeService} from "../../../providers/NativeService";
-import {FileService} from "../../../providers/FileService";
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { FileObj } from '../../../model/FileObj';
+import { Http, Response } from '@angular/http';
+import { NativeService } from '../../../providers/NativeService';
+import { FileService } from '../../../providers/FileService';
 
 @Component({
   selector: 'page-select-pic-demo',
@@ -17,11 +17,11 @@ export class SelectPicDemoPage {
               private http: Http,
               private fileService: FileService,
               private nativeService: NativeService) {
-    //使用Http加载本地json文件,因为HttpService给url默认加了http://ip,加载本地文件不需要http://ip
+    // 使用Http加载本地json文件,因为HttpService给url默认加了http://ip,加载本地文件不需要http://ip
     this.http.get('./assets/data/fileData.json').map((res: Response) => res.json()).subscribe(res => {
       if (res.success) {
-        for (let fileObj of res.data) {
-          this.fileObjList.push(<FileObj>{
+        for (const fileObj of res.data) {
+          this.fileObjList.push({
             'thumbPath': fileObj.base64,
             'origPath': fileObj.base64,
             'base64': fileObj.base64
@@ -31,17 +31,17 @@ export class SelectPicDemoPage {
     });
   }
 
-  details(url){
+  details(url) {
     this.nativeService.openUrlByBrowser(url);
   }
 
-  uploadMultiByBase64(){
+  uploadMultiByBase64() {
     this.fileService.uploadMultiByBase64(this.fileObjList).subscribe(fileList => {
-        this.nativeService.showToast('成功上传' + fileList.length + '张图片');
+      this.nativeService.showToast('成功上传' + fileList.length + '张图片');
     });
   }
 
-  uploadMultiByFilePath(){
+  uploadMultiByFilePath() {
     this.fileService.uploadMultiByFilePath(this.filePaths).subscribe(fileList => {
       this.nativeService.showToast('成功上传' + fileList.length + '张图片');
     });

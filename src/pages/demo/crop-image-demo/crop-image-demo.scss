@@ -1,0 +1,10 @@
+page-crop-image-demo {
+
+}
+
+// 这个是全局样式，不要放在上面大括号中
+.alloy-crop-box {
+  img {
+    max-width: none;
+  }
+}

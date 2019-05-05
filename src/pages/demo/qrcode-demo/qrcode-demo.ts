@@ -1,6 +1,6 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
-import {Subject} from "rxjs/Subject";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
+import { Subject } from 'rxjs/Rx';
 
 declare var QRCode;
 
@@ -11,7 +11,7 @@ declare var QRCode;
 export class QrcodeDemoPage {
   @ViewChild('codeDiv') codeDiv: ElementRef;
   qrCode: any;
-  text: string = 'http://en168.net/';
+  text = 'http://en168.net/';
 
   textStream: Subject<string> = new Subject<string>();
 
@@ -30,12 +30,12 @@ export class QrcodeDemoPage {
 
 
   ngAfterContentInit() {
-    //监听text变化,页面发布事件
+    // 监听text变化,页面发布事件
     this.textStream
-      .debounceTime(400)//延迟400毫秒
-      .distinctUntilChanged()//判断有无改变
-      .subscribe(value => {//订阅
-        this.qrCode.makeCode(this.text); //使用qrcode.js生成二维码
+      .debounceTime(400)// 延迟400毫秒
+      .distinctUntilChanged()// 判断有无改变
+      .subscribe(value => {// 订阅
+        this.qrCode.makeCode(this.text); // 使用qrcode.js生成二维码
         this.codeUrl = this.getCodeUrl();
       });
   }

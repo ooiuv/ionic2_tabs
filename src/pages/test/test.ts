@@ -1,7 +1,9 @@
-import {Component} from "@angular/core";
-import "rxjs/add/operator/map";
-import {TestService} from "./TestService";
-import {FileObj} from "../../model/FileObj";
+import { Component } from '@angular/core';
+import { TestService } from './TestService';
+import { FileObj } from '../../model/FileObj';
+import { NativeService } from '../../providers/NativeService';
+import { FormDemoPage } from '../demo/form-demo/form-demo';
+import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'page-test',
@@ -11,8 +13,7 @@ export class TestPage {
 
   fileObjList: FileObj[] = [];
 
-  constructor(public testService: TestService) {
-
+  constructor(private navCtrl: NavController, public testService: TestService, public nativeService: NativeService) {
   }
 
   getFileData() {
@@ -21,5 +22,8 @@ export class TestPage {
     });
   }
 
+  formDemo() {
+    this.navCtrl.push(FormDemoPage);
+  }
 
 }

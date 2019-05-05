@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ViewController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the GetLocationPage page.
@@ -31,12 +31,12 @@ export class GetLocationPage {
     Object.assign(this.params, this.navParams.get('params'));
   }
 
-  dismiss(){
+  dismiss() {
     this.viewCtrl.dismiss();
   }
 
 
-  save(){
+  save() {
     this.viewCtrl.dismiss(this.params.position);
   }
 

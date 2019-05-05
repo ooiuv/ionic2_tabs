@@ -1,8 +1,7 @@
-import {Component} from '@angular/core';
-import {ModalController} from 'ionic-angular';
-import {MineEditModalPage} from '../mine-edit-modal/mine-edit-modal';
-import {MineEditAvatarModalPage} from '../mine-edit-avatar-modal/mine-edit-avatar-modal';
-import {GlobalData} from "../../../providers/GlobalData";
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { GlobalData } from '../../../providers/GlobalData';
+import { MineEditAvatarPage } from '../mine-edit-avatar/mine-edit-avatar';
 
 @Component({
   selector: 'page-mine-edit',
@@ -10,22 +9,18 @@ import {GlobalData} from "../../../providers/GlobalData";
 })
 export class MineEditPage {
   userInfo;
-  constructor(private modalCtrl: ModalController,
+
+  constructor(public navCtrl: NavController,
               private globalData: GlobalData) {
     this.userInfo = this.globalData.user;
   }
 
   viewAvatar() {
-    this.modalCtrl.create(MineEditAvatarModalPage).present();
-
+    this.navCtrl.push(MineEditAvatarPage);
   }
 
-  openModal() {
-    let modal = this.modalCtrl.create(MineEditModalPage);
-    modal.present();
-    modal.onDidDismiss(userInfo => {
-      userInfo && (this.userInfo = userInfo)
-    });
+  edit() {
+    this.navCtrl.push('MineEditUserPage');
   }
 
 }

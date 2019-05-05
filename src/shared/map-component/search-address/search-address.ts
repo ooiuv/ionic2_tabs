@@ -1,9 +1,11 @@
-import {Component, ViewChild} from '@angular/core';
-import {IonicPage, ViewController, NavParams, Searchbar} from 'ionic-angular';
-import {Subject} from "rxjs";
-import {NativeService} from "../../../providers/NativeService";
-import {Storage} from '@ionic/storage';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavParams, Searchbar, ViewController } from 'ionic-angular';
+import { Subject } from 'rxjs/Rx';
+import { NativeService } from '../../../providers/NativeService';
+import { Storage } from '@ionic/storage';
+
 declare var AMap;
+
 /**
  * Generated class for the SearchAddress page.
  *
@@ -20,16 +22,16 @@ export class SearchAddress {
   @ViewChild('searchBar') searchBar: Searchbar;
   address: any = '';
   items: any[] = [];
-  historyButton: boolean = false;
+  historyButton = false;
   placeSearch;
   searchTextStream: Subject<string> = new Subject<string>();
 
   constructor(private storage: Storage,
               public viewCtrl: ViewController,
               private navParams: NavParams,
-              private nativeService: NativeService,) {
+              private nativeService: NativeService) {
     this.address = this.navParams.get('address');
-    AMap.service('AMap.PlaceSearch', () => {//地点查询插件
+    AMap.service('AMap.PlaceSearch', () => { // 地点查询插件
       this.placeSearch = new AMap.PlaceSearch({
         pageSize: 10,
         pageIndex: 1,
@@ -50,7 +52,7 @@ export class SearchAddress {
       .distinctUntilChanged()
       .subscribe(value => {
         this.getSearchData(value).then(list => {
-          this.items = <[any]>list;
+          this.items = list as [any];
           this.historyButton = false;
         });
       });
@@ -65,7 +67,7 @@ export class SearchAddress {
     this.storage.get('MapSearchHistory').then(items => {
       if (items) {
         let isExist = false;
-        for (let value of items) {
+        for (const value of items) {
           if (value.id === item.id) {
             isExist = true;
           }
@@ -74,9 +76,9 @@ export class SearchAddress {
           items.push(item);
         }
       } else {
-        items = [item]
+        items = [item]; // tslint:disable-line
       }
-      this.storage.set('MapSearchHistory', items);
+      this.storage.set('MapSearchHistory', [items]);
     });
     this.viewCtrl.dismiss(item);
   }
@@ -93,12 +95,12 @@ export class SearchAddress {
           if (status == 'complete') {
             resolve(result.poiList.pois);
           } else if (status == 'no_data') {
-            this.nativeService.showToast('没有找到匹配结果,请精确查询条件')
+            this.nativeService.showToast('没有找到匹配结果,请精确查询条件');
           } else {
-            this.nativeService.showToast('地图查询失败,稍后再试.')
+            this.nativeService.showToast('地图查询失败,稍后再试.');
           }
         });
-      }else{
+      } else {
         this.storage.get('MapSearchHistory').then(items => {
           this.items = (items || []).reverse();
           this.historyButton = true;

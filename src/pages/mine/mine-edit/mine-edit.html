@@ -2,8 +2,8 @@
   <ion-navbar>
     <ion-title>个人信息</ion-title>
     <ion-buttons end>
-      <button ion-button (click)="openModal()">
-        <ion-icon name="ios-create-outline"></ion-icon>
+      <button ion-button (click)="edit()">
+        编辑
       </button>
     </ion-buttons>
   </ion-navbar>
@@ -12,15 +12,15 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-avatar item-left tappable (click)="viewAvatar();$event.stopPropagation()">
-        <img [src]="userInfo.avatarPath">
-      </ion-avatar>
-      <h2>{{userInfo.realname}}</h2>
-      <p>一本正经的胡说八道</p>
+      <ion-thumbnail item-left tappable (click)="viewAvatar();$event.stopPropagation()">
+        <img [src]="globalData.avatarPath">
+      </ion-thumbnail>
+      <h2>{{globalData.realname}}</h2>
+      <p>{{globalData.username}}</p>
       <i class="icon ion-chevron-right icon-accessory"></i>
     </ion-item>
     <ion-item>
-      用户名：{{userInfo.username}}
+      用户名：{{globalData.username}}
     </ion-item>
     <ion-item>
       手机号码：{{userInfo.mobileNumber}}

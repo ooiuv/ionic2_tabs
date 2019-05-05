@@ -1,15 +1,15 @@
 /**
  * Created by yanxiaojun617@163.com on 12-23.
  */
-import {Injectable} from "@angular/core";
-import {HttpService} from "./HttpService";
-import {FILE_SERVE_URL} from "./Constants";
-import {FileObj} from "../model/FileObj";
-import {Observable} from "rxjs";
-import {NativeService} from "./NativeService";
-import {GlobalData} from "./GlobalData";
-import {Utils} from "./Utils";
-import {Storage} from "@ionic/storage";
+import { Injectable } from '@angular/core';
+import { HttpService } from './HttpService';
+import { FILE_SERVE_URL } from './Constants';
+import { FileObj } from '../model/FileObj';
+import { Observable } from 'rxjs/Rx';
+import { NativeService } from './NativeService';
+import { GlobalData } from './GlobalData';
+import { Utils } from './Utils';
+import { Storage } from '@ionic/storage';
 
 /**
  * 上传图片到文件服务器
@@ -22,7 +22,6 @@ export class FileService {
               private globalData: GlobalData) {
   }
 
-
   /**
    * 根据文件id删除文件信息
    * @param id
@@ -33,7 +32,7 @@ export class FileService {
       return Observable.of({});
     }
     this.deleteFileCacheByIds([id]);
-    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id: id});
+    return this.httpService.get(FILE_SERVE_URL + '/deleteById', {id}, false);
   }
 
   /**
@@ -43,20 +42,20 @@ export class FileService {
    * @returns {FileObj[]}
    */
   getFileInfoByIds(ids: string[]): Observable<FileObj[]> {
-    if (!ids || ids.length == 0) {
+    if (!ids || ids.length === 0) {
       return Observable.of([]);
     }
     return this.getFileCacheByIds(ids).mergeMap(cacheData => {
-      let queryIds = FileService.getNotCacheIds(cacheData, ids);
-      if (queryIds.length == 0) {
+      const queryIds = FileService.getNotCacheIds(cacheData, ids);
+      if (queryIds.length === 0) {
         return Observable.of(cacheData);
       }
-      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}).map(result => {
+      return this.httpService.get(FILE_SERVE_URL + '/getByIds', {ids: queryIds}, false).map(result => {
         if (!result.success) {
           this.nativeService.alert(result.msg);
           return [].concat(cacheData);
         } else {
-          for (let fileObj of result.data) {
+          for (const fileObj of result.data) {
             fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
             fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
           }
@@ -65,7 +64,6 @@ export class FileService {
       });
     });
   }
-
 
   /**
    * 根据文件id获取文件信息
@@ -78,7 +76,7 @@ export class FileService {
     }
     return this.getFileInfoByIds([id]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
   /**
@@ -87,20 +85,22 @@ export class FileService {
    * @returns {FileObj[]}
    */
   uploadMultiByBase64(fileObjList: FileObj[]): Observable<FileObj[]> {
-    if (!fileObjList || fileObjList.length == 0) {
+    if (!fileObjList || fileObjList.length === 0) {
       return Observable.of([]);
     }
-    return this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList).map(result => {
-      if (!result.success) {
-        this.nativeService.alert(result.msg);
-        return [];
-      } else {
-        for (let fileObj of result.data) {
-          fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
-          fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+    return Observable.create(observer => {
+      this.httpService.post(FILE_SERVE_URL + '/appUpload?directory=ionic2_tabs', fileObjList, false).subscribe(result => {
+        if (!result.success) {
+          this.nativeService.alert(result.msg);
+          observer.error();
+        } else {
+          for (const fileObj of result.data) {
+            fileObj.origPath = FILE_SERVE_URL + fileObj.origPath;
+            fileObj.thumbPath = FILE_SERVE_URL + fileObj.thumbPath;
+          }
+          observer.next(result.data);
         }
-        return result.data;
-      }
+      });
     });
   }
 
@@ -115,7 +115,7 @@ export class FileService {
     }
     return this.uploadMultiByBase64([fileObj]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
   /**
@@ -124,27 +124,26 @@ export class FileService {
    * @returns {FileObj[]}
    */
   uploadMultiByFilePath(fileObjList: FileObj[]): Observable<FileObj[]> {
-    if (fileObjList.length == 0) {
+    if (fileObjList.length === 0) {
       return Observable.of([]);
     }
-    //开启了缓存
+    // 开启了缓存
     if (this.globalData.enabledFileCache) {
-      for (let fileObj of fileObjList) {
-        //生成一个临时id,待真正上传到后台需要替换掉临时id
+      for (const fileObj of fileObjList) {
+        // 生成一个临时id,待真正上传到后台需要替换掉临时id
         fileObj.id = FileService.uuid();
       }
-      let cacheKey = 'file-cache-' + this.globalData.userId;
+      const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
-        cacheData = cacheData ? cacheData.concat(fileObjList) : fileObjList;
-        //缓存文件信息
-        this.storage.set(cacheKey, cacheData);
+        // 缓存文件信息
+        this.storage.set(cacheKey, cacheData ? cacheData.concat(fileObjList) : fileObjList);
       });
       return Observable.of(fileObjList);
     } else {
       return Observable.create((observer) => {
         this.nativeService.showLoading();
-        let fileObjs = [];
-        for (let fileObj of fileObjList) {
+        const fileObjs = [];
+        for (const fileObj of fileObjList) {
           this.nativeService.convertImgToBase64(fileObj.origPath).subscribe(base64 => {
             fileObjs.push({
               'base64': base64,
@@ -155,9 +154,9 @@ export class FileService {
               this.uploadMultiByBase64(fileObjs).subscribe(res => {
                 observer.next(res);
                 this.nativeService.hideLoading();
-              })
+              });
             }
-          })
+          });
         }
       });
     }
@@ -174,18 +173,17 @@ export class FileService {
     }
     return this.uploadMultiByFilePath([fileObj]).map(res => {
       return res[0] || {};
-    })
+    });
   }
 
-  //根据ids从文件缓存中查询文件信息
+  // 根据ids从文件缓存中查询文件信息
   private getFileCacheByIds(ids: string[]): Observable<FileObj[]> {
     return Observable.create(observer => {
-      let result = [];
-      let cacheKey = 'file-cache-' + this.globalData.userId;
+      const result = [];
+      const cacheKey = 'file-cache-' + this.globalData.userId;
       this.storage.get(cacheKey).then(cacheData => {
-        cacheData = cacheData ? cacheData : [];
-        for (let cache of cacheData) {
-          for (let id of ids) {
+        for (const cache of (cacheData || [])) {
+          for (const id of ids) {
             if (id == cache.id) {
               result.push(cache);
             }
@@ -196,12 +194,12 @@ export class FileService {
     });
   }
 
-  //查询没有缓存的文件id数组
+  // 查询没有缓存的文件id数组
   private static getNotCacheIds(cacheData, ids) {
-    let result = [];
-    for (let id of ids) {
+    const result = [];
+    for (const id of ids) {
       let isExist = false;
-      for (let cache of cacheData) {
+      for (const cache of cacheData) {
         if (id == cache.id) {
           isExist = true;
         }
@@ -213,26 +211,25 @@ export class FileService {
     return result;
   }
 
-  //根据文件后缀获取文件类型
+  // 根据文件后缀获取文件类型
   private static getFileType(path: string): string {
     return path.substring(path.lastIndexOf('.') + 1);
   }
 
-  //获取uuid,前缀为'r_'代表缓存文件
+  // 获取uuid,前缀为'r_'代表缓存文件
   private static uuid(): string {
-    let uuid = Utils.uuid();
+    const uuid = Utils.uuid();
     return 'r_' + uuid.substring(2);
   }
 
-
-  //根据文件id数组从缓存中删除文件
+  // 根据文件id数组从缓存中删除文件
   deleteFileCacheByIds(ids) {
-    let cacheKey = 'file-cache-' + this.globalData.userId;
+    const cacheKey = 'file-cache-' + this.globalData.userId;
     this.storage.get(cacheKey).then(cacheData => {
-      let newCacheData = [];
-      for (let fileObj of cacheData) {
+      const newCacheData = [];
+      for (const fileObj of cacheData) {
         let isExist = false;
-        for (let id of ids) {
+        for (const id of ids) {
           if (fileObj.id == id) {
             isExist = true;
           }

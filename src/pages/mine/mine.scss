@@ -1,13 +1,16 @@
 page-mine {
   .mine-header {
     color: #fff;
-  }
-  .mine-header button {
-    background-color: color($colors, primary);
-    color: #fff;
-  }
-  .description {
-    color: #eee;
-    font-size: 1.2rem
+    button {
+      background-color: color($colors, primary);
+      color: #fff;
+    }
+    button.activated {
+      background-color: #337eff;
+    }
+    .description {
+      color: #eee;
+      font-size: 1.2rem
+    }
   }
 }

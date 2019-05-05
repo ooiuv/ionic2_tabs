@@ -1,9 +1,9 @@
-import {Component} from "@angular/core";
-import {NavController} from "ionic-angular";
-import {NativeService} from "../../../providers/NativeService";
-import {UpdateLogPage} from "../update-log/update-log";
-import {FeedBackListPage} from "../feed-back/feed-back-list";
-import {VersionService} from "../../../providers/VersionService";
+import { Component } from '@angular/core';
+import { NavController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
+import { UpdateLogPage } from '../update-log/update-log';
+import { FeedBackListPage } from '../feed-back/feed-back-list';
+import { VersionService } from '../../../providers/VersionService';
 declare var AlloyLever;
 
 @Component({
@@ -11,13 +11,22 @@ declare var AlloyLever;
   templateUrl: 'about.html'
 })
 export class AboutPage {
-  currentVersionNo: string = '0.0.1';
-  latestVersionNo: string = '0.0.1';
+  currentVersionNo = '0.0.1';
+  latestVersionNo = '0.0.1';
   lastVersionInfo: any = {};
 
   constructor(private navCtrl: NavController,
               private versionService: VersionService,
               private nativeService: NativeService) {
+    this.loadVersionInfo();
+  }
+
+
+  ionViewDidEnter() {
+    AlloyLever.entry('#entry3');
+  }
+
+  loadVersionInfo() {
     if (this.nativeService.isMobile()) {
       this.currentVersionNo = this.versionService.getCurrentVersionNo();
       this.latestVersionNo = this.versionService.getLatestVersionNo();
@@ -27,12 +36,11 @@ export class AboutPage {
     }
   }
 
-  ionViewDidEnter() {
-    AlloyLever.entry('#entry3')
-  }
-
   checkNewVersion() {
     this.versionService.checkNewVersion();
+    setTimeout(() => {
+      this.loadVersionInfo();
+    }, 4000);
   }
 
   updateLog() {

@@ -1,0 +1,34 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>自定义modal dialog过渡动画</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <button ion-button (click)="isShow=true">button1</button>
+  <button ion-button (click)="isOpen=true">button2</button>
+
+  <page-modal-dialog-animation [isShow]="isShow">
+    <div padding text-center>
+      <h1>模态框（Modal）标题</h1>
+      <p>在这里添加一些文本</p>
+      <p>在这里添加一些文本</p>
+      <button ion-button (click)="isShow=false">关闭</button>
+    </div>
+  </page-modal-dialog-animation>
+
+  <page-modal-dialog-animation [isShow]="isOpen">
+    <div class="my-dialog">
+      <img src="./assets/img/ok.gif" alt="">
+      <p>您太棒啦!</p>
+      <span class="close" tappable (click)="isOpen=false">✕</span>
+    </div>
+  </page-modal-dialog-animation>
+
+  <div padding>
+    <button ion-button block (click)="details('https://www.jianshu.com/p/3c2171f62e39')">查看详情</button>
+  </div>
+</ion-content>

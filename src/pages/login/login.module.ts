@@ -1,13 +1,11 @@
-import {NgModule} from '@angular/core';
-import {IonicModule} from 'ionic-angular';
-import {LoginPage} from './login';
-import {FindPasswordPage} from './find-password/find-password';
-import {RegisterPage} from './register/register';
+import { NgModule } from '@angular/core';
+import { IonicModule } from 'ionic-angular';
+import { LoginPage } from './login';
 
 @NgModule({
   imports: [IonicModule],
-  declarations: [LoginPage, FindPasswordPage, RegisterPage],
-  entryComponents: [LoginPage, FindPasswordPage, RegisterPage],
+  declarations: [LoginPage],
+  entryComponents: [LoginPage],
   providers: [],
   exports: [IonicModule]
 })

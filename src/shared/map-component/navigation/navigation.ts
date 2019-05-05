@@ -1,6 +1,6 @@
-import {Component, ViewChild, ElementRef} from "@angular/core";
-import {IonicPage, NavParams, ViewController} from "ionic-angular";
-import {NativeService} from "../../../providers/NativeService";
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
+import { NativeService } from '../../../providers/NativeService';
 declare var AMap;
 /**
  * Generated class for the Navigation page.
@@ -16,9 +16,9 @@ declare var AMap;
 export class Navigation {
 
   @ViewChild('panel') panel: ElementRef;
-  navigationType:number;
-  navigationIsReady: boolean = false;
-  walkNavigationIsReady: boolean = false;
+  navigationType: number;
+  navigationIsReady = false;
+  walkNavigationIsReady = false;
   map;
   startPoint;
   endPoint;
@@ -26,14 +26,14 @@ export class Navigation {
   constructor(private viewCtrl: ViewController,
               private nativeService: NativeService,
               private navParams: NavParams) {
-    this.navigationType = this.navParams.get("navigationType");
-    this.endPoint = this.navParams.get("markerLocation");
+    this.navigationType = this.navParams.get('navigationType');
+    this.endPoint = this.navParams.get('markerLocation');
     this.map = window['HomeAMap'];
   }
 
   ngAfterContentInit() {
     this.nativeService.showLoading();
-    let options = {city: '广州市', panel: this.panel.nativeElement, map: this.map};
+    const options = { city: '广州市', panel: this.panel.nativeElement, map: this.map };
     if (this.navigationType == 1) {
       AMap.service('AMap.Driving', () => {
         this.doSearch(new AMap.Driving(options));
@@ -60,12 +60,12 @@ export class Navigation {
         console.log(status);
         console.log(result);
       });
-    },()=>{
+    }, () => {
       this.nativeService.hideLoading();
-    })
+    });
   }
 
-  doNavigation(type) {// 0实时导航,1模拟导航
+  doNavigation(type) { // 0实时导航,1模拟导航
     this.nativeService.navigation(this.startPoint, this.endPoint, type).subscribe(message => {
       console.log(message);
     });
